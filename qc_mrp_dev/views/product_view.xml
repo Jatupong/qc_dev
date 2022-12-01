@@ -8,6 +8,7 @@
 			<field name="categ_id" position="after">
 				<field name="product_plan_colour_id" domain="[('is_plan_color','=',True)]"/>
 				<field name="product_category_line_id" domain="[('product_line','=',True)]"/>
+				<field name="decoration_id" domain="[('is_decoration','=',True)]"/>
 			</field>
 		</field>
 	</record>
@@ -21,6 +22,7 @@
 				<field name="max_capacity"/>
 				<field name="is_plan_color"/>
 				<field name="product_line"/>
+				<field name="is_decoration"/>
 			</field>
 		</field>
 	</record>

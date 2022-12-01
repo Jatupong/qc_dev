@@ -8,6 +8,7 @@ class product_category(models.Model):
 
     max_capacity = fields.Float(string='Max Capacity')
     is_plan_color = fields.Boolean(string='Plan/Color')
+    is_decoration = fields.Boolean(string='Decoration')
     product_line = fields.Boolean(string='Product Line')
 
 
