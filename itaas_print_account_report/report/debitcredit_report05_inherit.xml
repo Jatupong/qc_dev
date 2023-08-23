@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="debitcredit05_report_inherit_id">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <t t-set="sumdebit" t-value="0.00"/>
+                <t t-set="sumcredit" t-value="0.00"/>
+                <div class="header">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_account_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_account_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        table.table-bordered1{
+                        border:1px solid black;
+                        width: 100%;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_account_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        table.table-bordered1{
+                        border:1px solid white;
+                        margin-top:10px;
+                        border-collapse: collapse;
+                        width: 100%;
+                        }
+                        table.table-bordered1 &gt; thead &gt; tr &gt; th{
+                        border:1px solid white;
+                        border-collapse: collapse;
+                        }
+                        table.table-bordered1 &gt; thead &gt; tr &gt; td{
+                        border:1px solid white;
+                        border-left: 1px solid white;
+                        border-collapse: collapse;
+                        }
+                        table.table-bordered1 &gt; tbody &gt; tr &gt; td{
+                        border:0px solid white;
+                        border-left: 1px solid white;
+                        border-collapse: collapse;
+                        height: 40px;
+                        }
+                        table.table-bordered1 &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid white;
+                        border-collapse: collapse;
+                        }
+                        }
+                        .td_top{
+                        border-top:#000 solid 1px;
+                        }
+                        .td_left{
+                        border-left:#000 solid 1px;
+                        }
+                        .td_right{
+                        border-right:#000 solid 1px;
+                        }
+                        .td_bott{
+                        border-bottom:#000 solid 1px;
+                        }
+                        .word_wrap{word-wrap: break-word;}
+                    </style>
+                    <table width="100%" class="font_fam">
+                        <tr>
+                            <td width="100%" style="text-align:center;">
+
+                                <font style="font-size: 15px;">
+                                    <font style="font-size: 16px;">
+                                        <strong>
+                                            <span t-field="o.company_id.name"/>
+                                            <span>
+                                                <t t-if="o.company_id.branch_no">
+                                                    <t t-if="o.company_id.branch_no == '00000'">
+                                                        &amp;nbsp;<span>(สำนักงานใหญ่)</span>
+                                                    </t>
+                                                    <t t-if="o.company_id.branch_no != '00000'">
+                                                        &amp;nbsp;(สาขา  <span t-field="o.company_id.branch_no"/>)
+                                                    </t>
+                                                </t>
+                                            </span>
+                                        </strong>&amp;nbsp;<br/>
+                                        <strong>สมุดรายวันจ่าย<br/>
+                                            Payment Voucher</strong>
+                                    </font>
+
+                                </font>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" class="font_fam">
+                        <tr>
+                            <td>
+                                <font style="font-size: 15px;">
+                                    <!--                                    <t t-if="o.partner_id">-->
+                                    <!--                                        <strong>จายใหแก่/To</strong><br/>-->
+                                    <!--                                        <t t-if="o.partner_id">-->
+                                    <!--                                            <span t-field="o.partner_id.name"/>-->
+                                    <!--                                        </t>-->
+                                    <!--                                        <span>-->
+                                    <!--                                            <t t-if="o.partner_id.branch_no">-->
+                                    <!--                                                <t t-if="o.partner_id.branch_no == '00000'">-->
+                                    <!--                                                    &amp;nbsp;<span>(สำนักงานใหญ่)</span>-->
+                                    <!--                                                </t>-->
+                                    <!--                                                <t t-if="o.partner_id.branch_no != '00000'">-->
+                                    <!--                                                    &amp;nbsp;(สาขา  <span t-field="o.partner_id.branch_no"/>)-->
+                                    <!--                                                </t>-->
+                                    <!--                                            </t>-->
+                                    <!--                                        </span>-->
+                                    <!--                                    </t>-->
+                                    <!--                                    <t t-if="not o.partner_id">-->
+                                    <strong>จายใหแก่/To</strong><br/>
+                                    <t t-if="o.line_ids[0].partner_id">
+                                        <span t-field="o.line_ids[0].partner_id.name"/>
+                                    </t>
+                                    <span>
+                                        <t t-if="o.line_ids[0].partner_id.branch_no">
+                                            <t t-if="o.line_ids[0].partner_id.branch_no == '00000'">
+                                                &amp;nbsp;<span>(สำนักงานใหญ่)</span>
+                                            </t>
+                                            <t t-if="o.line_ids[0].partner_id.branch_no != '00000'">
+                                                &amp;nbsp;(สาขา  <span t-field="o.line_ids[0].partner_id.branch_no"/>)
+                                            </t>
+                                        </t>
+                                    </span>
+                                    <!--                                    </t>-->
+                                </font>
+                            </td>
+                            <td width="18%" style="text-align: center">
+                                <font style="font-size: 15px;">
+                                    <t t-if="o.name">
+                                        <strong>เลขที่/Number</strong><br/>
+                                        <span t-field="o.name"/>
+                                    </t>
+                                </font>
+                            </td>
+                            <td width="15%" style="text-align: center">
+                                <font style="font-size: 15px;">
+                                    <t t-if="o.date">
+                                        <strong>วันที่/Date</strong><br/>
+                                        <span t-field="o.date"/>
+                                    </t>
+                                </font>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="page">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_account_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_account_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        table.table-bordered1{
+                        border:1px solid black;
+                        width: 100%;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_account_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        table.table-bordered1{
+                        border:1px solid black;
+                        width: 100%;
+                        }
+                        table.table-bordered1 &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered1 &gt; thead &gt; tr &gt; td{
+                        border:1px solid black;
+                        border-left: 1px solid black;
+                        }
+                        table.table-bordered1 &gt; tbody &gt; tr &gt; td{
+                        border:0px solid white;
+                        border-left: 1px solid black;
+                        }
+                        table.table-bordered1 &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-nobordered {
+                        border:0px solid White;
+                        padding:3px;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; th{
+                        border:0px solid White;
+                        border-top : 1px solid black;
+                        padding:3px;
+                        }
+                        table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                        border:0px solid White;
+                        border-top : 1px solid black;
+                        padding:3px;
+                        }
+                        table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-nobordered1 &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:2px;
+                        }
+                        table.table-nobordered1 &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:2px;
+                        height:10px;
+                        }
+                        table.table-nobordered1 &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:2px;
+                        }
+                        .td_top{
+                        border-top:#000 solid 1px;
+                        }
+                        .td_left{
+                        border-left:#000 solid 1px;
+                        }
+                        .td_right{
+                        border-right:#000 solid 1px;
+                        }
+                        .td_bott{
+                        border-bottom:#000 solid 1px;
+                        }
+                    </style>
+                    <!--                    <div class="col-xs-12">-->
+                    <table class="font_fam table table-nobordered" style="font-size: 15px; margin-top:30px;">
+                        <thead>
+                            <tr style="height:30px;">
+                                <th class="col-xs-2" style="text-align:center">
+                                    <font>ลำดับที่/No.</font>
+                                </th>
+                                <th class="col-xs-3" style="text-align:center">
+                                    <font>รหัสบัญชี/Acc Number</font>
+                                </th>
+                                <th class="col-xs-3" style="text-align:left">
+                                    <font>ชื่อบัญชี/Acc Name</font>
+                                </th>
+                                <th class="col-xs-5" style="text-align:left">
+                                    <font>แผนก/Cost Center</font>
+                                </th>
+                                <th class="col-xs-2" style="text-align:center">
+                                    <font>เดบิต/Debit</font>
+                                </th>
+                                <th class="col-xs-2" style="text-align:center">
+                                    <font>เครดิต/Credit</font>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-set="i" t-value="1"/>
+                            <t t-foreach="o.line_ids.sorted(key=lambda x: x.credit and x.id)" t-as="l">
+                                <tr style="height:10px;">
+                                    <td style="text-align:center">
+                                        <font>
+                                            <span t-esc="i"/>
+                                        </font>
+                                    </td>
+                                    <t t-set="i" t-value="i+1"/>
+                                    <!--<t t-set="count" t-value="count + (len(l.account_id.code)/60) + 1"/>-->
+                                    <td style="text-align:center">
+                                        <font>
+                                            <span t-field="l.account_id.code"/>
+                                        </font>
+                                    </td>
+                                    <td style="text-align:left">
+                                        <font>
+                                            <span t-field="l.account_id.name"/>
+                                        </font>
+                                    </td>
+                                    <td style="text-align:left">
+                                        <font>
+                                            <t t-if="l.analytic_account_id">
+                                                <span t-field="l.analytic_account_id.name"/>
+                                            </t>
+                                            <t t-if="not l.analytic_account_id">
+                                                <span t-field="o.analytic_account_id.name"/>
+                                            </t>
+                                        </font>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <t t-if="l.debit == 0.00">
+                                            <span/>
+                                        </t>
+                                        <t t-if="l.debit != 0.00">
+                                            <t t-set="sumdebit" t-value="sumdebit + l.debit "/>
+                                            <font>
+                                                <span t-esc="'{0:,.2f}'.format(l.debit)"/>
+                                            </font>
+                                        </t>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <t t-if="l.credit == 0.00">
+                                            <span/>
+                                        </t>
+                                        <t t-if="l.credit != 0.00">
+                                            <t t-set="sumcredit" t-value="sumcredit + l.credit "/>
+                                            <font>
+                                                <span t-esc="'{0:,.2f}'.format(l.credit)"/>
+                                            </font>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-foreach="o.get_reverse_tax_line()" t-as="l">
+                                <tr style="line-height:5mm;">
+                                    <td style="text-align:center">
+                                        <font>
+                                            <span t-esc="i"/>
+                                        </font>
+                                    </td>
+                                    <t t-set="i" t-value="i+1"/>
+                                    <!--<t t-set="count" t-value="count + (len(l.account_id.code)/60) + 1"/>-->
+                                    <td style="text-align:center">
+                                        <font>
+                                            <span t-field="l.account_id.code"/>
+                                        </font>
+                                    </td>
+                                    <td style="text-align:left">
+                                        <font>
+                                            <span t-field="l.account_id.name"/>
+                                        </font>
+                                    </td>
+                                    <td style="text-align:left">
+                                        <font>
+                                            <t t-if="l.analytic_account_id">
+                                                <span t-field="l.analytic_account_id.name"/>
+                                            </t>
+                                            <t t-if="not l.analytic_account_id">
+                                                <span t-field="o.analytic_account_id.name"/>
+                                            </t>
+                                        </font>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <t t-if="l.debit == 0.00">
+                                            <span/>
+                                        </t>
+                                        <t t-if="l.debit != 0.00">
+                                            <t t-set="sumdebit" t-value="sumdebit + l.debit "/>
+                                            <font>
+                                                <span t-esc="'{0:,.2f}'.format(l.debit)"/>
+                                            </font>
+                                        </t>
+                                    </td>
+                                    <td style="text-align:right">
+                                        <t t-if="l.credit == 0.00">
+                                            <span/>
+                                        </t>
+                                        <t t-if="l.credit != 0.00">
+                                            <t t-set="sumcredit" t-value="sumcredit + l.credit "/>
+                                            <font>
+                                                <span t-esc="'{0:,.2f}'.format(l.credit)"/>
+                                            </font>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+
+                        </tbody>
+                    </table>
+                    <table width="100%" class="table table-bordered font_fam" style="font-size: 15px;">
+                        <tr>
+                            <td class="col-xs-5">
+                                <div align="center">
+                                    <font style="font-size: 15px;">
+                                        <span>(<span t-esc="o.baht_text(sumcredit)"/>)</span>
+                                    </font>
+                                </div>
+                            </td>
+                            <td class="col-xs-3">
+                                <div style="text-align:right;">
+                                    <font style="font-size: 15px;">
+                                        <span>รวม</span>
+                                    </font>
+                                </div>
+                            </td>
+                            <td class="col-xs-2">
+                                <div style="text-align:right">
+                                    <font style="font-size: 15px;">
+                                        <span t-esc="'{0:,.2f}'.format(sumdebit)"/>
+                                    </font>
+                                </div>
+                            </td>
+                            <td class="col-xs-2">
+                                <div style="text-align:right">
+                                    <font style="font-size: 15px;">
+                                        <span t-esc="'{0:,.2f}'.format(sumcredit)"/>
+                                    </font>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="12">
+                                <div colspan="12">
+                                    <font style="font-size: 15px;">
+                                        <div class="col-xs-6">
+                                            <t t-set="ref" t-value="o.ref"/>
+                                            <strong>อ้างอิง/Reference:</strong>
+                                            <t t-if="o.ref">
+                                                &amp;nbsp;&amp;nbsp;<span t-esc="ref[0:200]"/>
+                                            </t>
+                                        </div>
+                                    </font>
+                                </div>
+                                <div colspan="12">
+                                    <font style="font-size: 15px;">
+                                        <div class="col-xs-6">
+                                            <!--                                            <t t-set="narration" t-value="o.narration"/>-->
+                                            <strong>รายละเอียด/Description:</strong>
+                                            <div style="width:650px; word-wrap: break-word;background-color:white;">
+                                                <span t-field="o.narration"/>
+                                            </div>
+                                            <!--                                            <t t-if="o.narration">-->
+                                            <!--                                                &amp;nbsp;&amp;nbsp;<span t-esc="narration[0:200]"/>-->
+                                            <!--                                            </t>-->
+                                        </div>
+                                    </font>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <t t-if="o.line_ids.payment_id">
+                        <table width="100%" class="table table-nobordered1 font_fam" style="font-size: 15px; line-height:5mm; margin-top:-8px;">
+
+                            <t t-if="o.line_ids.payment_id">
+                                <tr align="center" class="font_fam" style="font-size:15px;height:10px;">
+                                    <td width="20%"><strong>ชำระโดย <br/>Payment by</strong></td>
+                                    <td width="15%"><strong>เลขที่เช็ค <br/>Cheque No.</strong></td>
+                                    <td width="20%"><strong>ธนาคาร<br/>Bank</strong></td>
+                                    <td width="15%"><strong>สาขา<br/>Branch</strong></td>
+                                    <td width="15%"><strong>วันที่เช็ค <br/>Cheque Date</strong></td>
+                                    <td width="15%"><strong>จำนวนเงิน <br/>Amount</strong></td>
+                                </tr>
+                                <t t-if="o.journal_id">
+                                    <t t-if="o.journal_id.type =='cash'">
+                                        <tr>
+                                            <td width="20%" align="left" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☑</span>&amp;nbsp;&amp;nbsp; <strong>เงินสด/Cash</strong>
+                                            </td>
+
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td style="text-align:right"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%" align="left" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินโอน/Transfer</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%" align="left" style="border-top:1px solid White;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เช็ค/Cheque</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">
+                                        <tr>
+                                            <td align="left" width="20%" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินสด/Cash</strong>
+                                            </td>
+                                            <td ><br/></td>
+                                            <td ><br/></td>
+                                            <td ><br/></td>
+                                            <td ><br/></td>
+                                            <td ><br/></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" width="20%" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☑</span>&amp;nbsp;&amp;nbsp; <strong>เงินโอน/Transfer</strong>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.line_ids.payment_id.cheque_number"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.line_ids.payment_id.cheque_bank"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.line_ids.payment_id.cheque_branch"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.line_ids.payment_id.cheque_date"/>
+                                            </td>
+                                            <td align="right">
+                                                <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="border-top:1px solid White;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เช็ค/Cheque</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque or o.is_create_cheque">
+                                        <tr >
+                                            <td align="left" width="20%" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินสด/Cash</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                        <tr  width="20%">
+                                            <td align="left" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินโอน/Transfer</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" width="20%" style="border-top:1px solid White; border-left: 1px solid black;">
+                                                <span>☑</span>&amp;nbsp;&amp;nbsp; <strong>เช็ค/Cheque</strong>
+                                            </td>
+                                            <td  align="center">
+                                                <span t-field="o.line_ids.payment_id.cheque_number"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.line_ids.payment_id.cheque_bank"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.line_ids.payment_id.cheque_branch"/>
+                                            </td>
+                                            <td  align="center">
+                                                <span t-field="o.line_ids.payment_id.cheque_date"/>
+                                            </td>
+                                            <td  align="right">
+                                                <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="not o.line_ids.payment_id">
+                                        <tr style="height:50px;" class="font_fam">
+                                            <td>
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินสด/Cash</strong><br/>
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินโอน/Transfer</strong><br/>
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เช็ค/Cheque</strong>
+                                            </td>
+                                            <td width="15%" align="center"/>
+                                            <td width="20%" align="center"/>
+                                            <td width="15%" align="center"/>
+                                            <td width="15%" align="center"/>
+                                            <td width="15%" align="right">
+                                                <span t-esc="'{0:,.2f}'.format(o.amount)"/>
+                                                <!--<span t-esc="o.baht_text(sumcredit)"/>-->
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <table width="100%" class="table table-nobordered1 font_fam" style="font-size: 15px;">
+                            <tr align="center" class="font_fam" style="font-size:15px;height:10px;">
+                                <td width="20%"><strong>ชำระโดย <br/>Payment by</strong></td>
+                                <td width="15%"><strong>เลขที่เช็ค <br/>Cheque No.</strong></td>
+                                <td width="20%"><strong>ธนาคาร<br/>Bank</strong></td>
+                                <td width="15%"><strong>สาขา<br/>Branch</strong></td>
+                                <td width="15%"><strong>วันที่เช็ค <br/>Cheque Date</strong></td>
+                                <td width="15%"><strong>จำนวนเงิน <br/>Amount</strong></td>
+                            </tr>
+                            <tr style="margin-top:-21px;" class="font_fam">
+                                <t t-if="not o.line_ids.payment_id and not o.is_create_cheque">
+                                    <tr>
+                                        <td width="20%" align="left" style="border:0px solid White; border-left: 1px solid black;">
+                                            <span>☑</span>&amp;nbsp;&amp;nbsp; <strong>เงินสด/Cash</strong>
+                                        </td>
+
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td align="right">
+                                            <span t-field="o.amount"/>&amp;nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left" style="border:0px solid White; border-left: 1px solid black;">
+                                            <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินโอน/Transfer</strong>
+                                        </td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%" align="left" style="border-top:1px solid White;">
+                                            <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เช็ค/Cheque</strong>
+                                        </td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                        <td><br/></td>
+                                    </tr>
+                                </t>
+                                <t t-if="not o.line_ids.payment_id and o.is_create_cheque">
+                                    <t t-if="o.is_create_cheque and o.cheque_type =='paid'">
+                                        <tr>
+                                            <td align="left" width="20%" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินสด/Cash</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                        <tr width="20%">
+                                            <td align="left" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินโอน/Transfer</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" width="20%" style="border-top:1px solid White; border-left: 1px solid black;">
+                                                <span>☑</span>&amp;nbsp;&amp;nbsp; <strong>เช็ค/Cheque</strong>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_number"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_bank"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_branch"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_date"/>
+                                            </td>
+                                            <td align="right">
+                                                <span t-field="o.amount"/>&amp;nbsp;
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="o.is_create_cheque and o.cheque_type =='receive'">
+                                        <tr>
+                                            <td align="left" width="20%" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินสด/Cash</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                        <tr width="20%">
+                                            <td align="left" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินโอน/Transfer</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" width="20%" style="border-top:1px solid White; border-left: 1px solid black;">
+                                                <span>☑</span>&amp;nbsp;&amp;nbsp; <strong>เช็ค/Cheque</strong>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_number"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_bank"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_branch"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_date"/>
+                                            </td>
+                                            <td align="right">
+                                                <span t-field="o.amount"/>&amp;nbsp;
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="o.is_create_cheque and o.cheque_type =='transfer'">
+                                        <tr>
+                                            <td align="left" width="20%" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เงินสด/Cash</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" width="20%" style="border:0px solid White; border-left: 1px solid black;">
+                                                <span>☑</span>&amp;nbsp;&amp;nbsp; <strong>เงินโอน/Transfer</strong>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_number"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_bank"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_branch"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.cheque_date"/>
+                                            </td>
+                                            <td align="right">
+                                                <span t-field="o.amount"/>&amp;nbsp;
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="left" style="border-top:1px solid White;">
+                                                <span>☐</span>&amp;nbsp;&amp;nbsp; <strong>เช็ค/Cheque</strong>
+                                            </td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                            <td><br/></td>
+                                        </tr>
+                                    </t>
+                                </t>
+
+                            </tr>
+                        </table>
+                    </t>
+                    <div class="col-xs-12">
+                        <!--  <div>-->
+                        <table width="100%" class="font_fam" style="font-size: 15px; margin-top:-15px;">
+                            <tr class="font_fam">
+                                <td>
+                                    <div style="text-align: center">
+
+                                        <!--                                            <span>ผู้จัดทำ</span><br/>-->
+                                        <br/><br/>
+                                        <span>__________________</span><br/>
+                                        <strong>ผู้จัดทํา<br/>PREPARED BY</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="text-align: center">
+
+                                        <!--                                            <span>ผู้ตรวจสอบ</span><br/>-->
+                                        <br/><br/>
+                                        <span>__________________</span><br/>
+                                        <strong>ผู้ตรวจ <br/>CHECKED BY</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="text-align: center">
+                                        <!--                                            <span>ผู้อนุมัติ</span><br/>-->
+                                        <br/><br/>
+                                        <span>__________________</span><br/>
+                                        <strong>ผู้รับเงิน/ผู้จ่ายเงิน <br/>RECEIVED/PAID</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="text-align: center">
+                                        <!--                                            <span>ผู้อนุมัติ</span><br/>-->
+                                        <br/><br/>
+                                        <span>__________________</span><br/>
+                                        <strong>ผู้อนุมัติ <br/>APPROVED</strong>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="text-align: center">
+                                        <!--                                            <span>ผู้อนุมัติ</span><br/>-->
+                                        <br/><br/>
+                                        <span>__________________</span><br/>
+                                        <strong>ผู้ลงบัญชี <br/>RECORDED</strong>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="paperformat_A5_RBS_payment_voucher" model="report.paperformat">
+        <field name="name">paperformat_A5_RBS_payment_voucher</field>
+        <field name="default" eval="False"/>
+        <field name="format">custom</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">35</field>
+        <field name="margin_bottom">0</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="page_height">140</field>
+        <field name="page_width">210</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">30</field>
+        <field name="dpi">90</field>
+    </record>
+    <report
+            id="debitcredit05_report_inherit"
+            model="account.move"
+            menu="False"
+            report_type="qweb-pdf"
+            string="สมุดรายวันจ่าย"
+            paperformat="itaas_print_account_report.paperformat_A5_RBS_payment_voucher"
+            name="itaas_print_account_report.debitcredit05_report_inherit_id"
+            file="itaas_print_account_report.debitcredit05_report_inherit_id"
+    />
+</odoo>

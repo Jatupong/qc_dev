@@ -1,0 +1,32 @@
+<odoo>
+	<!-- inherit account invoice form -->
+	<record id="account_tax_form_itaas_inherit" model="ir.ui.view">
+	    <field name="name">account.tax.form.itaas</field>
+	    <field name="model">account.tax</field>
+	    <field name="inherit_id" ref="account.view_tax_form"/>
+	    <field name="arch" type="xml">
+	    	<field name="include_base_amount" position="after">
+	    		<field name="wht"/>
+				<field name="tax_report"/>
+				<field name="tax_no_refund"/>
+				<field name="wht_type"/>
+	    	</field>
+	    </field>
+    </record>
+
+	<!--    Account with holding tax-->
+    <record id="account_wht_type_action" model="ir.actions.act_window">
+        <field name="name">Account WHT Type</field>
+        <field name="res_model">account.wht.type</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new wht type
+            </p>
+        </field>
+    </record>
+
+
+
+    <menuitem id="account_wht_type_menu" parent="account.account_account_menu" action="account_wht_type_action" groups="account.group_account_manager"/>
+
+</odoo>

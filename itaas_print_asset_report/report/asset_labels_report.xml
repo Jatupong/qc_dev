@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="asset_labels_report_id">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <t t-foreach="docs" t-as="product">
+                            <div class="col-xs-4">
+                                <table width="100%" style="border: 1px solid transparent">
+                                    <tr>
+                                        <td width="100%" style="text-align: center">
+                                            <!--                                            <img t-if="doc.barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', doc.barcode, 600, 100)" style="width:100%;height:20%;"/><br/>-->
+                                            <span t-field="doc.barcode" t-options="{'widget': 'barcode', 'symbology': 'auto', 'width': 300, 'height': 60, 'quiet': 0, 'img_style': 'height:35px;'}"/><br/><br/>
+                                            <font style="font-size: 10px;">
+                                                <span t-field="doc.barcode"/>
+                                            </font>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="100%" style="text-align: center">
+                                            <strong t-esc="doc.name"/>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                            <!--<div class="col-xs-6 mt8 mb64">-->
+                            <!--<table class="table table-bordered">-->
+                            <!--<tbody>-->
+                            <!--<tr height="40">-->
+                            <!--<td style="text-align: center">-->
+                            <!--<img t-if="doc.barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', doc.barcode, 600, 100)" style="width:100%;height:20%;"/><br/>-->
+                            <!--<font style="font-size: 8px;">-->
+                            <!--<span t-field="doc.barcode"/>-->
+                            <!--</font>-->
+                            <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr height="40">-->
+                            <!--<td style="text-align: center">-->
+                            <!--<strong t-esc="doc.name"/>-->
+                            <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                            <!--</table>-->
+                            <!--</div>-->
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <record id="paperformat_A4_Zero_Asset_Label" model="report.paperformat">
+            <field name="name">paperformat_A4_Zero_Asset_Label</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="page_height">60</field>
+            <field name="page_width">85</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">10</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="asset_labels_report"
+                model="account.asset"
+                menu="True"
+                report_type="qweb-pdf"
+                string="Asset Labels"
+                paperformat="paperformat_A4_Zero_Asset_Label"
+                name="itaas_print_asset_report.asset_labels_report_id"
+                file="itaas_print_asset_report.asset_labels_report_id"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,268 @@
+<odoo>
+    <!-- inherit account move form -->
+    <record id="account_move_form_gen_tax_itaas_inherit" model="ir.ui.view">
+        <field name="name">account.move.form.add.gen.tax.itaas</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <page id="aml_tab" position="attributes">
+                <attribute name="groups">account.group_account_invoice</attribute>
+            </page>
+
+            <field name="name" position="attributes">
+
+                <attribute name="class">oe_inline</attribute>
+            </field>
+
+            <field name="name" position="after">
+                <field name="tax_inv_generated" invisible="1"/>
+
+                <field name="tax_inv_number" readonly="1" class="oe_inline oe_right" attrs="{'invisible': [('tax_inv_generated','=',False)]}"/>
+            </field>
+
+            <field name="invoice_date" position="after">
+                <field name="tax_invoice_date"/>
+            </field>
+
+            <field name="invoice_incoterm_id" position="after">
+                <field name="adjust_move_id"/>
+            </field>
+
+            <field name="invoice_origin" position="attributes">
+                <attribute name="attrs"></attribute>
+                <attribute name="readonly">0</attribute>
+            </field>
+            <field name="invoice_origin" position="after">
+                <field name="is_manual_cn"/>
+                <field name="credit_note_reason" />
+                <field name="inv_ref" attrs="{'invisible': [('is_manual_cn','=',False)]}"/>
+                <field name="inv_amount_untaxed" attrs="{'invisible': [('is_manual_cn','=',False)]}"/>
+                <field name="inv_reference_date" attrs="{'invisible': [('is_manual_cn','=',False)]}"/>
+            </field>
+            <xpath expr="//group[@name='sale_info_group']" position="after">
+                <group string="Bill" name="purchase_info_group" attrs="{'invisible': [('move_type', 'not in', ('in_invoice', 'in_refund'))]}">
+                    <field name="invoice_origin" force_save="1" string="Source Document" attrs="{'invisible': [('invoice_origin', '=', False)]}"/>
+                    <field name="is_manual_cn"/>
+                    <field name="credit_note_reason" />
+                    <field name="inv_ref" attrs="{'invisible': [('is_manual_cn','=',False)]}"/>
+                    <field name="inv_amount_untaxed" attrs="{'invisible': [('is_manual_cn','=',False)]}"/>
+                    <field name="inv_reference_date" attrs="{'invisible': [('is_manual_cn','=',False)]}"/>
+                </group>
+            </xpath>
+
+            <field name="ref" position="after">
+                <field name="is_manual_partner" attrs="{'invisible': [('move_type', '!=', 'entry')]}"/>
+                <field name="supplier_name_text" attrs="{'invisible': ['|',('move_type', '!=', 'entry'),('is_manual_partner', '=', False)]}"/>
+                <field name="supplier_address_text"  attrs="{'invisible': ['|',('move_type', '!=', 'entry'),('is_manual_partner', '=', False)]}"/>
+                <field name="supplier_branch_text"  attrs="{'invisible': ['|',('move_type', '!=', 'entry'),('is_manual_partner', '=', False)]}"/>
+                <field name="supplier_taxid_text"  attrs="{'invisible': ['|',('move_type', '!=', 'entry'),('is_manual_partner', '=', False)]}"/>
+            </field>
+
+            <xpath expr="//notebook/page[@id='aml_tab']/field[@name='line_ids']/tree/field[@name='name']" position="after">
+                <field name="ref" readonly="0"/>
+                <field name="wht_tax" domain="[('wht','=','True')]" optional="hide"/>
+                <field name="wht_type" optional="hide"/>
+                <field name="wht_reference" optional="show"/>
+                <field name="amount_before_tax" optional="hide"/>
+
+            </xpath>
+
+        </field>
+    </record>
+
+
+<!--    <record id="account_move_line_form_itaas_inherit" model="ir.ui.view">-->
+<!--        <field name="name">account.move.line.form.itaas</field>-->
+<!--        <field name="model">account.move.line</field>-->
+<!--        <field name="inherit_id" ref="account.view_move_line_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <field name="statement_id" position="after">-->
+<!--                <field name="wht_tax"/>-->
+<!--                <field name="amount_before_tax"/>-->
+<!--&lt;!&ndash;                <field name="wht_no" />&ndash;&gt;-->
+<!--                <field name="wht_reference" attrs="{'invisible': [('wht_tax','=',False)]}"/>-->
+<!--                <field name="wht_type" attrs="{'invisible': [('wht_tax','=',False)]}"/>-->
+<!--                <field name="ref"/>-->
+<!--            </field>-->
+<!--            <field name="date" position="after">-->
+<!--                <field name="invoice_date"/>-->
+<!--                &lt;!&ndash;<field name="department_id"/>&ndash;&gt;-->
+<!--            </field>-->
+<!--            <field name="quantity" position="after">-->
+<!--                <field name="product_id"/>-->
+<!--            </field>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+
+    <record id="account_move_line_tree_itaas_inherit" model="ir.ui.view">
+        <field name="name">account.move.line.tree.itaas</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/>
+        <field name="arch" type="xml">
+            <field name="date_maturity" position="before">
+                <field name="wht_type" optional="hide"/>
+                <field name="wht_tax" optional="hide"/>
+                <field name="wht_reference" optional="hide"/>
+                <field name="amount_before_tax" optional="hide" />
+                <field name="invoice_date"/>
+                <field name="product_id"/>
+            </field>
+        </field>
+    </record>
+
+
+
+
+    <record id="view_move_line_wht_tree" model="ir.ui.view">
+        <field name="name">account.move.line.tree</field>
+        <field name="model">account.move.line</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <tree string="WHT Items" create="false">
+                <field name="date"/>
+                <field name="move_id" required="0"/>
+                <field name="journal_id" options='{"no_open":True}'/>
+                <field name="name"/>
+                <field name="ref" invisible="1"/>
+                <field name="wht_tax"/>
+                <field name="wht_reference"/>
+                <field name="partner_id"/>
+                <field name="account_id" options='{"no_open":True}' domain="[('company_id', '=', company_id)]"/>
+                <field name="reconciled"/>
+                <field name="amount_before_tax"/>
+                <field name="debit" sum="Total Debit"/>
+                <field name="credit" sum="Total Credit"/>
+                <field name="amount_currency" readonly="True" groups="base.group_multi_currency"/>
+                <field name="currency_id" readonly="True" invisible="1" />
+                <field name="date_maturity" invisible="1"/>
+                <field name="company_currency_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_move_line_tax_tree" model="ir.ui.view">
+        <field name="name">account.move.line.tax.tree</field>
+        <field name="model">account.move.line</field>
+        <field eval="1" name="priority"/>
+        <field name="arch" type="xml">
+            <tree string="TAX Items" create="false">
+                <field name="date"/>
+                <field name="move_id" required="0"/>
+                <field name="journal_id" options='{"no_open":True}'/>
+                <field name="name"/>
+                <field name="ref" invisible="0"/>
+                <field name="amount_before_tax"/>
+                <!--<field name="wht_reference"/>-->
+                <field name="partner_id"/>
+                <field name="account_id" options='{"no_open":True}' domain="[('company_id', '=', company_id)]"/>
+                <field name="reconciled"/>
+                <field name="debit" sum="Total Debit"/>
+                <field name="credit" sum="Total Credit"/>
+                <field name="amount_currency" readonly="True" groups="base.group_multi_currency"/>
+                <field name="currency_id" readonly="True" invisible="1" />
+                <field name="date_maturity" invisible="1"/>
+                <field name="company_currency_id" invisible="1"/>
+                <field name="company_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+
+    <record id="action_account_moves_all_sale_tax" model="ir.actions.act_window">
+        <field name="domain">[('account_id.sale_tax_report', '=', True),('move_id.state','=','posted')]</field>
+        <field name="name">Sale Tax Report</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_id" ref="view_move_line_tax_tree"/>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_account_moves_all_purchase_tax" model="ir.actions.act_window">
+        <field name="domain">[('account_id.purchase_tax_report', '=', True),('move_id.state','=','posted')]</field>
+        <field name="name">Purchase Tax Report</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_id" ref="view_move_line_tax_tree"/>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="action_account_moves_all_wht53" model="ir.actions.act_window">
+        <field name="domain">[('account_id.wht', '=', True),('move_id.state','=','posted'),('wht_type.name', '=', 'company')]</field>
+        <!--        <field name="domain">[('wht_tax', '!=', False),('wht_type.name', '=', 'company')]</field>-->
+        <field name="name">Company Witholding Tax Report</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_id" ref="view_move_line_wht_tree"/>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_account_moves_all_wht3" model="ir.actions.act_window">
+        <!--        <field name="domain">[('account_id.wht', '=', True),('move_id.state','=','posted'),('wht_type.name', 'in', ('personal-chalet','personal-prize'))]</field>-->
+        <field name="domain">[('wht_tax', '!=', False),('wht_type.name', '=', 'personal')]</field>
+        <field name="name">Personal Witholding Tax Report</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_id" ref="view_move_line_wht_tree"/>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="action_account_moves_all_wht54" model="ir.actions.act_window">
+        <field name="domain">[('account_id.wht', '=', True),('move_id.state','=','posted'),('wht_type.name', '=', 'company_54')]</field>
+        <!--        <field name="domain">[('wht_tax', '!=', False),('wht_type.name', '=', 'company_54')]</field>-->
+        <field name="name">Witholding Tax Report 54</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_id" ref="view_move_line_wht_tree"/>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="account.menu_finance_entries" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
+    </record>
+
+    <record id="account.menu_finance_reports" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('account.group_account_manager')), (3, ref('account.group_account_user'))]"/>
+    </record>
+
+    <record id="account.menu_action_account_moves_all" model="ir.ui.menu">
+        <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
+    </record>
+
+<!--    <record id="account_asset.menu_action_account_asset_form" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>-->
+<!--    </record>-->
+
+<!--    <record id="account_asset.menu_action_account_revenue_model_recognition" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>-->
+<!--    </record>-->
+<!--    <record id="account_asset.menu_action_account_expense_recognition" model="ir.ui.menu">-->
+<!--        <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>-->
+<!--    </record>-->
+
+
+
+
+    <!--    New menu for tax report -->
+    <menuitem id="menu_finance_accounting_tax" name="Tax" parent="account.menu_finance_entries" sequence="20" />
+
+
+    <menuitem action="action_account_moves_all_sale_tax" id="menu_action_account_moves_sale_tax" parent="menu_finance_accounting_tax" sequence="1" groups="account.group_account_user" />
+    <menuitem action="action_account_moves_all_purchase_tax" id="menu_action_account_moves_purchase_tax" parent="menu_finance_accounting_tax" sequence="2" groups="account.group_account_user" />
+    <menuitem action="action_account_moves_all_wht53" id="menu_action_account_moves_wht53" parent="menu_finance_accounting_tax" sequence="3" groups="account.group_account_user" />
+    <menuitem action="action_account_moves_all_wht3" id="menu_action_account_moves_wht3" parent="menu_finance_accounting_tax" sequence="4" groups="account.group_account_user" />
+    <menuitem action="action_account_moves_all_wht54" id="menu_action_account_moves_wht54" parent="menu_finance_accounting_tax" sequence="5" groups="account.group_account_user" />
+
+
+
+
+    <record id="action_credit_note_tree" model="ir.actions.act_window">
+        <field name="name">Credit Note Reason</field>
+        <field name="res_model">credit.note.reason</field>
+        <field name="view_mode">tree,form</field>
+        <field eval="False" name="view_id"/>
+    </record>
+
+    <menuitem action="action_credit_note_tree" id="menu_action_credit_tree" parent="account.account_invoicing_menu" sequence="10"/>
+
+
+
+</odoo>

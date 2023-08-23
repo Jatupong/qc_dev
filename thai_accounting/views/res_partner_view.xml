@@ -1,0 +1,29 @@
+<odoo>
+
+	<!-- inherit res.partner form -->
+	<record id="view_partner_form_itaas_inherit" model="ir.ui.view">
+		<field name="name">res.partner.form.itaas</field>
+		<field name="model">res.partner</field>
+		<field name="inherit_id" ref="base.view_partner_form"/>
+		<field name="arch" type="xml">
+			<field name="category_id" position="before">
+				<field name="customer_no_vat"/>
+				<field name="branch_no" attrs="{'required': [('parent_id','=',False)]}"/>
+			</field>
+
+			<field name="ref" position="replace"/>
+
+			<field name="vat" position="after">
+				<field name="ref" placeholder="Customer Code"/>
+			</field>
+
+			<xpath expr="//notebook" position="inside">
+                <page string="Note for Account">
+                    <field name="note_accounting" placeholder="Note for Accounting"/>
+                </page>
+            </xpath>
+
+		</field>
+	</record>
+
+</odoo>

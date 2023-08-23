@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="asset_sell_form_disposal" model="ir.ui.view">
+            <field name="name">view.account.asset.sell.disposal</field>
+            <field name="model">account.asset.sell</field>
+            <field name="inherit_id" ref="account_asset.asset_sell_form"/>
+            <field name="arch" type="xml">
+                <field name="loss_account_id" position="after">
+                    <field name="asset_disposal_date"/>
+                </field>
+            </field>
+    </record>
+</odoo>

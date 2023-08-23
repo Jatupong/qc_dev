@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="wht_pnd_item_report_53_id">
+        <t t-call="web.basic_layout">
+
+            <t t-set="tax_deduct_total" t-value="0.0"/>
+            <t t-set="tax_amount_total" t-value="0.0"/>
+
+            <t t-set="sum_amount_before_tax" t-value="0.0"/>
+            <t t-set="sum_amount_total" t-value="0.0"/>
+
+            <t t-set="docs" t-value="docs.filtered(lambda x: x.wht_type)"/>
+            <t t-set="num_page" t-value="docs.get_num_page(len(docs), 6)"/>
+            <t t-foreach="range(0, num_page)" t-as="page">
+
+
+                <div class="page" t-attf-style="background-image:url('/itaas_print_wht_report/static/Blank_Form_Pnd_53.png');                 background-size:520mm 365mm; width:520mm; height:365mm; ">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_wht_report/static/THSarabun.ttf") format('opentype');
+                        font-family: angsau;
+                        src: local('United'), url("/itaas_print_wht_report/static/angsau.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_wht_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam_ang{
+                        font-family: angsau;
+                        src: local('United'), url("/itaas_print_wht_report/static/angsau.ttf") format('opentype');
+                        }
+                        .font_size_32{
+                        font-size: 32px;
+                        line-height: 30px;
+                        }
+
+                        table.table-bordered {
+                        <!--border: none;-->
+                        padding: 3px;
+                        border: 1px solid transparent
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border: none;
+                        padding:3px;
+                        <!--border: 1px solid white;-->
+                        border: 1px solid transparent
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border: none;
+                        padding:3px;
+                        <!--border: 1px solid white;-->
+                        border: 1px solid transparent
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border: none;
+                        padding:3px;
+                        <!--border: 1px solid white;-->
+                        border: 1px solid transparent
+                        }
+                        table.table-inbordered {
+                        border: none;
+                        padding:1px;
+                        margin:0px;
+                        <!--border: 1px solid white;-->
+                        border: 1px solid transparent
+                        }
+                        table.table-inbordered &gt; thead &gt; tr &gt; th{
+                        border: none;
+                        padding:1px;
+                        <!--border: 1px solid white;-->
+                        border: 1px solid transparent
+                        }
+                        table.table-inbordered &gt; tbody &gt; tr &gt; td{
+                        border: none;
+                        text-align:center;
+                        padding:1px;
+                        <!--border: 1px solid white;-->
+                        border: 1px solid transparent
+                        }
+                        table.table-inbordered &gt; tfoot &gt; tr &gt; td{
+                        border: none;
+                        padding:1px;
+                        <!--border: 1px solid white;-->
+                        border: 1px solid transparent
+                        }
+                        table.table-inbordered-1 {
+                        border: none;
+                        padding:1px;
+                        margin:0px;
+                        }
+                        table.table-inbordered-1 &gt; thead &gt; tr &gt; th{
+                        border: none;
+                        padding:1px;
+                        }
+                        table.table-inbordered-1 &gt; tbody &gt; tr &gt; td{
+                        border: none;
+                        padding:1px;
+                        }
+                        table.table-inbordered-1 &gt; tfoot &gt; tr &gt; td{
+                        border: none;
+                        padding:1px;
+                        }
+                        table.table-inbordered1 {
+                        border: 1px solid white;
+                        padding:1px;
+                        margin:0px;
+                        }
+                        table.table-inbordered1 &gt; thead &gt; tr &gt; th{
+                        border: 1px solid white;
+                        padding:1px;
+                        }
+                        table.table-inbordered1 &gt; tbody &gt; tr &gt; td{
+                        border: 1px solid white;
+                        text-align:center;
+                        padding:1px;
+                        }
+                        table.table-inbordered1 &gt; tfoot &gt; tr &gt; td{
+                        border: 1px solid white;
+                        padding:1px;
+                        }
+
+                    </style>
+
+                    <div class="font_fam_ang font_size_32" style="height:155px; position:relative;">
+
+                        <!--Page info-->
+                        <div>
+                            <div style="position:absolute; right:290px; top:65px;">
+                                <span t-esc="page+1"/>
+                            </div>
+                            <div style="position:absolute; right:140px; top:65px;">
+                                <span t-esc="num_page"/>
+                            </div>
+                        </div>
+
+                        <!--Company Vat-->
+                        <div>
+                            <t t-set="regis" t-value="docs[0].company_id.vat"/>
+                            <t t-if="regis">
+                                <span t-if="len(regis) &gt; 0" style="position:absolute; left:890px; top:28px;" t-esc="regis[0]"/>
+                                <!-- - -->
+                                <span t-if="len(regis) &gt; 1" style="position:absolute; left:925px; top:28px;" t-esc="regis[1]"/>
+                                <span t-if="len(regis) &gt; 2" style="position:absolute; left:950px; top:28px;" t-esc="regis[2]"/>
+                                <span t-if="len(regis) &gt; 3" style="position:absolute; left:980px; top:28px;" t-esc="regis[3]"/>
+                                <span t-if="len(regis) &gt; 4" style="position:absolute; left:1010px; top:28px;" t-esc="regis[4]"/>
+                                <!-- - -->
+                                <span t-if="len(regis) &gt; 5" style="position:absolute; left:1055px; top:28px;" t-esc="regis[5]"/>
+                                <span t-if="len(regis) &gt; 6" style="position:absolute; left:1085px; top:28px;" t-esc="regis[6]"/>
+                                <span t-if="len(regis) &gt; 7" style="position:absolute; left:1110px; top:28px;" t-esc="regis[7]"/>
+                                <span t-if="len(regis) &gt; 8" style="position:absolute; left:1135px; top:28px;" t-esc="regis[8]"/>
+                                <span t-if="len(regis) &gt; 9" style="position:absolute; left:1160px; top:28px;" t-esc="regis[9]"/>
+                                <!-- - -->
+                                <span t-if="len(regis) &gt; 10" style="position:absolute; left:1205px; top:28px;" t-esc="regis[10]"/>
+                                <span t-if="len(regis) &gt; 11" style="position:absolute; left:1230px; top:28px;" t-esc="regis[11]"/>
+                                <!-- - -->
+                                <span t-if="len(regis) &gt; 12" style="position:absolute; left:1280px; top:28px;" t-esc="regis[12]"/>
+                            </t>
+                        </div>
+
+                        <!--Company Branch-->
+                        <div>
+                            <t t-set="branch" t-value="docs[0].company_id.branch_no"/>
+                            <t t-if="branch">
+                                <span t-if="len(branch) &gt; 0" style="position:absolute; left:1390px; top:28px;" t-esc="branch[0]"/>
+                                <span t-if="len(branch) &gt; 1" style="position:absolute; left:1415px; top:28px;" t-esc="branch[1]"/>
+                                <span t-if="len(branch) &gt; 2" style="position:absolute; left:1440px; top:28px;" t-esc="branch[2]"/>
+                                <span t-if="len(branch) &gt; 3" style="position:absolute; left:1465px; top:28px;" t-esc="branch[3]"/>
+                                <span t-if="len(branch) &gt; 4" style="position:absolute; left:1490px; top:28px;" t-esc="branch[4]"/>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!--detail info-->
+
+                    <table class="table table-bordered font_fam_ang font_size_32" width="100%">
+                        <t t-set="sum_amount_before_tax_per_page" t-value="0.0"/>
+                        <t t-set="sum_amount_total_per_page" t-value="0.0"/>
+                        <tr style="height:89px;">
+                            <td width="2%"/>
+                            <td width="5%"/>
+                            <td width="33%"/>
+                            <td width="8%"/>
+                            <td width="7%"/>
+                            <td width="14%"/>
+                            <td width="3%"/>
+                            <td width="12%"/>
+                            <td width="11%"/>
+                            <td width="5%"/>
+                        </tr>
+                        <t t-foreach="range(page * 6, (page * 6) + 6)" t-as="rec">
+                            <t t-if="rec &lt; len(docs)">
+                                <tr style="height:120px;">
+                                    <td/>
+                                    <td align="center">
+                                        <span t-esc="rec+1"/>
+                                    </td>
+                                    <td style="position:relative;">
+                                        <div class="col-xs-12" style="position:absolute; top:0px;">
+                                            <table class="table table-inbordered" style="width:430px; height:35px;">
+                                                <td width="100%">
+                                                    <t t-set="ident" t-value="docs[rec].partner_id.vat"/>
+                                                    <t t-if="ident">
+                                                        <table class="table-inbordered" width="100%" style="height:35px;">
+                                                            <tr>
+                                                                <td width="6%"><span t-if="len(ident) &gt; 0" t-esc="ident[0]"/></td>
+                                                                <td width="3%"/>
+                                                                <td width="6%"><span t-if="len(ident) &gt; 1" t-esc="ident[1]"/></td>
+                                                                <td width="6%"><span t-if="len(ident) &gt; 2" t-esc="ident[2]"/></td>
+                                                                <td width="3%"/>
+                                                                <td width="6%"><span t-if="len(ident) &gt; 3" t-esc="ident[3]"/></td>
+                                                                <td width="3%"/>
+                                                                <td width="6%"><span t-if="len(ident) &gt; 4" t-esc="ident[4]"/></td>
+                                                                <td width="7%"><span t-if="len(ident) &gt; 5" t-esc="ident[5]"/></td>
+                                                                <td width="7%"><span t-if="len(ident) &gt; 6" t-esc="ident[6]"/></td>
+                                                                <td width="3%"/>
+                                                                <td width="7%"><span t-if="len(ident) &gt; 7" t-esc="ident[7]"/></td>
+                                                                <td width="7%"><span t-if="len(ident) &gt; 8" t-esc="ident[8]"/></td>
+                                                                <td width="7%"><span t-if="len(ident) &gt; 9" t-esc="ident[9]"/></td>
+                                                                <td width="6%"><span t-if="len(ident) &gt; 10" t-esc="ident[10]"/></td>
+                                                                <td width="6%"><span t-if="len(ident) &gt; 11" t-esc="ident[11]"/></td>
+                                                                <td width="5%"/>
+                                                                <td width="6%"><span t-if="len(ident) &gt; 12" t-esc="ident[12]"/></td>
+                                                                <td width="5%"/>
+                                                            </tr>
+                                                        </table>
+                                                    </t>
+                                                </td>
+                                                <!--<td width="50%" style="border:1px solid red"/>-->
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-12" style="position:absolute; top:37px;">
+                                            <table class="table table-inbordered-1" style="width:650px; height:35px; margin-top:-5px;border: 1px solid transparent">
+                                                <tr style="height:40px;">
+                                                    <t t-set="partner_name" t-value="docs[rec].partner_id.name.split(' ')"/>
+                                                    <td width="50%" style="padding-left:40px;">
+                                                        <t t-if="docs[rec].partner_id.title">
+                                                            <span t-esc="docs[rec].partner_id.title.name"/>
+                                                            <t t-if="len(partner_name) &gt; 0">
+                                                                <span t-esc="partner_name[0]"/>
+                                                                <span t-esc="partner_name[1]"/>
+                                                            </t>
+                                                        </t>
+                                                        <t t-if="not docs[rec].partner_id.title">
+                                                            <t t-if="len(partner_name) &gt; 2">
+                                                                <span t-esc="partner_name[0]"/>
+                                                                <span t-esc="partner_name[1]"/>
+                                                                <span t-esc="partner_name[2]"/>
+                                                            </t>
+                                                            <t t-else=" ">
+                                                                <span t-esc="partner_name[0]"/>
+                                                                <span t-esc="partner_name[1]"/>
+                                                            </t>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-xs-12" style="position:absolute; top:68px;">
+                                            <table class="table table-inbordered-1" width="100%" style="width:650px;height:60px;font-size: 32px;margin-top:-12px;border: 1px solid transparent">
+                                                <t t-set="partner_name" t-value="docs[rec].partner_id.name.split(' ')"/>
+                                                <td width="100%" style="padding-left:40px;">
+                                                    <t t-set="partner_address" t-value="docs[rec].partner_id.get_partner_full_address()"/>
+                                                    <span t-esc="' '.join([ address for address in partner_address ])"/>
+                                                </td>
+                                            </table>
+                                        </div>
+                                    </td>
+                                    <td style="position:relative;left:10px">
+                                        <div class="col-xs-12">
+                                            <table class="table table-inbordered-1" width="100%" style="width:150px;height:40px;font-size: 32px;margin-top:-5px;border: 1px solid transparent">
+                                                <t t-set="branch" t-value="docs[0].partner_id.branch_no"/>
+                                                <t t-if="branch">
+                                                    <td width="20%"><span t-if="len(branch) &gt; 0" t-esc="branch[0]"/></td>
+                                                    <td width="20%"><span t-if="len(branch) &gt; 1" t-esc="branch[1]"/></td>
+                                                    <td width="20%"><span t-if="len(branch) &gt; 2" t-esc="branch[2]"/></td>
+                                                    <td width="20%"><span t-if="len(branch) &gt; 3" t-esc="branch[3]"/></td>
+                                                    <td width="20%"><span t-if="len(branch) &gt; 4" t-esc="branch[4]"/></td>
+                                                </t>
+                                            </table>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <t t-if="docs[rec].date_maturity">
+                                            <t t-set="date" t-value="str(docs[rec].date_maturity)"/>
+                                            <t t-set="payment_date" t-value="time.strptime(str(docs[rec].date_maturity),'%Y-%m-%d')"/>
+                                            <span t-esc="payment_date.tm_mday"/>/<span t-esc="payment_date.tm_mon"/>/<span t-esc="payment_date.tm_year + 543"/>
+                                        </t>
+                                    </td>
+                                    <td align="center">
+                                        <div class="col-xs-12">
+                                            <table class="table table-inbordered-1" width="100%" style="width:150px;height:60px;font-size: 32px;margin-top:-10px;">
+                                                <span t-field="docs[rec].name"/>
+                                            </table>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <t t-set="wht_tax" t-value="docs[rec].wht_tax.amount"/>
+                                        <span t-esc="'{0:,.0f}'.format(wht_tax)"/>
+                                    </td>
+                                    <td align="right" style="padding-right:20px;">
+                                        <span t-esc="'{0:,.2f}'.format(docs[rec].amount_before_tax)"/>
+                                        <t t-set="sum_amount_before_tax" t-value="sum_amount_before_tax + docs[rec].amount_before_tax"/>
+                                        <t t-set="sum_amount_before_tax_per_page" t-value="sum_amount_before_tax_per_page + docs[rec].amount_before_tax"/>
+                                    </td>
+                                    <td align="right" style="padding-right:20px;">
+                                        <span t-esc="'{0:,.2f}'.format(float(docs[rec].debit + docs[rec].credit))"/>
+                                        <t t-set="sum_amount_total" t-value="sum_amount_total + docs[rec].debit + docs[rec].credit"/>
+                                        <t t-set="sum_amount_total_per_page" t-value="sum_amount_total_per_page + docs[rec].debit + docs[rec].credit"/>
+                                    </td>
+                                    <td style="padding-left:30px;"><span>1</span></td>
+                                </tr>
+                            </t>
+                            <t t-else="">
+                                <tr style="height:120px; color:white">
+                                    <td width="2%">-</td>
+                                    <td width="5%">-</td>
+                                    <td width="33%">-</td>
+                                    <td width="8%">-</td>
+                                    <td width="7%">-</td>
+                                    <td width="14%">-</td>
+                                    <td width="3%">-</td>
+                                    <td width="12%">-</td>
+                                    <td width="11%">-</td>
+                                    <td width="5%">-</td>
+                                </tr>
+                            </t>
+                        </t>
+                        <!--<tr style="height:90px;"/>-->
+                        <tr style="height:75px;">
+                            <td colspan="8" align="right" style="padding-right:20px; vertical-align:bottom;">
+                                <span t-esc="'{0:,.2f}'.format(sum_amount_before_tax_per_page)"/>
+                            </td>
+                            <td align="right" style="padding-right:20px; vertical-align:bottom;">
+                                <span t-esc="'{0:,.2f}'.format(sum_amount_total_per_page)"/>
+                            </td>
+                            <td/>
+                        </tr>
+                        <tr style="height:40px;">
+                            <td colspan="8" align="right" style="padding-right:20px; vertical-align:bottom;">
+                                <span t-esc="'{0:,.2f}'.format(sum_amount_before_tax)"/>
+                            </td>
+                            <td align="right" style="padding-right:20px; vertical-align:bottom;">
+                                <span t-esc="'{0:,.2f}'.format(sum_amount_total)"/>
+                            </td>
+                            <td/>
+                        </tr>
+                    </table>
+                </div>
+                <p style="page-break-after:always;"/>
+            </t>
+        </t>
+    </template>
+</odoo>

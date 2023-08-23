@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_pnd2_id">
+            <t t-call="web.basic_layout">
+
+                <t t-set="pnd" t-value="pnd_info"/>
+                <div class="page" t-attf-style="background-image:url('/itaas_print_wht_report/static/pnd2.png'); background-size:360mm 500mm; width:360mm; height:500mm;">
+
+                    <table width="100%" style="height:700px; font-size: 22px;border: 10px solid transparent;">
+                        <tr>
+                            <td width="56%" style="position:relative;">
+                                <!--company-->
+                                <font style="font-size: 20px;">
+                                    <!--company_vat-->
+                                    <t t-set="company_vat" t-value="company_id.vat"/>
+                                    <t t-if="company_vat">
+                                        <span t-if="len(company_vat) &gt; 0" t-esc="company_vat[0]" style="position: absolute;left: 320px; top: 167px;"/>
+
+                                        <span t-if="len(company_vat) &gt; 1" t-esc="company_vat[1]" style="position: absolute;left: 365px; top: 167px;"/>
+                                        <span t-if="len(company_vat) &gt; 2" t-esc="company_vat[2]" style="position: absolute;left: 395px; top: 167px;"/>
+                                        <span t-if="len(company_vat) &gt; 3" t-esc="company_vat[3]" style="position: absolute;left: 425px; top: 167px;"/>
+                                        <span t-if="len(company_vat) &gt; 4" t-esc="company_vat[4]" style="position: absolute;left: 455px; top: 167px;"/>
+
+                                        <span t-if="len(company_vat) &gt; 5" t-esc="company_vat[5]" style="position: absolute;left: 495px; top: 167px;"/>
+                                        <span t-if="len(company_vat) &gt; 6" t-esc="company_vat[6]" style="position: absolute;left: 525px; top: 167px;"/>
+                                        <span t-if="len(company_vat) &gt; 7" t-esc="company_vat[7]" style="position: absolute;left: 555px; top: 167px;"/>
+                                        <span t-if="len(company_vat) &gt; 8" t-esc="company_vat[8]" style="position: absolute;left: 585px; top: 167px;"/>
+                                        <span t-if="len(company_vat) &gt; 9" t-esc="company_vat[9]" style="position: absolute;left: 615px; top: 167px;"/>
+
+                                        <span t-if="len(company_vat) &gt; 10" t-esc="company_vat[10]" style="position: absolute;left: 655px;top: 167px;"/>
+                                        <span t-if="len(company_vat) &gt; 11" t-esc="company_vat[11]" style="position: absolute;left: 685px;top: 167px;"/>
+
+                                        <span t-if="len(company_vat) &gt; 12" t-esc="company_vat[12]" style="position: absolute;left: 720px;top: 167px;"/>
+                                    </t>
+
+                                    <!--company_branch-->
+                                    <t t-set="company_branch" t-value="company_id.branch_no"/>
+                                    <t t-if="company_branch">
+                                        <span t-if="len(company_branch) &gt; 0" t-esc="company_branch[0]" style="position: absolute;left:610px;top: 260px;"/>
+                                        <span t-if="len(company_branch) &gt; 1" t-esc="company_branch[1]" style="position: absolute;left:640px;top: 260px;"/>
+                                        <span t-if="len(company_branch) &gt; 2" t-esc="company_branch[2]" style="position: absolute;left:665px;top: 260px;"/>
+                                        <span t-if="len(company_branch) &gt; 3" t-esc="company_branch[3]" style="position: absolute;left:700px;top: 260px;"/>
+                                        <span t-if="len(company_branch) &gt; 4" t-esc="company_branch[4]" style="position: absolute;left:725px;top: 260px;"/>
+                                    </t>
+
+                                    <!--company_name-->
+                                    <span t-esc="company_id.name" style="position: absolute;left:80px;top: 300px;"/>
+
+                                    <!--company address-->
+                                    <span t-esc="company_id.building" style="position: absolute;left:180px; top:350px;"/>
+                                    <span t-esc="company_id.room_number" style="position: absolute;left:390px; top:350px;"/>
+                                    <span t-esc="company_id.floor_number" style="position: absolute;left:480px; top:350px;"/>
+                                    <span t-esc="company_id.village" style="position: absolute;left:605px;top: 350px;"/>
+
+                                    <span t-esc="company_id.house_number" style="position: absolute;left:125px; top:395px;"/>
+                                    <span t-esc="company_id.moo_number" style="position: absolute;left:300px; top:395px;"/>
+                                    <span t-esc="company_id.soi_number" style="position: absolute;left:500px; top:395px;"/>
+
+                                    <span t-esc="company_id.road" style="position: absolute;left:130px; top:440px;"/>
+                                    <span t-esc="company_id.sub_district" style="position: absolute;left:485px; top:440px;"/>
+
+                                    <span t-esc="company_id.city" style="position: absolute;left:190px;top: 482px;"/>
+                                    <span t-esc="company_id.state_id.name" style="position: absolute;left:520px;top: 482px;"/>
+
+                                    <t t-set="company_code" t-value="company_id.zip"/>
+                                    <t t-if="company_code">
+                                        <span t-if="len(company_code) &gt; 0" t-esc="company_code[0]" style="position:absolute; left:145px; top: 530px;"/>
+                                        <span t-if="len(company_code) &gt; 1" t-esc="company_code[1]" style="position:absolute; left:175px; top: 530px;"/>
+                                        <span t-if="len(company_code) &gt; 2" t-esc="company_code[2]" style="position:absolute; left:205px; top: 530px;"/>
+                                        <span t-if="len(company_code) &gt; 3" t-esc="company_code[3]" style="position:absolute; left:230px; top: 530px;"/>
+                                        <span t-if="len(company_code) &gt; 4" t-esc="company_code[4]" style="position:absolute; left:260px; top: 530px;"/>
+                                    </t>
+
+                                    <span t-esc="company_id.phone" style="position: absolute;left:420px;top: 530px;"/>
+
+                                    <!--sent-->
+                                    <span style="position: absolute;left:120px;top: 635px;">
+                                        <font style="font-size: 30px;">✓</font>
+                                    </span>
+
+                                    <span style="position: absolute;left:290px;top: 710px;">
+                                        <!--<font style="font-size: 30px;">✓</font>-->
+                                    </span>
+
+                                </font>
+                            </td>
+                            <td width="44%" style="position:relative; font-size: 22px;">
+                                <t t-set="month" t-value="0"/>
+                                <t t-if="date_to">
+                                    <t t-set="date" t-value="time.strptime(date_to,'%Y-%m-%d')"/>
+                                    <span style="position:absolute; top:225px; left:485px;" t-esc="date.tm_year + 543"/>
+                                    <t t-set="month" t-value="date.tm_mon"/>
+                                </t>
+                                <!--check-->
+                                <font style="font-size: 40px;">
+                                    <t t-if="month == 1"><span style="position:absolute; top:275px; left:15px;">✓</span></t>
+                                    <t t-if="month == 2"><span style="position:absolute; top:350px; left:15px;">✓</span></t>
+                                    <t t-if="month == 3"><span style="position:absolute; top:415px; left:15px;">✓</span></t>
+
+                                    <t t-if="month == 4"><span style="position:absolute; top:305px; left:145px;">✓</span></t>
+                                    <t t-if="month == 5"><span style="position:absolute; top:360px; left:145px;">✓</span></t>
+                                    <t t-if="month == 6"><span style="position:absolute; top:415px; left:145px;">✓</span></t>
+
+                                    <t t-if="month == 7"><span style="position:absolute; top:305px; left:280px;">✓</span></t>
+                                    <t t-if="month == 8"><span style="position:absolute; top:360px; left:280px;">✓</span></t>
+                                    <t t-if="month == 9"><span style="position:absolute; top:415px; left:280px;">✓</span></t>
+
+                                    <t t-if="month == 10"><span style="position:absolute; top:305px; left:405px;">✓</span></t>
+                                    <t t-if="month == 11"><span style="position:absolute; top:360px; left:405px;">✓</span></t>
+                                    <t t-if="month == 12"><span style="position:absolute; top:415px; left:405px;">✓</span></t>
+                                </font>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div style="font-size: 20px;">
+                        <span style="position: absolute;left:605px;top: 760px;">
+                            <font style="font-size: 30px;">✓</font>
+                        </span>
+                        <span t-esc="pnd['total_item']" style="position: absolute;left:1220px;top: 765px;"/>
+                        <span t-esc="pnd['total_page']" style="position: absolute;left:1220px;top: 825px;"/>
+
+                        <span t-esc="pnd['len_pnd1']" style="position:absolute; right:550px; top:1065px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_amount_pnd1']))" style="position:absolute; right:300px; top:1065px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_wht_amount1']))" style="position:absolute; right:90px; top:1065px;"/>
+
+                        <span t-esc="pnd['len_pnd2']" style="position:absolute; right:550px; top:1160px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_amount_pnd2']))" style="position:absolute; right:300px; top:1160px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_wht_amount2']))" style="position:absolute; right:90px; top:1160px;"/>
+
+                        <span t-esc="pnd['len_pnd3']" style="position:absolute; right:550px; top:1210px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_amount_pnd3']))" style="position:absolute; right:300px; top:1210px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_wht_amount3']))" style="position:absolute; right:90px; top:1210px;"/>
+
+                        <span t-esc="pnd['len_pnd4']" style="position:absolute; right:550px; top:1260px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_amount_pnd4']))" style="position:absolute; right:300px; top:1260px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_wht_amount4']))" style="position:absolute; right:90px; top:1260px;"/>
+
+                        <span t-esc="pnd['len_pnd5']" style="position:absolute; right:550px; top:1310px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_amount_pnd5']))" style="position:absolute; right:300px; top:1310px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_wht_amount5']))" style="position:absolute; right:90px; top:1310px;"/>
+
+                        <span t-esc="pnd['total_item']" style="position:absolute; right:550px; top:1360px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_amount']))" style="position:absolute; right:300px; top:1360px;"/>
+                        <span t-esc="'{0:,.2f}'.format(float(pnd['total_wht_amount']))" style="position:absolute; right:90px; top:1360px;"/>
+                    </div>
+
+                </div>
+
+            </t>
+        </template>
+
+    </data>
+</odoo>
