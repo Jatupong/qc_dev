@@ -356,19 +356,19 @@
                             <td style="border-right:0px solid white;border-left:0px solid white; border-top:1px solid white;">
                                 <!--<div style="width:500px;word-wrap: break-word; height:50px;">-->
 
-                                    <t t-if="o.partner_id">
-                                        <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>
+<!--                                    <t t-if="o.partner_id">-->
+<!--                                        <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
                                         <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
-                                        <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>
-                                        <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;</span>
-                                        <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
-                                        <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
-                                        <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
-                                        <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
-                                        <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
-                                        <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
-                                        <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>
-                                    </t>
+<!--                                        <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>-->
+<!--                                        <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;</span>-->
+<!--                                        <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
+<!--                                        <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
+<!--                                        <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
+<!--                                        <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
+<!--                                        <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
+<!--                                        <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
+<!--                                        <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>-->
+<!--                                    </t>-->
                                 <!--</div>-->
                             </td>
                         </tr>
@@ -499,18 +499,18 @@
                     <!-- unit is mm --> <!-- max height a4 = 297, deduct margin and bottom 100, 50 and left 147, 30px per line then max = 15 line-->
                     <!--t t-set="max_body_line" t-value="15"-->
                     <!-- header of tbody take 2 new light = 15, then 147 - 15 = 132-->
-                    <t t-set="max_body_height" t-value="80"/>
-                    <t t-set="new_line_height" t-value="4"/>
-                    <t t-set="row_line_height" t-value="5"/> <!--- 30px = 7.9375 mm -->
-                    <t t-set="max_line_lenght" t-value="40"/>
+<!--                    <t t-set="max_body_height" t-value="80"/>-->
+<!--                    <t t-set="new_line_height" t-value="4"/>-->
+<!--                    <t t-set="row_line_height" t-value="5"/> &lt;!&ndash;- 30px = 7.9375 mm &ndash;&gt;-->
+<!--                    <t t-set="max_line_lenght" t-value="40"/>-->
                     <!--#############it may reduce to 30 from invoice as 40, due to it has code column-->
 
-                    <t t-set="reconciled_invoice_ids" t-value="o.reconciled_invoice_ids.sorted(key=lambda l: (l.name, l.invoice_date), reverse=False)"/>
-                    <t t-set="break_line" t-value="o.get_break_line_invoice(reconciled_invoice_ids, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
-                    <t t-set="start" t-value="0"/>
-                    <t t-set="end" t-value="0"/>
+<!--                    <t t-set="reconciled_invoice_ids" t-value="o.reconciled_invoice_ids.sorted(key=lambda l: (l.name, l.invoice_date), reverse=False)"/>-->
+<!--                    <t t-set="break_line" t-value="o.get_break_line_invoice(reconciled_invoice_ids, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>-->
+<!--                    <t t-set="start" t-value="0"/>-->
+<!--                    <t t-set="end" t-value="0"/>-->
 
-                    <t t-foreach="range(0,len(break_line),1)" t-as="x">
+<!--                    <t t-foreach="range(0,len(break_line),1)" t-as="x">-->
                         <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:120mm;">
                             <thead>
                                 <tr>
@@ -524,81 +524,81 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <t t-foreach="range(start,break_line[x],1)" t-as="y">
-                                    <t t-if="(y+1)!=(break_line[x])">
+<!--                                <t t-foreach="range(start,break_line[x],1)" t-as="y">-->
+<!--                                    <t t-if="(y+1)!=(break_line[x])">-->
                                         <tr style="height:30px;">
                                             <td align="center">
-                                                <span t-esc="y+1"/>
+<!--                                                <span t-esc="y+1"/>-->
                                             </td>
                                             <td>
 
-                                                <span t-field="o.reconciled_invoice_ids[y].name"/>
+<!--                                                <span t-field="o.reconciled_invoice_ids[y].name"/>-->
                                                 <!--<span t-field="o.line_ids[y].move_id"/>-->
 
                                             </td>
                                             <td align="center">
-                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date"/>
+<!--                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date"/>-->
                                                 <!--<span t-field="o.invoice_line_ids.name"/>-->
                                             </td>
                                             <td align="center">
-                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date_due"/>
+<!--                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date_due"/>-->
                                             </td>
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids[y].amount_total">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>
-                                                </t>
+<!--                                                <t t-if="o.reconciled_invoice_ids[y].amount_total">-->
+<!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>-->
+<!--                                                </t>-->
                                             </td>
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>
-                                                </t>
+<!--                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">-->
+<!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>-->
+<!--                                                </t>-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o._get_invoice_payment_amount(o.reconciled_invoice_ids[y]))))"/>-->
                                                 <!--amount_total_signed-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed_signed(o.reconciled_invoice_ids[y]))))"/>-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>-->
                                             </td>
                                             <td align="right">
-                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>
+<!--                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>-->
                                             </td>
                                         </tr>
-                                    </t>
-                                    <t t-if="(y+1)==(break_line[x])">
+<!--                                    </t>-->
+<!--                                    <t t-if="(y+1)==(break_line[x])">-->
                                         <tr>
                                             <td align="center">
-                                                <span t-esc="y+1"/>
+<!--                                                <span t-esc="y+1"/>-->
                                             </td>
                                             <td>
-                                                <span t-field="o.reconciled_invoice_ids[y].name"/>
+<!--                                                <span t-field="o.reconciled_invoice_ids[y].name"/>-->
                                                 <!--<span t-field="o.move_id[y]"/>-->
                                                 <!--<span t-field="o.line_ids[y].move_id"/>-->
                                             </td>
                                             <td align="center">
-                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date"/>
+<!--                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date"/>-->
                                                 <!--<span t-field="o.invoice_line_ids[y].invoice_date"/>-->
                                             </td>
                                             <td align="center">
-                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date_due"/>
+<!--                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date_due"/>-->
                                             </td>
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids[y].amount_total">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>
-                                                </t>
+<!--                                                <t t-if="o.reconciled_invoice_ids[y].amount_total">-->
+<!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>-->
+<!--                                                </t>-->
                                             </td>
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>
-                                                </t>
+<!--                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">-->
+<!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>-->
+<!--                                                </t>-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o._get_invoice_payment_amount(o.reconciled_invoice_ids[y]))))"/>-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed_signed(o.reconciled_invoice_ids[y]))))"/>-->
                                             </td>
                                             <td align="right">
-                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>
+<!--                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>-->
                                             </td>
                                         </tr>
-                                        <t t-set="end" t-value="(break_line[x])"/>
-                                    </t>
-                                </t>
-                                <t t-set="start" t-value="break_line[x]"/>
+<!--                                        <t t-set="end" t-value="(break_line[x])"/>-->
+<!--                                    </t>-->
+<!--                                </t>-->
+<!--                                <t t-set="start" t-value="break_line[x]"/>-->
                                 <p style="page-break-after:always;"/>
                             </tbody>
                             <tfoot>
@@ -608,22 +608,22 @@
                                             <tr>
 
                                                 <td width="10%">
-                                                    <t t-if="o.currency_id.name == 'THB'">
+<!--                                                    <t t-if="o.currency_id.name == 'THB'">-->
                                                         <span>บาท</span><br/><span>Baht</span>
-                                                    </t>
-                                                    <t t-if="not o.currency_id.name == 'THB'">
-                                                        <span t-field="o.currency_id"/>
-                                                    </t>
+<!--                                                    </t>-->
+<!--                                                    <t t-if="not o.currency_id.name == 'THB'">-->
+<!--                                                        <span t-field="o.currency_id"/>-->
+<!--                                                    </t>-->
                                                 </td>
                                                 <td width="90%" align="center" style="vertical-align: middle;">
-                                                    <t t-if="end ==(break_line[len(break_line)-1])">
-                                                        <t t-if="o.currency_id.name == 'THB'">
-                                                            (<span t-esc="o.baht_text(o.amount)"/>)
-                                                        </t>
+<!--                                                    <t t-if="end ==(break_line[len(break_line)-1])">-->
+<!--                                                        <t t-if="o.currency_id.name == 'THB'">-->
+<!--                                                            (<span t-esc="o.baht_text(o.amount)"/>)-->
+<!--                                                        </t>-->
                                                         <!--                                                        <t t-if="not o.currency_id.name == 'THB'">-->
                                                         <!--                                                            (<span t-esc="o.num2_words(o.amount)"/>)-->
                                                         <!--                                                        </t>-->
-                                                    </t>
+<!--                                                    </t>-->
                                                 </td>
                                             </tr>
                                         </table>
@@ -632,11 +632,11 @@
                                         <span>จำนวนเงินที่ได้รับ</span><br/>
                                     </td>
                                     <td align="right" style="vertical-align: middle;">
-                                        <t t-if="end ==(break_line[len(break_line)-1])">
-                                            <t t-if="o.amount">
-                                                <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>
-                                            </t>
-                                        </t>
+<!--                                        <t t-if="end ==(break_line[len(break_line)-1])">-->
+<!--                                            <t t-if="o.amount">-->
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>-->
+<!--                                            </t>-->
+<!--                                        </t>-->
                                     </td>
                                     <td/>
 
@@ -644,12 +644,12 @@
                                         <!--<td colspan="7" rowspan="4" width="65%" style="text-align:left; font-size:20px; border-right: 1px solid black;line-height:20px;">-->
                                         <td style="text-align:left;font-size:14px;" colspan="7">
                                             <span><B>หมายเหตุ/Remark : </B></span><br/>
-                                            <t t-if="o.remark">
-                                                <span t-field="o.remark"/>
-                                            </t>
-                                            <t t-if="not o.remark">
-                                                <br/>
-                                            </t>
+<!--                                            <t t-if="o.remark">-->
+<!--                                                <span t-field="o.remark"/>-->
+<!--                                            </t>-->
+<!--                                            <t t-if="not o.remark">-->
+<!--                                                <br/>-->
+<!--                                            </t>-->
                                         </td>
                                     </tr>
 
@@ -661,7 +661,7 @@
 
                             </tfoot>
 
-                            <t t-set="start" t-value="break_line[x]"/>
+<!--                            <t t-set="start" t-value="break_line[x]"/>-->
                             <p style="page-break-after:always;"/>
                         </table>
 
@@ -674,22 +674,22 @@
                                         </tr>
                                         <tr style="height:30px;">
                                             <td>
-                                                <t t-if="o.journal_id.type =='cash'">☑</t>
-                                                <t t-else="">☐</t>
+<!--                                                <t t-if="o.journal_id.type =='cash'">☑</t>-->
+<!--                                                <t t-else="">☐</t>-->
                                                 <span>&amp;nbsp;เงินสด </span>
                                             </td>
                                         </tr>
                                         <tr style="height:30px;">
                                             <td>
-                                                <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">☑</t>
-                                                <t t-else="">☐</t>
+<!--                                                <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">☑</t>-->
+<!--                                                <t t-else="">☐</t>-->
                                                 <span>&amp;nbsp;เงินโอน </span>
                                             </td>
                                         </tr>
                                         <tr style="height:30px;">
                                             <td>
-                                                <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque">☑</t>
-                                                <t t-else="">☐</t>
+<!--                                                <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque">☑</t>-->
+<!--                                                <t t-else="">☐</t>-->
                                                 <span>&amp;nbsp;เช็ค </span>
                                             </td>
                                         </tr>
@@ -702,58 +702,60 @@
                                 <td align="center"><span>จำนวนเงิน</span></td>
                             </tr>
                             <tr style="line-height=20px;">
-                                <t t-if="o.journal_id.type =='cash'">
-                                    <td><br/></td>
-                                    <td><br/></td>
-                                    <td><br/></td>
-                                    <td><br/></td>
-                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>
-                                </t>
+<!--                                <t t-if="o.journal_id.type =='cash'">-->
+<!--                                    <td><br/></td>-->
+<!--                                    <td><br/></td>-->
+<!--                                    <td><br/></td>-->
+<!--                                    <td><br/></td>-->
+<!--                                    <td align="right" class="last-page">-->
+<!--                                        <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/>-->
+<!--                                    </td>-->
+<!--                                </t>-->
 
-                                <t t-if="not o.journal_id.type =='cash'">
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                </t>
+<!--                                <t t-if="not o.journal_id.type =='cash'">-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                </t>-->
                             </tr>
                             <tr style="line-height=20px;">
-                                <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">
-                                    <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_id"/><br/></td>-->
-                                    <td align="center" class="last-page"><span>K bank</span><br/></td>
-                                    <td><br/></td>
-                                    <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_account_id"/><br/></td>-->
-                                    <td align="center" class="last-page"><span>0123401234</span><br/></td>
-                                    <td><br/></td>
-                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>
-                                </t>
+<!--                                <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">-->
+<!--                                    &lt;!&ndash;<td align="center" class="last-page"><span t-field="o.journal_id.bank_id"/><br/></td>&ndash;&gt;-->
+<!--                                    <td align="center" class="last-page"><span>K bank</span><br/></td>-->
+<!--                                    <td><br/></td>-->
+<!--                                    &lt;!&ndash;<td align="center" class="last-page"><span t-field="o.journal_id.bank_account_id"/><br/></td>&ndash;&gt;-->
+<!--                                    <td align="center" class="last-page"><span>0123401234</span><br/></td>-->
+<!--                                    <td><br/></td>-->
+<!--                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>-->
+<!--                                </t>-->
 
 
-                                <t t-else="">
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                </t>
+<!--                                <t t-else="">-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                </t>-->
                             </tr>
                             <tr style="line-height=20px;">
-                                <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque">
-                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_bank.name"/><br/></td>
-                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_branch"/><br/></td>
-                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_number"/><br/></td>
-                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_date"/><br/></td>
-                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.cheque_reg_id.amount))"/>&amp;nbsp;<br/></td>
-                                </t>
+<!--                                <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque">-->
+<!--                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_bank.name"/><br/></td>-->
+<!--                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_branch"/><br/></td>-->
+<!--                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_number"/><br/></td>-->
+<!--                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_date"/><br/></td>-->
+<!--                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.cheque_reg_id.amount))"/>&amp;nbsp;<br/></td>-->
+<!--                                </t>-->
 
-                                <t t-else="">
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                    <td><br/> </td>
-                                </t>
+<!--                                <t t-else="">-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                    <td><br/> </td>-->
+<!--                                </t>-->
                             </tr>
 
                             <td colspan="5" align="center">
@@ -782,14 +784,14 @@
                                 </td>
                             </tr>
                         </table>
-                        <t t-if="o.company_id.receipt_no_form">
-                            <div class="font_fam" style="font-size:18px;text-align:right;">
-                                <span t-esc="o.company_id.receipt_no_form"/>
-                            </div>
-                        </t>
+<!--                        <t t-if="o.company_id.receipt_no_form">-->
+<!--                            <div class="font_fam" style="font-size:18px;text-align:right;">-->
+<!--                                <span t-esc="o.company_id.receipt_no_form"/>-->
+<!--                            </div>-->
+<!--                        </t>-->
 
 
-                    </t>
+<!--                    </t>-->
                 </div>
 
                 <div class="footer">
