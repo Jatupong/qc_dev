@@ -23,6 +23,7 @@
         'report/receipt_report.xml',
         'report/report_reg.xml',
         'report/payment_receipt_dot.xml',
+        'report/receipt_tax_invoice_report.xml',
 
     ],
     'qweb': [],
