@@ -435,27 +435,27 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <B><span>ที่อยู่จัดส่ง<br/>Delivery Address</span></B>
-                                            </td>
-                                            <td>
-                                                <div style="width:500px; word-wrap: break-word;">
-                                                    <!--                                                    <span t-field="o.partner_shipping_id"/>&amp;nbsp;-->
-                                                    <!--<t t-set="partner_address" t-value="o.partner_shipping_id.get_partner_full_address()"/>-->
-                                                    <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
-                                                    <span t-if="o.partner_shipping_id.street"><span t-field="o.partner_shipping_id.street"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_shipping_id.street2"><span t-field="o.partner_shipping_id.street2"/>&amp;nbsp;<br/></span>
-<!--                                                    <span t-if="o.partner_shipping_id.sub_district_id.name and o.partner_shipping_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_shipping_id.sub_district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_shipping_id.sub_district_id.name and o.partner_shipping_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_shipping_id.sub_district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_shipping_id.district_id.name and o.partner_shipping_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_shipping_id.district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_shipping_id.district_id.name and o.partner_shipping_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_shipping_id.district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_shipping_id.state_id.name and o.partner_shipping_id.state_id.code == 'BKK'"><span t-field="o.partner_shipping_id.state_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_shipping_id.state_id.name and o.partner_shipping_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_shipping_id.state_id.name"/>&amp;nbsp;</span>-->
-                                                    <span t-if="o.partner_shipping_id.zip"><span t-esc="o.partner_shipping_id.zip"/>&amp;nbsp;</span>
-                                                </div>
-                                            </td>
-                                        </tr>
+<!--                                        <tr>-->
+<!--                                            <td>-->
+<!--                                                <B><span>ที่อยู่จัดส่ง<br/>Delivery Address</span></B>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <div style="width:500px; word-wrap: break-word;">-->
+<!--                                                    &lt;!&ndash;                                                    <span t-field="o.partner_shipping_id"/>&amp;nbsp;&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;<t t-set="partner_address" t-value="o.partner_shipping_id.get_partner_full_address()"/>&ndash;&gt;-->
+<!--                                                    &lt;!&ndash;<span t-esc="' '.join([ address for address in partner_address ])"/>&ndash;&gt;-->
+<!--                                                    <span t-if="o.partner_shipping_id.street"><span t-field="o.partner_shipping_id.street"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_shipping_id.street2"><span t-field="o.partner_shipping_id.street2"/>&amp;nbsp;<br/></span>-->
+<!--&lt;!&ndash;                                                    <span t-if="o.partner_shipping_id.sub_district_id.name and o.partner_shipping_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_shipping_id.sub_district_id.name"/>&amp;nbsp;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span t-if="o.partner_shipping_id.sub_district_id.name and o.partner_shipping_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_shipping_id.sub_district_id.name"/>&amp;nbsp;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span t-if="o.partner_shipping_id.district_id.name and o.partner_shipping_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_shipping_id.district_id.name"/>&amp;nbsp;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span t-if="o.partner_shipping_id.district_id.name and o.partner_shipping_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_shipping_id.district_id.name"/>&amp;nbsp;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span t-if="o.partner_shipping_id.state_id.name and o.partner_shipping_id.state_id.code == 'BKK'"><span t-field="o.partner_shipping_id.state_id.name"/>&amp;nbsp;</span>&ndash;&gt;-->
+<!--&lt;!&ndash;                                                    <span t-if="o.partner_shipping_id.state_id.name and o.partner_shipping_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_shipping_id.state_id.name"/>&amp;nbsp;</span>&ndash;&gt;-->
+<!--                                                    <span t-if="o.partner_shipping_id.zip"><span t-esc="o.partner_shipping_id.zip"/>&amp;nbsp;</span>-->
+<!--                                                </div>-->
+<!--                                            </td>-->
+<!--                                        </tr>-->
                                     </table>
                                 </td>
                                 <td width="25%" style=" border-left:1px solid black; padding-top:10px; line-height:18px; vertical-align: top;">
@@ -473,26 +473,26 @@
                             </tr>
                         </table>
 
-                        <table width="100%" class="font_fam" style="font-size: 14px; line-height:18px; margin-top:10px;border:1px solid white;">
-                            <tr>
-                                <td style="text-align: center">
-                                    <span><B>อ้างอิง<br/>Reference</B></span><br/>
-                                    <span t-field="o.invoice_origin"/>
-                                </td>
-                                <td style="text-align: center">
-                                    <span><B>เงื่อนไขการชำระเงิน<br/>Term of Payment</B></span><br/>
-                                    <t t-if="o.invoice_payment_term_id">
-                                        <span t-field="o.invoice_payment_term_id"/>
-                                    </t>
-                                </td>
-                                <td style="text-align: center">
-                                    <span><B>พนักงานขาย<br/>Salesperson</B></span><br/>
-                                    <t t-if="o.invoice_user_id">
-                                        <span t-field="o.invoice_user_id"/>
-                                    </t>
-                                </td>
-                            </tr>
-                        </table>
+<!--                        <table width="100%" class="font_fam" style="font-size: 14px; line-height:18px; margin-top:10px;border:1px solid white;">-->
+<!--                            <tr>-->
+<!--                                <td style="text-align: center">-->
+<!--                                    <span><B>อ้างอิง<br/>Reference</B></span><br/>-->
+<!--                                    <span t-field="o.invoice_origin"/>-->
+<!--                                </td>-->
+<!--                                <td style="text-align: center">-->
+<!--                                    <span><B>เงื่อนไขการชำระเงิน<br/>Term of Payment</B></span><br/>-->
+<!--                                    <t t-if="o.invoice_payment_term_id">-->
+<!--                                        <span t-field="o.invoice_payment_term_id"/>-->
+<!--                                    </t>-->
+<!--                                </td>-->
+<!--                                <td style="text-align: center">-->
+<!--                                    <span><B>พนักงานขาย<br/>Salesperson</B></span><br/>-->
+<!--                                    <t t-if="o.invoice_user_id">-->
+<!--                                        <span t-field="o.invoice_user_id"/>-->
+<!--                                    </t>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
 
                     </div>
 
