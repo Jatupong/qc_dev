@@ -821,7 +821,7 @@
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(ori_amount_untaxed)))"/>-->
                                                 <!--</t>-->
                                                 <!--amount_untaxed-->
-                                                <t t-set="ori_amount_untaxed" t-value="o.debit_origin_id.amount_untaxed"/>
+                                                <t t-set="ori_amount_untaxed" t-value="o.debit_origin_id.inv_amount_untaxed"/>
                                                 <!--<t t-set="amount_untaxed_1" t-value="o.debit_origin_id.amount_untaxed"/>-->
                                                 <span t-esc="'{0:,.2f}'.format(abs(float(ori_amount_untaxed)))"/>
 
