@@ -114,14 +114,14 @@
                                         <t t-if="o.partner_id">
                                             <span t-field="o.partner_id.name"/>
                                         </t>
-                                        <t t-if="o.contact_id">
-                                            <span t-field="o.contact_id.name"/>
-                                        </t>
-                                        <t t-if="not o.contact_id">
-                                            <t t-foreach="o.line_ids.partner_id" t-as="new">
-                                                <span t-field="new.name"/>,&amp;nbsp;
-                                            </t>
-                                        </t>
+<!--                                        <t t-if="o.contact_id">-->
+<!--                                            <span t-field="o.contact_id.name"/>-->
+<!--                                        </t>-->
+<!--                                        <t t-if="not o.contact_id">-->
+<!--                                            <t t-foreach="o.line_ids.partner_id" t-as="new">-->
+<!--                                                <span t-field="new.name"/>,&amp;nbsp;-->
+<!--                                            </t>-->
+<!--                                        </t>-->
                                         <span>
                                             <t t-if="o.partner_id.branch_no">
                                                 <t t-if="o.partner_id.branch_no == '00000'">
