@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="return_in_report_id">
+        <link rel='stylesheet' href="/itaas_print_inventory_report/static/src/css/report_style.css"/>
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+
+                <style>
+                    table.table-bordered{
+                    border:1px solid black;
+                    width: 100%;
+                    }
+                    table.table-bordered &gt; thead &gt; tr &gt; th{
+                    border:1px solid black;
+                    padding:3px;
+                    }
+                    table.table-bordered &gt; thead &gt; tr &gt; td{
+                    border:1px solid black;
+                    padding:3px;
+                    }
+                    table.table-bordered &gt; tbody &gt; tr &gt; td{
+                    border:1px solid black;
+                    padding:3px;
+                    height:35px;
+                    }
+                    table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                    border:1px solid black;
+                    padding:3px;
+                    }
+                    table.table-nobordered{
+                    margin:0px;
+                    margin-top:0px;
+                    margin-bottom:0px;
+                    width: 100%;
+                    }
+                    table.table-nobordered &gt; thead &gt; tr &gt; th{
+                    border:1px solid white;
+                    padding:0px;
+                    }
+                    table.table-nobordered &gt; thead &gt; tr &gt; td{
+                    border:1px solid white;
+                    padding:0px;
+                    }
+                    table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                    border:1px solid white;
+                    padding:0px;
+                    }
+                    table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                    border:1px solid white;
+                    padding:0px;
+                    }
+
+                    table.table-bordered-b {
+                    padding:3px;
+                    }
+                    table.table-bordered-b &gt; thead &gt; tr &gt; th{
+                    border-bottom:1px solid black;
+                    text-align:center;
+                    padding:3px;
+                    }
+                    table.table-bordered-b &gt; tbody &gt; tr &gt; td{
+                    border: 0px solid white;
+                    border-bottom:1px solid #cccccc;
+                    padding:3px;
+                    }
+                    table.table-bordered-b &gt; tfoot &gt; tr &gt; td{
+                    border-bottom:1px solid black;
+                    padding:3px;
+                    }
+
+                    table.table-nobordered-b{
+                    margin:0px;
+                    width: 100%;
+                    }
+                    table.table-nobordered-b &gt; thead &gt; tr &gt; th{
+                    border:1px solid white;
+                    padding:0px;
+                    }
+                    table.table-nobordered-b &gt; thead &gt; tr &gt; td{
+                    border:1px solid white;
+                    padding:0px;
+                    }
+                    table.table-nobordered-b &gt; tbody &gt; tr &gt; td{
+                    border:1px solid white;
+                    padding:0px;
+                    }
+                    table.table-nobordered-b &gt; tfoot &gt; tr &gt; td{
+                    border:1px solid white;
+                    padding:0px;
+                    }
+                    .word_wrap{
+                    word-wrap: break-word;
+                    <!--background-color:#cccccc;-->
+                    }
+                    .td_top{
+                    border-top:#000 solid 1px;
+                    }
+                    .td_left{
+                    border-left:#000 solid 1px;
+                    }
+                    .td_right{
+                    border-right:#000 solid 1px;
+                    }
+                    .td_bott{
+                    border-bottom:#000 solid 1px;
+                    }
+                </style>
+
+                <div class="header">
+                    <table width="100%" class="font_fam">
+                        <td width="20%" style="vertical-align: middle;">
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:150px; max-width:150px;" alt="Logo"/>
+                        </td>
+                        <td width="55%" style="vertical-align: middle;">
+                            <div style="width:500px; word-wrap: break-word;">
+                                <font class="font_size_20">
+                                    <p>
+                                        <B>
+                                            <span t-field="o.company_id.name"/>&amp;nbsp;
+                                            <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>
+                                            <t t-if="o.company_id.branch_no and o.company_id.branch_no != '00000'">(<span t-field="o.company_id.branch_no"/>)</t>
+                                        </B>
+                                    </p>
+                                    <p>
+                                        <B t-if="o.company_id.english_name">
+                                            <br/>
+                                            <span t-field="o.company_id.eng_name"/>&amp;nbsp;
+                                            <t t-if="o.company_id.branch_no == '00000'"><span>(Head office)</span><br/></t>
+                                            <t t-if="o.company_id.branch_no and o.company_id.branch_no != '00000'">(<span t-field="o.company_id.branch_no"/>)</t>
+                                        </B>
+                                    </p>
+                                </font>
+                                <font class="font_size_18">
+                                    <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.street2"><br/><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.state_id"><span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.english_address"><br/><span t-field="o.company_id.english_address"/></span>
+                                    <span t-if="o.company_id.phone"><br/>Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.email"><br/>Email&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.website"><br/>Website&amp;nbsp;<span t-esc="o.company_id.website"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.vat"><br/>เลขประจำตัวผู้เสียภาษี&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;</span>
+                                </font>
+                            </div>
+                        </td>
+                        <td width="25%" style="text-align:center; vertical-align: middle;">
+                            <div class="font_size_20">
+                                <strong>ใบรับสินค้าคืน</strong>
+                            </div>
+                            <div class="font_size_18">
+                                <span>Page </span><span class="page"/> / <span class="topage"/>
+                            </div>
+                        </td>
+                    </table>
+
+                    <table width="100%" class="font_fam table table-bordered font_size_16" style="margin-top:10px;">
+                        <tr>
+                            <td width="50%">
+                                <table width="100%" class="table table-nobordered">
+                                    <tr>
+                                        <td width="40%"><strong>Supplier</strong></td>
+                                        <td width="60%">: <span t-field="o.partner_id"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Date</strong></td>
+                                        <td>:
+                                            <span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="50%">
+                                <table width="100%" class="table table-nobordered">
+                                    <tr>
+                                        <td width="40%"><strong>No.</strong></td>
+                                        <td width="60%">: <span t-field="o.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Ref.</strong></td>
+                                        <td>: <span t-field="o.origin"/></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div class="page">
+
+                    <t t-if="o.move_line_nosuggest_ids">
+                        <t t-set="move_line" t-value="o.move_line_nosuggest_ids"/>
+                    </t>
+                    <t t-else="">
+                        <t t-set="move_line" t-value="o.move_line_ids"/>
+                    </t>
+
+                    <t t-set="num" t-value="0"/>
+
+                    <table class="table table-bordered-b font_fam font_size_16">
+                        <thead>
+                            <tr>
+                                <th width="5%">No.</th>
+                                <th width="10%">Code</th>
+                                <th width="30%">Product</th>
+                                <th width="13%">Location</th>
+                                <th width="8%">Quantity</th>
+                                <th width="10%">Unit</th>
+                                <th width="13%">Lot No.</th>
+                                <th width="11%">Tax Invoice</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="move_line" t-as="line">
+                                <tr>
+                                    <td align="center">
+                                        <t t-set="num" t-value="num+1"/>
+                                    </td>
+                                    <td align="center">
+                                        <div class="word_wrap">
+                                            <span t-field="line.product_id.code"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="word_wrap">
+                                            <span t-if="line.move_id.description_picking" t-field="line.move_id.description_picking"/>
+                                            <span t-else="" t-field="line.product_id.name"/>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div class="word_wrap">
+                                            <span t-field="line.location_dest_id.name"/>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div class="word_wrap">
+                                            <span t-field="line.qty_done"/>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div class="word_wrap">
+                                            <span t-field="line.product_uom_id"/>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div class="word_wrap">
+                                            <span t-if="line.lot_id" t-field="line.lot_id"/>
+                                            <span t-else="" t-field="line.lot_name"/>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div class="word_wrap">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="8">
+                                    <strong>Remark :</strong>
+                                    <t t-if="o.note">
+                                        <span>&amp;nbsp;</span>
+                                        <span t-field="o.note"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+                <div class="footer">
+
+                    <div class="last-page row">
+                        <table class="font_fam font_size_16 table table-bordered">
+                            <tr>
+                                <td align="center">
+                                    <div style="width:100%; height:90px; position:relative; border-bottom:1px solid black;">
+                                    </div>
+                                    <div>
+                                        <span>ผู้ส่งคืน (ลูกค้า)</span><br/>
+                                        <span>วันที่ _________/_________/________</span>
+                                    </div>
+                                </td>
+                                <td align="center">
+                                    <div style="width:100%; height:90px; position:relative; border-bottom:1px solid black;">
+                                    </div>
+                                    <div>
+                                        <span>ผู้ตรวจรับคืน (บริษัท)</span><br/>
+                                        <span>วันที่ _________/_________/________</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <B>หมายเหตุ</B><br/>
+                                    <span>จำนวนที่รับคืน </span><br/>
+                                    <span>(  )   ถูกต้อง</span><br/>
+                                    <span>(  )   ไม่ถูกต้อง</span><br/>
+                                    <span>เกินไป/ขาดไป  __________________</span>
+                                </td>
+                                <td>
+                                    <B>รับคืนเพื่อ</B><br/>
+                                    <span>(  )   หักบัญชีตามใบลดหนี้</span><br/>
+                                    <span>(  )   เปลี่ยนสินค้าใหม่ให้แทน</span><br/>
+                                    <span>(  )   แก้ไข</span><br/>
+                                    <span>(  )   อื่นๆ..............................................</span>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="col-12 font_fam font_size_10" style="text-align:right;">
+                            <t t-if="o.company_id.return_in_form">
+                                <span t-esc="o.company_id.return_in_form"/>
+                            </t>
+                        </div>
+                    </div>
+
+                </div>
+
+            </t>
+        </t>
+    </template>
+
+    <record id="paperformat_A4_Five_Margin_return_in" model="report.paperformat">
+        <field name="name">A4_Five_Margin_return_in</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">70</field>
+        <field name="margin_bottom">82</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">65</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report
+            id="return_in_report"
+            model="stock.picking"
+            menu="True"
+            report_type="qweb-pdf"
+            string="ใบรับคืนสินค้า"
+            paperformat="paperformat_A4_Five_Margin_return_in"
+            name="itaas_print_inventory_report.return_in_report_id"
+            file="itaas_print_inventory_report.return_in_report_id"
+    />
+
+</odoo>
