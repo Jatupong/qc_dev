@@ -721,8 +721,8 @@
                                                     <B><span>ตามใบแจ้งหนี้เลขที่ &amp;nbsp;</span></B>
                                                     <t t-if="end ==(break_line[len(break_line)-1])">
                                                                                                                 <t t-if="o.is_manual_cn">
-                                                                                                                    <!--<span t-field="o.inv_ref"/>-->
-                                                                                                                    <span t-field="o.debit_origin_id.name"/>
+                                                                                                                    <span t-field="o.inv_ref"/>
+<!--                                                                                                                    <span t-field="o.debit_origin_id.name"/>-->
 
                                                                                                                 </t>
                                                                                                                 <t t-if="not o.is_manual_cn">
@@ -734,8 +734,8 @@
                                                     <B><span>ตามใบแจ้งหนี้วันที่ &amp;nbsp;</span></B>
                                                     <t t-if="end ==(break_line[len(break_line)-1])">
                                                                                                                 <t t-if="o.is_manual_cn">
-                                                                                                                    <!--<span t-field="o.inv_reference_date"/>-->
-                                                                                                                    <span t-field="o.debit_origin_id.invoice_date"/>
+                                                                                                                    <span t-field="o.inv_reference_date"/>
+<!--                                                                                                                    <span t-field="o.debit_origin_id."/>-->
                                                                                                                 </t>
                                                                                                                 <t t-if="not o.is_manual_cn">
                                                         <!--<span t-field="o.reversed_entry_id.invoice_date"/>-->
