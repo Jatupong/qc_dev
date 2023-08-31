@@ -590,7 +590,7 @@
                         <td width="25%" style="text-align:left; vertical-align: middle;">
                             <div style="text-align:center;">
                                 <font style="font-size: 24px;">
-                                    <strong>ใบส่งสินค้า</strong><br/>
+                                    <strong>ใบจ่ายสินค้า</strong><br/>
                                     <span>Delivery Note</span>
                                 </font><br/>
                                 <font style="font-size: 18px;">
@@ -903,7 +903,7 @@
             model="stock.picking"
             menu="True"
             report_type="qweb-pdf"
-            string="Delivery Note"
+            string="ใบจ่ายสินค้า"
             paperformat="paperformat_A4_Five_Margin_delivery"
             name="itaas_print_inventory_report.delivery_report_id"
             file="itaas_print_inventory_report.delivery_report_id"
