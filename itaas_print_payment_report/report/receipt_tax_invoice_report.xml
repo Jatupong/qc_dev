@@ -779,7 +779,7 @@
                                         <td t-att-colspan="colspan_foot" rowspan="2">
                                             <table width="100%">
                                                 <tr>
-                                                <td width="50%">
+                                                <td width="50%" style="border: 1px solid white">
                                                 <strong>ใบเสร็จรับเงินนี้สมบูรณ์ต่อเมื่อได้</strong>
 <!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>-->
 <!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/>-->
@@ -788,7 +788,7 @@
                                                 <br/>
                                                 <strong>เรียบร้อยแล้ว</strong>
                                                 </td>
-                                                <td width="50%">
+                                                <td width="50%" style="border: 1px solid white">
                                                 <strong>This receipt is valid only transaction</strong>
 <!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>-->
 <!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/>-->
