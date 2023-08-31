@@ -10,3 +10,5 @@ class ResUser(models.Model):
     _inherit = 'res.users'
 
     image_signature = fields.Binary('Image')
+
+
