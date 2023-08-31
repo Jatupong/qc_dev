@@ -425,12 +425,12 @@
                                                     <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
                                                     <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>
                                                     <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>
-                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+<!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
                                                     <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>
                                                     <!--</t>-->
                                                 </div>
@@ -447,12 +447,12 @@
                                                     <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
                                                     <span t-if="o.partner_shipping_id.street"><span t-field="o.partner_shipping_id.street"/>&amp;nbsp;</span>
                                                     <span t-if="o.partner_shipping_id.street2"><span t-field="o.partner_shipping_id.street2"/>&amp;nbsp;<br/></span>
-                                                    <span t-if="o.partner_shipping_id.sub_district_id.name and o.partner_shipping_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_shipping_id.sub_district_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_shipping_id.sub_district_id.name and o.partner_shipping_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_shipping_id.sub_district_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_shipping_id.district_id.name and o.partner_shipping_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_shipping_id.district_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_shipping_id.district_id.name and o.partner_shipping_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_shipping_id.district_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_shipping_id.state_id.name and o.partner_shipping_id.state_id.code == 'BKK'"><span t-field="o.partner_shipping_id.state_id.name"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_shipping_id.state_id.name and o.partner_shipping_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_shipping_id.state_id.name"/>&amp;nbsp;</span>
+<!--                                                    <span t-if="o.partner_shipping_id.sub_district_id.name and o.partner_shipping_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_shipping_id.sub_district_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_shipping_id.sub_district_id.name and o.partner_shipping_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_shipping_id.sub_district_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_shipping_id.district_id.name and o.partner_shipping_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_shipping_id.district_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_shipping_id.district_id.name and o.partner_shipping_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_shipping_id.district_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_shipping_id.state_id.name and o.partner_shipping_id.state_id.code == 'BKK'"><span t-field="o.partner_shipping_id.state_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_shipping_id.state_id.name and o.partner_shipping_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_shipping_id.state_id.name"/>&amp;nbsp;</span>-->
                                                     <span t-if="o.partner_shipping_id.zip"><span t-esc="o.partner_shipping_id.zip"/>&amp;nbsp;</span>
                                                 </div>
                                             </td>
@@ -785,7 +785,7 @@
                                             <!--                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(amount_untaxed_after_discounted_amount))"/>-->
                                             <t t-if="end ==(break_line[len(break_line)-1])">
                                                 <t t-if="o.currency_id.name == 'THB'">
-                                                    <span t-esc="'{0:,.2f}'.format(float(o.amount_untaxed_after_discounted_amount))"/>
+<!--                                                    <span t-esc="'{0:,.2f}'.format(float(o.amount_untaxed_after_discounted_amount))"/>-->
                                                 </t>
                                                 <t t-if="not o.currency_id.name == 'THB'">
                                                     <span t-esc="'{0:,.2f}'.format(float(o.amount_total))"/>
