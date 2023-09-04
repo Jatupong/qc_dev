@@ -805,7 +805,7 @@
                                             </t>
                                         </td>
                                     </tr>
-                                    <tr style="height:30px;">
+                                   <tr style="height:30px;">
                                         <td colspan="2">
                                             <B>
                                                 <span>มูลค่าตามใบแจ้งหนี้เดิม</span><br/>
@@ -813,18 +813,13 @@
                                         </td>
                                         <td style="text-align: right">
                                             <t t-if="end ==(break_line[len(break_line)-1])">
-                                                <!--<t t-if="o.is_manual_cn">-->
-                                                <!--    <span t-esc="'{0:,.2f}'.format(abs(float(o.inv_amount_untaxed)))"/>-->
-                                                <!--</t>-->
-                                                <!--<t t-if="not o.is_manual_cn">-->
-                                                <!--<t t-set="ori_amount_untaxed" t-value="o.reversed_entry_id.amount_untaxed"/>-->
-                                                <!--<span t-esc="'{0:,.2f}'.format(abs(float(ori_amount_untaxed)))"/>-->
-                                                <!--</t>-->
-                                                <!--amount_untaxed-->
-                                                <t t-set="ori_amount_untaxed" t-value="o.debit_origin_id.inv_amount_untaxed"/>
-                                                <!--<t t-set="amount_untaxed_1" t-value="o.debit_origin_id.amount_untaxed"/>-->
+                                                <t t-if="o.is_manual_cn">
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.inv_amount_untaxed)))"/>
+                                                </t>
+                                                <t t-if="not o.is_manual_cn">
+                                                <t t-set="ori_amount_untaxed" t-value="o.reversed_entry_id.amount_untaxed"/>
                                                 <span t-esc="'{0:,.2f}'.format(abs(float(ori_amount_untaxed)))"/>
-
+                                                </t>
                                             </t>
                                         </td>
                                     </tr>
@@ -836,17 +831,18 @@
                                         </td>
                                         <td style="text-align: right">
                                             <t t-if="end ==(break_line[len(break_line)-1])">
-                                                <!--<t t-if="o.is_manual_cn">-->
-                                                <!--    <span t-esc="'{0:,.2f}'.format(abs(float(o.untaxed_amount_after_discount - o.inv_amount_untaxed)))"/>-->
-                                                <!--</t>-->
-                                                <!--<t t-if="not o.is_manual_cn">-->
-                                                <t t-if="o.currency_id.name == 'THB'">
-                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed + ori_amount_untaxed)))"/>
+                                              <t t-if="o.currency_id.name == 'THB'">
+                                                <t t-if="o.is_manual_cn">
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed - o.inv_amount_untaxed)))"/>
                                                 </t>
-                                                <t t-if="not o.currency_id.name == 'THB'">
-                                                <span t-esc="'{0:,.2f}'.format(float(amount_price_subtotal))"/>
+                                                <t t-if="not o.is_manual_cn">
+                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed - ori_amount_untaxed)))"/>
+                                                </t>
                                               </t>
-                                                <!--</t>-->
+                                              <t t-if="not o.currency_id.name == 'THB'">
+                                                <span t-esc="'{0:,.2f}'.format(float(amount_price_subtotal))"/>
+
+                                                </t>
                                             </t>
                                         </td>
                                     </tr>
