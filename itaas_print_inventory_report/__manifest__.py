@@ -16,6 +16,7 @@
                     - Receipt Note Report
                     - ใบส่งคืนสินค้า
                     - ใบรับคืนสินค้า
+                    - ใบเบิกพัสดุ
                     """,
     'author': 'IT as a Service Co., Ltd.',
     'website': 'www.itaas.co.th',
@@ -31,6 +32,7 @@
         'report/product_bill_report.xml',
         'report/product_bill_report06.xml',
         'report/product_bill_report03.xml',
+        'report/bill_of_lading.xml',
 
         'wizard/stock_count_wizard_view.xml',
         'report/stock_count_report.xml',
