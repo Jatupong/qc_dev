@@ -620,9 +620,9 @@
 <!--                                                        <t t-if="o.currency_id.name == 'THB'">-->
 <!--                                                            (<span t-esc="o.baht_text(o.amount)"/>)-->
 <!--                                                        </t>-->
-                                                        <!--                                                        <t t-if="not o.currency_id.name == 'THB'">-->
-                                                        <!--                                                            (<span t-esc="o.num2_words(o.amount)"/>)-->
-                                                        <!--                                                        </t>-->
+<!--                                                                                                                <t t-if="not o.currency_id.name == 'THB'">-->
+<!--                                                                                                                    (<span t-esc="o.num2_words(o.amount)"/>)-->
+<!--                                                                                                                </t>-->
 <!--                                                    </t>-->
                                                 </td>
                                             </tr>
@@ -702,60 +702,60 @@
                                 <td align="center"><span>จำนวนเงิน</span></td>
                             </tr>
                             <tr style="line-height=20px;">
-<!--                                <t t-if="o.journal_id.type =='cash'">-->
-<!--                                    <td><br/></td>-->
-<!--                                    <td><br/></td>-->
-<!--                                    <td><br/></td>-->
-<!--                                    <td><br/></td>-->
-<!--                                    <td align="right" class="last-page">-->
-<!--                                        <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/>-->
-<!--                                    </td>-->
-<!--                                </t>-->
+                                <t t-if="o.journal_id.type =='cash'">
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                    <td align="right" class="last-page">
+                                        <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/>
+                                    </td>
+                                </t>
 
-<!--                                <t t-if="not o.journal_id.type =='cash'">-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                </t>-->
+                                <t t-if="not o.journal_id.type =='cash'">
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                </t>
                             </tr>
                             <tr style="line-height=20px;">
-<!--                                <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">-->
-<!--                                    &lt;!&ndash;<td align="center" class="last-page"><span t-field="o.journal_id.bank_id"/><br/></td>&ndash;&gt;-->
-<!--                                    <td align="center" class="last-page"><span>K bank</span><br/></td>-->
-<!--                                    <td><br/></td>-->
-<!--                                    &lt;!&ndash;<td align="center" class="last-page"><span t-field="o.journal_id.bank_account_id"/><br/></td>&ndash;&gt;-->
-<!--                                    <td align="center" class="last-page"><span>0123401234</span><br/></td>-->
-<!--                                    <td><br/></td>-->
-<!--                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>-->
-<!--                                </t>-->
+                                <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">
+                                    <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_id"/><br/></td>-->
+                                    <td align="center" class="last-page"><span>K bank</span><br/></td>
+                                    <td><br/></td>
+                                    <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_account_id"/><br/></td>-->
+                                    <td align="center" class="last-page"><span>0123401234</span><br/></td>
+                                    <td><br/></td>
+                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>
+                                </t>
 
 
-<!--                                <t t-else="">-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                </t>-->
+                                <t t-else="">
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                </t>
                             </tr>
                             <tr style="line-height=20px;">
-<!--                                <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque">-->
-<!--                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_bank.name"/><br/></td>-->
-<!--                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_branch"/><br/></td>-->
-<!--                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_number"/><br/></td>-->
-<!--                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_date"/><br/></td>-->
-<!--                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.cheque_reg_id.amount))"/>&amp;nbsp;<br/></td>-->
-<!--                                </t>-->
+                                <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque">
+                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_bank.name"/><br/></td>
+                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_branch"/><br/></td>
+                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_number"/><br/></td>
+                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_date"/><br/></td>
+                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.cheque_reg_id.amount))"/>&amp;nbsp;<br/></td>
+                                </t>
 
-<!--                                <t t-else="">-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                    <td><br/> </td>-->
-<!--                                </t>-->
+                                <t t-else="">
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                </t>
                             </tr>
 
                             <td colspan="5" align="center">
