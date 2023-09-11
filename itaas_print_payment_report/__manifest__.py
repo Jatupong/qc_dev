@@ -19,11 +19,12 @@
     'depends': ['account', 'itaas_company_detail_address'],
     'data': [
 
-        # 'report/tax_invoice_receipt_report.xml',
+        'report/tax_invoice_receipt_report.xml',
         'report/receipt_report.xml',
         'report/report_reg.xml',
         'report/payment_receipt_dot.xml',
         'report/receipt_tax_invoice_report.xml',
+
 
     ],
     'qweb': [],
