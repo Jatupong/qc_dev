@@ -764,10 +764,10 @@
                                                                 </t>
                                                             </t>
                                                         </t>
-                                                        <t t-if="not o.ref">
-                                                            <span t-field="o.narration"/>
+<!--                                                        <t t-if="not o.ref">-->
+<!--                                                            <span t-field="o.narration"/>-->
 
-                                                        </t>
+<!--                                                        </t>-->
                                                     </t>
                                                     <br/>
 
