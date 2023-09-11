@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="bill_of_lading_id" >
-
-<t t-name="itaas_print_inventory_report.bill_of_lading_id">
+    <template id="bill_of_lading_id">
         <t t-foreach="docs" t-as="o">
             <t t-call="web.basic_layout">
                 <div class="header" style="position: relative;">
@@ -42,8 +40,8 @@
                             </td>
                             <td width="75%" style="vertical-align: middle;">
                                 <div style="width:500px; word-wrap: break-word;">
-                                    <font style="font-size: 22px;">
-                                        <font style="font-size: 20px;">
+                                    <font style="font-size: 16px;">
+                                        <font style="font-size: 16px;">
                                             <span t-field="o.company_id.name"/>&amp;nbsp;
                                             <t t-if="o.company_id.branch_no == '00000'">
                                                 <span>(สำนักงานใหญ่)</span>
@@ -88,7 +86,7 @@
                         </font>
                     </div>
 
-                    <table width="100%" style="font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:16px; line-height:25px; margin-top:30px">
+                    <table width="100%" style="font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:16px; line-height:25px; margin-top:25px">
                         <tr>
                             <td width="70%">
                                 <table width="100%">
@@ -158,12 +156,12 @@
                     <table width="100%" class="table table-bordered" style="position:absolute; top:320px; height:138mm; font-size:20px; font-family:TH SarabunPSK;                            src:url(/itaas_print_inventory_report/static/THSarabun.ttf);">
                         <thead>
                             <tr>
-                                <th width="5%">ลำดับ<br/>No.</th>
-                                <th width="40%">รายการ<br/>Descritption</th>
-                                <th width="15%">จำนวน<br/>Quantity</th>
-                                <th width="15%">ราคา<br/>Unit Price</th>
-                                <th width="10%">ส่วนลด<br/>Discount</th>
-                                <th width="15%">จำนวนเงิน<br/>Amount</th>
+                                <th width="5%">ลำดับ</th>
+                                <th width="40%">รายการ</th>
+                                <th width="15%">จำนวน</th>
+                                <th width="15%">หน่วย</th>
+                                <th width="10%">Lot No.</th>
+                                <th width="15%">จำนวนเงิน</th>
                             </tr>
                         </thead>
                         <tbody class="sale_tbody">
@@ -309,37 +307,32 @@
 
             </t>
         </t>
-    </t>
     </template>
 
-    <odoo>
-    <data>
-        <record id="paperformat_A4_Zero_Margin_product_bill06" model="report.paperformat">
-            <field name="name">Bill of Lading</field>
-            <field name="default" eval="False"/>
-            <field name="format">A4</field>
-            <field name="orientation">Portrait</field>
-            <field name="margin_top">75</field>
-            <field name="margin_bottom">55</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">70</field>
-            <field name="dpi">90</field>
-        </record>
+    <record id="paperformat_A4_Zero_Margin_product_bill06" model="report.paperformat">
+        <field name="name">A4_Zero_Margin_product_bill06</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">75</field>
+        <field name="margin_bottom">55</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">70</field>
+        <field name="dpi">90</field>
+    </record>
 
-        <report
-                id="bill_of_lading"
-                model="stock.picking"
-                menu="True"
-                report_type="qweb-pdf"
-                string="ใบเบิกพัสดุ"
-                paperformat="paperformat_Letter_Zero_Margin_product_bill02"
-                name="itaas_print_inventory_report.bill_of_lading_id"
-                file="itaas_print_inventory_report.bill_of_lading_id"
-        />
+    <report
+            id="bill_of_lading"
+            model="stock.picking"
+            menu="True"
+            report_type="qweb-pdf"
+            string="ใบเบิกพัสดุ"
+            paperformat="paperformat_A4_Zero_Margin_product_bill06"
+            name="itaas_print_inventory_report.bill_of_lading_id"
+            file="itaas_print_inventory_report.bill_of_lading_id"
+    />
 
-    </data>
-</odoo>
 
 </odoo>
