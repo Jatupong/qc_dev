@@ -28,3 +28,7 @@ class AccountMoveseq(models.Model):
             return journal.refund_sequence_id
         return
 
+
+
+
+
