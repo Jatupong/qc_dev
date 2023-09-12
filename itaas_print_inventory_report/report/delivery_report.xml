@@ -687,7 +687,7 @@
                         }
                     </style>
 
-                    <t t-set="max_body_height" t-value="190"/>
+                    <t t-set="max_body_height" t-value="160"/>
                     <t t-set="new_line_height" t-value="5"/>
                     <t t-set="row_line_height" t-value="5"/>
                     <t t-set="max_line_lenght" t-value="40"/>
@@ -703,7 +703,7 @@
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                        <table class="table table table-bordered-b font_fam" style="height:170mm; margin-top: 0px; font-size:20px; line-height:18px;">
+                        <table class="table table table-bordered-b font_fam" style="height:180mm; margin-top: 0px; font-size:20px; line-height:18px;">
                             <thead>
                                 <tr>
                                     <th width="4%">ลำดับ</th>
@@ -811,7 +811,7 @@
                                     <td colspan="7">
                                         <strong>หมายเหตุ/Remark :</strong>
                                         <t t-if="o.note">
-                                            <span>&amp;nbsp;</span>
+<!--                                            <span>&amp;nbsp;</span>-->
                                             <span t-field="o.note"/>
                                         </t>
                                     </td>
@@ -855,21 +855,21 @@
                     <div>
                         <table width="100%" class="font_fam" style="font-size:20px;">
                             <tr align="center">
-                                <td class="col-xs-4" style="padding:5px;">
+                                <td class="col-xs-4" style="padding:5px; border: 1px solid black;">
                                     <br/><br/><br/>
                                     <span>ลงชื่อ___________________________</span><br/>
                                     <span>ผู้รับสินค้า/Received By</span><br/>
                                     <span>วันที่/Date_________/_________/________</span>
                                     <br/><br/>
                                 </td>
-                                <td class="col-xs-4" style="padding:5px;">
+                                <td class="col-xs-4" style="padding:5px; border: 1px solid black;">
                                     <br/><br/><br/>
                                     <span>ลงชื่อ___________________________</span><br/>
                                     <span>ผู้ส่งสินค้า/Delivered By</span><br/>
                                     <span>วันที่/Date_________/_________/________</span>
                                     <br/><br/>
                                 </td>
-                                <td class="col-xs-4" style="padding:5px;">
+                                <td class="col-xs-4" style="padding:5px; border: 1px solid black;">
                                     <br/><br/><br/>
                                     <span>ลงชื่อ___________________________</span><br/>
                                     <span>ผู้มีอำนาจอนุมัติ/Authorized Signature</span><br/>
@@ -889,12 +889,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">87</field>
+        <field name="margin_top">83</field>
         <field name="margin_bottom">55</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">82</field>
+        <field name="header_spacing">78</field>
         <field name="dpi">90</field>
     </record>
 
