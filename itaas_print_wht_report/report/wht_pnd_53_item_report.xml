@@ -178,7 +178,6 @@
                             </font>
                             <font class="font_fam" style="font-size: 31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
                                 <div class="col-xs-12" style="position: absolute;left: 160px;top: 450px;">
-                                    street"/>&amp;nbsp;
                                             <span t-field="wht_ids[0].partner_id.street2"/>&amp;nbsp;
                                             <span t-if="wht_ids[0].partner_id.sub_district_id.name and wht_ids[0].partner_id.state_id.code == 'BKK'">แขวง<span t-field="wht_ids[0].partner_id.sub_district_id.name"/>&amp;nbsp;</span>
                                             <span t-if="wht_ids[0].partner_id.sub_district_id.name and wht_ids[0].partner_id.state_id.code != 'BKK'">ต.<span t-field="wht_ids[0].partner_id.sub_district_id.name"/>&amp;nbsp;</span>
