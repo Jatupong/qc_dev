@@ -178,12 +178,17 @@
                             </font>
                             <font class="font_fam" style="font-size: 31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
                                 <div class="col-xs-12" style="position: absolute;left: 160px;top: 450px;">
-                                    <span t-esc="partner_address['street']"/>
-                                    <span t-esc="partner_address['street2']"/>
-                                    <span t-esc="partner_address['sub_district']"/>
-                                    <span t-esc="partner_address['district']"/>
-                                    <span t-esc="partner_address['state']"/>
-                                    <span t-esc="partner_address['zip']"/>
+                                    street"/>&amp;nbsp;
+                                            <span t-field="wht_ids[0].partner_id.street2"/>&amp;nbsp;
+                                            <span t-if="wht_ids[0].partner_id.sub_district_id.name and wht_ids[0].partner_id.state_id.code == 'BKK'">แขวง<span t-field="wht_ids[0].partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.sub_district_id.name and wht_ids[0].partner_id.state_id.code != 'BKK'">ต.<span t-field="wht_ids[0].partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.district_id.name and wht_ids[0].partner_id.state_id.code == 'BKK'">เขต<span t-field="wht_ids[0].partner_id.district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.district_id.name and wht_ids[0].partner_id.state_id.code != 'BKK'">อ.<span t-field="wht_ids[0].partner_id.district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.city and wht_ids[0].partner_id.state_id and wht_ids[0].partner_id.state_id.code == 'BKK'">เขต<span t-field="wht_ids[0].partner_id.city"/></span>
+                                            <span t-if="wht_ids[0].partner_id.city and wht_ids[0].partner_id.state_id and wht_ids[0].partner_id.state_id.code != 'BKK'">อ.<span t-field="wht_ids[0].partner_id.city"/></span>
+                                            <span t-if="wht_ids[0].partner_id.state_id.name and wht_ids[0].partner_id.state_id.code == 'BKK'"><span t-field="wht_ids[0].partner_id.state_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.state_id.name and wht_ids[0].partner_id.state_id.code != 'BKK'">จ.<span t-field="wht_ids[0].partner_id.state_id.name"/>&amp;nbsp;</span>
+                                            <t t-if="wht_ids[0].partner_id.zip"><span t-esc="wht_ids[0].partner_id.zip"/>&amp;nbsp;</t>
 
                                 </div>
                             </font>
@@ -370,3 +375,5 @@
         </template>
     </data>
 </openerp>
+
+
