@@ -15,6 +15,7 @@ class AccountMoveseq(models.Model):
 
 
     def _get_sequence(self):
+        print('mmmmmm')
         ''' Return the sequence to be used during the post of the current move.
         :return: An ir.sequence record or False.
         '''

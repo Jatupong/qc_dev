@@ -2,10 +2,11 @@
 
     <!--receive form/tree-->
     <record id="action_move_debit_form" model="ir.actions.act_window">
-        <field name="domain">[('is_debit_note','=',True),('is_debit_invoice','=',True)]</field>
+<!--        <field name="domain">[('is_debit_note','=',True),('is_debit_invoice','=',True)]</field>-->
+        <field name="domain">[('move_type','=','out_invoice'),'|',('is_manual_cn','=', True),('is_debit_note','=',True)]</field>
         <field name="name">Debit Note</field>
         <field name="res_model">account.move</field>
-        <!--        <field name="context">{'default_type':'rec', 'type':'rec'}</field>-->
+        <field name="context">{'default_move_type':'out_invoice'}</field>
         <field name="view_mode">tree,form</field>
     </record>
     <record id="view_debit_note_move_tree_id" model="ir.actions.act_window.view">
