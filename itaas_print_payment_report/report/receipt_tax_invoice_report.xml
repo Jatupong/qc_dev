@@ -316,7 +316,7 @@
                     </table>
 
                     <table width="100%" class="font_fam td_bott" style="font-size: 14px; line-height:10px; ">
-                        <tr style="border-bottom: 1px solid white;">
+                        <tr>
                             <td width="15%" style="padding-top:10px;border-right:0px solid white;border-left:0px solid white;">
                                 <strong>รหัสลูกค้า<br/>Customer Code</strong>
                             </td>
@@ -351,10 +351,10 @@
                             </td>
                         </tr>
                         <tr>
-                                            <td style="border: 1px solid white; border-left: 1px solid white; ">
+                                            <td style="border: 1px solid white; border-left: 1px solid white; border-bottom: 1px solid black;">
                                                 <B><span>ที่อยู่<br/>Address</span></B>
                                             </td>
-                                            <td style="border: 1px solid white; border-left: 1px solid white; ">
+                                            <td style="border: 1px solid white; border-left: 1px solid white; border-bottom: 1px solid black;">
                                                 <div style="width:500px; word-wrap: break-word;">
                                                     <!--<t t-if="o.bill_to_id">-->
                                                     <!--<t t-set="bill_to_id_address" t-value="o.bill_to_id.get_partner_full_address()"/>-->
