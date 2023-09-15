@@ -13,6 +13,8 @@ class AccountMove(models.Model):
         print('_compute_name_by_sequence:')
         for move in self:
             name = move.name or "/"
+
+
             if (
                     move.state == "posted"
                     and (not move.name or move.name == "/")
@@ -27,6 +29,10 @@ class AccountMove(models.Model):
                 ):
                     print('iFFFFFFFFFFF')
                     seq = move.journal_id.refund_sequence_id
+
+                elif move.is_manual_cn == True and move.move_type == 'out_invoice':
+                    print('dddddddd')
+                    seq = move.journal_id.debit_sequence_id
                 else:
                     print('ELSEEEE',move)
                     seq = move.journal_id.sequence_id
