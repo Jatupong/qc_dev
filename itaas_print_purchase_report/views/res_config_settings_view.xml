@@ -1,0 +1,62 @@
+<odoo>
+
+    <record id="res_config_settings_view_form_purchase_report" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.purchase.report</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@data-key='purchase']" position="inside">
+                <h2 class="mt32">Reports</h2>
+                <div class="row mt16 o_settings_container" id="connectors_setting_container">
+
+                    <div class="col-12 col-lg-6 o_setting_box" id="document_id">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">ฟอร์มเคลมสินค้าใบส่งสินค้า</span>
+                            <div class="text-muted">
+                                <field name="document_id"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6 o_setting_box" id="purchase_order_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Purchase No. Form</span>
+                            <div class="text-muted">
+                                <field name="purchase_order_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+<!--                    <div class="col-12 col-lg-6 o_setting_box" id="show_product_code_on_purchase">-->
+<!--                        <div class="o_setting_left_pane">-->
+<!--                            <field name="show_product_code_on_purchase" widget="upgrade_boolean"/>-->
+<!--                        </div>-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <span class="o_form_label">Show Code in Quote</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-12 col-lg-6 o_setting_box" id="show_currency_on_purchase">-->
+<!--                        <div class="o_setting_left_pane">-->
+<!--                            <field name="show_currency_on_purchase" widget="upgrade_boolean"/>-->
+<!--                        </div>-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <span class="o_form_label">Show Currency in Quote</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-12 col-lg-6 o_setting_box" id="show_date_auto_purchase">-->
+<!--                        <div class="o_setting_left_pane">-->
+<!--                            <field name="show_date_auto_purchase" widget="upgrade_boolean"/>-->
+<!--                        </div>-->
+<!--                        <div class="o_setting_right_pane">-->
+<!--                            <span class="o_form_label">Show Date in Quote</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
