@@ -599,9 +599,9 @@
                                                 </t>
                                             </td>
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>
-                                                </t>
+                                                <t t-if="o.amount">
+                                                <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>
+                                            </t>
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o._get_invoice_payment_amount(o.reconciled_invoice_ids[y]))))"/>-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed_signed(o.reconciled_invoice_ids[y]))))"/>-->
                                             </td>
@@ -615,6 +615,9 @@
                                 <t t-set="start" t-value="break_line[x]"/>
                                 <p style="page-break-after:always;"/>
                             </tbody>
+
+
+
                             <tfoot>
                                 <tr style="height:30px;">
                                     <td colspan="4">
