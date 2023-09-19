@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_A4_Five_Margin_purchase" model="report.paperformat">
+            <field name="name">A4_Five_Margin_purchase</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">90</field>
+            <field name="margin_bottom">60</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">85</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="purchase_order_report"
+                model="purchase.order"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบสั่งซื้อในประเทศ"
+                paperformat="paperformat_A4_Five_Margin_purchase"
+                name="itaas_print_purchase_report.purchase_order_report_id"
+                file="itaas_print_purchase_report.purchase_order_report_id"
+                print_report_name="
+                        (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+                        'Purchase Order - %s' % (object.name))"
+        />
+
+        <record id="paperformat_A4_Five_Margin_purchase_inter" model="report.paperformat">
+            <field name="name">A4_Five_Margin_purchase</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+
+<!--            <field name="margin_top">90</field>-->
+<!--            <field name="margin_bottom">60</field>-->
+<!--            <field name="margin_left">5</field>-->
+<!--            <field name="margin_right">5</field>-->
+<!--            <field name="header_line" eval="False"/>-->
+<!--            <field name="header_spacing">85</field>-->
+<!--            <field name="dpi">90</field>-->
+
+            <field name="margin_top">77</field>
+            <field name="margin_bottom">40</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">72</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="purchase_order_inter_report"
+                model="purchase.order"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบสั่งซื้อต่างประเทศ"
+                paperformat="paperformat_A4_Five_Margin_purchase_inter"
+                name="itaas_print_purchase_report.purchase_order_inter_report_id"
+                file="itaas_print_purchase_report.purchase_order_inter_report_id"
+                print_report_name="
+                        (object.state in ('draft', 'sent') and 'Request for Quotation - %s' % (object.name) or
+                        'Purchase Order Inter - %s' % (object.name))"/>
+
+
+    </data>
+</odoo>

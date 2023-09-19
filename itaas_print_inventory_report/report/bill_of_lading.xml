@@ -314,8 +314,8 @@
         </t>
     </template>
 
-    <record id="paperformat_A4_Zero_Margin_product_bill06" model="report.paperformat">
-        <field name="name">A4_Zero_Margin_product_bill06</field>
+    <record id="paperformat_A4_Zero_Margin_bill_of_lading_id" model="report.paperformat">
+        <field name="name">A4_Zero_Margin_bill_of_lading_id</field>
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
@@ -334,7 +334,7 @@
             menu="True"
             report_type="qweb-pdf"
             string="ใบเบิกพัสดุ"
-            paperformat="paperformat_A4_Zero_Margin_product_bill06"
+            paperformat="paperformat_A4_Zero_Margin_bill_of_lading_id"
             name="itaas_print_inventory_report.bill_of_lading_id"
             file="itaas_print_inventory_report.bill_of_lading_id"
     />
