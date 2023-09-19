@@ -277,7 +277,8 @@
                         <td width="25%" style="text-align:center; vertical-align: middle;">
                             <div style="text-align:center;">
                                 <font style="font-size: 14px;">
-                                    <span>รหัสเอกสาร</span>
+                                    <span t-field="o.company_id.document_id"/>
+<!--                                    <span>รหัสเอกสาร</span>-->
                                 </font><br/>
                                 <font style="font-size: 20px;">
                                     <strong>ใบเคลมสินค้า/ใบส่งคืนสินค้า</strong><br/>
