@@ -18,6 +18,11 @@ def strToDate(dt):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
+    etd = fields.Date(string='ETD')
+    eta = fields.Date(string='ETA')
+    export_products_id = fields.Char(string='เลขที่ใบขนสินค้าขาออก')
+    customs_department = fields.Float(string='กรมศุลกากร',default=33.3188)
+
     is_asset_reserve = fields.Boolean(string='Asset Reserve')
     # is_check_asset = fields.Boolean(string="Check Asset")
     #

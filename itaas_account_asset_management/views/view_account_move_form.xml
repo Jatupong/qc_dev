@@ -11,7 +11,15 @@
 <!--                    <field name="is_check_asset" groups="base.group_no_one"/>-->
 <!--                    <button name="action_gennarat_value" string="GEN Analytic OU" type="object" class="oe_highlight"  groups="base.group_no_one"/>-->
                 </field>
+                <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                    <field name="etd" options="{'format': 'DD/MM/YYYY'}"/>
+                    <field name="eta" options="{'format': 'DD/MM/YYYY'}"/>
+                    <field name="export_products_id" />
+                    <field name="customs_department" />
+                </xpath>
+
             </field>
+
         </record>
 
     </data>
