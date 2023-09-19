@@ -37,6 +37,7 @@ Stock report
 
         'report/report_reg.xml',
         'report/sale_tax_report.xml',
+        'report/sale_tax_report2.xml',
         'report/purchase_tax_report.xml',
         'report/report_taxsummary.xml',
         'report/report_pnd3.xml',

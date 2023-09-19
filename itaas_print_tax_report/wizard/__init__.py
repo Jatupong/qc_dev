@@ -3,3 +3,4 @@
 
 from . import tax_report
 from . import pnd_30
+from . import monthly_report
