@@ -24,8 +24,10 @@ Purchase report
 
         'views/res_config_settings_view.xml',
         'views/res_company.xml',
+        'views/purchase_order_view.xml',
         'report/purchase_order_report.xml',
         'report/purchase_order_inter_report.xml',
+        'report/purchase_request_report.xml',
         'report/report_reg.xml',
 
     ],

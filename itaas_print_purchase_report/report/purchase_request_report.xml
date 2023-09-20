@@ -293,7 +293,7 @@
                             <td width="25%" style="text-align:left; vertical-align: middle;">
                                 <div style="text-align:center;">
                                     <font style="font-size: 20px;">
-                                        <span><strong>ใบขอซื้อ</strong></span><br/>
+                                        <span><strong>ใบขออนุมัติจัดซื้อจัดจ้าง</strong></span><br/>
                                     </font>
                                     <font style="font-size: 17px;">
                                         <span><strong> PURCHASE REQUISITION<br/></strong></span>
@@ -365,7 +365,7 @@
                                             </td>
                                             <td width="70%">
                                                 <div class="word_wrap" style="width:320px;">
-                                                    &amp;nbsp;<span t-field="o.department_id"/>
+<!--                                                    &amp;nbsp;<span t-field="o.department_id"/>-->
                                                 </div>
                                             </td>
                                         </tr>
@@ -375,7 +375,7 @@
                                             </td>
                                             <td>
                                                 <div class="word_wrap" style="width:320px;">
-                                                    &amp;nbsp;<span t-field="o.requested_by"/>
+<!--                                                    &amp;nbsp;<span t-field="o.requested_by"/>-->
                                                 </div>
                                             </td>
                                         </tr>
@@ -389,7 +389,7 @@
                                              <strong>   <span>&amp;nbsp;วันที่ต้องการสินค้า</span></strong>
                                             </td>
                                             <td width="70%">
-                                                &amp;nbsp;<span t-field="o.date_start" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+<!--                                                &amp;nbsp;<span t-field="o.date_start" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>-->
                                             </td>
                                         </tr>
                                         <tr>
@@ -529,21 +529,22 @@
                                                 <span t-esc="y+1"/>
                                             </td>
                                             <td align="left">
-                                                <span t-field="o.line_ids[y].product_id.default_code"/>
+<!--                                                <span t-field="o.line_ids[y].product_id.default_code"/>-->
                                             </td>
                                             <td>
-                                                <span t-field="o.line_ids[y].product_id.name"/>
+<!--                                                <span t-field="o.line_ids[y].product_id.name"/>-->
                                             </td>
                                             <td align="center">
-                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].product_qty))"/>&amp;nbsp;
-                                                <span t-field="o.line_ids[y].product_uom_id.name"/>
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].product_qty))"/>-->
+                                                &amp;nbsp;
+<!--                                                <span t-field="o.line_ids[y].product_uom_id.name"/>-->
                                             </td>
                                             <td align="right">
-                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>-->
                                             </td>
                                             <td align="right">
-                                                <t t-set="amount" t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
-                                                <span t-esc="'{0:,.2f}'.format(float(amount))"/>
+<!--                                                <t t-set="amount" t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>-->
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(amount))"/>-->
                                             </td>
                                         </tr>
                                     </t>
@@ -553,31 +554,33 @@
                                                 <span t-esc="y+1"/>
                                             </td>
                                             <td align="left">
-                                                <span t-field="o.line_ids[y].product_id.default_code"/>
+<!--                                                <span t-field="o.line_ids[y].product_id.default_code"/>-->
                                             </td>
                                             <td>
-                                                <span t-field="o.line_ids[y].product_id.name"/>
+<!--                                                <span t-field="o.line_ids[y].product_id.name"/>-->
                                             </td>
                                             <td align="center">
-                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].product_qty))"/>&amp;nbsp;
-                                                <span t-field="o.line_ids[y].product_uom_id.name"/>
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].product_qty))"/>-->
+                                                &amp;nbsp;
+<!--                                                <span t-field="o.line_ids[y].product_uom_id.name"/>-->
                                             </td>
                                             <td align="right">
-                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>-->
                                             </td>
                                             <td align="right">
-                                                <t t-set="amount" t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
-                                                <span t-esc="'{0:,.2f}'.format(float(amount))"/>
+<!--                                                <t t-set="amount" t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>-->
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(amount))"/>-->
                                             </td>
                                         </tr>
-                                        <t t-set="end" t-value="(break_line[x])"/>
+<!--                                        <t t-set="end" t-value="(break_line[x])"/>-->
                                     </t>
                                 </t>
                             </tbody>
                             <tfoot>
                                 <tr style="height: 60px;">
                                     <td colspan="6">
-                                        หมายเหตุ : &amp;nbsp;<span t-field="o.description"/>
+                                        หมายเหตุ : &amp;nbsp;
+<!--                                        <span t-field="o.description"/>-->
                                     </td>
                                 </tr>
                             </tfoot>

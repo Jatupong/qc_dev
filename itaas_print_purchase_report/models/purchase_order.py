@@ -9,6 +9,16 @@ from odoo import api, fields, models, _
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
+    requested_by_purchase = fields.Many2one(
+        'res.users',
+        string="Requested by",
+    )
+
+    department_id_purchase = fields.Many2one(
+        'hr.department',
+        string="Department",
+    )
+
     def get_lines(self, data, max_line):
         # this function will count number of \n
         # print  data

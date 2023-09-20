@@ -15,12 +15,13 @@
 <!--			</field>-->
 
 			<field name="date_order" position="after">
-				<field name="request_uid" attrs="{'invisible': [('state', '=', 'draft')]}"/>
-				<field name="validate_uid" readonly="1"/>
-				<field name="validate_date" readonly="1"/>
+<!--				<field name="request_uid" attrs="{'invisible': [('state', '=', 'draft')]}"/>-->
+<!--				<field name="validate_uid" readonly="1"/>-->
+<!--				<field name="validate_date" readonly="1"/>-->
 			</field>
+
 			<xpath expr="//notebook/page[1]/field[@name='order_line']/tree/field[@name='name']" position="after">
-				<field name="department_id"/>
+<!--				<field name="department_id"/>-->
 			</xpath>
 <!--			<xpath expr="//notebook/page[1]/field[@name='order_line']/tree/field[@name='discount']" position="after">-->
 <!--				<field name="discount_amount"/>-->
@@ -30,7 +31,14 @@
 
 			<xpath expr="//page[@name='purchase_delivery_invoice']" position="inside">
 				<group>
-					<field name="show_product_code_on_purchase"/>
+<!--					<field name="show_product_code_on_purchase"/>-->
+				</group>
+			</xpath>
+
+			<xpath expr="//field[@name='effective_date']" position="after">
+				<group>
+					<field name="requested_by_purchase" widget="res_partner_many2one" options="{&quot;always_reload&quot;: True}"/>
+					<field name="department_id_purchase" widget="res_partner_many2one" options="{&quot;always_reload&quot;: True}"/>
 				</group>
 			</xpath>
 
