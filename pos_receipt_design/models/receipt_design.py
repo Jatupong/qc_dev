@@ -499,6 +499,7 @@ class ReceiptDesign(models.Model):
         record_data = {}
         record_data['name'] = "ใบกำกับภาษีอย่างย่อ QC"
         record_data['receipt_design'] = """
+      
       <div class="pos-receipt">
             <!--<div style="font-size: 80%; text-align:center;">-->
             <!--    <div><span t-esc='receipt.date.localestring'/>  <span t-esc='receipt.name'/></div>-->
@@ -630,20 +631,21 @@ class ReceiptDesign(models.Model):
                     ส่วนลด : <span t-esc='widget.pos.format_currency(total_product-receipt.subtotal)' class="pos-receipt-right-align" />
                 </div>
                 <div style="font-size: 13px; ">
-                    รวมทั้งสิน :  <span  t-esc='widget.pos.format_currency(receipt.subtotal)' class="pos-receipt-right-align"/>
+                    มูลค่าสุทธิ :  <span  t-esc='widget.pos.format_currency(receipt.subtotal)' class="pos-receipt-right-align"/>
                 </div>
               </div>
               <!-- BOX 3 -->
               <div style="border-top: 1px solid; padding-top: 3%; padding-bottom: 3%;">
                 <t t-if='taxincluded'>
                   <div style="font-size: 13px;">
-                    รวมมูลค่าสินค้า :
-                    <span t-esc='widget.pos.format_currency(receipt.subtotal - receipt.total_tax)' class="pos-receipt-right-align"/>
-                  </div>
-                  <div style="font-size: 13px;">
-                    ภาษีมูลค่าเพิ่ม :
+                    VAT :
                     <span t-esc='widget.pos.format_currency(receipt.total_tax)' class="pos-receipt-right-align"/>
                   </div>
+                  <div style="font-size: 13px;">
+                    มูลค่าสุทธิก่อน VAT :
+                    <span t-esc='widget.pos.format_currency(receipt.subtotal - receipt.total_tax)' class="pos-receipt-right-align"/>
+                  </div>
+
                     <!--<t t-foreach='receipt.tax_details' t-as='tax'>-->
                     <!--    <div style="font-size: 15px; text-align: right; font-weight: 700; border-top: 1px solid;margin-left: 30%;padding-top: 2%;">-->
                     <!--        <t t-esc='tax.name' />-->
@@ -724,7 +726,7 @@ class ReceiptDesign(models.Model):
                   <br></br>
                   
                    <div class="pos-receipt-center-align">
-                                         <span>รับประกันความเสียหายอันเกิดจากการขนส่งของทางเรา และ/หรือ พบตำหนิที่ไม่เป็นมาตรฐานของโรงงาน ภายใจ 7 วัน</span>
+                                         <span>รับประกันความเสียหายอันเกิดจากการขนส่งของทางเรา และ/หรือ พบตำหนิที่ไม่เป็นมาตรฐานของโรงงาน ภายใน 7 วัน </span>
                     </div>
                 
                   
