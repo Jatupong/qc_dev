@@ -292,6 +292,11 @@
                             </td>
                             <td width="25%" style="text-align:left; vertical-align: middle;">
                                 <div style="text-align:center;">
+                                    <font style="font-size: 14px;">
+                                        <span t-field="o.company_id.purchase_order_no_form"/>
+                                    </font>
+                                    <br/>
+                                    <br/>
                                     <font style="font-size: 20px;">
                                         <span><strong>ใบขออนุมัติจัดซื้อจัดจ้าง</strong></span><br/>
                                     </font>
@@ -626,10 +631,10 @@
                         padding:3px;
                         }
                     </style>
-                    <table width="100%" class="font_fam table table-bordered" style="font-size:14px; line-height:20px;">
+                    <table width="100%" style="font-size:14px; line-height:20px;">
                         <tr>
-                            <td class="col-xs-4" align="center" style=" border-bottom: 1px solid black;">
-                                <div style="width:100%; height:65px; position:relative;">
+                            <td class="col-xs-4" align="center" style=" border: 1px solid black;">
+                                <div style="width:100%; height:65px; position:relative; ">
                                     <span>ผู้ขอซื้อ</span><br/>
                                 </div>
                                 <div style="line-height:16px;">
@@ -637,7 +642,7 @@
                                     <span>วันที่........./........../..........</span><br/>
                                 </div>
                             </td>
-                            <td class="col-xs-4" align="center" style=" border-bottom: 1px solid black;">
+                            <td class="col-xs-4" align="center" style=" border: 1px solid black;">
                                 <div style="width:100%; height:65px; position:relative;">
                                     <span>ผู้ตรวจสอบ</span><br/>
                                 </div>
@@ -646,7 +651,7 @@
                                     <span>วันที่........./........../..........</span><br/>
                                 </div>
                             </td>
-                            <td class="col-xs-4" align="center" style=" border-bottom: 1px solid black;">
+                            <td class="col-xs-4" align="center" style=" border: 1px solid black;">
                                 <div style="width:100%; height:65px; position:relative;">
                                     <span>ผู้อนุมัติ</span><br/>
                                 </div>
@@ -657,9 +662,9 @@
                             </td>
                         </tr>
                     </table>
-                    <table width="100%" class="font_fam" style="font-size:20px; line-height:20px;">
+                    <table width="100%" style="font-size:20px; line-height:20px;">
                         <tr>
-                            <!--                            <td class="col-xs-3" align="right"> <span>FM-PCS-001(00-011151)</span></td>-->
+                                                        <!--<td class="col-xs-3" align="right"> <span>FM-PCS-001(00-011151)</span></td>-->
                         </tr>
                     </table>
                 </div>
