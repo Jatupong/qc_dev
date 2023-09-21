@@ -155,14 +155,12 @@
                 <t t-esc="product_line.location_id.display_name"/>
                 </t>
                     <t t-out="" />
-
             </div>
             <div class="act_as_cell left">
                 <t t-if="product_line.location_dest_id.display_name">
                 <t t-esc="product_line.location_dest_id.display_name"/>
                 </t>
                     <t t-out="" />
-
             </div>
             <div class="act_as_cell right">
                 <t t-out="'{0:,.3f}'.format(product_line.product_in)" />
