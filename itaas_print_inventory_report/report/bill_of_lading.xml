@@ -69,7 +69,6 @@
                                         <span t-if="o.company_id.phone">โทรศัพท์&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span><br/>
                                         <span t-if="o.company_id.email">อีเมลล์&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;</span>
                                         <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;</span>
-
                                     </font>
                                 </div>
                             </td>
@@ -135,7 +134,7 @@
                                             <div/>
                                         </td>
                                         <td width="75%">
-                                            <span t-field="o.origin"/>
+                                            <span t-field="o.company_id.document_id2"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -159,7 +158,7 @@
                         </tr>
                     </table>
 
-                    <table width="100%" class="table table-bordered" style="position:absolute; top:340px; height:138mm; font-size:20px; font-family:TH SarabunPSK;                            src:url(/itaas_print_inventory_report/static/THSarabun.ttf);">
+                    <table width="100%" class="table table-bordered" style="position:absolute; top:340px; height:138mm; font-size:20px; font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:16px; line-height:25px">
                         <thead>
                             <tr>
                                 <th width="5%">ลำดับ<br/>No.</th>
@@ -208,43 +207,34 @@
                         line-height:18px;
                         }
                     </style>
-
-                    <table class="table-bordered" style="font-size: 16px; font-family:TH SarabunPSK;src:url(/itaas_print_inventory_report/static/THSarabun.ttf);">
-                      <thead>
-                          <t t-set="num" t-value="0"/>
-                          <t t-set="dis" t-value="0"/>
-                          <t t-foreach="o.move_ids_without_package" t-as="line">
-                              <tr>
-                                  <t t-set="num" t-value="num+1"/>
-                                  <th width="5%">
-                                      <span t-esc="num"/>
-                                  </th>
-                                  <th width="40%">
-                                      <span t-field="line.product_id.name"/>
-                                  </th>
-                                  <th width="15%">
-                                      <span t-field="line.product_uom_qty"/>
-                                  </th>
-                                  <th width="15%">
-                                      <span t-field="line.product_id.list_price"/>
-                                  </th>
-                                  <th width="10%"><span t-esc="'%.2f'% (dis)"/></th>
-                                  <th width="15%"> <t t-esc="'%.2f'% ((line.product_uom_qty*line.product_id.list_price)-dis)"/></th>
-                              </tr>
-                          </t>
+                    <table class="table-bordered" style="font-size: 16px; font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);">
+                        <thead>
                         </thead>
                         <tbody class="sale_tbody">
-                            <tr style="color:white;">
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
+                            <t t-set="num" t-value="0"/>
+                                  <t t-set="dis" t-value="0"/>
+                                  <t t-foreach="o.move_ids_without_package" t-as="line">
+                                      <tr>
+                                          <t t-set="num" t-value="num+1"/>
+                                          <th width="5%">
+                                              <span t-esc="num"/>
+                                          </th>
+                                          <th width="40%">
+                                              <span t-field="line.name"/>
+                                          </th>
+                                          <th width="15%">
+                                              <span t-field="line.product_uom_qty"/>
+
+                                          </th>
+                                          <th width="15%">
+                                              <span t-field="line.price_unit"/>
+                                          </th>
+                                          <th width="10%"><span t-esc="'%.2f'% (dis)"/></th>
+                                          <th width="15%"> <t t-esc="'%.2f'% ((line.product_uom_qty*line.price_unit)-dis)"/></th>
+                                      </tr>
+                                  </t>
                         </tbody>
                     </table>
-
                 </div>
 
                 <div class="footer" style="padding-top:20px;">
@@ -320,7 +310,7 @@
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
         <field name="margin_top">95</field>
-        <field name="margin_bottom">90</field>
+        <field name="margin_bottom">95</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
@@ -338,6 +328,5 @@
             name="itaas_print_inventory_report.bill_of_lading_id"
             file="itaas_print_inventory_report.bill_of_lading_id"
     />
-
-
 </odoo>
+
