@@ -21,6 +21,7 @@ class StockCardView(models.TransientModel):
     product_in = fields.Float()
     product_out = fields.Float()
     picking_id = fields.Many2one(comodel_name="stock.picking")
+    lot_id = fields.Many2one('stock.production.lot', string='Lot')
 
     def name_get(self):
         result = []

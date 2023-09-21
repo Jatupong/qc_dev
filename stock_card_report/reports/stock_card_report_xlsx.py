@@ -55,7 +55,7 @@ class ReportStockCardReportXlsx(models.AbstractModel):
         initial_template = {
             "1_ref": {
                 "data": {"value": "Initial", "format": FORMATS["format_tcell_center"]},
-                "colspan": 4,
+                "colspan": 7,
             },
             "2_balance": {
                 "data": {
@@ -81,17 +81,38 @@ class ReportStockCardReportXlsx(models.AbstractModel):
                 },
                 "width": 25,
             },
-            "3_input": {
+            "3_lot": {
+                "header": {"value": "Lot"},
+                "data": {
+                    "value": self._render("lot_id"),
+                },
+                "width": 25,
+            },
+            "4_from": {
+                "header": {"value": "From"},
+                "data": {
+                    "value": self._render("location_form"),
+                },
+                "width": 25,
+            },
+            "5_to": {
+                "header": {"value": "To"},
+                "data": {
+                    "value": self._render("location_to"),
+                },
+                "width": 25,
+            },
+            "6_input": {
                 "header": {"value": "In"},
                 "data": {"value": self._render("input")},
                 "width": 25,
             },
-            "4_output": {
+            "7_output": {
                 "header": {"value": "Out"},
                 "data": {"value": self._render("output")},
                 "width": 25,
             },
-            "5_balance": {
+            "8_balance": {
                 "header": {"value": "Balance"},
                 "data": {"value": self._render("balance")},
                 "width": 25,
@@ -178,6 +199,9 @@ class ReportStockCardReportXlsx(models.AbstractModel):
                 render_space={
                     "date": line.date or "",
                     "reference": line.display_name or "",
+                    "lot_id": line.lot_id or "",
+                    "location_form": line.location_id.display_name or "",
+                    "location_to": line.location_dest_id.display_name or "",
                     "input": line.product_in or 0,
                     "output": line.product_out or 0,
                     "balance": balance,
