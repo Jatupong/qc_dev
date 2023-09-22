@@ -2,4 +2,4 @@
 # Part of IT as a Service Co., Ltd.
 # Copyright (C) 2024-today www.itaas.co.th (Dev K.Book)
 
-from . import maintenance
+from . import stock_view_picking

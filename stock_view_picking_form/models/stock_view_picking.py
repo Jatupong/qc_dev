@@ -5,8 +5,8 @@
 from odoo import api, fields, models
 
 
-class MaintenanceEquipment(models.Model):
-    _inherit = "maintenance.request"
+class StockViewPicking(models.Model):
+    _inherit = "stock.picking"
 
-    vin_id = fields.Char(string='หมายเลขตัวถัง (VIN No.)')
+    product_ceg_th = fields.Char(string='Product Category TH')
 
