@@ -31,6 +31,7 @@
         'report/return_out_report.xml',
         'report/product_bill_report.xml',
         'report/product_bill_report06.xml',
+        'report/product_bill_report07.xml',
         'report/product_bill_report03.xml',
         'report/bill_of_lading.xml',
 

@@ -12,6 +12,7 @@ class ResCompany(models.Model):
     receipt_no_form = fields.Char(string='Receipt No. Form')
     return_in_form = fields.Char(string='Return In No. Form')
     return_out_form = fields.Char(string='Return Out No. Form')
+    product_delivery_note = fields.Char(string='ใบส่งมอบผลิตภัณฑ์')
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -21,3 +22,4 @@ class ResConfigSettings(models.TransientModel):
     receipt_no_form = fields.Char(related='company_id.receipt_no_form', string='Receipt No. Form', readonly=False)
     return_in_form = fields.Char(related='company_id.return_in_form', string='Return In No. Form', readonly=False)
     return_out_form = fields.Char(related='company_id.return_out_form', string='Return Out No. Form', readonly=False)
+    product_delivery_note = fields.Char(related='company_id.product_delivery_note', string='ใบส่งมอบผลิตภัณฑ์', readonly=False)
