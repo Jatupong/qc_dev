@@ -15,7 +15,7 @@
                         <div class="o_setting_right_pane">
                             <span class="o_form_label">ฟอร์มเคลมสินค้าใบส่งสินค้า</span>
                             <div class="text-muted">
-                                <field name="document_id"/>
+<!--                                <field name="document_id"/>-->
                             </div>
                         </div>
                     </div>
