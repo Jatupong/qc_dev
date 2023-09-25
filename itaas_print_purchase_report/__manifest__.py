@@ -19,7 +19,7 @@ Purchase report
     'author': 'IT as a Service Co., Ltd.',
     'website': 'www.itaas.co.th',
     'depends': ['purchase', 'itaas_company_detail_address', 'itaas_partner_detail_address',
-                'itaas_contact_person', 'itaas_image_signature'],
+                'itaas_contact_person', 'itaas_image_signature','base'],
     'data': [
 
         'views/res_config_settings_view.xml',
