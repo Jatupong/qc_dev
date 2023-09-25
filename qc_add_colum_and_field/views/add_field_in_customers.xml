@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-<!--        <record id="view_partner_form_inherit" model="ir.ui.view">-->
-<!--            <field name="name">view.partner.form.inherit</field>-->
-<!--            <field name="model">res.partner</field>-->
-<!--            <field name="inherit_id" ref="base.view_partner_form"/>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <xpath expr="//field[@name='branch_no']" position="after">-->
-<!--                    <field name="region" />-->
-<!--                    <field name="area_type" />-->
-<!--                    <field name="team_customers" />-->
-<!--                    <field name="channel_customers" />-->
-<!--                </xpath>-->
+        <record id="view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">view.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='branch_no']" position="after">
+                    <field name="region" />
+                    <field name="area_type" />
+                    <field name="team_customers" />
+                    <field name="channel_customers" />
+                </xpath>
 
-<!--                <xpath expr="//field[@name='fax']" position="after">-->
-<!--                    <field name="payment_term_code" />-->
-<!--                    <field name="type_customers" />-->
-<!--                    <field name="group_customers" />-->
-<!--                </xpath>-->
+                <xpath expr="//field[@name='fax']" position="after">
+                    <field name="payment_term_code" />
+                    <field name="type_customers" />
+                    <field name="group_customers" />
+                </xpath>
 
 
-<!--            </field>-->
-<!--        </record>-->
+            </field>
+        </record>
 
 </odoo>
