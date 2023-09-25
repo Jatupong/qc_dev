@@ -12,7 +12,7 @@ class ResCompany(models.Model):
     show_currency_on_purchase = fields.Boolean(string='Show Currency in Purchase')
     show_date_auto_purchase = fields.Boolean(string='Show Date Purchase')
 
-    document_id = fields.Char(string='ฟอร์มเคลมสินค้าใบส่งสินค้า')
+    document_id1 = fields.Char(string='ฟอร์มเคลมสินค้าใบส่งสินค้า')
     document_id2 = fields.Char(string='ฟอร์มเคลมสินค้าใบเบิกพัสดุ')
 
 class ResConfigSettings(models.TransientModel):
@@ -23,5 +23,5 @@ class ResConfigSettings(models.TransientModel):
     show_currency_on_purchase = fields.Boolean(related='company_id.show_currency_on_purchase', string='Show Currency in Purchase', readonly=False)
     show_date_auto_purchase = fields.Boolean(related='company_id.show_date_auto_purchase', string='Show Date Purchase', readonly=False)
 
-    document_id = fields.Char(related='company_id.document_id',string='ฟอร์มเคลมสินค้าใบส่งสินค้า', readonly=False)
+    document_id1 = fields.Char(related='company_id.document_id',string='ฟอร์มเคลมสินค้าใบส่งสินค้า', readonly=False)
     document_id2 = fields.Char(related='company_id.document_id2', string='ฟอร์มเคลมสินค้าใบเบิกพัสดุ', readonly=False)
