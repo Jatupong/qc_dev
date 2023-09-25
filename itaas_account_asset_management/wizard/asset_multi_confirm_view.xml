@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_asset_confirm_record" model="ir.ui.view">
+        <field name="name">Asset Confirm</field>
+        <field name="model">asset.confirm.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Asset Confirm">
+                <p class="oe_grey">
+                    Validate Asset Confirm
+                </p>
+                <group>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button name="action_compute" string="Compute" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+        <record id="action_view_account_asset_multiple_confirm" model="ir.actions.act_window">
+            <field name="name">Confirm Asset</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">asset.confirm.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <!-- TODO: check if we need this -->
+            <field name="binding_model_id" ref="account_asset.model_account_asset" />
+            <field name="binding_view_types">list</field>
+        </record>
+
+</odoo>

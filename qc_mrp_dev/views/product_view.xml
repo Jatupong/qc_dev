@@ -1,0 +1,30 @@
+<odoo>
+	<!-- inherit res.company form -->
+	<record id="product_template_only_form_view_category" model="ir.ui.view">
+		<field name="name">product.template.form.capacity.itaas</field>
+		<field name="model">product.template</field>
+		<field name="inherit_id" ref="product.product_template_only_form_view"/>
+		<field name="arch" type="xml">
+			<field name="categ_id" position="after">
+				<field name="product_plan_colour_id" domain="[('is_plan_color','=',True)]"/>
+				<field name="product_category_line_id" domain="[('product_line','=',True)]"/>
+				<field name="decoration_id" domain="[('is_decoration','=',True)]"/>
+			</field>
+		</field>
+	</record>
+
+	<record id="product_category_form_view_category" model="ir.ui.view">
+		<field name="name">product.category.form.category.itaas</field>
+		<field name="model">product.category</field>
+		<field name="inherit_id" ref="product.product_category_form_view"/>
+		<field name="arch" type="xml">
+			<field name="parent_id" position="after">
+				<field name="max_capacity"/>
+				<field name="is_plan_color"/>
+				<field name="product_line"/>
+				<field name="is_decoration"/>
+			</field>
+		</field>
+	</record>
+
+</odoo>

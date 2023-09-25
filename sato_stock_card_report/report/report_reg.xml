@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="stock_card_report_xls"
+                model="wizard.stock.card.report"
+                string="Stock Card Report"
+                report_type="xlsx"
+                name="sato_stock_card_report.stock_card_report_xls"
+                file="sato_stock_card_report.stock_card_report_xls"
+                menu="False"
+                attachment_use="False"/>
+
+    </data>
+</odoo>

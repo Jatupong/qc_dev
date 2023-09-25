@@ -1,0 +1,38 @@
+<odoo>
+
+
+
+    <record id="account_account_list_itaas_inherit" model="ir.ui.view">
+        <field name="name">account.account.list.itaas</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_list"/>
+        <field name="arch" type="xml">
+            <field name="allowed_journal_ids" position="after">
+                <field name="wht" optional="hide"/>
+                <field name="wht_income" optional="hide"/>
+                <field name="sale_tax_report" optional="hide"/>
+                <field name="purchase_tax_report" optional="hide"/>
+            </field>
+        </field>
+    </record>
+
+
+    <record id="account_account_form_itaas_inherit" model="ir.ui.view">
+        <field name="name">account.account.form.itaas</field>
+        <field name="model">account.account</field>
+        <field name="inherit_id" ref="account.view_account_form"/>
+        <field name="arch" type="xml">
+            <field name="allowed_journal_ids" position="after">
+                <field name="wht"/>
+                <field name="wht_income"/>
+                <field name="bank_fee"/>
+                <field name="diff_little_money"/>
+                <field name="sale_tax_report"/>
+                <field name="purchase_tax_report"/>
+                <field name="is_cheque"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>

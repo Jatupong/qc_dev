@@ -1,0 +1,28 @@
+<odoo>
+	<!-- inherit res.company form -->
+	<record id="view_company_form_itaas_inherit" model="ir.ui.view">
+		<field name="name">res.company.form.itaas</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="base.view_company_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook/page[1]" position="after">
+				<page name="configuration" string="Configuration">
+					<group>
+						<group>
+							<field name="system_version" readonly="1"/>
+							<field name="check_customer_tax_id"/>
+						</group>
+						<group>
+							<field name="release_date" readonly="1"/>
+							<field name="show_product_code_on_invoice"/>
+							<field name="description_on_invoice"/>
+							<field name="payment_info_invoice"/>
+							<field name="payment_info_invoice2"/>
+						</group>
+					</group>
+				</page>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

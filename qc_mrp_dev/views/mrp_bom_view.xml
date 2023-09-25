@@ -1,0 +1,25 @@
+<odoo>
+	<!-- inherit res.company form -->
+	<record id="mrp_bom_form_view_capacity" model="ir.ui.view">
+		<field name="name">mrp.bom.form.capacity.itaas</field>
+		<field name="model">mrp.bom</field>
+		<field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook/page[@name='miscellaneous']" position="after">
+				<page name="capacity" string="Capacity">
+
+						<field name="capacity_line_ids" nolabel="1">
+							<tree string="Components" editable="bottom">
+								<field name="work_center_id"/>
+								<field name="uph"/>
+								<field name="note"/>
+							</tree>
+						</field>
+
+
+				</page>
+			</xpath>
+		</field>
+	</record>
+
+</odoo>

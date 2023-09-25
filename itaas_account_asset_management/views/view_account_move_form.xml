@@ -1,0 +1,26 @@
+<openerp>
+    <data>
+
+        <record id="view_move_form_reserve_asset" model="ir.ui.view">
+            <field name="name">view.account.more.reserve.asset</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <field name="invoice_vendor_bill_id" position="after">
+                    <field name="is_asset_reserve" attrs="{'invisible' : [('move_type','!=','in_invoice')]}"/>
+<!--                    <field name="is_check_asset" groups="base.group_no_one"/>-->
+<!--                    <button name="action_gennarat_value" string="GEN Analytic OU" type="object" class="oe_highlight"  groups="base.group_no_one"/>-->
+                </field>
+                <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                    <field name="etd" options="{'format': 'DD/MM/YYYY'}"/>
+                    <field name="eta" options="{'format': 'DD/MM/YYYY'}"/>
+                    <field name="export_products_id" />
+                    <field name="customs_department" />
+                </xpath>
+
+            </field>
+
+        </record>
+
+    </data>
+</openerp>

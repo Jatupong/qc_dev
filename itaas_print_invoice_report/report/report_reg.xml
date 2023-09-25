@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_A4_Five_Margin_invoice" model="report.paperformat">
+            <field name="name">A4_Zero_Margin_invoice_report</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">117</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">112</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="invoice_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบแจ้งหนี้/ใบส่งของ"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_invoice"
+                name="itaas_print_invoice_report.invoice_report_id"
+                file="itaas_print_invoice_report.invoice_report_id"
+                print_report_name="('ใบแจ้งหนี้/ใบส่งของ - %s' % (object.name))"
+        />
+
+        <record id="paperformat_A4_Five_Margin_tax_invoice" model="report.paperformat">
+            <field name="name">A4_Five_Margin_tax_invoice</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">117</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">112</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="tax_invoice_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบกำกับภาษี"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_tax_invoice"
+                name="itaas_print_invoice_report.tax_invoice_report_id"
+                file="itaas_print_invoice_report.tax_invoice_report_id"
+                print_report_name="('ใบกำกับภาษี - %s' % (object.name))"
+        />
+
+        <record id="paperformat_A4_Five_Margin_invoice_and_tax" model="report.paperformat">
+            <field name="name">A4_Five_Margin_tax_Invoice</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">117</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">112</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="invoice_and_tax_invoice_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบแจ้งหนี้/ใบกำกับภาษี"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_invoice_and_tax"
+                name="itaas_print_invoice_report.invoice_and_tax_invoice_report_id"
+                file="itaas_print_invoice_report.invoice_and_tax_invoice_report_id"
+                print_report_name="('ใบแจ้งหนี้/ใบกำกับภาษี - %s' % (object.name))"
+        />
+
+        <record id="paperformat_A4_Five_Margin_receipt" model="report.paperformat">
+            <field name="name">A4_Five_Margin_receipt</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">117</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">112</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="receipt_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบเสร็จรับเงิน"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_receipt"
+                name="itaas_print_invoice_report.receipt_report_id"
+                file="itaas_print_invoice_report.receipt_report_id"
+                print_report_name="('ใบเสร็จรับเงิน - %s' % (object.name))"
+        />
+
+        <record id="paperformat_A4_Five_Margin_tax_invoice_and_receipt" model="report.paperformat">
+            <field name="name">A4_Five_Margin_tax_invoice_and_receipt</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+<!--            <field name="margin_top">117</field>-->
+<!--            <field name="margin_bottom">42</field>-->
+<!--            <field name="margin_left">5</field>-->
+<!--            <field name="margin_right">5</field>-->
+<!--            <field name="header_line" eval="False"/>-->
+<!--            <field name="header_spacing">112</field>-->
+<!--            <field name="dpi">90</field>-->
+            <field name="margin_top">102</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">97</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="tax_invoice_and_receipt_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบกำกับภาษี/ใบเสร็จรับเงิน"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_tax_invoice_and_receipt"
+                name="itaas_print_invoice_report.tax_invoice_and_receipt_report_id"
+                file="itaas_print_invoice_report.tax_invoice_and_receipt_report_id"
+                print_report_name="('ใบกำกับภาษี/ใบเสร็จรับเงิน - %s' % (object.name))"
+        />
+
+        <record id="paperformat_A4_Five_Margin_credit_note" model="report.paperformat">
+            <field name="name">A4_Five_Margin_credit_note</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">85</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">80</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="credit_note_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบลดหนี้"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_credit_note"
+                name="itaas_print_invoice_report.credit_note_report_id"
+                file="itaas_print_invoice_report.credit_note_report_id"
+                print_report_name="('ใบลดหนี้ - %s' % (object.name))"
+        />
+
+        <record id="paperformat_A4_Five_Margin_debit_note" model="report.paperformat">
+            <field name="name">A4_Five_Margin_debit_note</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">85</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">80</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="debit_note_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบเพิ่มหนี้"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_debit_note"
+                name="itaas_print_invoice_report.debit_note_report_id"
+                file="itaas_print_invoice_report.debit_note_report_id"
+        />
+
+        <record id="paperformat_A4_Five_Margin_down_payment" model="report.paperformat">
+            <field name="name">A4_Five_Margin_down_payment</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">117</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">112</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="down_payment_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="ใบรับเงินมัดจำ"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_down_payment"
+                name="itaas_print_invoice_report.down_payment_report_id"
+                file="itaas_print_invoice_report.down_payment_report_id"
+                print_report_name="('ใบรับเงินมัดจำ - %s' % (object.name))"
+        />
+
+        <record id="paperformat_A4_Five_Margin_invoice_billing" model="report.paperformat">
+            <field name="name">A4_Five_Margin_invoice_billing</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">105</field>
+            <field name="margin_bottom">42</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">100</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="invoice_billing_report"
+                model="account.move"
+                menu="True"
+                report_type="qweb-pdf"
+                string="บิลเงินสด"
+                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_invoice_billing"
+                name="itaas_print_invoice_report.invoice_billing_report_id"
+                file="itaas_print_invoice_report.invoice_billing_report_id"
+                print_report_name="('บิลเงินสด - %s' % (object.name))"
+        />
+
+<!--        <record id="paperformat_Letter_invoice_report_dot" model="report.paperformat">-->
+<!--            <field name="name">paperformat_Letter_invoice_report_dot</field>-->
+<!--            <field name="default" eval="False"/>-->
+<!--            <field name="format">Letter</field>-->
+<!--            <field name="orientation">Portrait</field>-->
+<!--            <field name="margin_top">85</field>-->
+<!--            <field name="margin_bottom">70</field>-->
+<!--            <field name="margin_left">0</field>-->
+<!--            <field name="margin_right">0</field>-->
+<!--            <field name="header_line" eval="False"/>-->
+<!--            <field name="header_spacing">80</field>-->
+<!--            <field name="dpi">90</field>-->
+<!--        </record>-->
+
+<!--        <report-->
+<!--                id="invoice_report_dot"-->
+<!--                model="account.move"-->
+<!--                menu="True"-->
+<!--                report_type="qweb-pdf"-->
+<!--                string="ใบกำกับภาษี(แบบกระดาษต่อเนื่อง)"-->
+<!--                paperformat="itaas_print_invoice_report.paperformat_Letter_invoice_report_dot"-->
+<!--                name="itaas_print_invoice_report.invoice_report_dot_id"-->
+<!--                file="itaas_print_invoice_report.invoice_report_dot_id"-->
+<!--        />-->
+
+
+    </data>
+</odoo>

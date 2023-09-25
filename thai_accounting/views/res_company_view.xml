@@ -1,0 +1,35 @@
+<odoo>
+	<!-- inherit res.company form -->
+	<record id="view_company_form_itaas_inherit" model="ir.ui.view">
+		<field name="name">res.company.form.itaas</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="base.view_company_form"/>
+		<field name="arch" type="xml">
+			<field name="vat" position="after">
+				<field name="branch_no"/>
+			</field>
+
+			<field name="partner_id" position="after">
+				<field name="english_company_name"/>
+				<field name="english_address"/>
+				<label for="building" string="Address for Account"/>
+				<div class="o_address_format">
+					<field name="building" string='อาคาร' placeholder="อาคาร.." class="o_address_city"/>
+					<field name="roomnumber" string='ห้องเลขที่' placeholder="ห้องเลขที่.." class="o_address_zip"/>
+					<field name="floornumber" string='ชั้นที่' placeholder="ชั้นที่.." class="o_address_zip"/>
+					<field name="village" string='หมู่บ้าน' placeholder="หมู่บ้าน.." class="o_address_city"/>
+					<field name="house_number" string='เลขที่' placeholder="เลขที่.." class="o_address_zip"/>
+					<field name="moo_number" string='หมู่ที่' placeholder="หมู่ที่.." class="o_address_zip"/>
+					<field name="soi_number" string='ซอย' placeholder="ซอย.." class="o_address_city"/>
+					<field name="road" string='ซอย' placeholder="ซอย.." class="o_address_city"/>
+					<field name="tumbon" string='ตำบล/แขวง' placeholder="ตำบล.." class="o_address_zip"/>
+					<field name="city_new" string='อำเภอ/เขต' placeholder="อำเภอ/เขต.." class="o_address_city"/>
+					<field name="state_id_new" string='จังหวัด' placeholder="จังหวัด.." class="o_address_city"/>
+				</div>
+			</field>
+
+		</field>
+	</record>
+
+
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- inherit account.payment form -->
+        <record id="view_account_payment_form_itaas_inherit" model="ir.ui.view">
+            <field name="name">account.payment.form.itaas.inherit</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="account.view_account_payment_form"></field>
+            <field name="arch" type="xml">
+                 <xpath expr="//form/sheet/group[1]/group[2]" position="after">
+                    <group name="cheque_info">
+                        <field name="remark"/>
+                        <field name="bank_cheque" invisible="1"/>
+                        <field name="cheque_reg_id" attrs="{'invisible':[('bank_cheque','=',False)],'readonly': [('state','!=','draft')]}"/>
+                        <field name="cheque_bank" attrs="{'invisible':[('bank_cheque','=',False)],'readonly': [('state','!=','draft')]}"/>
+                        <field name="cheque_branch" attrs="{'invisible':[('bank_cheque','=',False)],'readonly': [('state','!=','draft')]}"/>
+                        <field name="cheque_number" attrs="{'invisible':[('bank_cheque','=',False)],'readonly': [('state','!=','draft')]}"/>
+                        <field name="cheque_date" attrs="{'invisible':[('bank_cheque','=',False)],'readonly': [('state','!=','draft')]}"/>
+                        <!--                        <field name="cheque_reg_id" attrs="{'invisible': [('bank_cheque','=',False)],'readonly': [('state','!=','draft')]}"/>-->
+                    </group>
+                </xpath>
+
+                <xpath expr="//form/sheet/group" position="after">
+
+<!--                    <group name="Payment Difference" col="12">-->
+                        <field name="writeoff_multi_acc_ids" nolabel="1" attrs="{'readonly': [('state','!=','draft')]}">
+                            <tree string="Post Difference Accounts" editable="bottom">
+                                <field name="deduct_item_id" domain="[('wht','=',True)]"/>
+                                <field name="writeoff_account_id"/>
+                                <field name="name" required="1"/>
+                                <field name="wht" invisible="1"/>
+                                <field name="wht_type"/>
+                                <field name="amount_untaxed" attrs="{'required': [('wht','=',True)]}"/>
+                                <field name="amt_percent" sum="Total %" attrs="{'required': [('wht','=',True)]}"/>
+                                <!--                                <field name="charge_type"/>-->
+                                <field name="amount" sum="Total Amount"/>
+                                <!--                                <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>-->
+                            </tree>
+                        </field>
+<!--                    </group>-->
+
+                </xpath>
+            </field>
+        </record>
+
+
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <template id="sale_tax_report_id2">
+        <t t-set="i" t-value="1"/>
+        <t t-call="web.basic_layout">
+            <div class="header">
+                <div class="col-xs-12" style="text-align: center">
+                    <font style="font-size: 16px;">
+                        <h><strong>
+                            <span t-esc="company_id.name"/><br/>รายการส่งออกประจำเดือน
+                        </strong></h>
+                    </font>
+                </div>
+            </div>
+            <div class="page">
+
+                <t t-set="width1" t-value="50"/>
+                <t t-set="width2" t-value="50"/>
+                <t t-set="width3" t-value="50"/>
+                <t t-set="width5" t-value="50"/>
+                <t t-set="width6" t-value="50"/>
+                <t t-set="width7" t-value="50"/>
+                <t t-set="width8" t-value="50"/>
+                <t t-set="width9" t-value="50"/>
+                <t t-set="width10" t-value="50"/>
+                <t t-set="width11" t-value="50"/>
+                <t t-set="width12" t-value="50"/>
+                <t t-set="width13" t-value="50"/>
+                <t t-set="width14" t-value="50"/>
+                <t t-set="width15" t-value="50"/>
+                <t t-set="width16" t-value="50"/>
+                <t t-set="width17" t-value="50"/>
+
+                <style>
+                    .box1{word-wrap: break-word;width:<t t-esc="width1"/>px;}
+                    .box2{word-wrap: break-word;width:<t t-esc="width2"/>px;}
+                    .box3{word-wrap: break-word;width:<t t-esc="width3"/>px;}
+                    .box4{word-wrap: break-word;width:<t t-esc="width4"/>px;}
+                    .box5{word-wrap: break-word;width:<t t-esc="width5"/>px;}
+                    .box6{word-wrap: break-word;width:<t t-esc="width6"/>px;}
+                    .box7{word-wrap: break-word;width:<t t-esc="width7"/>px;}
+                    .box8{word-wrap: break-word;width:<t t-esc="width8"/>px;}
+                    .box9{word-wrap: break-word;width:<t t-esc="width9"/>px;}
+                    .box10{word-wrap: break-word;width:<t t-esc="width10"/>px;}
+                    .box11{word-wrap: break-word;width:<t t-esc="width11"/>px;}
+                    .box12{word-wrap: break-word;width:<t t-esc="width12"/>px;}
+
+                    .box13{word-wrap: break-word;width:<t t-esc="width13"/>px;}
+                    .box14{word-wrap: break-word;width:<t t-esc="width14"/>px;}
+                    .box15{word-wrap: break-word;width:<t t-esc="width15"/>px;}
+                    .box16{word-wrap: break-word;width:<t t-esc="width16"/>px;}
+                    .box17{word-wrap: break-word;width:<t t-esc="width17"/>px;}
+
+                    table.table-bordered {
+                    margin-top:20px;
+                    border:1px solid black;
+                    padding:3px;
+                    }
+                    table.table-bordered &gt; thead &gt; tr &gt; th{
+                    border:1px solid black;
+                    vertical-align :middle;
+                    text-align:center;
+                    padding:3px;
+                    }
+                    table.table-bordered &gt; tbody &gt; tr &gt; td{
+                    border:1px solid black;
+                    padding:3px;
+                    }
+                    table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                    border:1px solid black;
+                    padding:3px;
+                    }
+                </style>
+
+                <div class="content">
+                    <table class="table-bordered" width="100%">
+                        <thead style="font-size: 14px;">
+                            <tr>
+                                <th colspan="1" rowspan="2">
+                                    <span>วันที่</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>เลขที่<br/>Invoice No.</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>รายการ<br/>Customer</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>จำนวนจริง</span>
+                                </th>
+                                <th colspan="6">
+                                    <span>ตามส่งจริง</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>EXC<br/>RATE</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>BATH</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>ตามใบขน<br/>EUR/USD</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>EXC<br/>RATE</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>BATH</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>เลขใบขน</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>ETD</span>
+                                </th>
+                                <th colspan="1" rowspan="2">
+                                    <span>ETA</span>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div class="box5">
+                                        <span>ERU</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="box6">
+                                        <span>USD</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="box7">
+                                        <span>GBP</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="box8">
+                                        <span>CNY</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="box9">
+                                        <span>THB</span>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="box10">
+                                        <span>Other</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody" style="font-size: 14px;">
+                            <t t-set="sum_untaxed" t-value="0"/>
+                            <t t-set="sum_vat" t-value="0"/>
+                            <t t-set="sum_total" t-value="0"/>
+                            <t t-foreach="docs" t-as="k">
+                                <tr>
+                                    <td>
+
+                                            <t t-if="k['date']">
+                                                <span t-esc="k['date']"/>
+                                            </t>
+
+                                    </td>
+                                    <td>
+
+                                            <span t-esc="k['name']"/>
+
+                                    </td>
+                                    <td>
+
+                                            <t t-if="k['partner']">
+                                                <span t-esc="k['partner']"/>
+                                            </t>
+
+                                    </td>
+                                    <td>
+                                        <div class="box6" align="right">
+                                            <t t-if="k['quantity']">
+                                                <span t-esc="k['quantity']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="box7">
+                                            <t t-if="k['vat']">
+                                                <span t-esc="k['vat']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="box8">
+                                            <t t-if="k['vat']">
+                                                <span t-esc="k['vat']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="box9">
+                                            <t t-if="k['vat']">
+                                                <span t-esc="k['vat']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="box10">
+                                            <t t-if="k['vat']">
+                                                <span t-esc="k['vat']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td align="right">
+                                        <div class="box11" align="right">
+                                            <t t-if="k['state'] != 'cancel'">
+                                                <t t-if="k['type'] == 'out_refund'">
+                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>
+                                                </t>
+                                                <t t-if="k['type'] != 'out_refund'">
+                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
+                                                </t>
+                                            </t>
+                                            <t t-if="k['state'] == 'cancel'">
+                                                <span>0</span>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="box12">
+                                            <t t-if="k['vat']">
+                                                <span t-esc="k['vat']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="box12">
+                                            <t t-if="k['vat']">
+                                                <span t-esc="k['vat']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td align="right">
+                                        <t t-if="k['amount_type'] == 'THB'">
+                                            <div class="box13" align="right">
+                                                <t t-if="k['state'] != 'cancel'">
+                                                    <t t-if="k['type'] == 'out_refund'">
+                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>
+                                                    </t>
+                                                    <t t-if="k['type'] != 'out_refund'">
+                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="k['state'] == 'cancel'">
+                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['excrate']))"/>
+                                                </t>
+                                            </div>
+                                        </t>
+                                        <t t-if="k['amount_type'] != 'THB'">
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <div class="box14">
+                                            <t t-if="k['vat']">
+                                                <span t-esc="k['vat']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="box15">
+                                            <t t-if="k['excrate']">
+                                                <span t-esc="k['excrate']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td align="right">
+                                        <t t-if="k['amount_type'] == 'THB'">
+                                            <div class="box16" align="right">
+                                                <t t-if="k['state'] != 'cancel'">
+                                                    <t t-if="k['type'] == 'out_refund'">
+                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>
+                                                    </t>
+                                                    <t t-if="k['type'] != 'out_refund'">
+                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="k['state'] == 'cancel'">
+                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['excrate']))"/>
+                                                </t>
+                                            </div>
+                                        </t>
+                                        <t t-if="k['amount_type'] != 'THB'">
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <div class="box17">
+                                            <t t-if="k['vat']">
+                                                <span t-esc="k['vat']"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td>
+                                            <t t-if="k['ETD']">
+                                                <span t-esc="k['ETD']"/>
+                                            </t>
+                                    </td>
+                                    <td>
+                                            <t t-if="k['ETA']">
+                                                <span t-esc="k['ETA']"/>
+                                            </t>
+                                    </td>
+                                </tr>
+                            </t>
+
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <div class="last-page">
+
+                </div>
+
+            </div>
+        </t>
+    </template>
+</openerp>

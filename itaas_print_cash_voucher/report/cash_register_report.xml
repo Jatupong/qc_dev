@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <odoo>
+            <template id="cash_register_report">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.basic_layout">
+                        <div class="header">
+                            <style>
+                                @font-face
+                                {
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_cash_voucher/static/THSarabun.ttf") format('opentype');
+                                }
+                                .font_fam{
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_cash_voucher/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-bordered1{
+                                border:1px solid black;
+                                width: 100%;
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_cash_voucher/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-bordered1{
+                                border:1px solid white;
+                                margin-top:10px;
+                                border-collapse: collapse;
+                                width: 100%;
+                                }
+                                table.table-bordered1 &gt; thead &gt; tr &gt; th{
+                                border:1px solid white;
+                                border-collapse: collapse;
+                                }
+                                table.table-bordered1 &gt; thead &gt; tr &gt; td{
+                                border:1px solid white;
+                                border-left: 1px solid white;
+                                border-collapse: collapse;
+                                }
+                                table.table-bordered1 &gt; tbody &gt; tr &gt; td{
+                                border:0px solid white;
+                                border-left: 1px solid white;
+                                border-collapse: collapse;
+                                height: 40px;
+                                }
+                                table.table-bordered1 &gt; tfoot &gt; tr &gt; td{
+                                border:1px solid white;
+                                border-collapse: collapse;
+                                }
+                                }
+                                .td_top{
+                                border-top:#000 solid 1px;
+                                }
+                                .td_left{
+                                border-left:#000 solid 1px;
+                                }
+                                .td_right{
+                                border-right:#000 solid 1px;
+                                }
+                                .td_bott{
+                                border-bottom:#000 solid 1px;
+                                }
+                                .word_wrap{word-wrap: break-word;}
+                            </style>
+                            <div class="font_fam" style="text-align:right;">
+                                <font style="font-size: 14px;">
+                                    <span>หน้า</span>
+                                    <span class="page"/>/<span class="topage"/><br/>
+                                </font>
+                            </div>
+                            <table width="100%" class="font_fam" style="margin-top:30px;">
+                                <tr>
+                                    <td width="100%" style="text-align: center;">
+                                        <font style="font-size:22px;">
+                                            <strong>
+                                                <span style="font-size:22px;" t-field="o.company_id.name"/>
+                                            </strong>
+                                            <t t-if="o.company_id.branch_no">
+                                                <b> <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>
+                                                    <t t-if="o.company_id.branch_no != '00000'">(สาขา&amp;nbsp;<span t-field="o.company_id.branch_no"/>)</t></b>
+                                            </t><br/>
+                                            <b><strong>สมุดเงินสดย่อย<br/>
+                                                Petty Cash Voucher</strong></b>
+                                        </font><br/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table width="100%" class="font_fam">
+                                <tr>
+                                    <td width="67%">
+                                        <font style="font-size: 20px;">
+                                            <b><strong>   อ้างอิง/Reference : </strong></b> <span t-field="o.name"/>
+                                        </font>
+                                    </td>
+                                    <td width="18%" style="text-align: center">
+                                        <font style="font-size: 20px;">
+                                            <t t-if="o.number">
+                                                <strong>เลขที่/Number</strong><br/>
+                                                <span t-field="o.number"/>
+                                            </t>
+                                        </font>
+                                    </td>
+                                    <td width="15%" style="text-align: center">
+                                        <font style="font-size: 20px;">
+                                            <t t-if="o.date">
+                                                <strong>วันที่/Date</strong><br/>
+                                                <span t-field="o.date"/>
+                                            </t>
+                                        </font>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="page">
+                            <style>
+                                @font-face
+                                {
+                                font-family:TH SarabunPSK;
+                                src: local('United'), url("/itaas_print_cash_voucher/static/THSarabun.ttf") format('opentype');
+                                }
+                                .font_fam{
+                                font-family:TH SarabunPSK;
+                                src: local('United'), url("/itaas_print_cash_voucher/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-bordered {
+                                border:1px solid black;
+                                padding:3px;
+                                font-family:TH SarabunPSK;
+                                src: local('United'), url("/itaas_print_cash_voucher/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-bordered &gt; thead &gt; tr &gt; th{
+                                border:1px solid black;
+                                vertical-align: middle;
+                                text-align:center;
+                                padding:3px;
+                                }
+                                table.table-bordered &gt; tbody &gt; tr &gt; td{
+                                border:1px solid black;
+                                border-left: 1px solid black;
+                                padding:3px;
+                                }
+                                table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                                border:1px solid black;
+                                padding:3px;
+                                }
+
+                                table.table-nobordered{
+                                margin:0px;
+                                width: 100%;
+                                font-family:TH SarabunPSK;
+                                src: local('United'), url("/itaas_print_cash_voucher/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-nobordered &gt; thead &gt; tr &gt; th{
+                                border:1px solid white;
+                                padding:0px;
+                                }
+                                table.table-nobordered &gt; thead &gt; tr &gt; td{
+                                border:1px solid white;
+                                padding:0px;
+                                }
+                                table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                                border:1px solid white;
+                                padding:0px;
+                                }
+                                table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                                border:1px solid white;
+                                padding:0px;
+                                }
+                                .word_wrap{
+                                word-wrap: break-word;
+                                <!--background-color:#cccccc;-->
+                                }
+                            </style>
+                            <t t-set="count" t-value="0"/>
+                            <t t-set="all_debit" t-value="0"/>
+                            <t t-set="all_cash" t-value="0"/>
+                            <t t-set="all_credit" t-value="0"/>
+                            <t t-if="o.line_ids[0].line_ids">
+                                <table width="100%" class="table table-bordered" style="font-size: 20px; line-height: 18px;">
+                                    <thead>
+                                        <tr style="height:30px;">
+                                            <th width="5%"><span>ลำดับ<br/>No.</span></th>
+                                            <th width="10%"><span>วันที่<br/>Date</span></th>
+                                            <th width="10%" style="text-align:center">
+                                                รหัสบัญชี<br/><font style="font-size: 22px;">Acc Number</font>
+                                            </th>
+                                            <th width="27%" style="text-align:center">
+                                                ชื่อบัญชี<br/><font style="font-size: 22px;">Acc Name</font>
+                                            </th>
+                                            <th width="20%"><span>รายการ<br/>Description</span></th>
+                                            <!--<th width="15%"><span>แผนก<br/>Department</span></th>-->
+                                            <th width="10%" style="text-align:center">
+                                                เดบิต<br/><font style="font-size: 22px;">Debit</font>
+                                            </th>
+                                            <th width="10%" style="text-align:center">
+                                                เครดิต<br/><font style="font-size: 22px;">Credit</font>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.line_ids" t-as="line">
+                                            <t t-set="count_line" t-value="0"/>
+                                            <tr>
+                                                <td align="center">
+                                                    <t t-set="count" t-value="count + 1"/>
+                                                    <span t-esc="count"/>
+                                                </td>
+                                                <td align="center">
+                                                    <span t-field="line.date"/>
+                                                </td>
+                                                <td style="text-align:center">
+                                                    <div class="word_wrap">
+                                                        <t t-set="lines" t-value="line.line_ids.filtered(lambda x:x.account_id.code != '111104')"/>
+                                                        <t t-foreach="lines" t-as="z">
+                                                            <span t-esc="z.account_id.code"/><br/><br/>
+                                                        </t>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left">
+                                                    <div class="word_wrap">
+                                                        <t t-set="lines" t-value="line.line_ids.filtered(lambda x:x.account_id.code != '111104')"/>
+                                                        <t t-foreach="lines" t-as="z">
+                                                            <span t-esc="z.account_id.name"/><br/><br/>
+                                                        </t>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left">
+                                                    <span t-field="line.name"/>
+                                                </td>
+                                                <t t-set="credit_line" t-value="line.line_ids.filtered(lambda x: x.credit != 0 and x.account_id.code != '111104')"/>
+                                                <t t-set="debit_line" t-value="line.line_ids.filtered(lambda x: x.debit != 0 and x.account_id.code != '111104')"/>
+                                                <t t-if="debit_line">
+                                                    <td style="text-align:right">
+                                                        <t t-foreach="debit_line" t-as="z">
+                                                            <t t-set="count_line" t-value="count_line + 1"/>
+                                                            <span t-esc="'{0:,.2f}'.format(abs(float(z.debit)))"/><br/><br/>
+                                                            <t t-set="all_debit" t-value="all_debit + z.debit"/>
+
+
+                                                        </t>
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td style="text-align:right">
+                                                        <br/>
+                                                    </td>
+                                                </t>
+                                                <t t-if="credit_line">
+                                                    <td style="text-align:right">
+                                                        <t t-foreach="range(0,len(debit_line),1)" t-as="x">
+                                                            <br/>
+                                                            <br/>
+                                                        </t>
+                                                        <t t-foreach="credit_line" t-as="z">
+                                                            <span t-esc="'{0:,.2f}'.format(abs(float(z.credit)))"/><br/><br/>
+                                                            <t t-set="all_credit" t-value="all_credit + z.credit"/>
+                                                        </t>
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td style="text-align:right">
+                                                        <br/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <table style="margin-top:-10px; font-size: 20px;" class="table table-bordered">
+                                    <tr>
+                                        <td width="52%" style="border-top:1px solid black; border-right:0px solid white; vertical-align: middle;" colspan="4" align="center">
+                                            <t t-if="o.currency_id.name == 'THB'">
+                                                <b>
+                                                    (<span t-esc="o.baht_text(abs(all_debit - all_credit))"/>)
+                                                </b>
+                                            </t>
+                                            <t t-if="not o.currency_id.name == 'THB'">
+                                                <b>
+                                                    (<span t-esc="o.num2_words(abs(all_debit - all_credit))"/>)
+                                                </b>
+                                            </t>
+                                        </td>
+                                        <td width="20%" style="border-top:1px solid black; border-left:0px solid white" align="right">
+                                            <b>รวม</b>
+                                        </td>
+                                        <td width="10%" align="right" style="border-top:1px solid black;">
+                                            <b><span t-esc="'{0:,.2f}'.format(abs(float(all_debit - all_credit)))"/></b>
+                                        </td>
+                                        <td width="10%" align="right" style="border-top:1px solid black;">
+                                            <b> <span t-esc="'{0:,.2f}'.format(abs(float(all_debit - all_credit)))"/> </b>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td width="33%" style="font-family:TH SarabunPSK; src:url(/itaas_print_cash_voucher/static/THSarabun.ttf);">
+                                            <div style="text-align:center; padding-top:10px;">
+                                                <font style="font-size: 20px;">
+                                                    <b>    <span>ผู้ลงบัญชี/RECORDED BY</span><br/><br/>
+                                                        <span>_____________________</span><br/><br/>
+                                                        <span>(........./........./.........)</span>
+                                                    </b>
+                                                </font>
+                                            </div>
+                                        </td>
+                                        <td width="33%" style="font-family:TH SarabunPSK; src:url(/itaas_print_cash_voucher/static/THSarabun.ttf);">
+                                            <div style="text-align:center; padding-top:10px;">
+                                                <font style="font-size: 20px;">
+                                                    <b>  <span>ผู้ตรวจสอบ/CHECKED BY</span><br/><br/>
+                                                        <span>_____________________</span><br/><br/>
+                                                        <span>(........./........./.........)</span>
+                                                    </b>
+                                                </font>
+                                            </div>
+                                        </td>
+                                        <td width="34%" style="font-family:TH SarabunPSK; src:url(/itaas_print_cash_voucher/static/THSarabun.ttf);">
+                                            <div style="text-align:center; padding:10px;">
+                                                <font style="font-size: 20px;">
+                                                    <b>  <span>ผู้ควบคุมเงินสดย่อย/PETTY CASH CUSTODIAN</span><br/><br/>
+                                                        <span>_____________________</span><br/><br/>
+                                                        <span>(........./........./.........)</span><br/>
+                                                        <span>ผู้รับเงิน/RECEIVED</span>
+                                                    </b>
+                                                </font>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </t>
+                            <t t-if="not o.line_ids[0].line_ids">
+                                <t t-set="count" t-value="0"/>
+                                <t t-set="amount_sum" t-value="0"/>
+                                <table width="100%" class="table table-bordered" style="height:220mm; font-size: 20px; line-height: 18px;">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%"><span>ลำดับ<br/>No.</span></th>
+                                            <th width="10%"><span>วันที่<br/>Date</span></th>
+                                            <th width="65%"><span>รายการ<br/>Description</span></th>
+                                            <!--                                            <th width="20%"><span>แผนก<br/>Department</span></th>-->
+                                            <th width="20%" style="text-align:center">
+                                                รวมเงิน<br/><font style="font-size: 22px;">Amount</font>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="o.line_ids" t-as="line">
+                                            <tr style="height:30px;">
+                                                <td align="center">
+                                                    <t t-set="count" t-value="count + 1"/>
+                                                    <span t-esc="count"/>
+                                                </td>
+                                                <td align="center">
+                                                    <span t-field="line.date"/>
+                                                </td>
+                                                <t t-if="line.amount &lt;0 ">
+                                                    <td style="text-align:left">
+                                                        <span t-field="line.name"/>
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        <t t-set="amount_sum" t-value="amount_sum + line.amount"/>
+                                                        <span t-esc="'{0:,.2f}'.format(abs(float(line.amount)))"/>
+                                                    </td>
+                                                </t>
+                                                <t t-if="line.amount &gt;0 ">
+                                                    <td style="text-align:left">
+                                                        <div class="word_wrap">
+                                                            <span t-field="line.name"/>
+                                                        </div>
+                                                    </td>
+                                                    <td style="text-align:right">
+                                                        <t t-set="amount_sum" t-value="amount_sum + line.amount"/>
+                                                        <span t-esc="'{0:,.2f}'.format(abs(float(line.amount)))"/>
+                                                    </td>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr style="height:30px;">
+                                            <td style="text-align:center; border-right:0px solid white" colspan="2">
+                                                <t t-if="o.currency_id.name == 'THB'">
+                                                    <b>(<span t-esc="o.baht_text(abs(amount_sum))"/>)</b>
+                                                </t>
+                                                <t t-if="not o.currency_id.name == 'THB'">
+                                                    <b>(<span t-esc="o.num2_words(abs(amount_sum))"/>)</b>
+                                                </t>
+                                            </td>
+                                            <td style="border-left:0px solid white" align="right">
+                                                <b>รวม</b>
+                                            </td>
+                                            <td align="right">
+                                                <b><span t-esc="'{0:,.2f}'.format(abs(float(amount_sum)))"/></b>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </t>
+                        </div>
+                    </t>
+
+                </t>
+
+            </template>
+
+            <record id="paperformat_A4_Zero_Margin_Asset_1" model="report.paperformat">
+                <field name="name">paperformat_A4_Zero_Margin_Asset_1</field>
+                <field name="default" eval="False"/>
+                <field name="format">A4</field>
+                <field name="orientation">Portrait</field>
+                <field name="margin_top">55</field>
+                <field name="margin_bottom">51</field>
+                <field name="margin_left">5</field>
+                <field name="margin_right">5</field>
+                <field name="header_line" eval="False"/>
+                <field name="header_spacing">50</field>
+                <field name="dpi">90</field>
+            </record>
+
+            <report
+                    id="account_bank_statement_id_1"
+                    model="account.bank.statement"
+                    menu="True"
+                    report_type="qweb-pdf"
+                    string="สมุดเงินสดย่อย"
+                    paperformat="itaas_print_cash_voucher.paperformat_A4_Zero_Margin_Asset_1"
+                    name="itaas_print_cash_voucher.cash_register_report"
+                    file="itaas_print_cash_voucher.cash_register_report"
+            />
+        </odoo>
+    </data>
+</openerp>
+
+
+
+
+
+
+
+
+
+

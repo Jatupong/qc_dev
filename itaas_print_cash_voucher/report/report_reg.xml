@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!--        <record id="paperformat_A4_Zero_Margin_Asset" model="report.paperformat">-->
+<!--            <field name="name">paperformat_A4_Zero_Margin_Asset</field>-->
+<!--            <field name="default" eval="False"/>-->
+<!--            <field name="format">A4</field>-->
+<!--            <field name="orientation">Portrait</field>-->
+<!--            <field name="margin_top">100</field>-->
+<!--            <field name="margin_bottom">50</field>-->
+<!--            <field name="margin_left">5</field>-->
+<!--            <field name="margin_right">5</field>-->
+<!--            <field name="header_line" eval="False"/>-->
+<!--            <field name="header_spacing">95</field>-->
+<!--            <field name="dpi">90</field>-->
+<!--        </record>-->
+
+<!--        <report-->
+<!--                id="account_bank_statement_id"-->
+<!--                model="account.bank.statement"-->
+<!--                menu="True"-->
+<!--                report_type="qweb-pdf"-->
+<!--                string="สมุดรายวันเงินสดย่อย"-->
+<!--                paperformat="itaas_print_cash_voucher.paperformat_A4_Zero_Margin_Asset"-->
+<!--                name="itaas_print_cash_voucher.debitcredit_report_id066"-->
+<!--                file="itaas_print_bank.debitcredit_report_id066"-->
+<!--        />-->
+
+
+
+    </data>
+</openerp>

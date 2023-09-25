@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="wht_pnd_3_item_report_id">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="partner_address" t-value="o.get_address()"/>
+                <t t-set="i_page" t-value="0"/>
+                <t t-foreach="range(0,4,1)" t-as="count">
+                    <t t-set="i_page" t-value="i_page + 1"/>
+                    <t t-call="web.basic_layout">
+                        <t t-set="wht_ids" t-value="o"/>
+                        <t t-set="move_id" t-value="o.move_id"/>
+                        <t t-set="tax" t-value="o.wht_reference"/>
+
+                        <t t-set="vat_id" t-value="o.company_id.vat"/>
+                        <!--<t t-if="o.partner_id">-->
+                        <!--    <t t-if="o.is_onetime">-->
+                        <!--        <t t-set="vat1_id" t-value="partner_address['vat']"/>-->
+                        <!--    </t>-->
+                        <!--<t t-if="not o.is_onetime">-->
+                        <!--    <t t-set="vat1_id" t-value="o.partner_id.vat"/>-->
+                        <!--</t>-->
+                        <!--</t>-->
+                        <!--<t t-if="not o.partner_id">-->
+                        <!--    <t t-set="vat1_id" t-value="wht_ids[0].partner_id.vat"/>-->
+                        <!--</t>-->
+
+
+                        <div class="page" style=" font-family: SarabunPSK; src: local('United'), url(/itaas_print_wht_report/static/THSarabun.ttf) format('opentype');">
+                            <img src="/itaas_print_wht_report/static/whithoding.jpg" style="background-image:url('/itaas_print_wht_report/static/whithoding.jpg'); background-size:360mm 520mm; width:360mm; height:520mm; position:absolute;"/>
+
+                            <style>
+                                @font-face
+                                {
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_wht_report/static/THSarabun.ttf") format('opentype');
+                                }
+                                .font_fam{
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_wht_report/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-bordered {
+                                border:1px solid black;
+                                padding:3px;
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_wht_report/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-bordered &gt; thead &gt; tr &gt; th{
+                                border:1px solid black;
+                                vertical-align: middle;
+                                text-align:center;
+                                padding:3px;
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_wht_report/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-bordered &gt; tbody &gt; tr &gt; td{
+                                border:0px solid White;
+                                border-left: 1px solid black;
+                                padding:3px;
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_wht_report/static/THSarabun.ttf") format('opentype');
+                                }
+                                table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                                border:1px solid black;
+                                padding:3px;
+                                font-family: SarabunPSK;
+                                src: local('United'), url("/itaas_print_wht_report/static/THSarabun.ttf") format('opentype');
+                                }
+
+                                <!--.hi_img{-->
+
+                                <!--background-image:url('/itaas_print_wht_report/static/whithoding.jpg');-->
+                                <!--background-size:360mm 520mm;-->
+                                <!--width:360mm;-->
+                                <!--height:520mm;-->
+                                <!--}-->
+                            </style>
+
+                            <!--copy-->
+                            <div style="position:absolute; left:90px; line-height:24px;font-size: 24px;">
+                                <div class="font_fam" style="background-color:white; width:1000px; height:100px;">
+                                    <div style="height:70px; background-color:white; color:white;">-</div>
+                                    <b>
+                                        <font style="font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                        <span>
+                                            <t t-if="i_page == 1">ฉบับที่ 1 (สําหรับผู้ถูกหักภาษี ณ ที่จ่าย ใช้แนบพร้อมกับแบบแสดงรายการภาษี)</t>
+                                            <t t-if="i_page == 2">ฉบับที่ 2 (สําหรับผู้ถูกหักภาษี ณ ที่จ่าย เก็บไว้เป็นหลักฐาน)</t>
+                                            <t t-if="i_page == 3">ฉบับที่ 3 (สําหรับผู้จ่ายเงินเก็บไว้เป็นหลักฐานแนบพร้อมไว้กับรายงานยื่นแบบและสําเนาแบบ ภ.ง.ด.)</t>
+                                            <t t-if="i_page == 4">ฉบับที่ 4 (สําหรับผู้จ่ายเงินแนบไว้กับใบสําคัญจ่าย)</t>
+                                        </span>
+                                        </font>
+                                    </b>
+                                </div>
+                            </div>
+
+                            <!--header-->
+                            <div style="text-align:center; position: absolute;left: 1200px;top: 115px;font-size: 24px;">
+                                <font class="font_fam">
+                                    <t t-if="wht_ids">
+                                        <!--                                        <b><span t-esc="wht_ids.wht_reference"/></b>-->
+                                        <!--<span t-esc="wht_ids"/>-->
+                                    </t>
+                                </font>
+                            </div>
+                            <div style="text-align:center; position: absolute;left: 1200px;top: 145px;font-size: 24px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);" class="font_fam">
+
+                                <t t-if="wht_ids">
+                                    <b><span t-esc="wht_ids[0].wht_reference"/></b>
+<!--                                    <b><span t-esc="wht_ids.move_id.name"/></b>-->
+                                    <!--<span t-esc="wht_ids"/>-->
+                                </t>
+
+                            </div>
+
+                            <!--company-->
+                            <font class="font_fam" style="font-size: 31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                <div class="col-xs-12">
+
+                                    <t t-if="vat_id">
+                                        <b>
+                                            <span t-esc="vat_id[0]" style="position: absolute;left: 880px;top: 190px;"/>
+                                            <span t-esc="vat_id[1]" style="position: absolute;left: 920px;top: 190px;"/>
+                                            <span t-esc="vat_id[2]" style="position: absolute;left: 950px;top: 190px;"/>
+                                            <span t-esc="vat_id[3]" style="position: absolute;left: 980px;top: 190px;"/>
+                                            <span t-esc="vat_id[4]" style="position: absolute;left: 1010px;top: 190px;"/>
+                                            <span t-esc="vat_id[5]" style="position: absolute;left: 1050px;top: 190px;"/>
+                                            <span t-esc="vat_id[6]" style="position: absolute;left: 1080px;top: 190px;"/>
+                                            <span t-esc="vat_id[7]" style="position: absolute;left: 1100px;top: 190px;"/>
+                                            <span t-esc="vat_id[8]" style="position: absolute;left: 1130px;top: 190px;"/>
+                                            <span t-esc="vat_id[9]" style="position: absolute;left: 1160px;top: 190px;"/>
+                                            <span t-esc="vat_id[10]" style="position: absolute;left: 1200px;top: 190px;"/>
+                                            <span t-esc="vat_id[11]" style="position: absolute;left: 1230px;top: 190px;"/>
+                                            <span t-esc="vat_id[12]" style="position: absolute;left: 1275px;top: 190px;"/>
+                                        </b>
+                                    </t>
+
+
+
+
+                                </div>
+                            </font>
+                            <div style="position: absolute;left: 150px;top: 225px; width:600px;font-size: 31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+
+                                <b><span t-field="o.company_id.name"/></b>
+
+                            </div>
+                            <font class="font_fam" style="font-size: 31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                <div style="position: absolute;left: 150px;top: 280px; width:1150px;">
+                                    <b>
+                                        <span t-if="o.company_id.building"><span t-field="o.company_id.building"/>&amp;nbsp;</span>
+                                        <!--                                        <span t-if="o.company_id.roomnumber">ห้องเลขที่<span t-field="o.company_id.roomnumber"/>&amp;nbsp;</span>-->
+                                        <!--                                        <span t-if="o.company_id.floornumber">ชั้นที่<span t-field="o.company_id.floornumber"/>&amp;nbsp;</span>-->
+                                        <span t-if="o.company_id.village">หมู่บ้าน<span t-field="o.company_id.village"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.house_number">เลขที่&amp;nbsp;<span t-field="o.company_id.house_number"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.moo_number">หมู่ที่&amp;nbsp;<span t-field="o.company_id.moo_number"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.soi_number">ซอย<span t-field="o.company_id.soi_number"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.street">ถนน<span t-esc="o.company_id.street"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.sub_district and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.sub_district"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.sub_district and o.company_id.state_id.code != 'BKK'">ต.<span t-field="o.company_id.sub_district"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อ.<span t-field="o.company_id.city"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'"><span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">จ.<span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;</span>
+                                    </b>
+
+                                </div>
+                            </font>
+
+                            <!--partner-->
+                            <div class="font_fam" style="font-size: 31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+
+                                <t t-if="wht_ids">
+                                    <t t-if="wht_ids">
+                                        <b>
+                                            <b>
+                                                <span t-esc="wht_ids[0].partner_id.vat[0]" style="position: absolute;left: 880px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[1]" style="position: absolute;left: 920px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[2]" style="position: absolute;left: 950px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[3]" style="position: absolute;left: 980px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[4]" style="position: absolute;left: 1010px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[5]" style="position: absolute;left: 1050px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[6]" style="position: absolute;left: 1080px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[7]" style="position: absolute;left: 1100px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[8]" style="position: absolute;left: 1130px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[9]" style="position: absolute;left: 1160px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[10]" style="position: absolute;left: 1200px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[11]" style="position: absolute;left: 1230px;top: 350px;"/>
+                                                <span t-esc="wht_ids[0].partner_id.vat[12]" style="position: absolute;left: 1275px;top: 350px;"/>
+                                            </b>
+                                        </b>
+                                    </t>
+                                </t>
+
+                            </div>
+                            <font class="font_fam" style="font-size: 31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                <div class="col-xs-12" style="position: absolute;left: 160px;top: 395px;">
+
+                                    <t t-if="wht_ids">
+                                        <b>
+                                            <span t-field="wht_ids[0].partner_id.name"/>
+                                        </b>
+                                    </t>
+                                </div>
+                            </font>
+
+                            <div class="col-xs-12" style="position: absolute;left: 160px;top: 450px;">
+                                <font class="font_fam" style="src:url(/itaas_print_wht_report/static/THSarabun.ttf);font-size: 31px;">
+                                    <t t-if="o.partner_id">
+                                        <b>
+                                            <span t-field="o.partner_id.street"/>&amp;nbsp;
+                                            <span t-field="o.partner_id.street2"/>&amp;nbsp;
+                                            <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ต.<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อ.<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="o.partner_id.city and o.partner_id.state_id and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.city"/></span>
+                                            <span t-if="o.partner_id.city and o.partner_id.state_id and o.partner_id.state_id.code != 'BKK'">อ.<span t-field="o.partner_id.city"/></span>
+                                            <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จ.<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+                                            <t t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</t>
+                                        </b>
+
+                                    </t>
+                                    <t t-if="not o.partner_id">
+                                        <b>
+                                            <span t-field="wht_ids[0].partner_id.street"/>&amp;nbsp;
+                                            <span t-field="wht_ids[0].partner_id.street2"/>&amp;nbsp;
+                                            <span t-if="wht_ids[0].partner_id.sub_district_id.name and wht_ids[0].partner_id.state_id.code == 'BKK'">แขวง<span t-field="wht_ids[0].partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.sub_district_id.name and wht_ids[0].partner_id.state_id.code != 'BKK'">ต.<span t-field="wht_ids[0].partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.district_id.name and wht_ids[0].partner_id.state_id.code == 'BKK'">เขต<span t-field="wht_ids[0].partner_id.district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.district_id.name and wht_ids[0].partner_id.state_id.code != 'BKK'">อ.<span t-field="wht_ids[0].partner_id.district_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.city and wht_ids[0].partner_id.state_id and wht_ids[0].partner_id.state_id.code == 'BKK'">เขต<span t-field="wht_ids[0].partner_id.city"/></span>
+                                            <span t-if="wht_ids[0].partner_id.city and wht_ids[0].partner_id.state_id and wht_ids[0].partner_id.state_id.code != 'BKK'">อ.<span t-field="wht_ids[0].partner_id.city"/></span>
+                                            <span t-if="wht_ids[0].partner_id.state_id.name and wht_ids[0].partner_id.state_id.code == 'BKK'"><span t-field="wht_ids[0].partner_id.state_id.name"/>&amp;nbsp;</span>
+                                            <span t-if="wht_ids[0].partner_id.state_id.name and wht_ids[0].partner_id.state_id.code != 'BKK'">จ.<span t-field="wht_ids[0].partner_id.state_id.name"/>&amp;nbsp;</span>
+                                            <t t-if="wht_ids[0].partner_id.zip"><span t-esc="wht_ids[0].partner_id.zip"/>&amp;nbsp;</t>
+                                        </b>
+                                    </t>
+                                </font>
+                            </div>
+
+
+<!--                            <font class="font_fam" style="font-size: 31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">-->
+<!--                                <div class="col-xs-12" style="position: absolute;left: 160px;top: 450px;">-->
+
+<!--                                    <t t-if="wht_ids">-->
+<!--                                        <span t-esc="partner_address['street']"/>-->
+<!--                                        <span t-esc="partner_address['street2']"/>-->
+<!--                                        <span t-esc="partner_address['sub_district']"/>-->
+<!--                                        <span t-esc="partner_address['district']"/>-->
+<!--                                        <span t-esc="partner_address['state']"/>-->
+<!--                                        <span t-esc="partner_address['zip']"/>-->
+<!--                                    </t>-->
+
+
+<!--                                </div>-->
+<!--                            </font>-->
+
+<!--                            ==========================================================================-->
+
+                            <!--pnd 3-->
+                            <div style="position: absolute;left: 1095px;top: 501px;font-size:37px;">
+                                <font style="font-size:55px;">
+                                    <B><span>X</span></B>
+                                </font>
+                            </div>
+
+                            <!--detail-->
+<!--                            <t t-set="sum_amount_before_tax" t-value="0"/>-->
+<!--                            <t t-set="sum_amount_total" t-value="0"/>-->
+<!--                            &lt;!&ndash;v15&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            <div style="position: absolute; left: 775px; top:1325px; width:515px; height:170px;">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                <table width="100%" class="font_fam" style="bottom:0px;">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                    <t t-foreach="wht_ids" t-as="wht">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                        <t t-set="amount" t-value="wht.credit + wht.debit"/>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                        <tr style="height:40px; font-size:31px;  line-height:20px; position: relative;">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                            <td width="35%" align="center" style="vertical-align:bottom;">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                <t t-if="wht.date_maturity">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                    <b><span t-esc="datetime.datetime.strptime(str(wht.date_maturity), '%Y-%m-%d').strftime('%d/%m/%Y')"/></b>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                </t>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                            </td>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                            <td width="34%" align="right" style="vertical-align:bottom;">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                <t t-if="not wht.amount_before_tax">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                    <t t-set="wht_tax" t-value="wht.wht_tax.amount"/>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                    <t t-set="amount_before_tax" t-value="amount * (1 - wht_tax / 100.0)"/>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                </t>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                <t t-if="wht.amount_before_tax">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                    <t t-set="amount_before_tax" t-value="wht.amount_before_tax"/>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                </t>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                <b><span t-esc="'{0:,.2f}'.format(float(amount_before_tax))"/></b>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                <t t-set="sum_amount_before_tax" t-value="sum_amount_before_tax + amount_before_tax"/>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                            </td>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                            <td width="31%" align="right" style="vertical-align:bottom;">&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                <b><span t-esc="'{0:,.2f}'.format(float(amount))"/></b>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                                <t t-set="sum_amount_total" t-value="sum_amount_total + amount"/>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                            </td>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                        </tr>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                    </t>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                </table>&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            </div>&ndash;&gt;-->
+<!--                            &lt;!&ndash;v15&ndash;&gt;-->
+
+<!--                            <t t-foreach="wht_ids" t-as="wht">-->
+<!--                                <t t-set="amount" t-value="wht.credit + wht.debit"/>-->
+
+<!--                                <div style="position: absolute; left: 775px; top:1325px; width:515px; height:170px;">-->
+<!--                                    <font style="height:40px; font-size:31px;  line-height:20px; position: relative;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">-->
+<!--                                        <t t-if="wht.date_maturity">-->
+<!--                                            <b><span t-esc="datetime.datetime.strptime(str(wht.date_maturity), '%Y-%m-%d').strftime('%d/%m/%Y')"/></b>-->
+<!--                                        </t>-->
+<!--                                    </font>-->
+<!--                                </div>-->
+<!--                                <div style="position: absolute; left: 610px; top:1325px; width:515px; height:170px;text-align:right;">-->
+<!--                                    <font style="height:40px; font-size:31px; line-height:20px; position: relative;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">-->
+<!--                                        <t t-if="not wht.amount_before_tax">-->
+<!--                                            <t t-set="wht_tax" t-value="wht.wht_tax.amount"/>-->
+<!--                                            <t t-set="amount_before_tax" t-value="amount * (1 - wht_tax / 100.0)"/>-->
+<!--                                        </t>-->
+<!--                                        <t t-if="wht.amount_before_tax">-->
+<!--                                            <t t-set="amount_before_tax" t-value="wht.amount_before_tax"/>-->
+<!--                                        </t>-->
+<!--                                        <b><span t-esc="'{0:,.2f}'.format(float(amount_before_tax))"/></b>-->
+<!--                                        <t t-set="sum_amount_before_tax" t-value="sum_amount_before_tax + amount_before_tax"/>-->
+<!--                                    </font>-->
+<!--                                </div>-->
+<!--                                <div style="position: absolute; left: 775px; top:1325px; width:515px; height:170px;text-align:right;">-->
+<!--                                    <font style="height:40px; font-size:31px; line-height:20px; position: relative;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">-->
+<!--                                        <b><span t-esc="'{0:,.2f}'.format(float(amount))"/></b>-->
+<!--                                        <t t-set="sum_amount_total" t-value="sum_amount_total + amount"/>-->
+<!--                                    </font>-->
+<!--                                </div>-->
+<!--                            </t>-->
+
+
+<!--                            ==========================================================================================-->
+
+                            <!--detail-->
+                             <t t-set="sum_amount_before_tax" t-value="0"/>
+                            <t t-set="sum_amount_total" t-value="0"/>
+                            <div style="position: absolute; left: 775px; top:1325px; width:515px; height:170px;">
+                                <table class="font_fam" width="100%" style="border: 1px solid transparent;bottom:0px; position: absolute;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                    <t t-foreach="wht_ids" t-as="wht">
+                                        <t t-set="amount" t-value="wht.credit + wht.debit"/>
+                                        <tr style="height:40px; font-size:31px;  line-height:20px; position: relative;">
+                                            <td width="35%" align="center" style="vertical-align:bottom;">
+                                                <t t-if="wht.date_maturity">
+                                                    <b><span t-esc="datetime.datetime.strptime(str(wht.date_maturity), '%Y-%m-%d').strftime('%d/%m/%Y')"/></b>
+                                                </t>
+                                            </td>
+                                            <td width="34%" align="right" style="vertical-align:bottom;">
+                                                <t t-if="not wht.amount_before_tax">
+                                                    <t t-set="wht_tax" t-value="wht.wht_tax.amount"/>
+                                                    <t t-set="amount_before_tax" t-value="amount * (1 - wht_tax / 100.0)"/>
+                                                </t>
+                                                <t t-if="wht.amount_before_tax">
+                                                    <t t-set="amount_before_tax" t-value="wht.amount_before_tax"/>
+                                                </t>
+                                                <b><span t-esc="'{0:,.2f}'.format(float(amount_before_tax))"/></b>
+                                                <t t-set="sum_amount_before_tax" t-value="sum_amount_before_tax + amount_before_tax"/>
+                                            </td>
+                                            <td width="31%" align="right" style="vertical-align:bottom;">
+                                                <b><span t-esc="'{0:,.2f}'.format(float(amount))"/></b>
+                                                <t t-set="sum_amount_total" t-value="sum_amount_total + amount"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </table>
+                            </div>
+
+                            <!--sum detail-->
+                            <!--v15-->
+                            <!--                            <div class="font_fam" style="position: absolute; right: 85px; top:1545px; width:515px;">-->
+                            <!--                                <table width="100%" style="bottom:0px; position: absolute;">-->
+                            <!--                                    <tr style="height:40px; font-size:31px;  line-height:20px; position: relative;">-->
+                            <!--                                        <td width="35%"/>-->
+                            <!--                                        <td width="34%" align="right" style="vertical-align:bottom;">-->
+                            <!--                                            <b><span t-esc="'{0:,.2f}'.format(float(sum_amount_before_tax))"/></b>-->
+                            <!--                                        </td>-->
+                            <!--                                        <td width="31%" align="right" style="vertical-align:bottom;">-->
+                            <!--                                            <b><span t-esc="'{0:,.2f}'.format(float(sum_amount_total))"/></b>-->
+                            <!--                                        </td>-->
+                            <!--                                    </tr>-->
+                            <!--                                </table>-->
+                            <!--                            </div>-->
+                            <!--v15-->
+
+                            <div class="font_fam" style="position: absolute; left: 610px; top:1505px; width:515px;text-align:right;">
+                                <font style="font-size:31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                    <b><span t-esc="'{0:,.2f}'.format(float(sum_amount_before_tax))"/></b>
+                                </font>
+                            </div>
+
+                            <div class="font_fam" style="position: absolute; left: 775px; top:1505px; width:515px;text-align:right;">
+                                <font style="font-size:31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                    <b><span t-esc="'{0:,.2f}'.format(float(sum_amount_total))"/></b>
+                                </font>
+                            </div>
+                            <div class="font_fam" style="position: absolute; left:440px; top:1560px; width:840px;font-size:28px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                <b><span t-esc="o.baht_text(sum_amount_total)"/></b>
+                            </div>
+
+                            <!--description-->
+<!--                            <div class="font_fam" style="position:absolute; left:240px; top:1465px; width:515px;font-size:28px;">-->
+<!--                                <t t-set="i_description" t-value="1"/>-->
+<!--                                <t t-set="last" t-value="len(wht_ids)"/>-->
+<!--                                &lt;!&ndash;                                <t t-foreach="wht_ids" t-as="wht">&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                    <t t-if="wht_ids and wht_ids[0].ref_new">&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                        <span t-field="wht_ids[0].ref_new"/>&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                    </t>&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                    <t t-if="wht_ids and not wht_ids[0].ref_new">&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                        <span t-field="wht.name"/>&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                    </t>&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                    <t t-set="i_description" t-value="i_description + 1"/>&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                </t>&ndash;&gt;-->
+<!--                            </div>-->
+
+<!--                            =====================================================================-->
+
+                            <!--description-->
+                            <div class="font_fam" style="position:absolute; left:240px; top:1465px;src:url(/itaas_print_wht_report/static/THSarabun.ttf);font-size:31px; width:515px;">
+                                <t t-set="i_description" t-value="1"/>
+                                <t t-set="last" t-value="len(wht_ids)"/>
+                                <t t-foreach="wht_ids" t-as="wht">
+
+                                    <t t-if="i_description != last">
+                                        <b><span t-esc="wht.name"/>,</b>
+                                    </t>
+                                    <t t-if="i_description == last">
+                                        <b><span t-esc="wht.name"/></b>
+                                    </t>
+                                    <t t-set="i_description" t-value="i_description + 1"/>
+                                </t>
+                            </div>
+
+                            <!--footer-->
+                            <div style="position: absolute;left: 208px;top: 1640px;">
+                                <font class="font_fam" style="font-size:43px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                    <b><span>X</span></b>
+                                </font>
+                            </div>
+
+                            <!--footer date-->
+                            <t t-if="wht_ids">
+                                <t t-set="date" t-value="str(wht_ids[0].date_maturity)"/>
+                            </t>
+                            <t t-if="not o.date">
+                                <t t-set="context_timestamp" t-value="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')"/>
+                                <t t-set="date" t-value="str(context_timestamp)"/>
+                            </t>
+                            <div style="position: absolute;right: 540px;top: 1755px;">
+                                <font class="font_fam" style="font-size:31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                    <t t-if="date">
+                                        <b><span t-esc="date[8:10]"/></b>
+                                    </t>
+                                    <t t-if="not date">
+                                        <span/>
+                                    </t>
+                                </font>
+                            </div>
+                            <div style="position: absolute;right: 450px;top: 1755px;">
+                                <font class="font_fam" style="font-size:31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                    <t t-if="date">
+                                        <b><span t-esc="date[5:7]"/></b>
+                                    </t>
+                                    <t t-if="not date">
+                                        <span/>
+                                    </t>
+                                </font>
+                            </div>
+                            <div style="position: absolute;right: 290px;top: 1755px;">
+                                <font class="font_fam" style="font-size:31px;font-family:TH SarabunPSK;src:url(/itaas_print_wht_report/static/THSarabun.ttf);">
+                                    <t t-if="date">
+                                        <b><span t-esc="date[0:4]"/></b>
+                                    </t>
+                                    <t t-if="not date">
+                                        <span/>
+                                    </t>
+                                </font>
+                            </div>
+                            <!--                            <img t-if="o.env.user.image_signature" t-att-src="'data:image/png;base64,%s' % to_text(o.env.user.image_signature)" style="position: absolute; height: 58px; width:120px; top:1720px; left:900px;"/>-->
+                            <!--                            <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="position: absolute; height: 58px; width:100px; top:1740px; left:650px;"/>-->
+                        </div>
+
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

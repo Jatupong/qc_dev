@@ -1,0 +1,115 @@
+<odoo>
+
+    <record id="res_config_settings_view_form_invoice_report" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.invoice.report</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@data-key='account']" position="inside">
+                <h2 class="mt32">Invoice Reports</h2>
+                <div class="row mt16 o_settings_container" id="connectors_setting_container">
+                    <div class="col-12 col-lg-6 o_setting_box" id="invoice_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Invoice No. Form</span>
+                            <div class="text-muted">
+                                <field name="invoice_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="tax_invoice_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Tax Invoice No. Form</span>
+                            <div class="text-muted">
+                                <field name="tax_invoice_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="invoice_and_tax_invoice_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Invoice and Tax No. Form</span>
+                            <div class="text-muted">
+                                <field name="invoice_and_tax_invoice_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="receipt_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Receipt No. Form</span>
+                            <div class="text-muted">
+                                <field name="receipt_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="tax_invoice_and_receipt_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Tax Invoice And Receipt No. Form</span>
+                            <div class="text-muted">
+                                <field name="tax_invoice_and_receipt_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="credit_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Credit Note No. Form</span>
+                            <div class="text-muted">
+                                <field name="credit_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="debit_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Debit Note No. Form</span>
+                            <div class="text-muted">
+                                <field name="debit_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="down_payment_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Down Payment No. Form</span>
+                            <div class="text-muted">
+                                <field name="down_payment_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="invoice_billing_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Invoice Billing No. Form</span>
+                            <div class="text-muted">
+                                <field name="invoice_billing_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="show_currency_on_invoice">
+                        <div class="o_setting_left_pane">
+                            <field name="show_currency_on_invoice" widget="upgrade_boolean"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Show Currency in Invoice</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="show_date_auto_invoice">
+                        <div class="o_setting_left_pane">
+                            <field name="show_date_auto_invoice" widget="upgrade_boolean"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Show Date Invoice</span>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
