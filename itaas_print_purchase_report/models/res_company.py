@@ -13,4 +13,5 @@ class res_company(models.Model):
     show_date_auto_purchase = fields.Boolean(string='Show Date Purchase')
 
     document_id = fields.Char(string='ฟอร์มเคลมสินค้าใบส่งสินค้า')
+    document_id2 = fields.Char(string='ฟอร์มเคลมสินค้าใบเบิกพัสดุ')
 
