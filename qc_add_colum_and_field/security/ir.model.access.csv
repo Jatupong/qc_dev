@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+res_channel_customers,res_channel_customers,model_res_channel_customers,base.group_user,1,1,1,1
+res_group_customers,res_group_customers,model_res_group_customers,base.group_user,1,1,1,1
+res_teams_customers,res_teams_customers,model_res_teams_customers,base.group_user,1,1,1,1
+res_type_customers,res_type_customers,model_res_type_customers,base.group_user,1,1,1,1
+
+

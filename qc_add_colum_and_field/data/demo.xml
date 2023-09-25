@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_customer_team_form" model="res.teams.customers">
+        <field name="name">Domestic</field>
+    </record>
+
+    <record id="view_customer_team_form" model="res.teams.customers">
+        <field name="name">Export</field>
+    </record>
+
+
+</odoo>

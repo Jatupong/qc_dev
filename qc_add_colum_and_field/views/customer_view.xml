@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_customer_channel_form" model="ir.ui.view">
+            <field name="name">view.customer.channel.form</field>
+            <field name="model">res.channel.customers</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                                <field name="name"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_customer_channel_tree" model="ir.ui.view">
+            <field name="name">view.customer.channel.tree</field>
+            <field name="model">res.channel.customers</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_customer_channel" model="ir.actions.act_window">
+            <field name="name">Customer Channel</field>
+            <field name="res_model">res.channel.customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_customer_channel_tree"/>
+        </record>
+
+        <menuitem id="menu_customer_channel"
+                  name="Customer Channel"
+                  parent="sale.menu_sale_general_settings"
+                  action="action_customer_channel"/>
+
+        <record id="view_customer_group_form" model="ir.ui.view">
+            <field name="name">view.customer.group.form</field>
+            <field name="model">res.group.customers</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+
+                                <field name="name"/>
+
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_customer_group_tree" model="ir.ui.view">
+            <field name="name">view.customer.group.tree</field>
+            <field name="model">res.group.customers</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_customer_group" model="ir.actions.act_window">
+            <field name="name">Customer Group</field>
+            <field name="res_model">res.group.customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_customer_group_tree"/>
+        </record>
+
+        <menuitem id="menu_customer_group"
+                  name="Customer Group"
+                  parent="sale.menu_sale_general_settings"
+                  action="action_customer_group"/>
+
+        <record id="view_customer_team_form" model="ir.ui.view">
+            <field name="name">view.customer.team.form</field>
+            <field name="model">res.teams.customers</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+
+                                <field name="name"/>
+
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_customer_team_tree" model="ir.ui.view">
+            <field name="name">view.customer.team.tree</field>
+            <field name="model">res.teams.customers</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="action_customer_team" model="ir.actions.act_window">
+            <field name="name">Customer Team</field>
+            <field name="res_model">res.teams.customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_customer_team_tree"/>
+        </record>
+
+        <menuitem id="menu_customer_team"
+                  name="Customer Team"
+                  parent="sale.menu_sale_general_settings"
+                  action="action_customer_team"/>
+
+        <record id="view_customer_type_form" model="ir.ui.view">
+            <field name="name">view.customer.type.form</field>
+            <field name="model">res.type.customers</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+
+                                <field name="name"/>
+
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_customer_type_tree" model="ir.ui.view">
+            <field name="name">view.customer.type.tree</field>
+            <field name="model">res.type.customers</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_customer_type" model="ir.actions.act_window">
+            <field name="name">Customer Type</field>
+            <field name="res_model">res.type.customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_customer_type_tree"/>
+        </record>
+
+        <menuitem id="menu_customer_type"
+                  name="Customer Type"
+                  parent="sale.menu_sale_general_settings"
+                  action="action_customer_type"/>
+
+</odoo>
