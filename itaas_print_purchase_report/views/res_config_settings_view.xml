@@ -19,6 +19,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="document_id2">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">ฟอร์มเคลมสินค้าใบเบิกพัสดุ</span>
+                            <div class="text-muted">
+                                <field name="document_id2"/>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-12 col-lg-6 o_setting_box" id="purchase_order_no_form">
                         <div class="o_setting_left_pane"/>
