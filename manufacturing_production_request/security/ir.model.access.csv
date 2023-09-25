@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_manufacturing_production_request,access.manufacturing.production.request,model_manufacturing_request_custom,mrp.group_mrp_user,1,1,1,1
+access_manufacturing_request_custom,access.manufacturing.request.custom,model_manufacturing_request_custom,mrp.group_mrp_user,1,1,1,1
+access_wizard_multi_create_mo,access.wizard.multi.create.mo,model_wizard_multi_create_mo,mrp.group_mrp_user,1,1,1,1

@@ -36,6 +36,7 @@ mrp request
         'views/manufacturing_view.xml',
         'views/mrp_production_view.xml',
         'report/manufacturing_production_report.xml',
+        'wizard/wizard_multi_create_mo_view.xml',
     ],
     'installable' : True,
     'application' : False,
