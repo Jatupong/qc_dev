@@ -499,7 +499,7 @@ class ReceiptDesign(models.Model):
         record_data = {}
         record_data['name'] = "ใบกำกับภาษีอย่างย่อ QC"
         record_data['receipt_design'] = """
-      
+        
       <div class="pos-receipt">
             <!--<div style="font-size: 80%; text-align:center;">-->
             <!--    <div><span t-esc='receipt.date.localestring'/>  <span t-esc='receipt.name'/></div>-->
@@ -641,7 +641,7 @@ class ReceiptDesign(models.Model):
                     VAT :
                     <span t-esc='widget.pos.format_currency(receipt.total_tax)' class="pos-receipt-right-align"/>
                   </div>
-                  <div style="font-size: 13px;">
+                  <div style="border-top: 1px solid; padding-top: 3%; padding-bottom: 3%;">
                     มูลค่าสุทธิก่อน VAT :
                     <span t-esc='widget.pos.format_currency(receipt.subtotal - receipt.total_tax)' class="pos-receipt-right-align"/>
                   </div>
