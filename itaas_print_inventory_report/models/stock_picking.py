@@ -109,6 +109,7 @@ class StockPicking(models.Model):
         break_page_line.append(count - 1)
 
         return break_page_line
+    
 
     # @api.multi
     # def get_report_values(self, docids, data):
