@@ -109,3 +109,24 @@ class StockPicking(models.Model):
         break_page_line.append(count - 1)
 
         return break_page_line
+
+    # @api.multi
+    # def get_report_values(self, docids, data):
+    #     print('get_report_values =====1')
+    #     print(docids)
+    #     result = []
+    #     line = []
+    #
+    #     porduct_id = self.env['stock.move.line'].browse(docids)
+    #     print('porduct_id', porduct_id)
+    #
+    #     result.append(line)
+    #     print('lineline', line)
+    #     return {
+    #         'doc_ids': docids,
+    #         'data': data,
+    #         'docs': porduct_id,
+    #         'result': result
+    #
+    #     }
+

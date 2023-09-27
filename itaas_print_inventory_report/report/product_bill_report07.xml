@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="product_bill_report07_id">
-       <t t-name="itaas_print_inventory_report.product_bill_report07_id">
-        <t t-foreach="docs" t-as="o">
+         <t t-foreach="docs" t-as="o">
             <t t-call="web.basic_layout">
                 <style>
 
@@ -233,8 +232,8 @@
                                 <table style="width:100%">
 
                                    <tr style="vertical-align: middle;">
-                                      <td width="30%" style="vertical-align: middle; border: 0px solid red;"> <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:80px; max-width:80px;" alt="Logo"/> </td>
-                                      <td width="70%" rowspan="2" style="vertical-align: middle; text-align: center; font-size: 20px; border: 0px solid red;">
+                                      <td width="30%" style="vertical-align: middle;"> <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:80px; max-width:80px;" alt="Logo"/> </td>
+                                      <td width="70%" rowspan="2" style="vertical-align: middle; text-align: center; font-size: 20px;">
                                         <B>
                                           ใบส่งมอบผลิตภัณฑ์
                                         </B>
@@ -244,7 +243,7 @@
                                     </tr>
 
                                     <tr style="vertical-align: middle;">
-                                     <td style="font-size: 5px; border: 0px solid red;">
+                                     <td style="font-size: 5px;">
                                        <B>
                                         <span t-field="o.company_id.name"/>&amp;nbsp;
                                         <!--<span t-field="o.company_id.partner_id.branch_no"/>&amp;nbsp;-->
@@ -279,21 +278,21 @@
                         </tr>
                     </table>
 
-                    <table width="100%" style="font-size:12px; border: 0px solid red;">
+                    <table width="100%" style="font-size:12px;">
                        <tr>
-                            <td width="27%" style="font-size:12px; border: 0px solid red;">วันที่ส่ง
+                            <td width="27%" style="font-size:12px;">วันที่ส่ง
                              <span t-field="o.scheduled_date"/>
                             </td>
-                            <td width="20%" style="font-size:12px; border: 0px solid red;">จากหน่วย
+                            <td width="20%" style="font-size:12px;">จากหน่วย
                             <span t-field="o.location_id"/>
                             </td>
-                            <td widht="20%" style="font-size:12px; border: 0px solid red;">ถึงหน่วย
+                            <td widht="25%" style="font-size:12px;">ถึงหน่วย
                                 <span t-field="o.location_dest_id"/>
                             </td>
-                            <td width="25%" style="font-size:12px; border: 0px solid red;">
+                            <td width="20%" style="font-size:12px; vertical-align: middle;">
                               <span t-field="o.product_ceg_th"/>
                             </td>
-                            <td width="10%" style="font-size:12px; border: 0px solid red;"/>
+                            <td width="10%" style="font-size:12px;"/>
                       </tr>
 
                     </table>
@@ -879,7 +878,7 @@
                         </table>
                     </div>
                 </div>
-            </t>
+
         </t>
 
 
