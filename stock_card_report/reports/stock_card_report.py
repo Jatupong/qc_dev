@@ -19,19 +19,11 @@ class StockCardView(models.TransientModel):
     location_dest_id = fields.Many2one(comodel_name="stock.location")
     is_initial = fields.Boolean()
     product_in = fields.Float()
+    amount_in = fields.Float()
     product_out = fields.Float()
-    picking_id = fields.Many2one(comodel_name="stock.picking")
+    amount_out = fields.Float()
     lot_id = fields.Many2one('stock.production.lot', string='Lot')
-
-    def name_get(self):
-        result = []
-        for rec in self:
-            name = rec.reference
-            if rec.picking_id.origin:
-                name = "{} ({})".format(name, rec.picking_id.origin)
-            result.append((rec.id, name))
-        return result
-
+    move_line_id = fields.Char()
 
 class StockCardReport(models.TransientModel):
     _name = "report.stock.card.report"
@@ -50,6 +42,49 @@ class StockCardReport(models.TransientModel):
         help="Use compute fields, so there is nothing store in database",
     )
 
+    #stock.move
+    # def _compute_results(self):
+    #     self.ensure_one()
+    #     date_from = self.date_from or "0001-01-01"
+    #     self.date_to = self.date_to or fields.Date.context_today(self)
+    #     locations = self.env["stock.location"].search(
+    #         [("id", "child_of", [self.location_id.id])]
+    #     )
+    #     self._cr.execute(
+    #         """
+    #         SELECT move.date, move.product_id, move.product_qty,
+    #             move.product_uom_qty, move.product_uom, move.reference,
+    #             move.location_id, move.location_dest_id,
+    #             case when move.location_dest_id in %s and move.location_id in %s
+    #                 then move.product_qty end as product_int,
+    #             case when move.location_dest_id in %s
+    #                 then move.product_qty end as product_in,
+    #             case when move.location_id in %s
+    #                 then move.product_qty end as product_out,
+    #             case when move.date < %s then True else False end as is_initial
+    #         FROM stock_move move
+    #         WHERE (move.location_id in %s or move.location_dest_id in %s)
+    #             and move.state = 'done' and move.product_id in %s
+    #             and CAST(move.date AS date) <= %s
+    #         ORDER BY move.date, move.reference
+    #     """,
+    #         (
+    #             tuple(locations.ids),
+    #             tuple(locations.ids),
+    #             tuple(locations.ids),
+    #             tuple(locations.ids),
+    #             date_from,
+    #             tuple(locations.ids),
+    #             tuple(locations.ids),
+    #             tuple(self.product_ids.ids),
+    #             self.date_to,
+    #         ),
+    #     )
+    #     stock_card_results = self._cr.dictfetchall()
+    #     ReportLine = self.env["stock.card.view"]
+    #     self.results = [ReportLine.new(line).id for line in stock_card_results]
+
+    #stock.move.line
     def _compute_results(self):
         self.ensure_one()
         date_from = self.date_from or "0001-01-01"
@@ -59,22 +94,22 @@ class StockCardReport(models.TransientModel):
         )
         self._cr.execute(
             """
-            SELECT move.date, move.product_id, move.product_qty,
-                move.product_uom_qty, move.product_uom, move.reference,
-                move.location_id, move.location_dest_id,
+            SELECT move.date, move.product_id, move.qty_done as product_qty,
+                 move.product_uom_id as product_uom, move.reference,
+                move.location_id, move.location_dest_id,move.lot_id,move.id as move_line_id,
                 case when move.location_dest_id in %s
-                    then move.product_qty end as product_in,
+                    then move.qty_done end as product_in,
                 case when move.location_id in %s
-                    then move.product_qty end as product_out,
-                case when move.date < %s then True else False end as is_initial,
-                move.picking_id
-            FROM stock_move move
+                    then move.qty_done end as product_out,
+                case when move.date < %s then True else False end as is_initial
+            FROM stock_move_line move
             WHERE (move.location_id in %s or move.location_dest_id in %s)
                 and move.state = 'done' and move.product_id in %s
                 and CAST(move.date AS date) <= %s
             ORDER BY move.date, move.reference
         """,
             (
+
                 tuple(locations.ids),
                 tuple(locations.ids),
                 date_from,
@@ -85,13 +120,21 @@ class StockCardReport(models.TransientModel):
             ),
         )
         stock_card_results = self._cr.dictfetchall()
+        print('stock_card_results:',stock_card_results)
         ReportLine = self.env["stock.card.view"]
         self.results = [ReportLine.new(line).id for line in stock_card_results]
 
     def _get_initial(self, product_line):
-        product_input_qty = sum(product_line.mapped("product_in"))
-        product_output_qty = sum(product_line.mapped("product_out"))
-        return product_input_qty - product_output_qty
+        try:
+            print('_get_initial:')
+            print('product_line:',product_line)
+            product_input_qty = sum(product_line.mapped("product_in"))
+            product_output_qty = sum(product_line.mapped("product_out"))
+            print('product_input_qty:', product_input_qty)
+            print('product_output_qty:',product_output_qty )
+            return product_input_qty - product_output_qty
+        except:
+            return 0
 
     def print_report(self, report_type="qweb"):
         self.ensure_one()
@@ -110,9 +153,9 @@ class StockCardReport(models.TransientModel):
             rcontext["o"] = report
             result["html"] = self.env.ref(
                 "stock_card_report.report_stock_card_report_html"
-            )._render(rcontext)
+            ).render(rcontext)
         return result
 
     @api.model
     def get_html(self, given_context=None):
-        return self.with_context(**(given_context or {}))._get_html()
+        return self.with_context(given_context)._get_html()
