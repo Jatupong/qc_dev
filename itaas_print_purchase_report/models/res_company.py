@@ -12,6 +12,6 @@ class res_company(models.Model):
     show_currency_on_purchase = fields.Boolean(string='Show Currency in Purchase')
     show_date_auto_purchase = fields.Boolean(string='Show Date Purchase')
 
-    document_id = fields.Char(string='ฟอร์มเคลมสินค้าใบส่งสินค้า')
-    document_id2 = fields.Char(string='ฟอร์มเคลมสินค้าใบเบิกพัสดุ')
+    # document_id = fields.Char(string='ฟอร์มเคลมสินค้าใบส่งสินค้า')
+    # document_id2 = fields.Char(string='ฟอร์มเคลมสินค้าใบเบิกพัสดุ')
 
