@@ -198,7 +198,7 @@ class ReportStockCardReportXlsx(models.AbstractModel):
                 col_specs_section="data",
                 render_space={
                     "date": line.date or "",
-                    "reference": line.display_name or "",
+                    "reference": line.reference or "",
                     "lot_id": line.lot_id or "",
                     "location_form": line.location_id.display_name or "",
                     "location_to": line.location_dest_id.display_name or "",

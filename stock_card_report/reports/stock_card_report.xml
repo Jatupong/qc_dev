@@ -22,21 +22,17 @@
         </div>
     </template>
 
-    <template id="report_buttons">
+        <template id="report_buttons">
         <div class="button_row">
-            <button class="o_stock_card_reports_print btn btn-sm oe_button"><span
-                    class="fa fa-print"
-                />Print</button>
-            <button class="o_stock_card_reports_export btn btn-sm oe_button"><span
-                    class="fa fa-download"
-                />Export</button>
+            <button class="o_stock_card_reports_print btn btn-sm oe_button"><span class="fa fa-print"/>Print</button>
+            <button class="o_stock_card_reports_export btn btn-sm oe_button"><span class="fa fa-download"/>Export</button>
         </div>
     </template>
 
     <template id="report_stock_card_report_html">
         <div class="o_stock_card_reports_page">
-            <t t-call="stock_card_report.report_buttons" />
-            <t t-call="stock_card_report.report_stock_card_report_base" />
+            <t t-call="stock_card_report.report_buttons"/>
+            <t t-call="stock_card_report.report_stock_card_report_base"/>
         </div>
     </template>
 
@@ -44,7 +40,7 @@
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
                 <t t-call="stock_card_report.internal_layout">
-                    <t t-call="stock_card_report.report_stock_card_report_base" />
+                    <t t-call="stock_card_report.report_stock_card_report_base"/>
                 </t>
             </t>
         </t>
@@ -54,48 +50,39 @@
         <t t-foreach="o.product_ids" t-as="product">
             <div class="page">
                 <div class="row">
-                    <t t-set="title">Stock Card - <t t-out="product.name" /></t>
-                    <h4 class="mt0" t-out="title" style="text-align: center;" />
+                    <t t-set="title">Stock Card - <t t-raw="product.name"/></t>
+                    <h4 class="mt0" t-esc="title" style="text-align: center;"/>
                 </div>
                 <!-- Display filters -->
-                <t t-call="stock_card_report.report_stock_card_report_filters" />
+                <t t-call="stock_card_report.report_stock_card_report_filters"/>
                 <!-- Display stock card table -->
                 <div class="act_as_table data_table mt4" style="width: 100%;">
                     <!-- Display header line-->
-                    <t t-call="stock_card_report.report_stock_card_lines_header" />
+                    <t t-call="stock_card_report.report_stock_card_lines_header"/>
                     <!-- Display initial lines -->
-                    <t
-                        t-set="initial"
-                        t-value="o._get_initial(o.results.filtered(lambda l: l.product_id == product and l.is_initial))"
-                    />
+                    <t t-set="initial" t-value="o._get_initial(o.results.filtered(lambda l: l.product_id == product and l.is_initial))"/>
                     <div class="act_as_row lines">
-                        <div class="act_as_cell" />
+                        <div class="act_as_cell"/>
                         <div class="act_as_cell">
                             Initial
                         </div>
-                        <div class="act_as_cell" />
-                        <div class="act_as_cell" />
-                        <div class="act_as_cell" />
-                        <div class="act_as_cell" />
-                        <div class="act_as_cell" />
+                        <div class="act_as_cell"/>
+                        <div class="act_as_cell"/>
+                        <div class="act_as_cell"/>
+                        <div class="act_as_cell"/>
+                        <div class="act_as_cell"/>
                         <div class="act_as_cell right">
-                            <t t-out="'{0:,.3f}'.format(initial)" />
+                            <t t-esc="'{0:,.2f}'.format(initial)"/>
                         </div>
                     </div>
                     <!-- Display each lines -->
-                    <t t-set="product_balance" t-value="initial" />
-                    <t
-                        t-foreach="o.results.filtered(lambda l: l.product_id == product and not l.is_initial)"
-                        t-as="product_line"
-                    >
-                        <t
-                            t-set="product_balance"
-                            t-value="product_balance + product_line.product_in - product_line.product_out"
-                        />
-                        <t t-call="stock_card_report.report_stock_card_lines" />
+                    <t t-set="product_balance" t-value="initial"/>
+                    <t t-foreach="o.results.filtered(lambda l: l.product_id == product and not l.is_initial)" t-as="product_line">
+                        <t t-set="product_balance" t-value="product_balance + product_line.product_in - product_line.product_out"/>
+                        <t t-call="stock_card_report.report_stock_card_lines"/>
                     </t>
                 </div>
-                <p style="page-break-before:always;" />
+                <p style="page-break-before:always;"></p>
             </div>
         </t>
     </template>
@@ -109,13 +96,13 @@
             </div>
             <div class="act_as_row">
                 <div class="act_as_cell">
-                    <span t-field="o.date_from" />
+                    <span t-field="o.date_from"/>
                 </div>
                 <div class="act_as_cell">
-                    <span t-field="o.date_to" />
+                    <span t-field="o.date_to"/>
                 </div>
                 <div class="act_as_cell">
-                    <span t-field="o.location_id" />
+                    <span t-field="o.location_id"/>
                 </div>
             </div>
         </div>
@@ -129,8 +116,8 @@
                 <div class="act_as_cell">Lot</div>
                 <div class="act_as_cell">From</div>
                 <div class="act_as_cell">To</div>
-                <div class="act_as_cell">In</div>
-                <div class="act_as_cell">Out</div>
+                <div class="act_as_cell">Input</div>
+                <div class="act_as_cell">Output</div>
                 <div class="act_as_cell">Balance</div>
             </div>
         </div>
@@ -139,37 +126,31 @@
     <template id="stock_card_report.report_stock_card_lines">
         <div class="act_as_row lines">
             <div class="act_as_cell left">
-                <t t-out="product_line.date.strftime('%Y-%m-%d')" />
+                <t t-esc="product_line.date.strftime('%d/%m/%Y')"/>
             </div>
             <div class="act_as_cell left">
-                <t t-out="product_line.display_name" />
+                <t t-esc="product_line.reference"/>
             </div>
             <div class="act_as_cell left">
-                <t t-if="product_line.lot_id">
+                <t t-if ="product_line.lot_id">
                     <t t-esc="product_line.lot_id"/>
                 </t>
-                    <t t-out="" />
+                <span> </span>
             </div>
             <div class="act_as_cell left">
-                <t t-if="product_line.location_id.display_name">
                 <t t-esc="product_line.location_id.display_name"/>
-                </t>
-                    <t t-out="" />
             </div>
             <div class="act_as_cell left">
-                <t t-if="product_line.location_dest_id.display_name">
                 <t t-esc="product_line.location_dest_id.display_name"/>
-                </t>
-                    <t t-out="" />
             </div>
             <div class="act_as_cell right">
-                <t t-out="'{0:,.3f}'.format(product_line.product_in)" />
+                <t t-esc="'{0:,.2f}'.format(product_line.product_in)"/>
             </div>
             <div class="act_as_cell right">
-                <t t-out="'{0:,.3f}'.format(product_line.product_out)" />
+                <t t-esc="'{0:,.2f}'.format(product_line.product_out)"/>
             </div>
             <div class="act_as_cell right">
-                <t t-out="'{0:,.3f}'.format(product_balance)" />
+                <t t-esc="'{0:,.2f}'.format(product_balance)"/>
             </div>
         </div>
    </template>
