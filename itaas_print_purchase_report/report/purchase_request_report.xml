@@ -139,17 +139,17 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -172,7 +172,7 @@
                         margin:0px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
                         border:1px solid white;
@@ -417,17 +417,17 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered {
                         border:1px solid black;
                         padding:3px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -435,27 +435,27 @@
                         text-align:center;
                         padding:3px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; tbody &gt; tr &gt; td{
                         border:0px solid White;
                         border-left: 1px solid black;
                         padding:3px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; tfoot &gt; tr &gt; td{
                         border:1px solid black;
                         padding:3px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
 
                         table.table-nobordered{
                         margin:0px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
                         border:1px solid white;
@@ -600,18 +600,18 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         font-size: 20px;
                         }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_purchase_request/static/sarabun/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
