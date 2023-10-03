@@ -30,12 +30,13 @@ class PurchaseOrderLine(models.Model):
     def _compute_amount(self):
         return super()._compute_amount()
 
-    def _prepare_compute_all_values(self):
-        vals = super()._prepare_compute_all_values()
-        vals.update({"price_unit": self._get_discounted_price_unit()})
+    def _convert_to_tax_base_line_dict(self):
+        vals = super()._convert_to_tax_base_line_dict()
+        if self.discount:
+            vals.update({"discount": self.discount})
         return vals
 
-    discount = fields.Float(string="Discount (%)", digits="Discount")
+    discount = fields.Float(string="Dis (%)", digits="Discount")
 
     _sql_constraints = [
         (
@@ -57,50 +58,43 @@ class PurchaseOrderLine(models.Model):
             return self.price_unit * (1 - self.discount / 100)
         return self.price_unit
 
+    def _get_stock_move_price_unit(self):
+        """Get correct price with discount replacing current price_unit
+        value before calling super and restoring it later for assuring
+        maximum inheritability.
 
+        HACK: This is needed while https://github.com/odoo/odoo/pull/29983
+        is not merged.
+        """
+        price_unit = False
+        price = self._get_discounted_price_unit()
+        if price != self.price_unit:
+            # Only change value if it's different
+            price_unit = self.price_unit
+            self.price_unit = price
+        price = super()._get_stock_move_price_unit()
+        if price_unit:
+            self.price_unit = price_unit
+        return price
 
-    # def _get_stock_move_price_unit(self):
-    #     """Get correct price with discount replacing current price_unit
-    #     value before calling super and restoring it later for assuring
-    #     maximum inheritability.
-    #
-    #     HACK: This is needed while https://github.com/odoo/odoo/pull/29983
-    #     is not merged.
-    #     """
-    #     price_unit = False
-    #     price = self._get_discounted_price_unit()
-    #     print('price_price:',price)
-    #     print('self.price_unit:',self.price_unit)
-    #     print('====================== :',self)
-    #     if price != self.price_unit:
-    #         # Only change value if it's different
-    #         price_unit = self.price_unit
-    #         self.price_unit = price
-    #     price = super()._get_stock_move_price_unit()
-    #     # if price_unit:
-    #     #
-    #     #     self.price_unit = price_unit
-    #     return price
-
-    # @api.onchange("product_qty", "product_uom") ในส่วนนี้ขอปิดไปก่อน
-    # def _onchange_quantity(self):
-    #     """
-    #     Check if a discount is defined into the supplier info and if so then
-    #     apply it to the current purchase order line
-    #     """
-    #     res = super()._onchange_quantity()
-    #     if self.product_id:
-    #         date = None
-    #         if self.order_id.date_order:
-    #             date = self.order_id.date_order.date()
-    #         seller = self.product_id._select_seller(
-    #             partner_id=self.partner_id,
-    #             quantity=self.product_qty,
-    #             date=date,
-    #             uom_id=self.product_uom,
-    #         )
-    #         self._apply_value_from_seller(seller)
-    #     return res
+    @api.onchange("product_qty", "product_uom")
+    def _onchange_quantity(self):
+        """
+        Check if a discount is defined into the supplier info and if so then
+        apply it to the current purchase order line
+        """
+        if self.product_id:
+            date = None
+            if self.order_id.date_order:
+                date = self.order_id.date_order.date()
+            seller = self.product_id._select_seller(
+                partner_id=self.partner_id,
+                quantity=self.product_qty,
+                date=date,
+                uom_id=self.product_uom,
+            )
+            self._apply_value_from_seller(seller)
+        return
 
     @api.model
     def _apply_value_from_seller(self, seller):
@@ -123,10 +117,10 @@ class PurchaseOrderLine(models.Model):
         res = super()._prepare_purchase_order_line(
             product_id, product_qty, product_uom, company_id, supplier, po
         )
-        
+        partner = supplier.partner_id
         uom_po_qty = product_uom._compute_quantity(product_qty, product_id.uom_po_id)
         seller = product_id.with_company(company_id)._select_seller(
-            # partner_id=partner,
+            partner_id=partner,
             quantity=uom_po_qty,
             date=po.date_order and po.date_order.date(),
             uom_id=product_id.uom_po_id,
@@ -141,3 +135,15 @@ class PurchaseOrderLine(models.Model):
         if not seller:
             return {}
         return {"discount": seller.discount}
+
+    def write(self, vals):
+        res = super().write(vals)
+        if "discount" in vals or "price_unit" in vals:
+            for line in self.filtered(lambda l: l.order_id.state == "purchase"):
+                # Avoid updating kit components' stock.move
+                moves = line.move_ids.filtered(
+                    lambda s: s.state not in ("cancel", "done")
+                    and s.product_id == line.product_id
+                )
+                moves.write({"price_unit": line._get_discounted_price_unit()})
+        return res
