@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="account_ap_aging_report_xls"
+                model="wizard.account.aging.report"
+                string="รายละเอียดเจ้าหนี้ค้างรับ"
+                report_type="xlsx"
+                name="qc_account_aging_report.account_ap_aging_report_xls"
+                file="qc_account_aging_report.account_ap_aging_report_xls"
+                menu="False"
+                attachment_use="False"/>
+
+        <record id="paperformat_A4_Five_Margin_ap_aging" model="report.paperformat">
+            <field name="name">A4_Five_Margin_ap_aging</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="account_ap_aging_report"
+                model="wizard.account.aging.report"
+                string="รายละเอียดเจ้าหนี้ค้างรับ"
+                report_type="qweb-html"
+                paperformat="paperformat_A4_Five_Margin_ap_aging"
+                name="qc_account_aging_report.account_ap_aging_report_id"
+                file="qc_account_aging_report.account_ap_aging_report_id"
+                menu="False"
+                attachment_use="False"/>
+
+        <report
+                id="account_ar_aging_report_xls"
+                model="wizard.account.aging.report"
+                string="รายละเอียดลูกหนี้ค้างรับ"
+                report_type="xlsx"
+                name="qc_account_aging_report.account_ar_aging_report_xls"
+                file="qc_account_aging_report.account_ar_aging_report_xls"
+                menu="False"
+                attachment_use="False"/>
+
+        <record id="paperformat_A4_Five_Margin_ar_aging" model="report.paperformat">
+            <field name="name">A4_Five_Margin_ar_aging</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="account_ar_aging_report"
+                model="wizard.account.aging.report"
+                string="รายละเอียดลูกหนี้ค้างรับ"
+                report_type="qweb-html"
+                paperformat="paperformat_A4_Five_Margin_ar_aging"
+                name="qc_account_aging_report.account_ar_aging_report_id"
+                file="qc_account_aging_report.account_ar_aging_report_id"
+                menu="False"
+                attachment_use="False"/>
+
+    </data>
+</odoo>
