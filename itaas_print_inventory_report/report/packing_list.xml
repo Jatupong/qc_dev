@@ -150,19 +150,19 @@
                             </td>
 
                             <td width="45%">
-                                <table width="100%" style="border:1px solid black;">
+                                <table width="100%" >
                                     <tr style="height:30px;" >
-                                        <td style="line-height:15px; border:1px solid black;" width="15%">
+                                        <td style="line-height:15px;" width="15%">
                                             <div/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
-                                        <td style="line-height:15px;" width="35%">
+                                        <td style="line-height:15px;" width="45%">
                                             <div>DATE</div>
                                         </td>
-                                        <td width="65%">
-                                            <div class="word-wrap" style="width:300px;">
-                                                <span t-field="o.date"/>
+                                        <td width="55%">
+                                            <div class="word-wrap" style="width:100px;">
+                                                : <span t-field="o.location_dest_id"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -171,7 +171,7 @@
                                             <div>PACKING NO</div>
                                         </td>
                                         <td>
-                                            <span t-field="o.scheduled_date"/>
+                                            : <span t-field="o.location_dest_id"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -179,7 +179,7 @@
                                             <div>PI NO</div>
                                         </td>
                                         <td>
-                                            <span t-field="o.scheduled_date"/>
+                                            : <span t-field="o.location_dest_id"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -187,7 +187,7 @@
                                             <div>DELIVERY TO</div>
                                         </td>
                                         <td>
-                                            <span t-field="o.scheduled_date"/>
+                                            : <span t-field="o.location_dest_id"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -195,7 +195,7 @@
                                             <div>MODE OF SHIPMENT</div>
                                         </td>
                                         <td>
-                                            <span t-field="o.scheduled_date"/>
+                                            : <span t-field="o.location_dest_id"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -203,7 +203,7 @@
                                             <div>SHIPING</div>
                                         </td>
                                         <td>
-                                            <span t-field="o.scheduled_date"/>
+                                            : <span t-field="o.location_dest_id"/>
                                         </td>
                                     </tr>
                                 </table>
