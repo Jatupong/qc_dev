@@ -38,19 +38,34 @@ class PurchaseOrderLine(models.Model):
         for line in self:
             print ('xxxxx')
             super(PurchaseOrderLine, line)._compute_amount()
-            for line in self:
-                tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict()])
-                totals = list(tax_results['totals'].values())[0]
-                amount_untaxed = totals['amount_untaxed'] - self.discount_fixed
-                amount_tax = totals['amount_tax']
+            if self.discount_fixed:
+                for line in self:
+                    tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict()])
+                    totals = list(tax_results['totals'].values())[0]
+                    amount_untaxed = totals['amount_untaxed'] - self.discount_fixed
+                    amount_tax = totals['amount_tax']
 
-                line.update({
-                    'price_subtotal': amount_untaxed,
-                    'price_tax': amount_tax,
-                    'price_total': (amount_untaxed + amount_tax) - self.discount_fixed,
-                })
-            print("Discount Fixed",self.discount_fixed)
-            print("Discount",self.discount)
+                    line.update({
+                        'price_subtotal': amount_untaxed,
+                        'price_tax': amount_tax,
+                        'price_total': (amount_untaxed + amount_tax) - self.discount_fixed,
+                    })
+                print("Discount Fixed",self.discount_fixed)
+                print("Discount",self.discount)
+            if self.discount:
+                for line in self:
+                    tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict()])
+                    totals = list(tax_results['totals'].values())[0]
+                    amount_untaxed = totals['amount_untaxed'] -( totals['amount_untaxed']*(self.discount/100))
+                    amount_tax = totals['amount_tax']
+
+                    line.update({
+                        'price_subtotal': amount_untaxed,
+                        'price_tax': amount_tax,
+                        'price_total': (amount_untaxed + amount_tax) - self.discount_fixed,
+                    })
+                print("Discount Fixed", self.discount_fixed)
+                print("Discount", self.discount)
             print ('yyyyy')
 
             # tax_results = self.env['account.tax']._compute_taxes([line._convert_to_tax_base_line_dict()])
