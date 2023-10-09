@@ -46,7 +46,6 @@
                         <tr>
                             <td width="15%" class="word_wrap">
 <!--                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-width: 140px;"/>-->
-
                             </td>
 
                              <table style=" font-size: 22px;border:0px solid white">
