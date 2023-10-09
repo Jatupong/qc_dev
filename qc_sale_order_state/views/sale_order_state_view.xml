@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--res.partner : inherit form view-->
+    <record id="view_sale_order_form_qc_sale_state" model="ir.ui.view">
+        <field name="name">sale.order.form.qc.sale.state</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,sent,sale,production</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <!--res.partner : inherit tree view-->
+<!--    <record id="view_res_partner_tree_oct_partner_state" model="ir.ui.view">-->
+<!--        <field name="name">res.partner.tree.oct.partner.state</field>-->
+<!--        <field name="model">res.partner</field>-->
+<!--        <field name="inherit_id" ref="base.view_partner_tree"/>-->
+<!--        <field name="arch" type="xml">-->
+
+<!--            <tree position="inside">-->
+<!--                <field name="supplier_rank" invisible="1"/>-->
+<!--                    <field name="customer_rank" invisible="1"/>-->
+<!--                <field name="partner_state_sale" attrs="{'invisible':[('supplier_rank','!=',0)]}"/>-->
+<!--                <field name="partner_state" attrs="{'invisible':[('customer_rank','!=',0)]}"/>-->
+<!--            </tree>-->
+
+<!--        </field>-->
+<!--    </record>-->
+
+
+
+
+
+</odoo>
