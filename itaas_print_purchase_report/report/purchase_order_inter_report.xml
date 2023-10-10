@@ -773,11 +773,11 @@
                                                 </t>
                                             </td>
                                             <td align="right">
-                                                <span>0.00</span>
+<!--                                                <span>0.00</span>-->
 <!--                                                <t t-if="o.order_line[y].product_id">-->
-<!--                                                    <t t-if="o.order_line[y].discount">-->
-<!--                                                        <span t-esc="'{0:,.0f}'.format(abs(float(o.order_line[y].discount)))"/>%-->
-<!--                                                    </t>-->
+                                                    <t t-if="o.order_line[y].discount">
+                                                        <span t-esc="'{0:,.0f}'.format(abs(float(o.order_line[y].discount)))"/>%
+                                                    </t>
 <!--                                                    -->
 <!--                                                </t>-->
                                             </td>
@@ -834,11 +834,11 @@
                                                 </t>
                                             </td>
                                             <td align="center">
-                                                <span>0.00</span>
+<!--                                                <span>0.00</span>-->
 <!--                                                <t t-if="o.order_line[y].product_id">-->
-<!--                                                    <t t-if="o.order_line[y].discount">-->
-<!--                                                        <span t-esc="'{0:,.0f}'.format(abs(float(o.order_line[y].discount)))"/>%-->
-<!--                                                    </t>-->
+                                                    <t t-if="o.order_line[y].discount">
+                                                        <span t-esc="'{0:,.0f}'.format(abs(float(o.order_line[y].discount)))"/>%
+                                                    </t>
 <!--                                                </t>-->
                                             </td>
                                             <td align="right">

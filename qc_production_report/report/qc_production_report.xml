@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="qc_production_report_id" >
+
+                <t t-foreach="docs" t-as="o">
+                        <t t-set="order_line_id" t-value="o._get_sale_order_line()"/>
+
+                        <t t-call="web.basic_layout">
+                                <div class="header">
+                                        <style>
+                                                @font-face
+                                                {
+                                                font-family: Sarabun-Regular;
+                                                src: local('United'), url("/qc_production_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                                                }
+                                                .font_fam{
+                                                font-family: Sarabun-Regular;
+                                                src: local('United'), url("/qc_production_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                                                }
+                                                .word_wrap{
+                                                word-wrap: break-word;
+                                                overflow: hidden;
+                                                <!--background-color:#cccccc;-->
+                                                }
+                                                table.table-bordered{
+                                                border:1px solid black;
+                                                width: 100%;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                .font_size_32{
+                                                font-size: 32px;
+                                                line-height: 30px;
+                                                }
+                                                .font_size_28{
+                                                font-size: 28px;
+                                                line-height: 26px;
+                                                }
+                                                .font_size_22{
+                                                font-size: 22px;
+                                                line-height: 20px;
+                                                }
+                                                .font_size_20{
+                                                font-size: 20px;
+                                                line-height: 18px;
+                                                }
+                                                .font_size_18{
+                                                font-size: 18px;
+                                                line-height: 16px;
+                                                }
+                                                .font_size_16{
+                                                font-size: 16px;
+                                                line-height: 14px;
+                                                }
+                                                .font_size_14{
+                                                font-size: 14px;
+                                                line-height: 12px;
+                                                }
+                                                span{
+                                                line-height: inherit;
+                                                }
+                                        </style>
+
+                                        <table width="100%" class="font_fam table table-bordered font_size_14">
+                                                <tr>
+                                                        <td align="center" width="20%">
+                                                                <span>วันที่พิมพ์รายงาน</span><br/>
+                                                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                                                        </td>
+                                                        <td align="center" class="font_size_20" width="60%">
+                                                                <span t-field="o.company_id.english_name"/><br/>
+                                                                <span>ใบสั่งผลิต - ฝ่ายการตลาด</span>
+                                                        </td>
+                                                        <td align="center" width="20%">
+                                                                <span t-field="o.company_id.production_order_no_form"/><br/>
+                                                                <span>แก้ไขครั้งที่ 0 : 01 กันยายน 2563</span><br/>
+                                                                <span>หน้าที่ </span>
+                                                                <span class="page"/>/<span class="topage"/>
+                                                        </td>
+                                                </tr>
+                                        </table>
+
+                                        <table width="100%" class="font_fam table table-nobordered font_size_14">
+                                                <tr>
+                                                        <td width="20%">เลขที่สั่งผลิต</td>
+                                                        <td width="30%">: <span t-field="o.custom_request_id"/></td>
+                                                        <td width="20%">วันที่</td>
+                                                        <td width="30%">:
+                                                                <t t-if="order_line_id">
+                                                                        <span t-field="order_line_id.order_id.date_order"/>
+                                                                </t>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>ชื่อลูกค้า</td>
+                                                        <td>:
+                                                                <t t-if="order_line_id">
+                                                                        <span t-field="order_line_id.order_id.partner_id"/>
+                                                                </t>
+                                                        </td>
+                                                        <td>กำหนดส่ง</td>
+                                                        <td>:
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>P/O No.</td>
+                                                        <td>:
+                                                                <t t-if="order_line_id">
+                                                                        <span t-field="order_line_id.order_id.client_order_ref"/>
+                                                                </t>
+                                                        </td>
+                                                        <td>P/I No.</td>
+                                                        <td>:
+                                                                <t t-if="order_line_id">
+                                                                        <span t-field="order_line_id.order_id"/>
+                                                                </t>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Shipping Mark</td>
+                                                        <td>:
+                                                                <!--<t t-if="order_line_id">-->
+                                                                <!--        <span t-field="order_line_id.order_id.box_type"/>-->
+                                                                <!--</t>-->
+                                                        </td>
+                                                        <td>Packing</td>
+                                                        <td>:
+                                                                <!--                                                                <span t-field=""/>-->
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>Backstamp</td>
+                                                        <td>:
+                                                                <!--                                                                <span t-field=""/>-->
+                                                        </td>
+                                                        <td></td>
+                                                        <td></td>
+                                                </tr>
+                                        </table>
+                                </div>
+                                <div class="page">
+                                        <style>
+                                                @font-face
+                                                {
+                                                font-family: Sarabun-Regular;
+                                                src: local('United'), url("/qc_production_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                                                }
+                                                .font_fam{
+                                                font-family: Sarabun-Regular;
+                                                src: local('United'), url("/qc_production_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                                                }
+                                                table.table-bordered{
+                                                border:1px solid black;
+                                                width: 100%;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-nobordered{
+                                                margin:0px;
+                                                margin-top:0px;
+                                                margin-bottom:0px;
+                                                width: 100%;
+                                                }
+                                                table.table-nobordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; thead &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+
+                                                table.table-bordered {
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                vertical-align: middle;
+                                                text-align:center;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+
+                                                table.table-bordered-b {
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                vertical-align: middle;
+                                                text-align:center;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; tbody &gt; tr &gt; td{
+                                                border:0px solid White;
+                                                border-left: 1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+
+                                                table.table-nobordered-b{
+                                                margin:0px;
+                                                width: 100%;
+                                                }
+                                                table.table-nobordered-b &gt; thead &gt; tr &gt; th{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; thead &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                .word_wrap{
+                                                word-wrap: break-word;
+                                                <!--background-color:#cccccc;-->
+                                                }
+                                                .font_size_32{
+                                                font-size: 32px;
+                                                line-height: 30px;
+                                                }
+                                                .font_size_28{
+                                                font-size: 28px;
+                                                line-height: 26px;
+                                                }
+                                                .font_size_22{
+                                                font-size: 22px;
+                                                line-height: 20px;
+                                                }
+                                                .font_size_20{
+                                                font-size: 20px;
+                                                line-height: 18px;
+                                                }
+                                                .font_size_18{
+                                                font-size: 18px;
+                                                line-height: 16px;
+                                                }
+                                                .font_size_16{
+                                                font-size: 16px;
+                                                line-height: 14px;
+                                                }
+                                                .font_size_14{
+                                                font-size: 14px;
+                                                line-height: 12px;
+                                                }
+                                        </style>
+
+                                        <table width="100%" class="font_fam table table-bordered font_size_14" style="border-color:black;">
+                                                <thead>
+                                                        <tr>
+                                                                <td rowspan="2">
+                                                                        <span>ลำดับ</span>
+                                                                </td>
+                                                                <td rowspan="2">
+                                                                        <span>รหัส</span>
+                                                                </td>
+                                                                <td rowspan="2">
+                                                                        <span>รายการ</span>
+                                                                </td>
+                                                                <td rowspan="2">
+                                                                        <span>โลโก้</span>
+                                                                </td>
+                                                                <td rowspan="2">
+                                                                        <span>ตกแต่ง</span>
+                                                                </td>
+                                                                <td colspan="2">
+                                                                        <span>กล่อง</span>
+                                                                </td>
+                                                                <td rowspan="2">
+                                                                        <span>จำนวน</span>
+                                                                </td>
+                                                        </tr>
+                                                        <tr>
+                                                                <td>
+                                                                        <span>ใน</span>
+                                                                </td>
+                                                                <td>
+                                                                        <span>นอก</span>
+                                                                </td>
+                                                        </tr>
+                                                </thead>
+                                                <tbody>
+                                                        <t t-set="i_num" t-value="0"/>
+                                                        <t t-foreach="o.move_raw_ids" t-as="line">
+                                                                <t t-set="i_num" t-value="i_num + 1"/>
+                                                                <tr>
+                                                                        <td align="center">
+                                                                                <span t-esc="i_num"/>
+                                                                        </td>
+                                                                        <td>
+                                                                                <span t-field="line.product_id.default_code"/>
+                                                                        </td>
+                                                                        <td>
+                                                                                <span t-field="line.product_id.name"/>
+                                                                        </td>
+                                                                        <td align="center">
+                                                                                <!--<span t-field="line.product_id.attribute_id"/>-->
+                                                                        </td>
+                                                                        <td>
+                                                                                <!--<span t-field="line.product_id.attribute_id"/>-->
+                                                                        </td>
+                                                                        <td align="center">
+                                                                                <span t-field="line.product_uom_qty"/>
+                                                                        </td>
+                                                                        <td align="center">
+                                                                                <span t-field="line.product_uom_qty"/>
+                                                                        </td>
+                                                                        <td align="right">
+                                                                                <span t-field="line.product_uom_qty"/> <span t-field="line.product_uom"/>
+                                                                        </td>
+                                                                </tr>
+                                                        </t>
+                                                </tbody>
+                                                <tfoot>
+                                                        <tr>
+                                                                <td colspan="5" align="center">
+                                                                        <span>รวม</span>
+                                                                </td>
+                                                                <td colspan="3" align="center">
+                                                                        <span t-esc="'{0:,.2f}'.format(sum(o.move_raw_ids.mapped('product_uom_qty')))"/>
+                                                                </td>
+                                                        </tr>
+                                                </tfoot>
+                                        </table>
+                                        <div class="font_size_14">
+                                                <span>หมายเหตุ</span>
+                                                <t t-if="order_line_id">
+                                                        <span t-esc="order_line_id.order_id.note"/>
+                                                </t>
+                                        </div>
+
+                                        <table width="100%" class="font_fam table table-nobordered font_size_14" style="text-align:center;">
+                                                <tr>
+                                                        <td><B>ฝ่าย/ส่วนการตลาด</B></td><br/>
+                                                        <td><B>ส่วนบริการตลาดและการผลิต</B></td><br/>
+                                                        <td><B>ฝ่ายการผลิต</B></td>
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                <span>ผู้จัดทำ/ตรวจสอบ__________________</span><br/>
+                                                                <span>วันที___________________________</span>
+                                                        </td>
+                                                        <td>
+
+                                                        </td>
+                                                        <td>
+                                                                <span>รับทราบ________________________</span><br/>
+                                                                <span>ผู้จัดการส่วนวางแผน 1</span><br/>
+                                                                <span>วันที___________________________</span>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>
+                                                                <span>ผู้อนุมัติ_________________________</span><br/>
+                                                                <span>ผู้จัดการฝ่าย/ส่วนการตลาด</span><br/>
+                                                                <span>วันที___________________________</span>
+                                                        </td>
+                                                        <td>
+                                                                <span>รับทราบ________________________</span><br/>
+                                                                <span>ส่วนบริการการตลาดและการผลิต</span><br/>
+                                                                <span>วันที___________________________</span>
+                                                        </td>
+                                                        <td>
+                                                                <span>รับทราบ________________________</span><br/>
+                                                                <span>ผู้จัดการส่วนวางแผน 2</span><br/>
+                                                                <span>วันที___________________________</span>
+                                                        </td>
+                                                </tr>
+                                        </table>
+
+                                </div>
+                        </t>
+                </t>
+
+        </template>
+
+</odoo>

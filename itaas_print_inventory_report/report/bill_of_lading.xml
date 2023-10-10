@@ -5,10 +5,25 @@
             <t t-call="web.basic_layout">
                 <div class="header" style="position: relative;">
                     <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        }
+                        table.table-bordered{
+                        border:1px solid black;
+                        width: 100%;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        }
                         .word_wrap{word-wrap: break-word;}
 
                         table.table-bordered {
-                        border:2px solid black;
+                        border:1px solid black;
                         padding:3px;
                         width: 100%;
                         }
@@ -27,14 +42,13 @@
                         }
                     </style>
 
-                    <table style="font-family:TH SarabunPSK;                     src:url(/itaas_print_inventory_report/static/THSarabun.ttf); font-size: 16px;border:0px solid black">
+                    <table style=" font-size: 16px;border:0px solid black">
                         <tr>
                             <td width="15%" class="word_wrap">
 <!--                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-width: 140px;"/>-->
-
                             </td>
 
-                             <table style="font-family:TH SarabunPSK;src:url(/itaas_print_inventory_report/static/THSarabun.ttf); font-size: 22px;border:0px solid white">
+                             <table style=" font-size: 22px;border:0px solid white">
                         <tr>
                             <td width="15%" class="word_wrap">
 <!--                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-width: 140px;"/>-->
@@ -78,15 +92,16 @@
                         </tr>
                     </table>
 
-                    <div style="border-bottom: 2px solid black; margin-top:0px;"/>
+                    <div style="border: 1px solid black; margin-top: 10px;"/>
 
                     <div width="100%" style="text-align:center; margin-top:24px">
-                        <font style="font-size: 24px; font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);">
+                        <font style="font-size: 24px;">
                             <b><span> ใบเบิกพัสดุ </span></b>
+
                         </font>
                     </div>
 
-                    <table width="100%" style="font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:16px; line-height:25px; margin-top:20px;border:0px solid white">
+                    <table width="100%" style="font-size:16px; line-height:25px; margin-top:20px;border:0px solid white">
                         <tr>
                             <td width="70%">
                                 <table width="100%" style="border:0px solid white">
@@ -158,7 +173,7 @@
                         </tr>
                     </table>
 
-                    <table width="100%" class="table table-bordered" style="position:absolute; top:340px; height:138mm; font-size:20px; font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:16px; line-height:25px">
+                    <table width="100%" class="table table-bordered" style="position:absolute; top:340px; height:138mm; font-size:20px;font-size:16px; line-height:25px">
                         <thead>
                             <tr>
                                 <th width="5%">ลำดับ<br/>No.</th>
@@ -207,13 +222,35 @@
                         line-height:18px;
                         }
                     </style>
-                    <table class="table-bordered" style="font-size: 16px; font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);">
+                    <table class="table-bordered" style="font-size: 16px;">
                         <thead>
                         </thead>
                         <tbody class="sale_tbody">
+<!--                            <t t-set="num" t-value="0"/>-->
+<!--                                  <t t-set="dis" t-value="0"/>-->
+<!--                                  <t t-foreach="o.move_ids_without_package" t-as="line">-->
+<!--                                      <tr>-->
+<!--                                          <t t-set="num" t-value="num+1"/>-->
+<!--                                          <th width="5%">-->
+<!--                                              <span t-esc="num"/>-->
+<!--                                          </th>-->
+<!--                                          <th width="40%">-->
+<!--                                              <span t-field="line.name"/>-->
+<!--                                          </th>-->
+<!--                                          <th width="15%">-->
+<!--                                              <span t-field="line.product_uom_qty"/>-->
+
+<!--                                          </th>-->
+<!--                                          <th width="15%">-->
+<!--                                              <span t-field="line.price_unit"/>-->
+<!--                                          </th>-->
+<!--                                          <th width="10%"><span t-esc="'%.2f'% (dis)"/></th>-->
+<!--                                          <th width="15%"> <t t-esc="'%.2f'% ((line.product_uom_qty*line.price_unit)-dis)"/></th>-->
+<!--                                      </tr>-->
+<!--                                  </t>-->
                             <t t-set="num" t-value="0"/>
                                   <t t-set="dis" t-value="0"/>
-                                  <t t-foreach="o.move_ids_without_package" t-as="line">
+                                  <t t-foreach="o.purchase_id.order_line" t-as="line">
                                       <tr>
                                           <t t-set="num" t-value="num+1"/>
                                           <th width="5%">
@@ -224,13 +261,13 @@
                                           </th>
                                           <th width="15%">
                                               <span t-field="line.product_uom_qty"/>
-
+<!---->
                                           </th>
                                           <th width="15%">
                                               <span t-field="line.price_unit"/>
                                           </th>
-                                          <th width="10%"><span t-esc="'%.2f'% (dis)"/></th>
-                                          <th width="15%"> <t t-esc="'%.2f'% ((line.product_uom_qty*line.price_unit)-dis)"/></th>
+                                          <th width="10%"><span t-esc="'%.2f'% (line.discount)"/>%</th>
+                                          <th width="15%"> <t t-esc="'%.2f'% (line.price_subtotal)"/></th>
                                       </tr>
                                   </t>
                         </tbody>
@@ -239,6 +276,21 @@
 
                 <div class="footer" style="padding-top:20px;">
                     <style>
+                         @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        }
+                        table.table-bordered{
+                        border:1px solid black;
+                        width: 100%;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        }
                         table.table-bordered {
                         border:0px solid white;
                         padding:3px;
@@ -263,7 +315,7 @@
                         }
                     </style>
 
-                    <table width="100%" style="font-family:TH SarabunPSK;                     src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:20px; border:0px solid white;">
+                    <table width="100%" style="font-size:20px; border:0px solid white;">
 
 
 <!--                        <tr>-->

@@ -34,6 +34,7 @@
         'report/product_bill_report07.xml',
         'report/product_bill_report03.xml',
         'report/bill_of_lading.xml',
+        'report/packing_list.xml',
 
         'wizard/stock_count_wizard_view.xml',
         'report/stock_count_report.xml',

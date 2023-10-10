@@ -8,5 +8,11 @@ from odoo import api, fields, models
 class StockViewPicking(models.Model):
     _inherit = "stock.picking"
 
+
+    buyer_ref = fields.Char(string='Buyer REF')
+    paymentref_no = fields.Char(string='Paymentref NO')
+
     product_ceg_th = fields.Char(string='Product Category TH')
+
+
 

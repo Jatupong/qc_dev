@@ -14,6 +14,7 @@ class ResCompany(models.Model):
     return_out_form = fields.Char(string='Return Out No. Form')
     product_delivery_note = fields.Char(string='ใบส่งมอบผลิตภัณฑ์')
 
+
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 

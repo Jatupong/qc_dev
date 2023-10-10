@@ -23,8 +23,8 @@ class AssetConfirmWizard(models.TransientModel):
         active_ids = self.env.context.get("active_ids", False)
         asset_ids = self.env['account.asset'].browse(active_ids)
         for asset_id in asset_ids:
-            if asset_id.temp_value_residual:
-                asset_id.update({'value_residual':asset_id.temp_value_residual})
+            # if asset_id.temp_value_residual:
+            #     asset_id.update({'value_residual':asset_id.temp_value_residual})
             asset_id.validate()
         return {'type': 'ir.actions.act_window_close'}
 

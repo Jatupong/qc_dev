@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_wizard_account_aging_report_form" model="ir.ui.view">
+		<field name="name">Report Aging</field>
+		<field name="model">wizard.account.aging.report</field>
+		<field name="arch" type="xml">
+			<form>
+				<group>
+					<group>
+						<field name="date_from"/>
+						<field name="date_to"/>
+					</group>
+					<group>
+						<field name="report_type"/>
+						<field name="company_id" invisible="1"/>
+					</group>
+				</group>
+				<footer>
+					<button name="print_report_pdf" string="PRINT(PDF)" type="object" default_focus="1" class="oe_highlight"/>
+					<button name="print_report_excel" string="PRINT(Excel)" type="object" default_focus="1" class="oe_highlight"/>
+					<button string="Cancel" class="oe_link" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_wizard_account_aging_report" model="ir.actions.act_window">
+		<field name="name">Report Aging</field>
+		<field name="res_model">wizard.account.aging.report</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="view_wizard_account_aging_report_form"/>
+		<field name="target">new</field>
+	</record>
+
+	<menuitem id="menu_account_aging_report"
+			  name="Report Aging"
+			  action="action_wizard_account_aging_report"
+			  parent="account.menu_finance_reports"
+			  sequence="99"/>
+
+</odoo>
