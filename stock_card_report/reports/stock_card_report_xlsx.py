@@ -189,22 +189,69 @@ class ReportStockCardReportXlsx(models.AbstractModel):
         product_lines = objects.results.filtered(
             lambda l: l.product_id == product and not l.is_initial
         )
+        old_name = None
+        old_date = None
         for line in product_lines:
             balance += line.product_in - line.product_out
-            row_pos = self._write_line(
-                ws,
-                row_pos,
-                ws_params,
-                col_specs_section="data",
-                render_space={
-                    "date": line.date or "",
-                    "reference": line.reference or "",
-                    "lot_id": line.lot_id or "",
-                    "location_form": line.location_id.display_name or "",
-                    "location_to": line.location_dest_id.display_name or "",
-                    "input": line.product_in or 0,
-                    "output": line.product_out or 0,
-                    "balance": balance,
-                },
-                default_format=FORMATS["format_tcell_amount_right"],
-            )
+            new_name = line.reference
+            new_date = line.date
+            print(new_name,old_name)
+            print(new_date,old_date)
+            if (new_name != old_name) and (new_date != old_date):
+                row_pos = self._write_line(
+                    ws,
+                    row_pos,
+                    ws_params,
+                    col_specs_section="data",
+                    render_space={
+                        "date": line.date or "",
+                        "reference": line.reference or "",
+                        "lot_id": line.lot_id.name or "",
+                        "location_form": line.location_id.display_name or "",
+                        "location_to": line.location_dest_id.display_name or "",
+                        "input": line.product_in or 0,
+                        "output": line.product_out or 0,
+                        "balance": balance,
+                    },
+                    default_format=FORMATS["format_tcell_amount_right"],
+                )
+                old_name = line.reference
+                old_date = line.date
+            elif (new_name == old_name) and (new_date != old_date):
+                row_pos = self._write_line(
+                    ws,
+                    row_pos,
+                    ws_params,
+                    col_specs_section="data",
+                    render_space={
+                        "date": line.date or "",
+                        "reference": line.reference or "",
+                        "lot_id": line.lot_id.name or "",
+                        "location_form": line.location_id.display_name or "",
+                        "location_to": line.location_dest_id.display_name or "",
+                        "input": line.product_in or 0,
+                        "output": line.product_out or 0,
+                        "balance": balance,
+                    },
+                    default_format=FORMATS["format_tcell_amount_right"],
+                )
+                old_name = line.reference
+                old_date = line.date
+            else:
+                row_pos = self._write_line(
+                    ws,
+                    row_pos,
+                    ws_params,
+                    col_specs_section="data",
+                    render_space={
+                        "date": "",
+                        "reference": "",
+                        "lot_id": line.lot_id.name or "",
+                        "location_form": line.location_id.display_name or "",
+                        "location_to": line.location_dest_id.display_name or "",
+                        "input": line.product_in or 0,
+                        "output": line.product_out or 0,
+                        "balance": balance,
+                    },
+                    default_format=FORMATS["format_tcell_amount_right"],
+                )

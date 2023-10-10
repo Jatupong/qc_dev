@@ -22,7 +22,7 @@ class StockCardView(models.TransientModel):
     amount_in = fields.Float()
     product_out = fields.Float()
     amount_out = fields.Float()
-    lot_id = fields.Many2one('stock.production.lot', string='Lot')
+    lot_id = fields.Many2one('stock.lot', string='Lot')
     move_line_id = fields.Char()
 
 class StockCardReport(models.TransientModel):
@@ -94,9 +94,14 @@ class StockCardReport(models.TransientModel):
         )
         self._cr.execute(
             """
-            SELECT move.date, move.product_id, move.qty_done as product_qty,
-                 move.product_uom_id as product_uom, move.reference,
-                move.location_id, move.location_dest_id,move.lot_id,move.id as move_line_id,
+            SELECT move.date,
+                move.product_id,
+                move.qty_done as product_qty,
+                move.product_uom_id as product_uom,
+                move.reference,
+                move.location_id,
+                move.location_dest_id,
+                move.lot_id,move.id as move_line_id,
                 case when move.location_dest_id in %s
                     then move.qty_done end as product_in,
                 case when move.location_id in %s
@@ -122,7 +127,14 @@ class StockCardReport(models.TransientModel):
         stock_card_results = self._cr.dictfetchall()
         print('stock_card_results:',stock_card_results)
         ReportLine = self.env["stock.card.view"]
+        for line in stock_card_results:
+            if line["lot_id"]:
+                lot = self.env['stock.lot'].sudo().search([('id', '=',line["lot_id"])],)
+                line["lot_id"] = lot
+        for line in stock_card_results:
+            print(line)
         self.results = [ReportLine.new(line).id for line in stock_card_results]
+        print(self.results)
 
     def _get_initial(self, product_line):
         try:
@@ -131,7 +143,7 @@ class StockCardReport(models.TransientModel):
             product_input_qty = sum(product_line.mapped("product_in"))
             product_output_qty = sum(product_line.mapped("product_out"))
             print('product_input_qty:', product_input_qty)
-            print('product_output_qty:',product_output_qty )
+            print('product_output_qty:',product_output_qty)
             return product_input_qty - product_output_qty
         except:
             return 0

@@ -133,7 +133,7 @@
             </div>
             <div class="act_as_cell left">
                 <t t-if ="product_line.lot_id">
-                    <t t-esc="product_line.lot_id"/>
+                    <t t-esc="product_line.lot_id.name"/>
                 </t>
                 <span> </span>
             </div>
