@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- customer.type : form -->
+
+    <record id="view_mode_of_shipment_form" model="ir.ui.view">
+        <field name="name">mode.shipment.form</field>
+        <field name="model">mode.shipment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+<!--                        <group>-->
+<!--                            <field name="customer_type"/>-->
+<!--                        </group>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- customer.type : tree -->
+    <record id="view_mode_of_shipment_tree" model="ir.ui.view">
+        <field name="name">mode.shipment.tree</field>
+        <field name="model">mode.shipment</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- mode.shipment : action -->
+    <record id="action_mode_of_shipment" model="ir.actions.act_window">
+        <field name="name">Modeofshipment</field>
+        <field name="res_model">mode.shipment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_mode_of_shipment_tree"/>
+    </record>
+
+    <!-- mode.shipment : menu -->
+    <menuitem id="menu_mode_of_shipment"
+              name="Mode Of Shipment"
+              parent="stock.menu_stock_config_settings"
+              sequence="99"
+              action="action_mode_of_shipment"/>
+</odoo>

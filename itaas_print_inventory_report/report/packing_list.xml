@@ -32,7 +32,7 @@
 
                     <table style="font-family:TH SarabunPSK;src:url(/itaas_print_inventory_report/static/THSarabun.ttf); font-size: 22px;border:0px solid white" width="100%">
                         <tr >
-                            <td width="100%" class="text-center" align="center">
+                            <td width="87%" class="text-center" align="center">
                                 <!--                                <div style="width:500px; word-wrap: break-word;">-->
                                 <font style="font-size: 18px;">
                                     <!--                                        <font style="font-size: 16px;">-->
@@ -70,8 +70,10 @@
                                 </font>
                                 <!--                                </div>-->
                             </td>
-                            <td align="right" style="font-size: 14px;">
-                                <span>เอกสาร</span>
+                            <td align="right" style="font-size: 10px;" width="13%" class="text-center">
+                                <span t-field="o.company_id.packing_list"/>
+                                <br/>
+                                <span>REV:1 1 January 2021</span>
                             </td>
                         </tr>
                     </table>
@@ -162,7 +164,7 @@
                                         </td>
                                         <td width="55%">
                                             <div class="word-wrap" style="width:100px;">
-                                                : <span t-field="o.location_dest_id"/>
+                                                : <span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -171,7 +173,7 @@
                                             <div>PACKING NO</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.location_dest_id"/>
+                                            : <span t-field="o.name"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -179,7 +181,7 @@
                                             <div>PI NO</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.location_dest_id"/>
+                                            : <span t-field="o.sale_id.name"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -187,7 +189,7 @@
                                             <div>DELIVERY TO</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.location_dest_id"/>
+                                            : <span t-field="o.partner_id.country_id"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -195,7 +197,7 @@
                                             <div>MODE OF SHIPMENT</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.location_dest_id"/>
+                                            : <span t-field="o.mode_of_shipment"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -203,7 +205,7 @@
                                             <div>SHIPING</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.location_dest_id"/>
+                                            : <span t-field="o.shipping"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -598,7 +600,7 @@
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
         <field name="margin_top">95</field>
-        <field name="margin_bottom">95</field>
+        <field name="margin_bottom">45</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>

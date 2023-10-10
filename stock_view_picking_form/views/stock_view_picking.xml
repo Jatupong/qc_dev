@@ -17,6 +17,11 @@
                 <field name="product_ceg_th"/>
             </xpath>
 
+            <xpath expr="//field[@name='move_type']" position="after">
+                <field name="mode_of_shipment"/>
+                <field name="shipping"/>
+            </xpath>
+
         </field>
     </record>
 
