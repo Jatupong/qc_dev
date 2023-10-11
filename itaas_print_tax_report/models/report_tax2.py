@@ -704,13 +704,13 @@ class report_sale_tax_report(models.AbstractModel):
 
                                 # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
                                 untaxed_amount_after_discount = move_id.amount_untaxed / rate
-                                if len(move_id.invoice_line_ids)>=2:
-                                    sum = 0.0
-                                    for i in move_id.invoice_line_ids:
-                                        sum = sum + i.quantity
-                                        print("ID_quantity",i,":",i.quantity)
-                                elif len(move_id.invoice_line_ids) <= 1:
-                                        sum = move_id.invoice_line_ids.quantity
+                            if len(move_id.invoice_line_ids)>=2:
+                                sum = 0.0
+                                for i in move_id.invoice_line_ids:
+                                    sum = sum + i.quantity
+                                    print("ID_quantity",i,":",i.quantity)
+                            elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
 
                             move_ids = {
                                 'date': date.strftime("%d/%m/%Y"),
