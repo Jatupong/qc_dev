@@ -555,7 +555,7 @@ class tax_report(models.TransientModel):
         worksheet.set_column('L:L', 15)
         worksheet.set_column('M:M', 15)
         worksheet.set_column('N:N', 15)
-        worksheet.set_column('P:P', 15)
+        worksheet.set_column('O:O', 15)
         worksheet.set_column('P:P', 15)
         worksheet.set_column('Q:Q', 15)
         worksheet.set_column('R:R', 15)
