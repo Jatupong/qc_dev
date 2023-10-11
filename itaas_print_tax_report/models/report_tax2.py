@@ -122,7 +122,7 @@ class report_sale_tax_report(models.AbstractModel):
                                     'ETA': move_id.eta,
                                     'quantity': sum,
                                     'excrate': move_id.customs_department,
-                                    'amount_type': amount_type,
+                                    'amount_type': move_id.currency_id.name,
                                     'export_products_id': move_id.export_products_id,
                                     'company_rate': company_rate,
                                 }
@@ -187,7 +187,7 @@ class report_sale_tax_report(models.AbstractModel):
                                 'ETA': move_id.eta,
                                 'quantity': sum,
                                 'excrate': move_id.customs_department,
-                                'amount_type': amount_type,
+                                'amount_type': move_id.currency_id.name,
                                 'export_products_id': move_id.export_products_id,
                                 'company_rate': company_rate,
                             }
@@ -253,7 +253,7 @@ class report_sale_tax_report(models.AbstractModel):
                             'ETA': move_id.eta,
                             'quantity': sum,
                             'excrate': move_id.customs_department,
-                            'amount_type': amount_type,
+                            'amount_type': move_id.currency_id.name,
                             'export_products_id': move_id.export_products_id,
                             'company_rate': company_rate,
                         }
@@ -324,7 +324,7 @@ class report_sale_tax_report(models.AbstractModel):
                                     'ETA': move_id.eta,
                                     'quantity': sum,
                                     'excrate': move_id.customs_department,
-                                    'amount_type': amount_type,
+                                    'amount_type': move_id.currency_id.name,
                                     'export_products_id': move_id.export_products_id,
                                     'company_rate': company_rate,
                                 }
@@ -390,7 +390,7 @@ class report_sale_tax_report(models.AbstractModel):
                                 'ETA': move_id.eta,
                                 'quantity': sum,
                                 'excrate': move_id.customs_department,
-                                'amount_type': amount_type,
+                                'amount_type': move_id.currency_id.name,
                                 'export_products_id': move_id.export_products_id,
                                 'company_rate': company_rate,
                             }
@@ -457,7 +457,7 @@ class report_sale_tax_report(models.AbstractModel):
                             'ETA': move_id.eta,
                             'quantity': sum,
                             'excrate': move_id.customs_department,
-                            'amount_type': amount_type,
+                            'amount_type': move_id.currency_id.name,
                             'export_products_id': move_id.export_products_id,
                             'company_rate': company_rate,
                         }
@@ -534,7 +534,7 @@ class report_sale_tax_report(models.AbstractModel):
                         'ETA': move_id.eta,
                         'quantity': sum,
                         'excrate': move_id.customs_department,
-                        'amount_type': amount_type,
+                        'amount_type': move_id.currency_id.name,
                         'export_products_id': move_id.export_products_id,
                         'company_rate': company_rate,
                     }
@@ -631,7 +631,7 @@ class report_sale_tax_report(models.AbstractModel):
                                     'ETA': move_id.eta,
                                     'quantity': sum,
                                     'excrate': move_id.customs_department,
-                                    'amount_type': amount_type,
+                                    'amount_type': move_id.currency_id.name,
                                     'export_products_id': move_id.export_products_id,
                                     'company_rate': company_rate,
                                 }
@@ -695,7 +695,7 @@ class report_sale_tax_report(models.AbstractModel):
                                 'ETA': move_id.eta,
                                 'quantity': sum,
                                 'excrate': move_id.customs_department,
-                                'amount_type': amount_type,
+                                'amount_type': move_id.currency_id.name,
                                 'export_products_id': move_id.export_products_id,
                                 'company_rate': company_rate,
                             }
@@ -761,7 +761,7 @@ class report_sale_tax_report(models.AbstractModel):
                             'ETA': move_id.eta,
                             'quantity': sum,
                             'excrate': move_id.customs_department,
-                            'amount_type': amount_type,
+                            'amount_type': move_id.currency_id.name,
                             'export_products_id': move_id.export_products_id,
                             'company_rate': company_rate,
                         }
@@ -835,7 +835,7 @@ class report_sale_tax_report(models.AbstractModel):
                                     'ETA': move_id.eta,
                                     'quantity': sum,
                                     'excrate': move_id.customs_department,
-                                    'amount_type': amount_type,
+                                    'amount_type': move_id.currency_id.name,
                                     'export_products_id': move_id.export_products_id,
                                     'company_rate': company_rate,
                                 }
@@ -912,7 +912,7 @@ class report_sale_tax_report(models.AbstractModel):
                                 'ETA': move_id.eta,
                                 'quantity': sum,
                                 'excrate': move_id.customs_department,
-                                'amount_type': amount_type,
+                                'amount_type': move_id.currency_id.name,
                                 'export_products_id': move_id.export_products_id,
                                 'company_rate': company_rate,
                             }
@@ -982,7 +982,7 @@ class report_sale_tax_report(models.AbstractModel):
                             'ETA': move_id.eta,
                             'quantity': sum,
                             'excrate': move_id.customs_department,
-                            'amount_type': amount_type,
+                            'amount_type': move_id.currency_id.name,
                             'export_products_id': move_id.export_products_id,
                             'company_rate': company_rate,
                         }
@@ -1056,7 +1056,7 @@ class report_sale_tax_report(models.AbstractModel):
                         'ETA': move_id.eta,
                         'quantity': sum,
                         'excrate': move_id.customs_department,
-                        'amount_type': amount_type,
+                        'amount_type': move_id.currency_id.name,
                         'export_products_id': move_id.export_products_id,
                         'company_rate': company_rate,
                     }
