@@ -107,6 +107,8 @@ class report_sale_tax_report(models.AbstractModel):
                                     'ETA':move_id.eta,
                                     'quantity':move_id.invoice_line_ids.quantity,
                                     'excrate': move_id.customs_department,
+                                    'export_products_id':move_id.export_products_id,
+                                    'company_rate': move_id.currency_id.rate_ids,
                                 }
                                 doc.append(move_ids)
                                 print('doc_last:', doc)
@@ -154,6 +156,8 @@ class report_sale_tax_report(models.AbstractModel):
                                 'ETA': move_id.eta,
                                 'quantity': move_id.invoice_line_ids.quantity,
                                 'excrate': move_id.customs_department,
+                                'export_products_id': move_id.export_products_id,
+                                'company_rate': move_id.currency_id.rate_ids,
                             }
                             doc.append(move_ids)
                             print('doc_last:', doc)
@@ -202,6 +206,8 @@ class report_sale_tax_report(models.AbstractModel):
                             'ETA': move_id.eta,
                             'quantity': move_id.invoice_line_ids.quantity,
                             'excrate': move_id.customs_department,
+                            'export_products_id': move_id.export_products_id,
+                            'company_rate': move_id.currency_id.rate_ids,
                         }
                         doc.append(move_ids)
             else:
@@ -218,10 +224,10 @@ class report_sale_tax_report(models.AbstractModel):
                                     date = move_id.tax_invoice_date
                                 else:
                                     date = move_id.tax_invoice_date
-
+                                print('amount_type !!: ', move_id.currency_id.name)
                                 if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                                     amount_type = move_id.currency_id.name
-                                    print('amount_type : ',amount_type)
+                                    # print('amount_type : ',move_id.currency_id.name)
                                     amount_untaxed = move_id.amount_untaxed
                                     amount_tax = move_id.amount_tax
                                     amount_total = move_id.amount_total
@@ -256,6 +262,8 @@ class report_sale_tax_report(models.AbstractModel):
                                     'quantity': move_id.invoice_line_ids.quantity,
                                     'excrate': move_id.customs_department,
                                     'amount_type':amount_type,
+                                    'export_products_id': move_id.export_products_id,
+                                    'company_rate': move_id.currency_id.rate_ids,
                                 }
 
                                 doc.append(move_ids)
@@ -305,6 +313,8 @@ class report_sale_tax_report(models.AbstractModel):
                                 'quantity': move_id.invoice_line_ids.quantity,
                                 'excrate': move_id.customs_department,
                                 'amount_type': amount_type,
+                                'export_products_id': move_id.export_products_id,
+                                'company_rate': move_id.currency_id.rate_ids,
                             }
 
                             doc.append(move_ids)
@@ -356,6 +366,8 @@ class report_sale_tax_report(models.AbstractModel):
                             'quantity': move_id.invoice_line_ids.quantity,
                             'excrate': move_id.customs_department,
                             'amount_type': amount_type,
+                            'export_products_id': move_id.export_products_id,
+                            'company_rate': move_id.currency_id.rate_ids,
                         }
                         doc.append(move_ids)
 
@@ -414,7 +426,8 @@ class report_sale_tax_report(models.AbstractModel):
                         'quantity': move_id.invoice_line_ids.quantity,
                         'excrate': move_id.customs_department,
                         'amount_type': amount_type,
-
+                        'export_products_id': move_id.export_products_id,
+                        'company_rate': move_id.currency_id.rate_ids,
                     }
                     doc.append(move_ids)
             doc.sort(key=lambda k: (k['date'], k['name']))
@@ -493,6 +506,8 @@ class report_sale_tax_report(models.AbstractModel):
                                     'ETA': move_id.eta,
                                     'quantity': move_id.invoice_line_ids.quantity,
                                     'excrate': move_id.customs_department,
+                                    'export_products_id': move_id.export_products_id,
+                                    'company_rate': move_id.currency_id.rate_ids,
                                 }
                                 doc.append(move_ids)
                                 print('doc_last:', doc)
@@ -538,6 +553,8 @@ class report_sale_tax_report(models.AbstractModel):
                                 'ETA': move_id.eta,
                                 'quantity': move_id.invoice_line_ids.quantity,
                                 'excrate': move_id.customs_department,
+                                'export_products_id': move_id.export_products_id,
+                                'company_rate': move_id.currency_id.rate_ids,
 
                             }
                             doc.append(move_ids)
@@ -586,6 +603,8 @@ class report_sale_tax_report(models.AbstractModel):
                             'ETA': move_id.eta,
                             'quantity': move_id.invoice_line_ids.quantity,
                             'excrate': move_id.customs_department,
+                            'export_products_id': move_id.export_products_id,
+                            'company_rate': move_id.currency_id.rate_ids,
                         }
                         doc.append(move_ids)
             else:
@@ -604,10 +623,10 @@ class report_sale_tax_report(models.AbstractModel):
                                     date = move_id.tax_invoice_date
                                 else:
                                     date = move_id.tax_invoice_date
-
+                                print('amount_type !!: ', move_id.currency_id.name)
                                 if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                                     amount_type = move_id.currency_id.name
-                                    print('amount_type : ', amount_type)
+                                    # print('amount_type : ', amount_type)
                                     amount_untaxed = move_id.amount_untaxed
                                     amount_tax = move_id.amount_tax
                                     amount_total = move_id.amount_total
@@ -615,7 +634,8 @@ class report_sale_tax_report(models.AbstractModel):
                                     # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                                 else:
                                     rate = self.env['res.currency.rate'].search([('name', '<=', move_id.invoice_date),('company_id', '=', self.env.company.id)], limit=1)
-                                    rate = rate.rate
+                                    # rate = rate.rate
+                                    rate = 1
                                     print('rate:',rate)
                                     amount_untaxed = move_id.amount_untaxed / rate
                                     amount_tax = move_id.amount_tax / rate
@@ -641,6 +661,8 @@ class report_sale_tax_report(models.AbstractModel):
                                     'quantity': move_id.invoice_line_ids.quantity,
                                     'excrate': move_id.customs_department,
                                     'amount_type': amount_type,
+                                    'export_products_id': move_id.export_products_id,
+                                    'company_rate': move_id.currency_id.rate_ids,
                                 }
 
                                 doc.append(move_ids)
@@ -652,10 +674,10 @@ class report_sale_tax_report(models.AbstractModel):
                                 date = move_id.tax_invoice_date
                             else:
                                 date = move_id.tax_invoice_date
-
+                            print('amount_type !!: ', move_id.currency_id.name)
                             if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                                 amount_type = move_id.currency_id.name
-                                print('amount_type : ', amount_type)
+                                # print('amount_type : ', amount_type)
                                 amount_untaxed = move_id.amount_untaxed
                                 amount_tax = move_id.amount_tax
                                 amount_total = move_id.amount_total
@@ -663,18 +685,32 @@ class report_sale_tax_report(models.AbstractModel):
                                 # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
 
                                 untaxed_amount_after_discount = move_id.amount_untaxed
+                                print("amount_untaxed!:", amount_untaxed)
                             else:
                                 rate = self.env['res.currency.rate'].search(
                                     [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
                                     limit=1)
-                                rate = rate.rate
+                                # rate = rate.rate
+                                rate = 1
                                 print('rate:', rate)
                                 amount_untaxed = move_id.amount_untaxed / rate
                                 amount_tax = move_id.amount_tax / rate
                                 amount_total = move_id.amount_total / rate
+                                print("amount_untaxed!!:", amount_untaxed)
+                                print("amount_tax!!:", amount_tax)
+                                print("amount_total!!:", amount_total)
+                                print("company_rate!!:", move_id.currency_id.rate_ids.company_rate)
+                                amount_type = move_id.currency_id.name
 
                                 # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
                                 untaxed_amount_after_discount = move_id.amount_untaxed / rate
+                                if len(move_id.invoice_line_ids)>=2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity",i,":",i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                        sum = move_id.invoice_line_ids.quantity
 
                             move_ids = {
                                 'date': date.strftime("%d/%m/%Y"),
@@ -692,9 +728,11 @@ class report_sale_tax_report(models.AbstractModel):
                                 'invoice_line': move_id.invoice_line_ids,
                                 'ETD': move_id.etd,
                                 'ETA': move_id.eta,
-                                'quantity': move_id.invoice_line_ids.quantity,
+                                'quantity': sum,
                                 'excrate': move_id.customs_department,
                                 'amount_type': amount_type,
+                                'export_products_id': move_id.export_products_id,
+                                'company_rate': move_id.currency_id.rate_ids,
                             }
                             doc.append(move_ids)
                     else:
@@ -718,7 +756,8 @@ class report_sale_tax_report(models.AbstractModel):
                             rate = self.env['res.currency.rate'].search(
                                 [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
                                 limit=1)
-                            rate = rate.rate
+                            # rate = rate.rate
+                            rate = 1
                             print('rate:', rate)
                             amount_untaxed =((move_id.amount_tax / 7) * 100) / rate
                             amount_tax = move_id.amount_tax / rate
@@ -746,6 +785,8 @@ class report_sale_tax_report(models.AbstractModel):
                             'quantity': move_id.invoice_line_ids.quantity,
                             'excrate': move_id.customs_department,
                             'amount_type': amount_type,
+                            'export_products_id': move_id.export_products_id,
+                            'company_rate': move_id.currency_id.rate_ids,
                         }
                         doc.append(move_ids)
 
@@ -765,10 +806,11 @@ class report_sale_tax_report(models.AbstractModel):
                     date = move_id.tax_invoice_date
 
                 for move_line in move_id.line_ids.filtered(lambda a: a.account_id.sale_tax_report == True):
+                    print('amount_type !!: ', move_id.currency_id.name)
                     if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                         print('aaaaa')
                         amount_type = move_id.currency_id.name
-                        print('amount_type : ', amount_type)
+                        # print('amount_type : ', amount_type)
                         amount_untaxed = move_line.tax_base_amount
                         amount_tax = move_line.credit
                         amount_total = move_line.tax_base_amount + move_line.credit
@@ -777,7 +819,8 @@ class report_sale_tax_report(models.AbstractModel):
                         rate = self.env['res.currency.rate'].search(
                             [('name', '<=', move_id.tax_invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
                         print('rate:',rate)
-                        rate = rate.rate
+                        # rate = rate.rate
+                        rate = 1
                         amount_untaxed = move_line.tax_base_amount / rate
                         amount_tax =  move_line.credit / rate
                         amount_total = (move_line.tax_base_amount + move_line.credit) / rate
@@ -798,6 +841,8 @@ class report_sale_tax_report(models.AbstractModel):
                         'quantity': move_id.invoice_line_ids.quantity,
                         'excrate':move_id.customs_department,
                         'amount_type': amount_type,
+                        'export_products_id': move_id.export_products_id,
+                        'company_rate': move_id.currency_id.rate_ids,
 
                     }
                     doc.append(move_ids)
