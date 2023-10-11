@@ -229,17 +229,17 @@
                                     <td align="right">
                                         <div class="box11" align="right">
                                             <t t-if="k['amount_type'] == 'THB'">
-                                                <t t-if="k['state'] != 'cancel'">
-                                                    <t t-if="k['type'] == 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>
-                                                    </t>
-                                                    <t t-if="k['type'] != 'out_refund'">
+<!--                                                <t t-if="k['state'] != 'cancel'">-->
+<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
                                                         <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
-                                                    </t>
-                                                </t>
-                                                <t t-if="k['state'] == 'cancel'">
-                                                    <span>0</span>
-                                                </t>
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <t t-if="k['state'] == 'cancel'">-->
+<!--                                                    <span>0</span>-->
+<!--                                                </t>-->
                                             </t>
                                              <t t-if="k['amount_type'] == 'THB'">
                                                 <span> </span>
@@ -259,7 +259,7 @@
                                     <td>
                                         <div class="box12">
                                             <t t-if="k['company_rate']">
-                                                <span t-esc="'{0:,.2f}'.format(float(k['company_rate'].company_rate))"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(k['company_rate']))"/>
                                             </t>
                                         </div>
                                     </td>
@@ -267,31 +267,31 @@
                                     <td align="right">
                                         <t t-if="k['amount_type'] == 'THB'">
                                             <div class="box13" align="right">
-                                                <t t-if="k['state'] != 'cancel'">
-                                                    <t t-if="k['type'] == 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>
-                                                    </t>
-                                                    <t t-if="k['type'] != 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
-                                                    </t>
-                                                </t>
-                                                <t t-if="k['state'] == 'cancel'">
+<!--                                                <t t-if="k['state'] != 'cancel'">-->
+<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <t t-if="k['state'] == 'cancel'">-->
                                                     <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['excrate']))"/>
-                                                </t>
+<!--                                                </t>-->
                                             </div>
                                         </t>
                                         <t t-if="k['amount_type'] != 'THB'">
-                                            <t t-if="k['state'] != 'cancel'">
-                                                    <t t-if="k['type'] == 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float((k['amount_untaxed'] * (-1)) *k['company_rate'].company_rate))"/>
-                                                    </t>
-                                                    <t t-if="k['type'] != 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']* k['company_rate'].company_rate))"/>
-                                                    </t>
-                                                </t>
-                                                <t t-if="k['state'] == 'cancel'">
-                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['company_rate'].company_rate))"/>
-                                                </t>
+<!--                                            <t t-if="k['state'] != 'cancel'">-->
+<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float((k['amount_untaxed'] * (-1)) *k['company_rate']))"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']* k['company_rate']))"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <t t-if="k['state'] == 'cancel'">-->
+                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['company_rate']))"/>
+<!--                                                </t>-->
                                         </t>
                                     </td>
 <!--                                    ตามใบขน EUR/USD-->
@@ -312,31 +312,31 @@
                                     <td align="right">
                                         <t t-if="k['amount_type'] == 'THB'">
                                             <div class="box16" align="right">
-                                                <t t-if="k['state'] != 'cancel'">
-                                                    <t t-if="k['type'] == 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>
-                                                    </t>
-                                                    <t t-if="k['type'] != 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] ))"/>
-                                                    </t>
-                                                </t>
-                                                <t t-if="k['state'] == 'cancel'">
+<!--                                                <t t-if="k['state'] != 'cancel'">-->
+<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] ))"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <t t-if="k['state'] == 'cancel'">-->
                                                     <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['excrate']))"/>
-                                                </t>
+<!--                                                </t>-->
                                             </div>
                                         </t>
                                         <t t-if="k['amount_type'] != 'THB'">
-                                            <t t-if="k['state'] != 'cancel'">
-                                                    <t t-if="k['type'] == 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float((k['amount_untaxed'] * (-1))* k['excrate']))"/>
-                                                    </t>
-                                                    <t t-if="k['type'] != 'out_refund'">
-                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']* k['excrate'] ))"/>
-                                                    </t>
-                                                </t>
-                                                <t t-if="k['state'] == 'cancel'">
+<!--                                            <t t-if="k['state'] != 'cancel'">-->
+<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float((k['amount_untaxed'] * (-1))* k['excrate']))"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']* k['excrate'] ))"/>-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
+<!--                                                <t t-if="k['state'] == 'cancel'">-->
                                                     <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['excrate']))"/>
-                                                </t>
+<!--                                                </t>-->
                                         </t>
                                     </td>
 <!--                                    เลขใบขน-->

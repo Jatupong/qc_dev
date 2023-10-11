@@ -710,10 +710,10 @@ class tax_report(models.TransientModel):
                     if inv['amount_type']!='THB' and inv['amount_type'] != 'CNY' and inv['amount_type'] != 'GBP' and inv['amount_type'] != 'USD' and inv['amount_type'] != 'EUR':
                         worksheet.write(inv_row, 9, inv['amount_untaxed'], for_right)
                     if inv['amount_type'] != 'THB':
-                        company_rate_to_baht1 = inv['amount_untaxed'] * inv['company_rate'].company_rate
+                        company_rate_to_baht1 = inv['amount_untaxed'] * inv['company_rate']
                         company_rate_to_baht2 = inv['amount_untaxed'] * inv['excrate']
                         worksheet.write(inv_row, 11, company_rate_to_baht1, for_right)
-                        worksheet.write(inv_row, 10, inv['company_rate'].company_rate, for_right)
+                        worksheet.write(inv_row, 10, inv['company_rate'], for_right)
                         worksheet.write(inv_row, 14, company_rate_to_baht2, for_right)
                     worksheet.write(inv_row, 12, inv['amount_untaxed'], for_right)
                     worksheet.write(inv_row, 13, inv['excrate'], for_right)

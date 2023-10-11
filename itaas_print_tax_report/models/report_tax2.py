@@ -88,6 +88,22 @@ class report_sale_tax_report(models.AbstractModel):
                                     amount_tax = move_id.amount_tax / rate
                                     amount_total = move_id.amount_total / rate
                                     untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                if len(move_id.invoice_line_ids) >= 2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity", i, ":", i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
+                                if len(move_id.currency_id.rate_ids) >= 2:
+                                    company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                    print("company_rate!!:", company_rate)
+                                elif len(move_id.currency_id.rate_ids) < 2:
+                                    company_rate = move_id.currency_id.rate_ids.company_rate
+                                    print("company_rate!!!:", company_rate)
+                                if company_rate == 0.0:
+                                    company_rate = 1.0
+                                print("company_rate!!!!:", company_rate)
                                 move_ids = {
                                     'date': date.strftime("%d/%m/%Y"),
                                     'name': move_id.tax_inv_number or move_id.name,
@@ -102,13 +118,13 @@ class report_sale_tax_report(models.AbstractModel):
                                     'state': move_id.state,
                                     'type': move_id.move_type,
                                     'invoice_line': move_id.invoice_line_ids,
-                                    'operating_unit_id': move_id.operating_unit_id,
-                                    'ETD':move_id.etd,
-                                    'ETA':move_id.eta,
-                                    'quantity':move_id.invoice_line_ids.quantity,
+                                    'ETD': move_id.etd,
+                                    'ETA': move_id.eta,
+                                    'quantity': sum,
                                     'excrate': move_id.customs_department,
-                                    'export_products_id':move_id.export_products_id,
-                                    'company_rate': move_id.currency_id.rate_ids,
+                                    'amount_type': amount_type,
+                                    'export_products_id': move_id.export_products_id,
+                                    'company_rate': company_rate,
                                 }
                                 doc.append(move_ids)
                                 print('doc_last:', doc)
@@ -137,6 +153,22 @@ class report_sale_tax_report(models.AbstractModel):
                                 amount_tax = move_id.amount_tax / rate
                                 amount_total = move_id.amount_total / rate
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                            if len(move_id.invoice_line_ids) >= 2:
+                                sum = 0.0
+                                for i in move_id.invoice_line_ids:
+                                    sum = sum + i.quantity
+                                    print("ID_quantity", i, ":", i.quantity)
+                            elif len(move_id.invoice_line_ids) <= 1:
+                                sum = move_id.invoice_line_ids.quantity
+                            if len(move_id.currency_id.rate_ids) >= 2:
+                                company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                print("company_rate!!:", company_rate)
+                            elif len(move_id.currency_id.rate_ids) < 2:
+                                company_rate = move_id.currency_id.rate_ids.company_rate
+                                print("company_rate!!!:", company_rate)
+                            if company_rate == 0.0:
+                                company_rate = 1.0
+                            print("company_rate!!!!:", company_rate)
                             move_ids = {
                                 'date': date.strftime("%d/%m/%Y"),
                                 'name': move_id.tax_inv_number or move_id.name,
@@ -151,13 +183,13 @@ class report_sale_tax_report(models.AbstractModel):
                                 'state': move_id.state,
                                 'type': move_id.move_type,
                                 'invoice_line': move_id.invoice_line_ids,
-                                'operating_unit_id': move_id.operating_unit_id,
                                 'ETD': move_id.etd,
                                 'ETA': move_id.eta,
-                                'quantity': move_id.invoice_line_ids.quantity,
+                                'quantity': sum,
                                 'excrate': move_id.customs_department,
+                                'amount_type': amount_type,
                                 'export_products_id': move_id.export_products_id,
-                                'company_rate': move_id.currency_id.rate_ids,
+                                'company_rate': company_rate,
                             }
                             doc.append(move_ids)
                             print('doc_last:', doc)
@@ -187,6 +219,22 @@ class report_sale_tax_report(models.AbstractModel):
                             untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
                         print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
                         print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
+                        if len(move_id.invoice_line_ids) >= 2:
+                            sum = 0.0
+                            for i in move_id.invoice_line_ids:
+                                sum = sum + i.quantity
+                                print("ID_quantity", i, ":", i.quantity)
+                        elif len(move_id.invoice_line_ids) <= 1:
+                            sum = move_id.invoice_line_ids.quantity
+                        if len(move_id.currency_id.rate_ids) >= 2:
+                            company_rate = move_id.currency_id.rate_ids[0].company_rate
+                            print("company_rate!!:", company_rate)
+                        elif len(move_id.currency_id.rate_ids) < 2:
+                            company_rate = move_id.currency_id.rate_ids.company_rate
+                            print("company_rate!!!:", company_rate)
+                        if company_rate == 0.0:
+                            company_rate = 1.0
+                        print("company_rate!!!!:", company_rate)
                         move_ids = {
                             'date': date.strftime("%d/%m/%Y"),
                             'name': move_id.tax_inv_number or move_id.name,
@@ -201,13 +249,13 @@ class report_sale_tax_report(models.AbstractModel):
                             'state': move_id.state,
                             'type': move_id.move_type,
                             'invoice_line': move_id.invoice_line_ids,
-                            'operating_unit_id': move_id.operating_unit_id,
                             'ETD': move_id.etd,
                             'ETA': move_id.eta,
-                            'quantity': move_id.invoice_line_ids.quantity,
+                            'quantity': sum,
                             'excrate': move_id.customs_department,
+                            'amount_type': amount_type,
                             'export_products_id': move_id.export_products_id,
-                            'company_rate': move_id.currency_id.rate_ids,
+                            'company_rate': company_rate,
                         }
                         doc.append(move_ids)
             else:
@@ -242,6 +290,22 @@ class report_sale_tax_report(models.AbstractModel):
                                     amount_tax = move_id.amount_tax / rate
                                     amount_total = move_id.amount_total / rate
                                     untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                if len(move_id.invoice_line_ids) >= 2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity", i, ":", i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
+                                if len(move_id.currency_id.rate_ids) >= 2:
+                                    company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                    print("company_rate!!:", company_rate)
+                                elif len(move_id.currency_id.rate_ids) < 2:
+                                    company_rate = move_id.currency_id.rate_ids.company_rate
+                                    print("company_rate!!!:", company_rate)
+                                if company_rate == 0.0:
+                                    company_rate = 1.0
+                                print("company_rate!!!!:", company_rate)
                                 move_ids = {
                                     'date': date.strftime("%d/%m/%Y"),
                                     'name': move_id.tax_inv_number or move_id.name,
@@ -256,14 +320,13 @@ class report_sale_tax_report(models.AbstractModel):
                                     'state': move_id.state,
                                     'type': move_id.move_type,
                                     'invoice_line': move_id.invoice_line_ids,
-                                    'operating_unit_id': move_id.operating_unit_id,
                                     'ETD': move_id.etd,
                                     'ETA': move_id.eta,
-                                    'quantity': move_id.invoice_line_ids.quantity,
+                                    'quantity': sum,
                                     'excrate': move_id.customs_department,
-                                    'amount_type':amount_type,
+                                    'amount_type': amount_type,
                                     'export_products_id': move_id.export_products_id,
-                                    'company_rate': move_id.currency_id.rate_ids,
+                                    'company_rate': company_rate,
                                 }
 
                                 doc.append(move_ids)
@@ -293,6 +356,22 @@ class report_sale_tax_report(models.AbstractModel):
                                 amount_tax = move_id.amount_tax / rate
                                 amount_total = move_id.amount_total / rate
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                            if len(move_id.invoice_line_ids) >= 2:
+                                sum = 0.0
+                                for i in move_id.invoice_line_ids:
+                                    sum = sum + i.quantity
+                                    print("ID_quantity", i, ":", i.quantity)
+                            elif len(move_id.invoice_line_ids) <= 1:
+                                sum = move_id.invoice_line_ids.quantity
+                            if len(move_id.currency_id.rate_ids) >= 2:
+                                company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                print("company_rate!!:", company_rate)
+                            elif len(move_id.currency_id.rate_ids) < 2:
+                                company_rate = move_id.currency_id.rate_ids.company_rate
+                                print("company_rate!!!:", company_rate)
+                            if company_rate == 0.0:
+                                company_rate = 1.0
+                            print("company_rate!!!!:", company_rate)
                             move_ids = {
                                 'date': date.strftime("%d/%m/%Y"),
                                 'name': move_id.tax_inv_number or move_id.name,
@@ -307,16 +386,14 @@ class report_sale_tax_report(models.AbstractModel):
                                 'state': move_id.state,
                                 'type': move_id.move_type,
                                 'invoice_line': move_id.invoice_line_ids,
-                                'operating_unit_id': move_id.operating_unit_id,
                                 'ETD': move_id.etd,
                                 'ETA': move_id.eta,
-                                'quantity': move_id.invoice_line_ids.quantity,
+                                'quantity': sum,
                                 'excrate': move_id.customs_department,
                                 'amount_type': amount_type,
                                 'export_products_id': move_id.export_products_id,
-                                'company_rate': move_id.currency_id.rate_ids,
+                                'company_rate': company_rate,
                             }
-
                             doc.append(move_ids)
                     else:
                         print('move_iddddd:', move_id)
@@ -346,6 +423,22 @@ class report_sale_tax_report(models.AbstractModel):
                             untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
                         print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
                         print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
+                        if len(move_id.invoice_line_ids) >= 2:
+                            sum = 0.0
+                            for i in move_id.invoice_line_ids:
+                                sum = sum + i.quantity
+                                print("ID_quantity", i, ":", i.quantity)
+                        elif len(move_id.invoice_line_ids) <= 1:
+                            sum = move_id.invoice_line_ids.quantity
+                        if len(move_id.currency_id.rate_ids) >= 2:
+                            company_rate = move_id.currency_id.rate_ids[0].company_rate
+                            print("company_rate!!:", company_rate)
+                        elif len(move_id.currency_id.rate_ids) < 2:
+                            company_rate = move_id.currency_id.rate_ids.company_rate
+                            print("company_rate!!!:", company_rate)
+                        if company_rate == 0.0:
+                            company_rate = 1.0
+                        print("company_rate!!!!:", company_rate)
                         move_ids = {
                             'date': date.strftime("%d/%m/%Y"),
                             'name': move_id.tax_inv_number or move_id.name,
@@ -360,14 +453,13 @@ class report_sale_tax_report(models.AbstractModel):
                             'state': move_id.state,
                             'type': move_id.move_type,
                             'invoice_line': move_id.invoice_line_ids,
-                            'operating_unit_id': move_id.operating_unit_id,
                             'ETD': move_id.etd,
                             'ETA': move_id.eta,
-                            'quantity': move_id.invoice_line_ids.quantity,
+                            'quantity': sum,
                             'excrate': move_id.customs_department,
                             'amount_type': amount_type,
                             'export_products_id': move_id.export_products_id,
-                            'company_rate': move_id.currency_id.rate_ids,
+                            'company_rate': company_rate,
                         }
                         doc.append(move_ids)
 
@@ -408,26 +500,43 @@ class report_sale_tax_report(models.AbstractModel):
                         name = move_id.tax_inv_number
                     else:
                         name = move_id.name
+                    if len(move_id.invoice_line_ids) >= 2:
+                        sum = 0.0
+                        for i in move_id.invoice_line_ids:
+                            sum = sum + i.quantity
+                            print("ID_quantity", i, ":", i.quantity)
+                    elif len(move_id.invoice_line_ids) <= 1:
+                        sum = move_id.invoice_line_ids.quantity
+                    if len(move_id.currency_id.rate_ids) >= 2:
+                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                        print("company_rate!!:", company_rate)
+                    elif len(move_id.currency_id.rate_ids) < 2:
+                        company_rate = move_id.currency_id.rate_ids.company_rate
+                        print("company_rate!!!:", company_rate)
+                    if company_rate == 0.0:
+                        company_rate = 1.0
+                    print("company_rate!!!!:", company_rate)
                     move_ids = {
                         'date': date.strftime("%d/%m/%Y"),
-                        'name': name,
-                        'partner': self.get_partner_name(move_line),
-                        'vat': move_line.partner_id.vat,
-                        'branch': move_line.partner_id.branch_no,
+                        'name': move_id.tax_inv_number or move_id.name,
+                        'partner': self.get_partner_name(move_id),
+                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                        'vat': move_id.partner_id.vat,
+                        'branch': move_id.partner_id.branch_no,
                         'amount_untaxed': amount_untaxed,
                         'amount_tax': amount_tax,
                         'amount_total': amount_total,
                         'move_id': move_id,
                         'state': move_id.state,
                         'type': move_id.move_type,
-                        'operating_unit_id': move_id.operating_unit_id,
+                        'invoice_line': move_id.invoice_line_ids,
                         'ETD': move_id.etd,
                         'ETA': move_id.eta,
-                        'quantity': move_id.invoice_line_ids.quantity,
+                        'quantity': sum,
                         'excrate': move_id.customs_department,
                         'amount_type': amount_type,
                         'export_products_id': move_id.export_products_id,
-                        'company_rate': move_id.currency_id.rate_ids,
+                        'company_rate': company_rate,
                     }
                     doc.append(move_ids)
             doc.sort(key=lambda k: (k['date'], k['name']))
@@ -488,26 +597,43 @@ class report_sale_tax_report(models.AbstractModel):
                                     amount_tax = move_id.amount_tax / rate
                                     amount_total = move_id.amount_total / rate
                                     untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
-                                move_ids={
+                                if len(move_id.invoice_line_ids) >= 2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity", i, ":", i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
+                                if len(move_id.currency_id.rate_ids) >= 2:
+                                    company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                    print("company_rate!!:", company_rate)
+                                elif len(move_id.currency_id.rate_ids) < 2:
+                                    company_rate = move_id.currency_id.rate_ids.company_rate
+                                    print("company_rate!!!:", company_rate)
+                                if company_rate == 0.0:
+                                    company_rate = 1.0
+                                print("company_rate!!!!:", company_rate)
+                                move_ids = {
                                     'date': date.strftime("%d/%m/%Y"),
                                     'name': move_id.tax_inv_number or move_id.name,
                                     'partner': self.get_partner_name(move_id),
                                     'untaxed_amount_after_discount': untaxed_amount_after_discount,
                                     'vat': move_id.partner_id.vat,
                                     'branch': move_id.partner_id.branch_no,
-                                    'amount_untaxed':amount_untaxed,
+                                    'amount_untaxed': amount_untaxed,
                                     'amount_tax': amount_tax,
                                     'amount_total': amount_total,
                                     'move_id': move_id,
                                     'state': move_id.state,
                                     'type': move_id.move_type,
-                                    'invoice_line':move_id.invoice_line_ids,
+                                    'invoice_line': move_id.invoice_line_ids,
                                     'ETD': move_id.etd,
                                     'ETA': move_id.eta,
-                                    'quantity': move_id.invoice_line_ids.quantity,
+                                    'quantity': sum,
                                     'excrate': move_id.customs_department,
+                                    'amount_type': amount_type,
                                     'export_products_id': move_id.export_products_id,
-                                    'company_rate': move_id.currency_id.rate_ids,
+                                    'company_rate': company_rate,
                                 }
                                 doc.append(move_ids)
                                 print('doc_last:', doc)
@@ -535,27 +661,43 @@ class report_sale_tax_report(models.AbstractModel):
                                 amount_tax = move_id.amount_tax / rate
                                 amount_total = move_id.amount_total / rate
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
-                            move_ids={
+                            if len(move_id.invoice_line_ids) >= 2:
+                                sum = 0.0
+                                for i in move_id.invoice_line_ids:
+                                    sum = sum + i.quantity
+                                    print("ID_quantity", i, ":", i.quantity)
+                            elif len(move_id.invoice_line_ids) <= 1:
+                                sum = move_id.invoice_line_ids.quantity
+                            if len(move_id.currency_id.rate_ids) >= 2:
+                                company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                print("company_rate!!:", company_rate)
+                            elif len(move_id.currency_id.rate_ids) < 2:
+                                company_rate = move_id.currency_id.rate_ids.company_rate
+                                print("company_rate!!!:", company_rate)
+                            if company_rate == 0.0:
+                                company_rate = 1.0
+                            print("company_rate!!!!:", company_rate)
+                            move_ids = {
                                 'date': date.strftime("%d/%m/%Y"),
                                 'name': move_id.tax_inv_number or move_id.name,
                                 'partner': self.get_partner_name(move_id),
                                 'untaxed_amount_after_discount': untaxed_amount_after_discount,
                                 'vat': move_id.partner_id.vat,
                                 'branch': move_id.partner_id.branch_no,
-                                'amount_untaxed':amount_untaxed,
+                                'amount_untaxed': amount_untaxed,
                                 'amount_tax': amount_tax,
                                 'amount_total': amount_total,
                                 'move_id': move_id,
                                 'state': move_id.state,
                                 'type': move_id.move_type,
-                                'invoice_line':move_id.invoice_line_ids,
+                                'invoice_line': move_id.invoice_line_ids,
                                 'ETD': move_id.etd,
                                 'ETA': move_id.eta,
-                                'quantity': move_id.invoice_line_ids.quantity,
+                                'quantity': sum,
                                 'excrate': move_id.customs_department,
+                                'amount_type': amount_type,
                                 'export_products_id': move_id.export_products_id,
-                                'company_rate': move_id.currency_id.rate_ids,
-
+                                'company_rate': company_rate,
                             }
                             doc.append(move_ids)
                             print('doc_last:', doc)
@@ -585,6 +727,22 @@ class report_sale_tax_report(models.AbstractModel):
                             untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
                         print('move_id.amount_tax_move_id.amount_tax:',(move_id.amount_tax / 7) * 100)
                         print('move_id.amount_tax_move_id.amount_tax:',move_id.amount_tax)
+                        if len(move_id.invoice_line_ids) >= 2:
+                            sum = 0.0
+                            for i in move_id.invoice_line_ids:
+                                sum = sum + i.quantity
+                                print("ID_quantity", i, ":", i.quantity)
+                        elif len(move_id.invoice_line_ids) <= 1:
+                            sum = move_id.invoice_line_ids.quantity
+                        if len(move_id.currency_id.rate_ids) >= 2:
+                            company_rate = move_id.currency_id.rate_ids[0].company_rate
+                            print("company_rate!!:", company_rate)
+                        elif len(move_id.currency_id.rate_ids) < 2:
+                            company_rate = move_id.currency_id.rate_ids.company_rate
+                            print("company_rate!!!:", company_rate)
+                        if company_rate == 0.0:
+                            company_rate = 1.0
+                        print("company_rate!!!!:", company_rate)
                         move_ids = {
                             'date': date.strftime("%d/%m/%Y"),
                             'name': move_id.tax_inv_number or move_id.name,
@@ -601,10 +759,11 @@ class report_sale_tax_report(models.AbstractModel):
                             'invoice_line': move_id.invoice_line_ids,
                             'ETD': move_id.etd,
                             'ETA': move_id.eta,
-                            'quantity': move_id.invoice_line_ids.quantity,
+                            'quantity': sum,
                             'excrate': move_id.customs_department,
+                            'amount_type': amount_type,
                             'export_products_id': move_id.export_products_id,
-                            'company_rate': move_id.currency_id.rate_ids,
+                            'company_rate': company_rate,
                         }
                         doc.append(move_ids)
             else:
@@ -642,27 +801,43 @@ class report_sale_tax_report(models.AbstractModel):
                                     amount_total = move_id.amount_total / rate
                                     # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
                                     untaxed_amount_after_discount = move_id.amount_untaxed / rate
-                                move_ids={
+                                if len(move_id.invoice_line_ids) >= 2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity", i, ":", i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
+                                if len(move_id.currency_id.rate_ids) >= 2:
+                                    company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                    print("company_rate!!:", company_rate)
+                                elif len(move_id.currency_id.rate_ids) < 2:
+                                    company_rate = move_id.currency_id.rate_ids.company_rate
+                                    print("company_rate!!!:", company_rate)
+                                if company_rate == 0.0:
+                                    company_rate = 1.0
+                                print("company_rate!!!!:", company_rate)
+                                move_ids = {
                                     'date': date.strftime("%d/%m/%Y"),
                                     'name': move_id.tax_inv_number or move_id.name,
                                     'partner': self.get_partner_name(move_id),
                                     'untaxed_amount_after_discount': untaxed_amount_after_discount,
                                     'vat': move_id.partner_id.vat,
                                     'branch': move_id.partner_id.branch_no,
-                                    'amount_untaxed':amount_untaxed,
+                                    'amount_untaxed': amount_untaxed,
                                     'amount_tax': amount_tax,
                                     'amount_total': amount_total,
                                     'move_id': move_id,
                                     'state': move_id.state,
                                     'type': move_id.move_type,
-                                    'invoice_line':move_id.invoice_line_ids,
+                                    'invoice_line': move_id.invoice_line_ids,
                                     'ETD': move_id.etd,
                                     'ETA': move_id.eta,
-                                    'quantity': move_id.invoice_line_ids.quantity,
+                                    'quantity': sum,
                                     'excrate': move_id.customs_department,
                                     'amount_type': amount_type,
                                     'export_products_id': move_id.export_products_id,
-                                    'company_rate': move_id.currency_id.rate_ids,
+                                    'company_rate': company_rate,
                                 }
 
                                 doc.append(move_ids)
@@ -699,7 +874,6 @@ class report_sale_tax_report(models.AbstractModel):
                                 print("amount_untaxed!!:", amount_untaxed)
                                 print("amount_tax!!:", amount_tax)
                                 print("amount_total!!:", amount_total)
-                                print("company_rate!!:", move_id.currency_id.rate_ids.company_rate)
                                 amount_type = move_id.currency_id.name
 
                                 # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
@@ -711,7 +885,15 @@ class report_sale_tax_report(models.AbstractModel):
                                     print("ID_quantity",i,":",i.quantity)
                             elif len(move_id.invoice_line_ids) <= 1:
                                     sum = move_id.invoice_line_ids.quantity
-
+                            if len(move_id.currency_id.rate_ids) >= 2:
+                                company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                print("company_rate!!:", company_rate)
+                            elif len(move_id.currency_id.rate_ids) < 2:
+                                company_rate = move_id.currency_id.rate_ids.company_rate
+                                print("company_rate!!!:", company_rate)
+                            if company_rate==0.0:
+                                company_rate =1.0
+                            print("company_rate!!!!:",company_rate)
                             move_ids = {
                                 'date': date.strftime("%d/%m/%Y"),
                                 'name': move_id.tax_inv_number or move_id.name,
@@ -732,7 +914,7 @@ class report_sale_tax_report(models.AbstractModel):
                                 'excrate': move_id.customs_department,
                                 'amount_type': amount_type,
                                 'export_products_id': move_id.export_products_id,
-                                'company_rate': move_id.currency_id.rate_ids,
+                                'company_rate': company_rate,
                             }
                             doc.append(move_ids)
                     else:
@@ -766,6 +948,22 @@ class report_sale_tax_report(models.AbstractModel):
                             # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
                         print('move_id.amount_tax_move_id.amount_tax:',(move_id.amount_tax / 7) * 100)
                         print('move_id.amount_tax_move_id.amount_tax:',move_id.amount_tax)
+                        if len(move_id.invoice_line_ids) >= 2:
+                            sum = 0.0
+                            for i in move_id.invoice_line_ids:
+                                sum = sum + i.quantity
+                                print("ID_quantity", i, ":", i.quantity)
+                        elif len(move_id.invoice_line_ids) <= 1:
+                            sum = move_id.invoice_line_ids.quantity
+                        if len(move_id.currency_id.rate_ids) >= 2:
+                            company_rate = move_id.currency_id.rate_ids[0].company_rate
+                            print("company_rate!!:", company_rate)
+                        elif len(move_id.currency_id.rate_ids) < 2:
+                            company_rate = move_id.currency_id.rate_ids.company_rate
+                            print("company_rate!!!:", company_rate)
+                        if company_rate == 0.0:
+                            company_rate = 1.0
+                        print("company_rate!!!!:", company_rate)
                         move_ids = {
                             'date': date.strftime("%d/%m/%Y"),
                             'name': move_id.tax_inv_number or move_id.name,
@@ -782,11 +980,11 @@ class report_sale_tax_report(models.AbstractModel):
                             'invoice_line': move_id.invoice_line_ids,
                             'ETD': move_id.etd,
                             'ETA': move_id.eta,
-                            'quantity': move_id.invoice_line_ids.quantity,
+                            'quantity': sum,
                             'excrate': move_id.customs_department,
                             'amount_type': amount_type,
                             'export_products_id': move_id.export_products_id,
-                            'company_rate': move_id.currency_id.rate_ids,
+                            'company_rate': company_rate,
                         }
                         doc.append(move_ids)
 
@@ -824,26 +1022,43 @@ class report_sale_tax_report(models.AbstractModel):
                         amount_untaxed = move_line.tax_base_amount / rate
                         amount_tax =  move_line.credit / rate
                         amount_total = (move_line.tax_base_amount + move_line.credit) / rate
+                    if len(move_id.invoice_line_ids) >= 2:
+                        sum = 0.0
+                        for i in move_id.invoice_line_ids:
+                            sum = sum + i.quantity
+                            print("ID_quantity", i, ":", i.quantity)
+                    elif len(move_id.invoice_line_ids) <= 1:
+                        sum = move_id.invoice_line_ids.quantity
+                    if len(move_id.currency_id.rate_ids) >= 2:
+                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                        print("company_rate!!:", company_rate)
+                    elif len(move_id.currency_id.rate_ids) < 2:
+                        company_rate = move_id.currency_id.rate_ids.company_rate
+                        print("company_rate!!!:", company_rate)
+                    if company_rate == 0.0:
+                        company_rate = 1.0
+                    print("company_rate!!!!:", company_rate)
                     move_ids = {
                         'date': date.strftime("%d/%m/%Y"),
                         'name': move_id.tax_inv_number or move_id.name,
-                        'partner': self.get_partner_name(move_line),
-                        'vat': move_line.partner_id.vat,
-                        'branch': move_line.partner_id.branch_no,
+                        'partner': self.get_partner_name(move_id),
+                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                        'vat': move_id.partner_id.vat,
+                        'branch': move_id.partner_id.branch_no,
                         'amount_untaxed': amount_untaxed,
                         'amount_tax': amount_tax,
                         'amount_total': amount_total,
                         'move_id': move_id,
                         'state': move_id.state,
                         'type': move_id.move_type,
+                        'invoice_line': move_id.invoice_line_ids,
                         'ETD': move_id.etd,
                         'ETA': move_id.eta,
-                        'quantity': move_id.invoice_line_ids.quantity,
-                        'excrate':move_id.customs_department,
+                        'quantity': sum,
+                        'excrate': move_id.customs_department,
                         'amount_type': amount_type,
                         'export_products_id': move_id.export_products_id,
-                        'company_rate': move_id.currency_id.rate_ids,
-
+                        'company_rate': company_rate,
                     }
                     doc.append(move_ids)
             doc.sort(key=lambda k: (k['date'], k['name']))
