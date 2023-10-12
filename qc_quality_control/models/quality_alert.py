@@ -76,10 +76,10 @@ class QualityAlert(models.Model):
     # defect detect
     is_defect_incoming = fields.Boolean('Incoming')
     is_defect_inprocess = fields.Boolean('In process')
-    defect_inprocess_id = fields.Many2one('quality.defect.inprocess', string='In process detail')
+    defect_inprocess_id = fields.Many2one('mrp.workcenter', string='In process detail')
     is_defect_out_going = fields.Boolean('Out going')
     is_defect_customer = fields.Boolean('Customer')
-    defect_customer_id = fields.Many2one('quality.defect.customer', string='Customer detail')
+    defect_customer_id = fields.Many2one('res.users', string='Customer detail')
     is_defect_other = fields.Boolean('Other')
     defect_other = fields.Char('Other')
 
@@ -103,6 +103,25 @@ class QualityAlert(models.Model):
     follow_up_date = fields.Date('Follow up by')
     employee_approve_manager_id = fields.Many2one('hr.employee', string='Approved by Manager QC&QA')
     approve_part_date = fields.Date(string='Approved by Manager QC&QA Date')
+
+    def default_get(self, fields_list):
+        res = super(QualityAlert, self).default_get(fields_list)
+        print('fields_list', fields_list)
+        print('res', res)
+        if res.get('production_id'):
+            production_id = self.env['mrp.production'].browse(res.get('production_id'))
+            res.update({'production_qty': production_id.product_qty,
+                        'mo_date_planned_start': production_id.date_planned_start,
+                        })
+            print('production_id', production_id)
+        if res.get('workorder_id'):
+            workorder_id = self.env['mrp.workorder'].browse(res.get('workorder_id'))
+            if workorder_id.state in ['progress']:
+                res.update({'is_defect_inprocess': True,
+                            'defect_inprocess_id': workorder_id.workcenter_id.id,
+                            })
+        print('res', res)
+        return res
 
     @api.depends('ng_part_line.product_goods_qty', 'ng_part_line.product_ng_qty')
     def _compute_ng_part_qty(self):

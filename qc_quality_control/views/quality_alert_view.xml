@@ -97,7 +97,7 @@
                             <div class="o_row" colspan="2">
                                 <field name="is_defect_inprocess"/>
                                 <span>In process</span>
-                                <field name="defect_inprocess_id"/>
+                                <field name="defect_inprocess_id" placeholder="Workcenter..." attrs="{'invisible':[('is_defect_inprocess', '=', False)]}"/>
                             </div>
                             <div class="o_row" colspan="2">
                                 <field name="is_defect_out_going"/>
@@ -106,12 +106,12 @@
                             <div class="o_row" colspan="2">
                                 <field name="is_defect_customer"/>
                                 <span>Customer</span>
-                                <field name="defect_customer_id"/>
+                                <field name="defect_customer_id" placeholder="Customer..." attrs="{'invisible':[('is_defect_customer', '=', False)]}"/>
                             </div>
                             <div class="o_row" colspan="2">
                                 <field name="is_defect_other"/>
                                 <span>Other</span>
-                                <field name="defect_other"/>
+                                <field name="defect_other" placeholder="Other..." attrs="{'invisible':[('is_defect_other', '=', False)]}"/>
                             </div>
                         </group>
                     </group>

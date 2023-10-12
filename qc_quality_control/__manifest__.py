@@ -18,7 +18,6 @@
 
         'security/ir.model.access.csv',
         'views/quality_alert_view.xml',
-        'views/quality_defect_inprocess_view.xml',
     ],
     'qweb': [],
     "installable": True,
