@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_quality_alert_form_qc" model="ir.ui.view">
+        <field name="name">quality.alert.form.qc</field>
+        <field name="model">quality.alert</field>
+        <field name="inherit_id" ref="quality_control.quality_alert_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//sheet/group/group" position="inside">
+                <field name="employee_follow_up_id"/>
+                <field name="employee_id"/>
+                <field name="employee_approved_id"/>
+                <field name="employee_issued_id"/>
+                <label for="is_info_by_email" string="Information"/>
+                <div class="o_row">
+                    <field name="is_info_by_email"/>
+                    <span>By Email</span>
+                </div>
+                <label for="is_info_by_etc" string=""/>
+                <div class="o_row">
+                    <field name="is_info_by_etc"/>
+                    <span>By Etc</span>
+                    <field name="info_by_etc" placeholder="By ...." attrs="{'invisible': [('is_info_by_etc', '!=', False)]}"/>
+                </div>
+                <label for="is_sort_cus_stock" string="Request support"/>
+                <div class="o_row">
+                    <field name="is_sort_cus_stock"/>
+                    <span>Sorting Customer stock</span>
+                    <field name="sort_cus_stock_qty"/>
+                    <span>Pcs(with in</span>
+                    <field name="sort_cus_stock_in"/>
+                </div>
+                <label for="is_return_replacement" string=""/>
+                <div class="o_row">
+                    <field name="is_return_replacement"/>
+                    <span>Return replacement</span>
+                    <field name="return_replacement_qty"/>
+                    <span>Pcs(with in</span>
+                    <field name="return_replacement_in"/>
+                </div>
+                <label for="is_issue_credit_note" string=""/>
+                <div class="o_row">
+                    <field name="is_issue_credit_note"/>
+                    <span>Issue "Credit Note"</span>
+                    <span>Account</span>
+                    <field name="issue_cn_sign"/>
+                    <span>sign</span>
+                </div>
+                <label for="is_req_support_info_only" string="Request support"/>
+                <div class="o_row">
+                    <field name="is_req_support_info_only"/>
+                    <span>Information only</span>
+                </div>
+                <label for="is_req_support_reply_only" string=""/>
+                <div class="o_row">
+                    <field name="is_req_support_reply_only"/>
+                    <span>Reply only</span>
+                </div>
+            </xpath>
+
+            <xpath expr="//sheet/group/group[2]" position="inside">
+                <field name="problem_no"/>
+                <div class="o_row" colspan="2">
+                    <field name="is_ncr"/>
+                    <span>NCR (Non Conforming Report : External)</span>
+                </div>
+                <div class="o_row" colspan="2">
+                    <field name="is_car"/>
+                    <span>CAR (Corrective Action Request : Internal)</span>
+                </div>
+                <field name="mo_date_planned_start" string="วันที่ผลิต"/>
+                <field name="operator_relate" string="Operator ที่เกี่ยวข้อง"/>
+                <field name="name_report" string="ชื่อผู้พบปัญหา"/>
+                <field name="image_report" string="รูปประกอบ" widget="image" options="{'preview_image': 'image_128'}"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[@name='miscellaneous']/group/group[2]" position="inside">
+                <field name="due_date"/>
+            </xpath>
+
+            <xpath expr="//notebook/page[1]" position="before">
+                <page string="Problem Description">
+                    <group>
+                        <group>
+                            <field name="production_id" string="Production Order"/>
+                            <field name="production_qty" string="QTY Lot จำนวนทั้งหมด"/>
+                            <field name="production_check_qty" string="QTY Check จำนวนที่ตรวจ"/>
+                            <field name="production_ng_qty" string="Qty NC จำนวนที่พปญหา"/>
+                        </group>
+                        <group>
+                            <label string="Defect Detect จุดที่พบปัญหา" for="is_defect_incoming"/>
+                            <div class="o_row" colspan="2">
+                                <field name="is_defect_incoming"/>
+                                <span>Incoming</span>
+                            </div>
+                            <div class="o_row" colspan="2">
+                                <field name="is_defect_inprocess"/>
+                                <span>In process</span>
+                                <field name="defect_inprocess_id"/>
+                            </div>
+                            <div class="o_row" colspan="2">
+                                <field name="is_defect_out_going"/>
+                                <span>Out going</span>
+                            </div>
+                            <div class="o_row" colspan="2">
+                                <field name="is_defect_customer"/>
+                                <span>Customer</span>
+                                <field name="defect_customer_id"/>
+                            </div>
+                            <div class="o_row" colspan="2">
+                                <field name="is_defect_other"/>
+                                <span>Other</span>
+                                <field name="defect_other"/>
+                            </div>
+                        </group>
+                    </group>
+                </page>
+                <page string="NG Part Action">
+                    <field name="ng_part_line">
+                        <tree editable="bottom">
+                            <field name="location_id"/>
+                            <field name="product_qty"/>
+                            <field name="action_plan"/>
+                            <field name="employee_section_id"/>
+                            <field name="product_goods_qty"/>
+                            <field name="product_ng_qty"/>
+                        </tree>
+                    </field>
+                    <group name="note_group" class="mt-2 mt-md-0">
+                        <group class="oe_subtotal_footer oe_right">
+                            <field name="ng_part_qty"/>
+                            <field name="product_goods_qty"/>
+                            <field name="product_ng_qty"/>
+                        </group>
+                        <div class="clearfix"/>
+                    </group>
+                </page>
+            </xpath>
+
+            <xpath expr="//notebook/page[last()]" position="after">
+                <page string="Quality Tmpact">
+                    <group>
+                        <group>
+                            <field name="product_part_ids" widget="many2many_tags"/>
+                            <field name="employee_issued_id"/>
+                            <field name="issued_date"/>
+                            <field name="employee_approve_part_id"/>
+                            <field name="approve_part_date"/>
+                        </group>
+                        <group></group>
+                    </group>
+                </page>
+                <page string="QC QA Follow up">
+                    <group>
+                        <group>
+                            <field name="follow_up_note"/>
+                        </group>
+                        <group>
+                            <field name="result_follow"/>
+                            <field name="employee_qc_follow_up_id"/>
+                            <field name="follow_up_date"/>
+                            <field name="employee_approve_manager_id"/>
+                            <field name="approve_part_date"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

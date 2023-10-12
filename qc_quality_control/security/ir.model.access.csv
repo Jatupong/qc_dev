@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_quality_defect_inprocess_user,quality_defect_inprocess user,model_quality_defect_inprocess,base.group_user,1,1,1,1
+access_quality_defect_customer_user,quality_defect_customer user,model_quality_defect_customer,base.group_user,1,1,1,1
+access_ng_part_line_user,ng_part_line user,model_ng_part_line,base.group_user,1,1,1,1
