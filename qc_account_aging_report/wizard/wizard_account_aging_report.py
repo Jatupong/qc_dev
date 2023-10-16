@@ -44,10 +44,10 @@ class WizardAccountAgingReport(models.TransientModel):
         data = {'form': data}
         if self.report_type == 'ap':
             return self.env.ref('qc_account_aging_report.account_ap_aging_report').report_action([], data=data,
-                                                                                                    config=False)
+                                                                                                 config=False)
         else:
             return self.env.ref('qc_account_aging_report.account_ar_aging_report').report_action([], data=data,
-                                                                                                    config=False)
+                                                                                                 config=False)
 
     def print_report_excel(self):
         [data] = self.read()
@@ -92,6 +92,234 @@ class WizardAccountAgingReport(models.TransientModel):
         date_time = date_time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
         return date_time
+
+    def _get_result_ap_aging(self):
+        record = []
+        invoice_ids = self._get_in_invoice()
+        if not invoice_ids:
+            raise UserError(_("Document is empty."))
+        for move in invoice_ids:
+
+            purchase_id = move.line_ids.purchase_line_id.order_id
+            if purchase_id:
+                po_no = purchase_id.name or ''
+                po_amount_total = '{0:,.2f}'.format(purchase_id.amount_total)
+            else:
+                po_no = ''
+                po_amount_total = ''
+
+            credit_limit_amount = 0.0
+            currency_name = ''
+            if move.currency_id != move.company_currency_id:
+                price_total = sum(move.line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
+                amount_other_currency = price_total
+                currency_rate = move.company_currency_id._get_rates(move.company_id,
+                                                                    move.invoice_date or move.date).get(
+                    move.company_currency_id.id)
+
+                amount_currency = move.currency_id._convert(price_total,
+                                                            move.company_currency_id,
+                                                            move.company_id,
+                                                            move.invoice_date or move.date)
+            else:
+                amount_other_currency = 0.0
+                currency_rate = ''
+                amount_currency = sum(move.line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
+
+            if move.line_ids.filtered(lambda x: x.is_downpayment):
+                if move.currency_id != move.company_currency_id:
+                    price_total = abs(sum(move.line_ids.filtered(lambda x: x.is_downpayment).mapped('price_total')))
+                    down_payment_amount_other_currency = move.currency_id._convert(price_total,
+                                                                                   move.company_currency_id,
+                                                                                   move.company_id,
+                                                                                   move.invoice_date or move.date)
+                    down_payment_date = ''
+                    down_payment_amount = abs(
+                        sum(move.line_ids.filtered(lambda x: x.is_downpayment).mapped('price_total')))
+                else:
+                    down_payment_amount_other_currency = 0.0
+                    down_payment_date = ''
+                    down_payment_amount = abs(
+                        sum(move.line_ids.filtered(lambda x: x.is_downpayment).mapped('price_total')))
+            else:
+                down_payment_amount_other_currency = 0.0
+                down_payment_date = ''
+                down_payment_amount = 0.0
+
+            credit_note_ids = self.env['account.move'].search([('reversed_entry_id', '=', move.id),
+                                                               ('state', 'in', ['posted'])])
+            if credit_note_ids:
+                credit_note_id = credit_note_ids[0]
+                cn_date = credit_note_id.invoice_date
+                cn_no = credit_note_id.name
+                if credit_note_id.currency_id != credit_note_id.company_currency_id:
+                    cn_amount_other_currency = credit_note_id.amount_total
+                    cn_amount = credit_note_id.currency_id._convert(credit_note_id.amount_total,
+                                                                    credit_note_id.company_currency_id,
+                                                                    credit_note_id.company_id,
+                                                                    credit_note_id.invoice_date or move.date)
+                else:
+                    cn_amount_other_currency = 0.0
+                    cn_amount = credit_note_id.amount_total
+            else:
+                cn_date = ''
+                cn_no = ''
+                cn_amount_other_currency = 0.0
+                cn_amount = 0.0
+
+            inv_amount_other_currency = amount_other_currency - (
+                        down_payment_amount_other_currency + cn_amount_other_currency)
+            inv_amount = amount_currency - (down_payment_amount + cn_amount)
+
+            balance_amount_other_currency = 0.0
+            balance_amount = 0.0
+
+            credit_limit_note = ''
+
+            value = {
+                'invoice_date': move.invoice_date or '',
+                'partner_name': move.partner_id.name or '',
+                'pi_no': po_no,
+                'po_amount_total': po_amount_total,
+                'bill_no': move.name or '',
+                'payment_term': move.invoice_payment_term_id.name or '',
+                'length_payment_term': move.invoice_payment_term_id.name or '',
+                'credit_limit': credit_limit_amount,
+                'due_date': move.invoice_date_due.strftime('%d/%m/%Y'),
+                'creditor_age': move.partner_id.use_partner_credit_limit or '',
+                'currency_name': currency_name,
+                'currency_rate': currency_rate,
+                'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
+                'amount': '{0:,.2f}'.format(amount_currency),
+                'dp_date': down_payment_date,
+                'dp_amount_other_currency': '{0:,.2f}'.format(down_payment_amount_other_currency),
+                'dp_amount': '{0:,.2f}'.format(down_payment_amount),
+                'cn_date': cn_date,
+                'cn_no': cn_no,
+                'cn_amount_other_currency': '{0:,.2f}'.format(cn_amount_other_currency),
+                'cn_amount': '{0:,.2f}'.format(cn_amount),
+                'inv_amount_other_currency': '{0:,.2f}'.format(inv_amount_other_currency),
+                'inv_amount': '{0:,.2f}'.format(inv_amount),
+                'balance_amount_other_currency': balance_amount_other_currency,
+                'balance_amount': balance_amount,
+                'credit_limit_note': credit_limit_note,
+            }
+            record.append(value)
+
+        return record
+
+    def _get_result_ar_aging(self):
+        record = []
+        invoice_ids = self._get_out_invoice()
+        if not invoice_ids:
+            raise UserError(_("Document is empty."))
+        for move in invoice_ids:
+
+            if move.line_ids.sale_line_ids:
+                sale_id = move.line_ids.sale_line_ids[0].order_id
+                so_no = sale_id.name
+                so_amount_total = '{0:,.2f}'.format(sale_id.amount_total)
+            else:
+                sale_id = False
+                so_no = ''
+                so_amount_total = ''
+
+            credit_limit_amount = 0.0
+            currency_name = ''
+            if move.currency_id != move.company_currency_id:
+                price_total = sum(move.line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
+                amount_other_currency = price_total
+                currency_rate = move.company_currency_id._get_rates(move.company_id,
+                                                                    move.invoice_date or move.date).get(move.company_currency_id.id)
+
+                amount_currency = move.currency_id._convert(price_total,
+                                                            move.company_currency_id,
+                                                            move.company_id,
+                                                            move.invoice_date or move.date)
+            else:
+                amount_other_currency = 0.0
+                currency_rate = ''
+                amount_currency = sum(move.line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
+
+            if move.line_ids.filtered(lambda x:x.is_downpayment):
+                if move.currency_id != move.company_currency_id:
+                    price_total = abs(sum(move.line_ids.filtered(lambda x:x.is_downpayment).mapped('price_total')))
+                    down_payment_amount_other_currency = move.currency_id._convert(price_total,
+                                                                                   move.company_currency_id,
+                                                                                   move.company_id,
+                                                                                   move.invoice_date or move.date)
+                    down_payment_date = ''
+                    down_payment_amount = abs(sum(move.line_ids.filtered(lambda x:x.is_downpayment).mapped('price_total')))
+                else:
+                    down_payment_amount_other_currency = 0.0
+                    down_payment_date = ''
+                    down_payment_amount = abs(sum(move.line_ids.filtered(lambda x: x.is_downpayment).mapped('price_total')))
+            else:
+                down_payment_amount_other_currency = 0.0
+                down_payment_date = ''
+                down_payment_amount = 0.0
+
+            credit_note_ids = self.env['account.move'].search([('reversed_entry_id', '=', move.id),
+                                                               ('state', 'in', ['posted'])])
+            if credit_note_ids:
+                credit_note_id = credit_note_ids[0]
+                cn_date = credit_note_id.invoice_date
+                cn_no = credit_note_id.name
+                if credit_note_id.currency_id != credit_note_id.company_currency_id:
+                    cn_amount_other_currency = credit_note_id.amount_total
+                    cn_amount = credit_note_id.currency_id._convert(credit_note_id.amount_total,
+                                                                    credit_note_id.company_currency_id,
+                                                                    credit_note_id.company_id,
+                                                                    credit_note_id.invoice_date or move.date)
+                else:
+                    cn_amount_other_currency = 0.0
+                    cn_amount = credit_note_id.amount_total
+            else:
+                cn_date = ''
+                cn_no = ''
+                cn_amount_other_currency = 0.0
+                cn_amount = 0.0
+
+            inv_amount_other_currency = amount_other_currency - (down_payment_amount_other_currency + cn_amount_other_currency)
+            inv_amount = amount_currency - (down_payment_amount + cn_amount)
+
+            balance_amount_other_currency = 0.0
+            balance_amount = 0.0
+
+            credit_limit_note = ''
+
+            value = {
+                'team_name': move.team_id.name or '',
+                'invoice_date': move.invoice_date.strftime('%d/%m/%Y') or '',
+                'partner_name': move.partner_id.name or '',
+                'so_no': so_no,
+                'so_amount_total': so_amount_total,
+                'move_name': move.name or '',
+                'payment_term': move.invoice_payment_term_id.name or '',
+                'length_payment_term': move.invoice_payment_term_id.name or '',
+                'credit_limit_amount': credit_limit_amount,
+                'due_date': move.invoice_date_due.strftime('%d/%m/%Y'),
+                'creditor_age': move.partner_id.use_partner_credit_limit or '',
+                'currency_name': currency_name,
+                'currency_rate': currency_rate,
+                'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
+                'amount': '{0:,.2f}'.format(amount_currency),
+                'dp_date': down_payment_date,
+                'dp_amount_other_currency': '{0:,.2f}'.format(down_payment_amount_other_currency),
+                'dp_amount': '{0:,.2f}'.format(down_payment_amount),
+                'cn_date': cn_date,
+                'cn_no': cn_no,
+                'cn_amount_other_currency': '{0:,.2f}'.format(cn_amount_other_currency),
+                'cn_amount': '{0:,.2f}'.format(cn_amount),
+                'inv_amount_other_currency': '{0:,.2f}'.format(inv_amount_other_currency),
+                'inv_amount': '{0:,.2f}'.format(inv_amount),
+                'balance_amount_other_currency': '{0:,.2f}'.format(balance_amount_other_currency),
+                'balance_amount': '{0:,.2f}'.format(balance_amount),
+                'credit_limit_note': credit_limit_note,
+            }
+            record.append(value)
+
+        return record
 
 
 class WizardAccountApAgingReportXls(models.AbstractModel):
@@ -139,9 +367,10 @@ class WizardAccountApAgingReportXls(models.AbstractModel):
             datetime.combine(fields.Date.from_string(lines.date_from), time.min))
         date_to_time = lines.convert_usertz_to_utc(datetime.combine(fields.Date.from_string(lines.date_to), time.max))
 
-        invoice_ids = lines._get_in_invoice()
-        if not invoice_ids:
-            raise UserError(_("Document is empty."))
+        # invoice_ids = lines._get_in_invoice()
+        # if not invoice_ids:
+        #     raise UserError(_("Document is empty."))
+        invoice_ids_list = lines._get_result_ap_aging()
 
         worksheet = workbook.add_worksheet('Page 1')
         i_row = 1
@@ -216,96 +445,60 @@ class WizardAccountApAgingReportXls(models.AbstractModel):
         worksheet.write(i_row + 1, i_col + 1, 'จำนวนเงิน\n(บาท)', for_center_bold_border)
         i_col += 2
         i_row += 1
-        for move in invoice_ids:
+        for move in invoice_ids_list:
             i_col = 0
             i_row += 1
-            worksheet.write(i_row, i_col, move.invoice_date or '', for_center_date)
+            worksheet.write(i_row, i_col, move['invoice_date'], for_center_date)
             i_col += 1
-            worksheet.write(i_row, i_col, move.partner_id.name or '', for_left_border)
+            worksheet.write(i_row, i_col, move['partner_name'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.purchase_id.name or '', for_left_border)
+            worksheet.write(i_row, i_col, move['pi_no'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.purchase_id.amount_total or '', for_right_border_num_format)
+            worksheet.write(i_row, i_col, move['po_amount_total'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, move.name or '', for_left_border)
+            worksheet.write(i_row, i_col, move['bill_no'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.invoice_payment_term_id.name or '', for_left_border)
+            worksheet.write(i_row, i_col, move['payment_term'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.invoice_payment_term_id.name or '', for_left_border)
+            worksheet.write(i_row, i_col, move['length_payment_term'], for_left_border)
             i_col += 1
-            credit_limit_amount = 0.0
-            worksheet.write(i_row, i_col, credit_limit_amount, for_left_border)
+            worksheet.write(i_row, i_col, move['credit_limit'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.invoice_date_due, for_center_date)
+            worksheet.write(i_row, i_col, move['due_date'], for_center_date)
             i_col += 1
-            invoice_days = move.invoice_date - fields.Date.today()
-            worksheet.write(i_row, i_col, invoice_days, for_right_border)
-            if move.company_currency_id != move.currency_id:
-                i_col += 1
-                worksheet.write(i_row, i_col, move.currency_id.name, for_left_border)
-                i_col += 1
-                currency_rate = move.company_currency_id._get_rates(move.company_id, move.invoice_date).get(move.company_currency_id.id)
-                worksheet.write(i_row, i_col, currency_rate, for_right_border_num_format)
-                i_col += 1
-                worksheet.write(i_row, i_col, move.amount_total, for_right_border_num_format)
-                i_col += 1
-                amount_currency = move.currency_id._convert(move.amount_total, move.company_currency_id, move.company_id,
-                                                            move.invoice_date or move.date)
-                worksheet.write(i_row, i_col, amount_currency, for_right_border_num_format)
-            else:
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_right_border_num_format)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_right_border_num_format)
-                i_col += 1
-                worksheet.write(i_row, i_col, move.amount_total, for_right_border_num_format)
-            # -
+            worksheet.write(i_row, i_col, move['creditor_age'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_center_date)
+            worksheet.write(i_row, i_col, move['currency_name'], for_right_border_num_format)
             i_col += 1
-            invoice_down_payment_amount = 0.0
-            worksheet.write(i_row, i_col, invoice_down_payment_amount, for_right_border_num_format)
+            worksheet.write(i_row, i_col, move['amount_other_currency'], for_right_border_num_format)
             i_col += 1
-            invoice_down_payment_amount = 0.0
-            worksheet.write(i_row, i_col, invoice_down_payment_amount, for_right_border_num_format)
-            # -
-            credit_note_ids = self.env['account.move'].search([('reversed_entry_id', '=', move.id)])
-            if credit_note_ids:
-                credit_note_id = credit_note_ids[0]
-                i_col += 1
-                worksheet.write(i_row, i_col, credit_note_id.invoice_date, for_center_date)
-                i_col += 1
-                worksheet.write(i_row, i_col, credit_note_id.name, for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, credit_note_id.amount_total, for_right_border_num_format)
-                i_col += 1
-                amount_currency = credit_note_id.currency_id._convert(credit_note_id.amount_total, credit_note_id.company_currency_id,
-                                                                      credit_note_id.company_id,
-                                                                      credit_note_id.invoice_date or move.date)
-                worksheet.write(i_row, i_col, amount_currency, for_right_border_num_format)
-            else:
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-
+            worksheet.write(i_row, i_col, move['currency_rate'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['dp_date'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['dp_amount_other_currency'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['dp_amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
-
+            worksheet.write(i_row, i_col, move['cn_date'], for_center_date)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['cn_no'], for_left_border)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['cn_amount_other_currency'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['cn_amount'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['inv_amount_other_currency'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['inv_amount'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['balance_amount_other_currency'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['balance_amount'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['credit_limit_note'], for_left_border)
 
         workbook.close()
 
@@ -357,9 +550,11 @@ class WizardAccountArAgingReportXls(models.AbstractModel):
             datetime.combine(fields.Date.from_string(lines.date_from), time.min))
         date_to_time = lines.convert_usertz_to_utc(datetime.combine(fields.Date.from_string(lines.date_to), time.max))
 
-        invoice_ids = lines._get_out_invoice()
-        if not invoice_ids:
-            raise UserError(_("Document is empty."))
+        # invoice_ids = lines._get_out_invoice()
+        # if not invoice_ids:
+        #     raise UserError(_("Document is empty."))
+
+        invoice_list = lines._get_result_ar_aging()
 
         worksheet = workbook.add_worksheet('Page 1')
         i_row = 1
@@ -371,8 +566,8 @@ class WizardAccountArAgingReportXls(models.AbstractModel):
 
         i_row += 1
         i_col = 0
-        worksheet.merge_range(i_row, i_col, i_row, i_col + 13, 'ลูกหนี้การค้า', for_center_bold_border)
-        i_col += 14
+        worksheet.merge_range(i_row, i_col, i_row, i_col + 14, 'ลูกหนี้การค้า', for_center_bold_border)
+        i_col += 15
         worksheet.merge_range(i_row, i_col, i_row, i_col + 2, 'หักชำระเงินมัดจำ', for_center_bold_border)
         i_col += 3
         worksheet.merge_range(i_row, i_col, i_row, i_col + 3, 'หัก CREDIT NOTE', for_center_bold_border)
@@ -390,6 +585,8 @@ class WizardAccountArAgingReportXls(models.AbstractModel):
         worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'ชื่อลูกค้า', for_center_bold_border)
         i_col += 1
         worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'PI NO.', for_center_bold_border)
+        i_col += 1
+        worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงินตาม(PO)', for_center_bold_border)
         i_col += 1
         worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'INVOICE NO./\nเลขที่ใบกำกับภาษี', for_center_bold_border)
         i_col += 1
@@ -434,106 +631,62 @@ class WizardAccountArAgingReportXls(models.AbstractModel):
         worksheet.write(i_row + 1, i_col + 1, 'จำนวนเงิน\n(บาท)', for_center_bold_border)
         i_col += 2
         i_row += 1
-        for move in invoice_ids:
+
+        for move in invoice_list:
             i_col = 0
             i_row += 1
-            worksheet.write(i_row, i_col, move.team_id.name or '', for_left_border)
-            i_row += 1
-            worksheet.write(i_row, i_col, move.invoice_date or '', for_center_date)
+            worksheet.write(i_row, i_col, move['team_name'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.partner_id.name or '', for_left_border)
-            if move.line_ids.sale_line_ids:
-                i_col += 1
-                sale_id = move.line_ids.sale_line_ids[0].order_id
-                worksheet.write(i_row, i_col, sale_id.name or '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, sale_id.amount_total or '', for_right_border_num_format)
-            else:
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['invoice_date'], for_center_date)
             i_col += 1
-            worksheet.write(i_row, i_col, move.name or '', for_left_border)
+            worksheet.write(i_row, i_col, move['partner_name'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.invoice_payment_term_id.name or '', for_left_border)
+            worksheet.write(i_row, i_col, move['so_no'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.invoice_payment_term_id.name or '', for_left_border)
+            worksheet.write(i_row, i_col, move['so_amount_total'], for_right_border_num_format)
             i_col += 1
-            credit_limit_amount = 0.0
-            worksheet.write(i_row, i_col, credit_limit_amount, for_left_border)
+            worksheet.write(i_row, i_col, move['move_name'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move.invoice_date_due, for_center_date)
+            worksheet.write(i_row, i_col, move['payment_term'], for_left_border)
             i_col += 1
-            invoice_days = move.invoice_date - fields.Date.today()
-            worksheet.write(i_row, i_col, invoice_days, for_right_border)
-            if move.company_currency_id != move.currency_id:
-                i_col += 1
-                worksheet.write(i_row, i_col, move.currency_id.name, for_left_border)
-                i_col += 1
-                currency_rate = move.company_currency_id._get_rates(move.company_id, move.invoice_date).get(
-                    move.company_currency_id.id)
-                worksheet.write(i_row, i_col, currency_rate, for_right_border_num_format)
-                i_col += 1
-                worksheet.write(i_row, i_col, move.amount_total, for_right_border_num_format)
-                i_col += 1
-                amount_currency = move.currency_id._convert(move.amount_total, move.company_currency_id,
-                                                            move.company_id,
-                                                            move.invoice_date or move.date)
-                worksheet.write(i_row, i_col, amount_currency, for_right_border_num_format)
-            else:
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_right_border_num_format)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_right_border_num_format)
-                i_col += 1
-                worksheet.write(i_row, i_col, move.amount_total, for_right_border_num_format)
-            # -
+            worksheet.write(i_row, i_col, move['length_payment_term'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_center_date)
+            worksheet.write(i_row, i_col, move['credit_limit_amount'], for_right_border_num_format)
             i_col += 1
-            invoice_down_payment_amount = 0.0
-            worksheet.write(i_row, i_col, invoice_down_payment_amount, for_right_border_num_format)
+            worksheet.write(i_row, i_col, move['due_date'], for_center_date)
             i_col += 1
-            invoice_down_payment_amount = 0.0
-            worksheet.write(i_row, i_col, invoice_down_payment_amount, for_right_border_num_format)
-            # -
-            credit_note_ids = self.env['account.move'].search([('reversed_entry_id', '=', move.id)])
-            if credit_note_ids:
-                credit_note_id = credit_note_ids[0]
-                i_col += 1
-                worksheet.write(i_row, i_col, credit_note_id.invoice_date, for_center_date)
-                i_col += 1
-                worksheet.write(i_row, i_col, credit_note_id.name, for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, credit_note_id.amount_total, for_right_border_num_format)
-                i_col += 1
-                amount_currency = credit_note_id.currency_id._convert(credit_note_id.amount_total,
-                                                                      credit_note_id.company_currency_id,
-                                                                      credit_note_id.company_id,
-                                                                      credit_note_id.invoice_date or move.date)
-                worksheet.write(i_row, i_col, amount_currency, for_right_border_num_format)
-            else:
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-                i_col += 1
-                worksheet.write(i_row, i_col, '', for_left_border)
-
+            worksheet.write(i_row, i_col, move['creditor_age'], for_right_border)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['currency_name'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['amount_other_currency'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['currency_rate'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, '', for_left_border)
+            worksheet.write(i_row, i_col, move['dp_date'], for_center_date)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['dp_amount_other_currency'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['dp_amount'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['cn_date'], for_left_border)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['cn_no'], for_left_border)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['cn_amount_other_currency'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['cn_amount'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['inv_amount_other_currency'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['inv_amount'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['balance_amount_other_currency'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['balance_amount'], for_right_border_num_format)
+            i_col += 1
+            worksheet.write(i_row, i_col, move['credit_limit_note'], for_left_border)
 
         workbook.close()
