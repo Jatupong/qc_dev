@@ -9,6 +9,8 @@
 				<field name="product_plan_colour_id" domain="[('is_plan_color','=',True)]"/>
 				<field name="product_category_line_id" domain="[('product_line','=',True)]"/>
 				<field name="decoration_id" domain="[('is_decoration','=',True)]"/>
+				<field name="shape_name_eng"/>
+				<field name="shape_name_th"/>
 			</field>
 		</field>
 	</record>
