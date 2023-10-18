@@ -24,6 +24,7 @@ class StockCardView(models.TransientModel):
     amount_out = fields.Float()
     lot_id = fields.Many2one('stock.lot', string='Lot')
     move_line_id = fields.Char()
+    unit_cost = fields.Float()
 
 class StockCardReport(models.TransientModel):
     _name = "report.stock.card.report"
@@ -128,11 +129,16 @@ class StockCardReport(models.TransientModel):
         print('stock_card_results:',stock_card_results)
         ReportLine = self.env["stock.card.view"]
         for line in stock_card_results:
+            valuation = self.env['stock.valuation.layer'].sudo().search([('reference', '=',line["reference"]),('product_id', '=',line["product_id"])],)
+            if len(valuation) >1:
+                line["unit_cost"] = valuation[0].unit_cost
+            if len(valuation) <=1:
+                line["unit_cost"] = valuation[0].unit_cost or 0
             if line["lot_id"]:
                 lot = self.env['stock.lot'].sudo().search([('id', '=',line["lot_id"])],)
                 line["lot_id"] = lot
         for line in stock_card_results:
-            print(line)
+            print("Data :",line)
         self.results = [ReportLine.new(line).id for line in stock_card_results]
         print(self.results)
 

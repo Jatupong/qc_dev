@@ -102,17 +102,24 @@ class ReportStockCardReportXlsx(models.AbstractModel):
                 },
                 "width": 25,
             },
-            "6_input": {
+            "6_unit_cost": {
+                "header": {"value": "Unit Cost"},
+                "data": {
+                    "value": self._render("unit_cost"),
+                },
+                "width": 25,
+            },
+            "7_input": {
                 "header": {"value": "In"},
                 "data": {"value": self._render("input")},
                 "width": 25,
             },
-            "7_output": {
+            "8_output": {
                 "header": {"value": "Out"},
                 "data": {"value": self._render("output")},
                 "width": 25,
             },
-            "8_balance": {
+            "9_balance": {
                 "header": {"value": "Balance"},
                 "data": {"value": self._render("balance")},
                 "width": 25,
@@ -207,6 +214,7 @@ class ReportStockCardReportXlsx(models.AbstractModel):
                         "date": line.date or "",
                         "reference": line.reference or "",
                         "lot_id": line.lot_id.name or "",
+                        "unit_cost":line.unit_cost or "",
                         "location_form": line.location_id.display_name or "",
                         "location_to": line.location_dest_id.display_name or "",
                         "input": line.product_in or 0,
@@ -227,6 +235,7 @@ class ReportStockCardReportXlsx(models.AbstractModel):
                         "date": line.date or "",
                         "reference": line.reference or "",
                         "lot_id": line.lot_id.name or "",
+                        "unit_cost": line.unit_cost or "",
                         "location_form": line.location_id.display_name or "",
                         "location_to": line.location_dest_id.display_name or "",
                         "input": line.product_in or 0,
@@ -247,6 +256,7 @@ class ReportStockCardReportXlsx(models.AbstractModel):
                         "date": "",
                         "reference": "",
                         "lot_id": line.lot_id.name or "",
+                        "unit_cost": line.unit_cost or "",
                         "location_form": line.location_id.display_name or "",
                         "location_to": line.location_dest_id.display_name or "",
                         "input": line.product_in or 0,
