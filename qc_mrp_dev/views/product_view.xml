@@ -9,6 +9,20 @@
 				<field name="product_plan_colour_id" domain="[('is_plan_color','=',True)]"/>
 				<field name="product_category_line_id" domain="[('product_line','=',True)]"/>
 				<field name="decoration_id" domain="[('is_decoration','=',True)]"/>
+<!--				<field name="shape_name_eng"/>-->
+<!--				<field name="shape_name_th"/>-->
+			</field>
+		</field>
+	</record>
+
+	<record id="product_product_only_form_view_" model="ir.ui.view">
+		<field name="name">product.product.form</field>
+		<field name="model">product.product</field>
+		<field name="inherit_id" ref="product.product_normal_form_view"/>
+		<field name="arch" type="xml">
+			<field name="uom_po_id" position="after">
+				<field name="shape_name_eng"/>
+				<field name="shape_name_th"/>
 			</field>
 		</field>
 	</record>

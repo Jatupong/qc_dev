@@ -9,5 +9,7 @@ class product_template(models.Model):
     product_category_line_id = fields.Many2one('product.category',string='แยกตามกลุ่มผลิตภัณฑ์')
     product_plan_colour_id = fields.Many2one('product.category',string='Plan/Color')
     decoration_id = fields.Many2one('product.category',string='Decoration')
+    # shape_name_eng = fields.Char(string='ShapeEng')
+    # shape_name_th = fields.Char(string='ShapeThai')
 
 

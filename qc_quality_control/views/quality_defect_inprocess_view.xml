@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- quality.defect.inprocess : form -->
+    <record id="view_quality_defect_inprocess_form" model="ir.ui.view">
+        <field name="name">quality.defect.inprocess.form</field>
+        <field name="model">quality.defect.inprocess</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="description" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- quality.defect.inprocess : tree -->
+    <record id="view_quality_defect_inprocess_tree" model="ir.ui.view">
+        <field name="name">quality.defect.inprocess.tree</field>
+        <field name="model">quality.defect.inprocess</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="description" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- quality.defect.inprocess : action -->
+    <record id="action_quality_defect_inprocess" model="ir.actions.act_window">
+        <field name="name">Defect In process</field>
+        <field name="res_model">quality.defect.inprocess</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Defect In process : menu -->
+    <menuitem
+            action="action_quality_defect_inprocess"
+            id="menu_quality_defect_inprocess"
+            parent="quality_control.menu_quality_configuration"
+            sequence="55"
+    />
+
+</odoo>
