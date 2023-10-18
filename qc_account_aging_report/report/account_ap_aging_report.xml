@@ -274,102 +274,80 @@
                             <th><span>จำนวนเงิน<br/>(ต่างประเทศ)</span></th>
                             <th><span>จำนวนเงิน<br/>(บาท)</span></th>
                         </tr>
-                        <t t-foreach="invoice_ids" t-as="move">
+                        <t t-foreach="invoice_list" t-as="move">
                             <tr>
                                 <td>
-                                    <span t-field="move.invoice_date"/>
+                                    <span t-esc="move['invoice_date']"/>
                                 </td>
                                 <td>
-                                    <span t-field="move.partner_id.name"/>
+                                    <span t-esc="move['partner_name']"/>
                                 </td>
                                 <td>
-                                    <span t-field="move.purchase_id.name"/>
+                                    <span t-esc="move['pi_no']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['po_amount_total']"/>
                                 </td>
                                 <td>
-                                    <span t-esc="'{0:,.2f}'.format(move.purchase_id.amount_total)"/>
+                                    <span t-esc="move['bill_no']"/>
                                 </td>
                                 <td>
-                                    <span t-field="move.name"/>
+                                    <span t-esc="move['payment_term']"/>
                                 </td>
                                 <td>
-                                    <span t-field="move.invoice_payment_term_id.name"/>
+                                    <span t-esc="move['length_payment_term']"/>
                                 </td>
                                 <td>
-                                    <span t-field="move.invoice_payment_term_id.name"/>
-                                </td>
-                                <t t-set="credit_limit_amount" t-value="0.0"/>
-                                <td>
-                                    <span t-esc="credit_limit_amount"/>
+                                    <span t-esc="move['credit_limit']"/>
                                 </td>
                                 <td>
-                                    <span t-field="move.invoice_date_due"/>
-                                </td>
-                                <t t-set="invoice_days" t-value="o._get_invoice_days(move)"/>
-                                <td>
-                                    <span t-esc="invoice_days"/>
-                                </td>
-                                <t t-if="move.company_currency_id != move.currency_id">
-                                    <td align="center">
-                                        <span t-field="move.currency_id"/>
-                                    </td>
-                                    <td align="right">
-                                        <span t-esc="'{0:,.2f}'.format(move.amount_total)"/>
-                                    </td>
-                                    <t t-set="currency_rate" t-value="move.company_currency_id._get_rates(move.company_id, move.invoice_date).get(move.company_currency_id.id)"/>
-                                    <td align="right">
-                                        <span t-esc="'{0:,.2f}'.format(currency_rate)"/>
-                                    </td>
-                                    <t t-set="amount_currency" t-value="move.currency_id._convert(move.amount_total, move.company_currency_id, move.company_id, move.invoice_date or move.date)"/>
-                                    <td align="right">
-                                        <span t-esc="'{0:,.2f}'.format(amount_currency)"/>
-                                    </td>
-                                </t>
-                                <t t-else="">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td align="right">
-                                        <span t-esc="'{0:,.2f}'.format(move.amount_total)"/>
-                                    </td>
-                                </t>
-                                <td></td>
-                                <t t-set="invoice_down_payment_amount" t-value="invoice_down_payment_amount"/>
-                                <td>
-                                    <span t-esc="invoice_down_payment_amount"/>
+                                    <span t-esc="move['due_date']"/>
                                 </td>
                                 <td>
-                                    <span t-esc="invoice_down_payment_amount"/>
+                                    <span t-esc="move['creditor_age']"/>
                                 </td>
-                                <t t-set="credit_note_ids" t-value="o.env['account.move'].search([('reversed_entry_id', '=', move.id)])"/>
-                                <t t-if="credit_note_ids">
-                                    <t t-set="credit_note_id" t-value="credit_note_ids[0]"/>
-                                    <td>
-                                        <span t-field="credit_note_id.invoice_date"/>
-                                    </td>
-                                    <td>
-                                        <span t-field="credit_note_id.name"/>
-                                    </td>
-                                    <td align="right">
-                                        <span t-esc="'{0:,.2f}'.format(credit_note_id.amount_total)"/>
-                                    </td>
-                                    <t t-set="amount_currency" t-value="credit_note_id.currency_id._convert(credit_note_id.amount_total, credit_note_id.company_currency_id,
-                                                                      credit_note_id.company_id,
-                                                                      credit_note_id.invoice_date or move.date)"/>
-                                    <td>
-                                        <span t-esc="amount_currency"/>
-                                    </td>
-                                </t>
-                                <t t-else="">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </t>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td align="right">
+                                    <span t-esc="move['amount_other_currency']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['amount']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="move['dp_date']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['dp_amount_other_currency']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['dp_amount']"/>
+                                </td>
+                                <td align="center">
+                                    <span t-esc="move['cn_date']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="move['cn_no']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['cn_amount_other_currency']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['cn_amount']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['inv_amount_other_currency']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['inv_amount']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['balance_amount_other_currency']"/>
+                                </td>
+                                <td align="right">
+                                    <span t-esc="move['balance_amount']"/>
+                                </td>
+                                <td>
+                                    <span t-esc="move['credit_limit_note']"/>
+                                </td>
                             </tr>
                         </t>
                     </table>
