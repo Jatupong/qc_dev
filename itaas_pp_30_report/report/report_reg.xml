@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="pp_30_report_xls"
+                model="wizard.pp.30.report"
+                string="รายละเอียดเจ้าหนี้ค้างรับ"
+                report_type="xlsx"
+                name="itaas_pp_30_report.pp_30_report_xls"
+                file="itaas_pp_30_report.pp_30_report_xls"
+                menu="False"
+                attachment_use="False"/>
+
+    </data>
+</odoo>
