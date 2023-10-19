@@ -58,8 +58,8 @@ class WizardPP30Report(models.TransientModel):
     def _get_results(self):
         date_from = self.date_from.strftime(DEFAULT_SERVER_DATE_FORMAT)
         date_to = self.date_to.strftime(DEFAULT_SERVER_DATE_FORMAT)
-        print('date_from', date_from)
-        print('date_to', date_to)
+        # print('date_from', date_from)
+        # print('date_to', date_to)
 
         sql_date = """
         SELECT EXTRACT(MONTH FROM aml.date) AS aml_month , EXTRACT(YEAR FROM aml.date) AS aml_year
@@ -73,10 +73,10 @@ class WizardPP30Report(models.TransientModel):
         month_th = ['มกราคม ', 'กุมภาพันธ์ ', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
                     'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม']
         for date in date_results:
-            print('date', date)
+            # print('date', date)
             date.update({'month_th': month_th[int(date['aml_month'] - 1)],})
 
-        print('date_results len:', len(date_results), date_results)
+        # print('date_results len:', len(date_results), date_results)
         sql = ("""
         SELECT EXTRACT(
         MONTH FROM aml.date) AS aml_month , 
