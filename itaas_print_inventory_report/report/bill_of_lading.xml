@@ -8,27 +8,27 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
                         }
                         table.table-bordered{
-                        border:1px solid black;
+                        border:2px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
                         }
                         .word_wrap{word-wrap: break-word;}
 
                         table.table-bordered {
-                        border:1px solid black;
+                        border:2px solid black;
                         padding:3px;
                         width: 100%;
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
-                        border:1px solid black;
+                        border:2px solid black;
                         padding:3px;
                         text-align:center;
                         }
@@ -54,9 +54,9 @@
 <!--                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-width: 140px;"/>-->
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:140px; max-width:140px;" alt="Logo"/>
                             </td>
-                            <td width="75%" style="vertical-align: middle;">
+                            <td width="80%" style="vertical-align: middle;">
                                 <div style="width:500px; word-wrap: break-word;">
-                                    <font style="font-size: 16px;">
+                                    <font style="font-size: 15px;">
                                         <font style="font-size: 16px;">
                                             <span t-field="o.company_id.name"/>&amp;nbsp;
                                             <t t-if="o.company_id.branch_no == '00000'">
@@ -101,7 +101,7 @@
                         </font>
                     </div>
 
-                    <table width="100%" style="font-size:16px; line-height:25px; margin-top:20px;border:0px solid white">
+                    <table width="100%" style="font-size:16px; line-height:25px; margin-top:15px;border:0px solid white">
                         <tr>
                             <td width="70%">
                                 <table width="100%" style="border:0px solid white">
@@ -173,15 +173,17 @@
                         </tr>
                     </table>
 
-                    <table width="100%" class="table table-bordered" style="position:absolute; top:340px; height:138mm; font-size:20px;font-size:16px; line-height:25px">
+                    <table width="100%" class="table table-bordered" style="position:absolute; top:340px; height:138mm; font-size:20px;font-size:18px; line-height:25px; margin-top:20px;">
                         <thead>
-                            <tr>
+                            <tr >
+                                <b>
                                 <th width="5%">ลำดับ<br/>No.</th>
                                 <th width="40%">รายการ<br/>Descritption</th>
                                 <th width="15%">จำนวน<br/>Quantity</th>
                                 <th width="15%">ราคา<br/>Unit Price</th>
                                 <th width="10%">ส่วนลด<br/>Discount</th>
                                 <th width="15%">จำนวนเงิน<br/>Amount</th>
+                            </b>
                             </tr>
                         </thead>
                         <tbody class="sale_tbody">
@@ -199,14 +201,29 @@
 
                 <div class="page">
                     <style>
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        table.table-bordered{
+                        border:1px solid black;
+                        width: 100%;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
+                        }
+                        .word_wrap{word-wrap: break-word;}
                         table.table-bordered {
                         border:0px solid white;
-                        padding:3px;
+                        padding:2px;
                         width: 100%;
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:0px solid white;
-                        padding:3px;
+                        padding:1px;
                         text-align:center;
                         }
                         table.table-bordered &gt; tbody &gt; tr &gt; td{
@@ -215,142 +232,175 @@
                         }
                         table.table-bordered &gt; tfoot &gt; tr &gt; td{
                         border:0px solid white;
-                        padding:3px;
-                        }
-                        .word_wrap{
-                        word-wrap: break-word;
-                        line-height:18px;
+                        padding:2px;
                         }
                     </style>
                     <table class="table-bordered" style="font-size: 16px;">
                         <thead>
                         </thead>
-                        <tbody class="sale_tbody">
-<!--                            <t t-set="num" t-value="0"/>-->
-<!--                                  <t t-set="dis" t-value="0"/>-->
-<!--                                  <t t-foreach="o.move_ids_without_package" t-as="line">-->
-<!--                                      <tr>-->
-<!--                                          <t t-set="num" t-value="num+1"/>-->
-<!--                                          <th width="5%">-->
-<!--                                              <span t-esc="num"/>-->
-<!--                                          </th>-->
-<!--                                          <th width="40%">-->
-<!--                                              <span t-field="line.name"/>-->
-<!--                                          </th>-->
-<!--                                          <th width="15%">-->
-<!--                                              <span t-field="line.product_uom_qty"/>-->
-
-<!--                                          </th>-->
-<!--                                          <th width="15%">-->
-<!--                                              <span t-field="line.price_unit"/>-->
-<!--                                          </th>-->
-<!--                                          <th width="10%"><span t-esc="'%.2f'% (dis)"/></th>-->
-<!--                                          <th width="15%"> <t t-esc="'%.2f'% ((line.product_uom_qty*line.price_unit)-dis)"/></th>-->
-<!--                                      </tr>-->
-<!--                                  </t>-->
+                        <tbody class="sale_tbody" >
                             <t t-set="num" t-value="0"/>
                                   <t t-set="dis" t-value="0"/>
                                   <t t-foreach="o.purchase_id.order_line" t-as="line">
-                                      <tr>
+                                      <tr >
                                           <t t-set="num" t-value="num+1"/>
                                           <th width="5%">
-                                              <span t-esc="num"/>
+                                              <span t-esc="num" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>
                                           </th>
                                           <th width="40%">
-                                              <span t-field="line.name"/>
+                                              <span t-field="line.name" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>
                                           </th>
                                           <th width="15%">
-                                              <span t-field="line.product_uom_qty"/>
+                                              <span t-field="line.product_uom_qty" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>
 <!---->
                                           </th>
                                           <th width="15%">
-                                              <span t-field="line.price_unit"/>
+                                              <span t-field="line.price_unit" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>
                                           </th>
-                                          <th width="10%"><span t-esc="'%.2f'% (line.discount)"/>%</th>
-                                          <th width="15%"> <t t-esc="'%.2f'% (line.price_subtotal)"/></th>
+                                          <th width="10%"><span t-esc="'%.2f'% (line.discount)" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>%</th>
+                                          <t t-if="line.discount >=1">
+                                              <th width="15%"><span style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"> <t t-esc="'%.2f'% (line.price_subtotal*(line.discount/100))" /></span></th>
+                                          </t>
+                                           <t t-if="line.discount ==0">
+                                               <th width="15%"> <span style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"><t t-esc="'%.2f'% (line.price_subtotal)"/></span></th>
+                                          </t>
+
                                       </tr>
                                   </t>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="footer" style="padding-top:20px;">
+                <div class="footer">
                     <style>
-                         @font-face
+                        @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
-                        }
-                        table.table-bordered{
-                        border:1px solid black;
-                        width: 100%;
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
                         }
                         table.table-bordered {
                         border:0px solid white;
-                        padding:3px;
-                        width: 100%;
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
-                        border:0px solid white;
-                        padding:3px;
-                        text-align:center;
+                        border:1px solid black;
+                        word-wrap: break-word;
                         }
                         table.table-bordered &gt; tbody &gt; tr &gt; td{
-                        border:0px solid white;
-                        padding:3px;
+                        border:1px solid black;
+                        border-collapse: collapse;
+                        word-wrap: break-word;
                         }
                         table.table-bordered &gt; tfoot &gt; tr &gt; td{
-                        border:0px solid white;
-                        padding:3px;
-                        }
-                        .word_wrap{
+                        border:1px solid black;
+                        border-collapse: collapse;
                         word-wrap: break-word;
-                        line-height:18px;
                         }
                     </style>
 
-                    <table width="100%" style="font-size:20px; border:0px solid white;">
-
-
-<!--                        <tr>-->
-<!--                            <td width="70%">-->
-<!--                                <table width="100%">-->
-                                    <tr style="height:30px;">
-                                        <td width="50%" style="line-height:15px;">
-                                            <div>ผู้ขอ___________________</div><br/><br/><br/><br/>
-                                        </td>
-                                        <td width="50%" colspan="5">
-                                            <div class="word-wrap" style="width:420px;text-align:right;">
-                                                ผู้จ่าย__________________<br/><br/><br/><br/>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr style="height:30px;">
-                                        <td width="50%" style="line-height:15px;">
-                                            <div>แผนก__________________</div><br/><br/><br/><br/>
-                                        </td>
-                                        <td width="50%" colspan="5">
-                                            <div class="word-wrap" style="width:420px;text-align:right;">
-                                                ผู้รับ___________________<br/><br/><br/><br/>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr style="height:30px;">
-                                        <td style="line-height:50%;">
-                                            <div>ผู้อนุมัติ_________________</div>
-                                        </td>
-                                    </tr>
-<!--                                </table>-->
-<!--                            </td>-->
-<!--                        </tr>-->
-                    </table>
+                    <div>
+                        <table width="100%" class="font_fam" style="font-size:20px;">
+                            <tr align="center">
+                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;" width="10%">
+                                </td>
+                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;" width="60%">
+                                    <br/><br/><br/>
+                                    <span>ผู้ขอ___________________________</span><br/><br/>
+                                    <span>แผนก__________________________</span><br/><br/>
+                                    <span>ผูอนุมัติ_________________________</span><br/><br/>
+                                    <br/><br/>
+                                </td>
+                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;" width="30%">
+                                    <br/><br/><br/>
+                                    <span>ผู้จ่าย__________________________</span><br/><br/>
+                                    <span>ผู้รับ___________________________</span><br/><br/>
+                                    <br/><br/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
+
+<!--                <div class="footer" style="padding-top:20px;">-->
+<!--                    <style>-->
+<!--                         @font-face-->
+<!--                        {-->
+<!--                        font-family: SarabunPSK;-->
+<!--                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');-->
+<!--                        }-->
+<!--                        .font_fam{-->
+<!--                        font-family: SarabunPSK;-->
+<!--                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');-->
+<!--                        }-->
+<!--                        table.table-bordered{-->
+<!--                        border:1px solid black;-->
+<!--                        width: 100%;-->
+<!--                        font-family: SarabunPSK;-->
+<!--                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');-->
+<!--                        }-->
+<!--                        table.table-bordered {-->
+<!--                        border:0px solid white;-->
+<!--                        padding:3px;-->
+<!--                        width: 100%;-->
+<!--                        }-->
+<!--                        table.table-bordered &gt; thead &gt; tr &gt; th{-->
+<!--                        border:0px solid white;-->
+<!--                        padding:3px;-->
+<!--                        text-align:center;-->
+<!--                        }-->
+<!--                        table.table-bordered &gt; tbody &gt; tr &gt; td{-->
+<!--                        border:0px solid white;-->
+<!--                        padding:3px;-->
+<!--                        }-->
+<!--                        table.table-bordered &gt; tfoot &gt; tr &gt; td{-->
+<!--                        border:0px solid white;-->
+<!--                        padding:3px;-->
+<!--                        }-->
+<!--                        .word_wrap{-->
+<!--                        word-wrap: break-word;-->
+<!--                        line-height:18px;-->
+<!--                        }-->
+<!--                    </style>-->
+
+<!--                    <table width="100%" style="font-size:20px; border:0px solid white;">-->
+
+
+<!--&lt;!&ndash;                        <tr>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <td width="70%">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <table width="100%">&ndash;&gt;-->
+<!--                                    <tr style="height:30px;">-->
+<!--                                        <td width="50%" style="line-height:15px;">-->
+<!--                                            <div>ผู้ขอ___________________</div><br/><br/><br/><br/>-->
+<!--                                        </td>-->
+<!--                                        <td width="50%" colspan="5">-->
+<!--                                            <div class="word-wrap" style="width:420px;text-align:right;">-->
+<!--                                                ผู้จ่าย__________________<br/><br/><br/><br/>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr style="height:30px;">-->
+<!--                                        <td width="50%" style="line-height:15px;">-->
+<!--                                            <div>แผนก__________________</div><br/><br/><br/><br/>-->
+<!--                                        </td>-->
+<!--                                        <td width="50%" colspan="5">-->
+<!--                                            <div class="word-wrap" style="width:420px;text-align:right;">-->
+<!--                                                ผู้รับ___________________<br/><br/><br/><br/>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr style="height:30px;">-->
+<!--                                        <td style="line-height:50%;">-->
+<!--                                            <div>ผู้อนุมัติ_________________</div>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--&lt;!&ndash;                                </table>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </tr>&ndash;&gt;-->
+<!--                    </table>-->
+<!--                </div>-->
 
             </t>
         </t>
@@ -361,12 +411,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">95</field>
+        <field name="margin_top">100</field>
         <field name="margin_bottom">95</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">90</field>
+        <field name="header_spacing">95</field>
         <field name="dpi">90</field>
     </record>
 
