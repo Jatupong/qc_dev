@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--res.partner : inherit form view-->
+    <record id="view_order_form_line_extra_cost" model="ir.ui.view">
+        <field name="name">sale.order.form.line.extra.cost</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <button name="action_cancel" position="after">
+                <button name="apply_set" states="draft" type="object" string="Apply Set" data-hotkey="s"/>
+            </button>
+
+            <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                <field name="product_cost"/>
+                <field name="commission_cost"/>
+                <field name="box_cost"/>
+                <field name="sticker_cost"/>
+                <field name="cost_1"/>
+                <field name="cost_2"/>
+                <field name="cost_3"/>
+            </xpath>
+            <xpath expr="//page[@name='order_lines']" position="after">
+                <page string="Set Order Lines" name="sale_order_set_line_ids">
+                    <field name="sale_order_set_line_ids">
+                        <tree editable="True">
+                            <field name="product_set_id"/>
+                            <field name="product_id"/>
+                            <field name="original_set_qty"/>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+                            <field name="product_cost"/>
+                            <field name="commission_cost"/>
+                            <field name="box_cost"/>
+                            <field name="sticker_cost"/>
+                            <field name="cost_1"/>
+                            <field name="cost_2"/>
+                            <field name="cost_3"/>
+                            <field name="order_id" invisible="1"/>
+                            <field name="sale_order_line_id" invisible="1"/>
+
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
