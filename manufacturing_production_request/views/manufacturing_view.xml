@@ -50,13 +50,18 @@
                         </group>
                     </group>
                     <notebook>
-                        <page string="General Details" >
+                        <page string="General Details">
+                          <group>
                             <group string="Description">
+                            <label for="custom_description" string=""/>
                               <field name="custom_description" placeholder="Request Details....." attrs="{'readonly':[('state', 'in', ('cancel','d_manufacturing_created'))]}" nolabel="1"/>
                             </group>
+
                             <group string="Internal Notes">
+                            <label for="notes" string=""/>
                                 <field name="notes" placeholder="Internal Notes........" nolabel="1"/>
                             </group>
+                          </group>
                         </page>
                         <page string="Other Info">
                             <group>
@@ -69,7 +74,7 @@
                                 <group>
                                     <field name="confirm_date"/>
                                     <field name="approve_date"/>
-                                    <field name="manufacturing_date" />
+                                    <field name="manufacturing_date"/>
                                 </group>
                             </group>
                         </page>

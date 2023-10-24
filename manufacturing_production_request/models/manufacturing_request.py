@@ -14,7 +14,7 @@ class ManufacturingProductionRequest(models.Model):
 
     number = fields.Char(
         string="Number",
-        readonly=True
+        readonly=False
     )
     custom_product_template_id = fields.Many2one(
         'product.product',
@@ -28,7 +28,7 @@ class ManufacturingProductionRequest(models.Model):
         string='Company',
         default=lambda self: self.env.user.company_id,
         required=True,
-        copy=True
+        copy=False
     )
     state = fields.Selection(
         [('a_draft','New'),
@@ -40,14 +40,14 @@ class ManufacturingProductionRequest(models.Model):
         tracking=True,
         default='a_draft',
         string='State',
-        copy=True
+        copy=False
     )
     custom_user_id = fields.Many2one(
         'res.users', 
         string='Responsible User',
         default=lambda self: self.env.user,
         required=True,
-        copy=True 
+        copy=False
     )
     custom_bom_id = fields.Many2one(
         'mrp.bom',
@@ -69,7 +69,7 @@ class ManufacturingProductionRequest(models.Model):
     )
     custom_description = fields.Text(
         string='Description',
-        copy=True
+        copy=False
     )
     custom_product_uom_id = fields.Many2one(
         'uom.uom', 
@@ -82,12 +82,12 @@ class ManufacturingProductionRequest(models.Model):
         default=1.0, 
         digits='Product Unit of Measure',
         required=True,
-        copy=True
+        copy=False
     )
     create_date = fields.Date(
         string="Request Date",
         default=fields.date.today(),
-        copy=True
+        copy=False
     )
     end_date = fields.Datetime(
         string="Deadline",
@@ -97,7 +97,7 @@ class ManufacturingProductionRequest(models.Model):
     custom_manufacturing_order_id = fields.Many2one(
         'mrp.production',
         string="Manufacturing Order",
-        copy=True
+        copy=False
     )
     confirm_by = fields.Many2one(
         'res.users',
@@ -139,7 +139,7 @@ class ManufacturingProductionRequest(models.Model):
     )
     notes = fields.Text(
         string='Internal Notes',
-        copy=True,
+        copy=False,
     )
 
 

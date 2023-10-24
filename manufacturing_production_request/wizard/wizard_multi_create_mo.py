@@ -24,8 +24,15 @@ class WizardMultiCreateMo(models.TransientModel):
     def action_create_mo(self):
         manufacturing_request_custom_ids = self._context.get('active_ids', [])
         new_manufacturing_request_custom_ids = self.env['manufacturing.request.custom'].browse(manufacturing_request_custom_ids)
+        print('manufacturing_request_custom_ids',manufacturing_request_custom_ids)
+        print('new_manufacturing_request_custom_ids',new_manufacturing_request_custom_ids)
         if not new_manufacturing_request_custom_ids:
             raise UserError(_('Please select manufacturing request order in Approved'))
+        for data in new_manufacturing_request_custom_ids:
+            if data.state == 'd_manufacturing_created':
+                raise UserError(_('รายการ Manufacturing Request นี้ ถูกสร้างคำสั่งผลิตเรียบร้อยแล้ว'))
+            if data.state == 'a_draft':
+                raise UserError(_('รายการ Manufacturing Request จะต้องถูก Approve ก่อนที่จะสร้างคำสั่งผลิตได้'))
         # print('start mr ', new_manufacturing_request_custom_ids)
         for mr in new_manufacturing_request_custom_ids:
             # print('in loop mr ', new_manufacturing_request_custom_ids)
