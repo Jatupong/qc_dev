@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--res.partner : inherit form view-->
+    <record id="view_sale_order_form_qc_sale_quotations" model="ir.ui.view">
+        <field name="name">sale.order.form.qc.sale.quotations</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="department"></field>
+                <field name="id_pp"></field>
+                <field name="id_po"></field>
+                <field name="w_load_product"></field>
+                <field name="box_type"></field>
+                <field name="download_with"></field>
+            </xpath>
+
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="correction"></field>
+                <field name="currency"></field>
+                <field name="container"></field>
+                <field name="loading_type"></field>
+                <field name="box_type"></field>
+                <field name="bar_code"></field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
