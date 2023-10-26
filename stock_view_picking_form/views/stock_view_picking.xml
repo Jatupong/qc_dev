@@ -13,9 +13,9 @@
                 <field name="paymentref_no"/>
             </xpath>
 
-            <xpath expr="//field[@name='owner_id']" position="after">
-                <field name="product_ceg_th"/>
-            </xpath>
+<!--            <xpath expr="//field[@name='owner_id']" position="after">-->
+<!--                <field name="product_ceg_th"/>-->
+<!--            </xpath>-->
 
             <xpath expr="//field[@name='move_type']" position="after">
                 <field name="mode_of_shipment"/>
