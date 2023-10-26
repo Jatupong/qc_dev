@@ -5,16 +5,16 @@
 from odoo import api, fields, models, _
 
 
-class ResPartner(models.Model):
+class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    state = fields.Selection(
+    state_sale_order = fields.Selection(
         selection=[
             ('draft', "Draft Order"),
             ('sent', "Pre-production order"),
-            ('production', "Production order"),
             ('sale', "Sales Order"),
-            ('done', "Locked"),
+            ('production', "Production order"),
+            ('done', "Done"),
             ('cancel', "Cancelled"),
         ],
         string="Status",
@@ -25,49 +25,62 @@ class ResPartner(models.Model):
 
 
 
-    # # partner_state = fields.Selection(
-    # #     '_get_partner_states',
-    # #     string='Partner State',
-    # #     readonly=True,
-    # #     required=True,
-    # #     default='active'
-    # # )
-    #
-    # partner_state_sale = fields.Selection(
-    #     '_get_partner_states_sale',
-    #     string='Partner State',
-    #     readonly=True,
-    #     required=True,
-    #     default='draft order'
-    # )
-    #
-    # @api.model
-    # def _get_partner_states_sale(self):
-    #     return [
-    #         ('draft_order', _('Draft Order')),
-    #         ('pre_production_order', _('PRE-PRODUCTION ORDER')),
-    #         ('sale_order', _('SALE ORDER')),
-    #         ('production_order', _('PRODUCTION ORDER'))]
-    #
-    # # @api.model
-    # # def _get_partner_states(self):
-    # #     return [
-    # #         ('draft order', _('Draft Order')),
-    # #         ('pre-production order', _('PRE-PRODUCTION ORDER')),
-    # #         ('sale order', _('SALE ORDER')),
-    # #         ('production order', _('PRODUCTION ORDER'))]
-    #
-    # # def action_partner_active(self):
-    # #     for obj in self:
-    # #         obj.write({'partner_state': 'active'})
+
+
+    def action_pre_production(self):
+        for obj in self:
+            obj.write({'state_sale_order': 'sent'})
     # #
-    # # def action_partner_inactive(self):
-    # #     for obj in self:
-    # #         obj.write({'partner_state': 'inactive'})
-    # #
-    # # def action_partner_on_hold(self):
-    # #     for obj in self:
-    # #         obj.write({'partner_state': 'on_hold'})
+    def action_confirm_sale(self):
+        print('action_confirm_sale')
+        for obj in self:
+            self.order_line._validate_analytic_distribution()
+
+            for order in self:
+                print('aaaaaaa')
+                order.validate_taxes_on_sales_order()
+                if order.partner_id in order.message_partner_ids:
+                    continue
+                order.message_subscribe([order.partner_id.id])
+
+            self.write(self._prepare_confirmation_values())
+
+            # Context key 'default_name' is sometimes propagated up to here.
+            # We don't need it and it creates issues in the creation of linked records.
+            context = self._context.copy()
+            context.pop('default_name', None)
+
+            self.with_context(context)._action_confirm()
+
+
+            obj.write({'state_sale_order': 'sale'})
+
+
+
+
+    def _get_forbidden_state_confirm(self):
+        return {'done', 'cancel'}
+    def action_production(self):
+        for obj in self:
+            obj.write({'state_sale_order': 'production'})
+
+    def action_done_sale(self):
+        for obj in self:
+            obj.write({'state_sale_order': 'done'})
+
+    def _action_cancel(self):
+        inv = self.invoice_ids.filtered(lambda inv: inv.state == 'draft')
+        inv.button_cancel()
+        return self.write({'state_sale_order': 'cancel'})
+
+    def action_draft(self):
+        orders = self.filtered(lambda s: s.state_sale_order in ['cancel', 'sent'])
+        return orders.write({
+            'state_sale_order': 'draft',
+            'signature': False,
+            'signed_by': False,
+            'signed_on': False,
+        })
     # #
     # # def action_partner_draft(self):
     # #     for obj in self:

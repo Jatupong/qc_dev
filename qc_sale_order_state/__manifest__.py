@@ -15,8 +15,7 @@
     'data': [
 
 
-        # 'security/approve_customer_security.xml',
-        'views/sale_order_state_view.xml',
+        'views/state_view.xml',
 
     ],
     'qweb': [],
