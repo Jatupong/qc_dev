@@ -23,6 +23,7 @@
 			<field name="uom_po_id" position="after">
 				<field name="shape_name_eng"/>
 				<field name="shape_name_th"/>
+				<field name="product_ceg_th"/>
 			</field>
 		</field>
 	</record>

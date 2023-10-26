@@ -9,4 +9,6 @@ class product_product(models.Model):
     shape_name_eng = fields.Char(string='ShapeEng')
     shape_name_th = fields.Char(string='ShapeThai')
 
+    product_ceg_th = fields.Char(string='Product Category TH')
+
 
