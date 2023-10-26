@@ -15,8 +15,14 @@
     'data': [
 
 
-        # 'security/approve_customer_security.xml',
+        'security/ir.model.access.csv',
         'views/sale_quotatios_view.xml',
+        'views/department_view.xml',
+        'views/box_type_view.xml',
+        'views/loading_type_view.xml',
+        'views/urgent_need_view.xml',
+        'views/want_to_deliver_view.xml',
+        'views/Importance_view.xml',
 
     ],
     'qweb': [],

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- department.id : form -->
+
+    <record id="view_importance_form" model="ir.ui.view">
+        <field name="name">importance.id.form</field>
+        <field name="model">importance.id</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- department.id : tree -->
+    <record id="view_importance_tree" model="ir.ui.view">
+         <field name="name">importance.id.tree</field>
+        <field name="model">importance.id</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- department.id : action -->
+    <record id="action_importance" model="ir.actions.act_window">
+        <field name="name">Importance</field>
+        <field name="res_model">importance.id</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_importance_tree"/>
+    </record>
+
+    <!-- department.id : menu -->
+    <menuitem id="menu_importance"
+              name="Importance"
+              parent="sale.menu_sale_config"
+              sequence="105"
+              action="action_importance"/>
+</odoo>
