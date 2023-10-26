@@ -221,7 +221,7 @@
                             <td width="25%" style="vertical-align: middle; text-align: center;">
                                 <table width="100%" class="table table-nobordered" style="vertical-align: middle; text-align: center;">
                                     <tr>
-                                        <td colspan="2"><strong>เล่มที่</strong></td>
+                                        <td colspan="2"><strong>เลขที่</strong></td>
                                         <td width="80%">: <span t-field="o.name"/></td>
                                     </tr>
 
@@ -231,8 +231,8 @@
 
                                 <table style="width:100%">
 
-                                   <tr style="vertical-align: middle;">
-                                      <td width="30%" style="vertical-align: middle;"> <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:80px; max-width:80px;" alt="Logo"/> </td>
+                                   <tr style="vertical-align: middle;border:1px solid white;">
+                                      <td width="30%" style="vertical-align: middle;border:1px solid white;"> <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:80px; max-width:80px;" alt="Logo"/> </td>
                                       <td width="70%" rowspan="2" style="vertical-align: middle; text-align: center; font-size: 20px;">
                                         <B>
                                           ใบส่งมอบผลิตภัณฑ์
@@ -242,7 +242,7 @@
 
                                     </tr>
 
-                                    <tr style="vertical-align: middle;">
+                                    <tr style="vertical-align: middle;border:1px solid white;">
                                      <td style="font-size: 5px;">
                                        <B>
                                         <span t-field="o.company_id.name"/>&amp;nbsp;
@@ -270,7 +270,7 @@
                                     </tr>
                                     <tr>
                                         <td><strong>แก้ไขครั้งที่</strong></td>
-                                        <td>: <span t-field="o.scheduled_date"/></td>
+                                        <td>: <span t-field="o.company_id.product_delivery_note_number"/></td>
                                     </tr>
 
                                 </table>
@@ -279,9 +279,9 @@
                     </table>
 
                     <table width="100%" style="font-size:12px;">
-                       <tr>
+                       <tr style="border:1px solid white;">
                             <td width="27%" style="font-size:12px;">วันที่ส่ง
-                             <span t-field="o.scheduled_date"/>
+                             <span t-field="o.scheduled_date" t-options="{'format': 'dd/MM/YYYY'}"/>
                             </td>
                             <td width="20%" style="font-size:12px;">จากหน่วย
                             <span t-field="o.location_id"/>
@@ -290,7 +290,9 @@
                                 <span t-field="o.location_dest_id"/>
                             </td>
                             <td width="20%" style="font-size:12px; vertical-align: middle;">
-                              <span t-field="o.product_ceg_th"/>
+<!--                                <t t-foreach="o.move_line_nosuggest_ids" t-as="line">-->
+<!--                              <span t-field="line.product_id.product_ceg_th"/>-->
+<!--                                </t>-->
                             </td>
                             <td width="10%" style="font-size:12px;"/>
                       </tr>
@@ -489,76 +491,117 @@
                                 <t t-foreach="range(start,break_line[x],1)" t-as="y">
                                     <t t-if="(y+1)!=(break_line[x])">
                                         <tr style="height:10mm;">
+<!--                                            ลำดับ-->
                                             <td align="center">
                                                 <div class="word_wrap">
                                                     <span t-esc="y+1"/>
                                                 </div>
                                             </td>
+<!--                                            ใบสั่งผลิต-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <t t-if="move_line[y].product_id.name">
-                                                        <span t-field="o.name"/>
-                                                    </t>
+<!--                                                    <t t-if="move_line[y].product_id.name">-->
+                                                        <span t-if="move_line[y].product_id.name" t-field="o.name"/>
+<!--                                                    </t>-->
+                                                    <span t-if="not move_line[y].product_id.name"></span>
                                                 </div>
                                             </td>
+<!--                                            รหัส-->
                                             <td>
                                                 <div class="word_wrap">
-                                                    <span t-if="move_line[y].move_id.description_picking" t-field="move_line[y].move_id.description_picking"/>
-                                                    <span t-else="" t-field="move_line[y].product_id.default_code"/>
+<!--                                                    <span t-if="move_line[y].move_id.description_picking" t-field="move_line[y].move_id.description_picking"/>-->
+<!--                                                    <span t-else="" t-field="move_line[y].product_id.default_code"/>-->
+                                                    <span t-if="move_line[y].product_id.default_code" t-field="move_line[y].product_id.default_code"/>
+                                                    <span t-if="not move_line[y].product_id.default_code" ></span>
                                                 </div>
                                             </td>
+<!--                                            รายการ-->
                                             <td align="center">
                                                 <div class="word_wrap">
                                                     <span t-field="move_line[y].product_id.name"/>
                                                 </div>
                                             </td>
+<!--                                            ลายสินค้า-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span t-if="move_line[y].move_id.product_id.shape_name_eng" t-field="move_line[y].product_id.shape_name_eng"/>/<span t-field="move_line[y].product_id.shape_name_th"/>
-                                                    <!--<span t-else="" t-field="-"/>-->
-                                                </div>
+                                                    <span t-if="move_line[y].move_id.product_id.shape_name_eng" t-field="move_line[y].product_id.shape_name_eng"/> <span t-field="move_line[y].product_id.shape_name_th"/>
+                                                    <span t-if="not move_line[y].move_id.product_id.shape_name_eng"></span>
+                                                </div>ทฎษดี
                                             </td>
+<!--                                            โลโก้-->
                                             <td align="center">
-                                                <div class="word_wrap">
-                                                    <span t-field="move_line[y].product_id.attribute_line_ids.value_ids"/>
-                                                </div>
+                                                <t t-if="move_line[y].product_id.attribute_line_ids.value_ids">
+                                                    <t t-foreach="move_line[y].product_id.attribute_line_ids" t-as="value">
+                                                        <t t-if="value.value_ids.attribute_id.name=='โลโก้'">
+                                                            <span t-field="value.value_ids[0].name"/>
+                                                        </t>
+                                                    </t>
+                                                </t>
                                             </td>
+<!--                                            ใต้เคลือบ-->
                                             <td align="center">
                                                 <div class="word_wrap">
+                                                    <t t-if="move_line[y].product_id.attribute_line_ids.value_ids">
+                                                    <t t-foreach="move_line[y].product_id.attribute_line_ids" t-as="value">
+                                                        <t t-if="value.value_ids.attribute_id.name=='ใต้เคลือบ'">
+                                                            <span t-field="value.value_ids[0].name"/>
+                                                        </t>
+                                                    </t>
+                                                </t>
                                                     <!--<span t-if="move_line[y].lot_id" t-field="move_line[y].lot_id"/>-->
                                                     <!--<span t-else="" t-field="move_line[y].lot_name"/>-->
                                                 </div>
                                             </td>
+<!--                                            บนเคลือบ-->
                                             <td align="center">
                                                 <div class="word_wrap">
+                                                    <t t-if="move_line[y].product_id.attribute_line_ids.value_ids">
+                                                    <t t-foreach="move_line[y].product_id.attribute_line_ids" t-as="value">
+                                                        <t t-if="value.value_ids.attribute_id.name=='บนเคลือบ'">
+                                                            <span t-field="value.value_ids[0].name"/>
+                                                        </t>
+                                                    </t>
+                                                </t>
                                                     <!--<span t-if="move_line[y].lot_id" t-field="move_line[y].lot_id"/>-->
                                                     <!--<span t-else="" t-field="move_line[y].lot_name"/>-->
                                                 </div>
                                             </td>
+<!--                                            ตกแต่งพิเศษ-->
                                             <td align="center">
                                                 <div class="word_wrap">
+                                                    <t t-if="move_line[y].product_id.attribute_line_ids.value_ids">
+                                                    <t t-foreach="move_line[y].product_id.attribute_line_ids" t-as="value">
+                                                        <t t-if="value.value_ids.attribute_id.name=='ตกแต่งพิเศษ'">
+                                                            <span t-field="value.value_ids[0].name"/>
+                                                        </t>
+                                                    </t>
+                                                </t>
                                                     <!--<span t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>-->
                                                     <!--<span t-else="" t-field="move_line[y].qty_done"/>-->
                                                 </div>
                                             </td>
+<!--                                            จำนวนส่ง-->
                                             <td align="center">
                                                 <div class="word_wrap">
                                                     <span t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
                                                     <span t-else="" t-field="move_line[y].qty_done"/>
                                                 </div>
                                             </td>
+<!--                                            จำนวนรับ-->
                                             <td align="center">
                                                 <div class="word_wrap">
                                                    <span t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
                                                     <span t-else="" t-field="move_line[y].qty_done"/>
                                                 </div>
                                             </td>
+<!--                                            ของเสีย-->
                                             <td align="center">
                                                 <div class="word_wrap">
                                                    <!--<span t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>-->
                                                    <!-- <span t-else="" t-field="move_line[y].qty_done"/>-->
                                                 </div>
                                             </td>
+<!--                                            หมายเหตุ-->
                                             <td align="center">
                                                 <div class="word_wrap">
                                                      <span t-if="o.note" t-field="o.note"/>
@@ -595,7 +638,7 @@
                                             </td>
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span t-if="move_line[y].move_id.product_id.shape_name_eng" t-field="move_line[y].product_id.shape_name_eng"/>/<span t-field="move_line[y].product_id.shape_name_th"/>
+                                                    <span t-if="move_line[y].move_id.product_id.shape_name_eng" t-field="move_line[y].product_id.shape_name_eng"/><span t-field="move_line[y].product_id.shape_name_th"/>
                                                     <!--<span t-else="" t-field="-"/>-->
                                                 </div>
                                             </td>
@@ -871,16 +914,24 @@
                             <tr align="center">
                                 <td class="col-xs-4" style="padding:5px;">
                                     <br/><br/><br/>
-                                    <span>ผู้ส่งมอบ__________________________</span><br/><br/>
+                                    <span>ผู้ส่งมอบ</span>
+                                    <span t-if="o.user_id" t-field="o.user_id"/>
+                                    <span t-else="">__________________________</span><br/><br/>
                                     <!--<span>ผู้ส่งมอบ/Received By</span><br/><br/><br/>-->
-                                    <span>วันที่/Date_________/_________/________</span>
+                                    <span>วันที่/Date</span>
+                                    <span t-if="o.scheduled_date" t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                    <span t-else="" >_________/_________/________</span>
                                     <br/><br/>
                                 </td>
                                 <td class="col-xs-4" style="padding:5px;">
                                     <br/><br/><br/>
-                                    <span>ผู้รับมอบ__________________________</span><br/><br/>
+                                    <span>ผู้รับมอบ</span>
+                                    <span t-if="o.buyer_confirm" t-field="o.buyer_confirm.name"/>
+                                    <span t-else="">__________________________</span><br/><br/>
                                     <!--<span>ผู้รับมอบ/Delivered By</span><br/><br/><br/>-->
-                                    <span>วันที่/Date_________/_________/________</span>
+                                    <span>วันที่/Date</span>
+                                    <span t-if="o.scheduled_date" t-field="o.scheduled_date" t-options='{"format": "dd/MM/yyyy"}'/>
+                                    <span t-else="" >________/_________/________</span>
                                     <br/><br/>
                                 </td>
                                 <!--<td class="col-xs-4" style="padding:5px;">-->

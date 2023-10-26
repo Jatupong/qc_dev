@@ -11,6 +11,12 @@ import locale
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
+    buyer_confirm = fields.Many2one('res.users', string="Buyer Confirm")
+    def sale_order(self,data):
+        domain = [('name', '=', data)]
+        order =self.env['sale.order'].search(domain)
+        print(order.origin)
+        return order.origin
     def get_lines(self, data, max_line):
         line_count = 0
         if data:
