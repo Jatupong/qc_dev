@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_department_id,department_id,model_department_id,base.group_user,1,1,1,1
+access_box_type,box_type,model_box_type,base.group_user,1,1,1,1
+access_loading_type,loading_type,model_loading_type,base.group_user,1,1,1,1
+access_urgent_need,urgent_need,model_urgent_need,base.group_user,1,1,1,1
+access_want_to_deliver,want_to_deliver,model_want_to_deliver,base.group_user,1,1,1,1
+access_importance_id,importance_id,model_importance_id,base.group_user,1,1,1,1

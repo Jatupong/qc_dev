@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- box.type : form -->
+
+    <record id="view_box_type_form" model="ir.ui.view">
+        <field name="name">box.type.form</field>
+        <field name="model">box.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- box.type : tree -->
+    <record id="view_box_type_tree" model="ir.ui.view">
+         <field name="name">box.type.tree</field>
+        <field name="model">box.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- box.type : action -->
+    <record id="action_box_type" model="ir.actions.act_window">
+        <field name="name">ฺBox Type</field>
+        <field name="res_model">box.type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_box_type_tree"/>
+    </record>
+
+    <!-- department.id : menu -->
+    <menuitem id="menu_box_type"
+              name="Box Type"
+              parent="sale.menu_sale_config"
+              sequence="101"
+              action="action_box_type"/>
+</odoo>

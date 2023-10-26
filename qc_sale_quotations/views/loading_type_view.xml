@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- loading.type : form -->
+
+    <record id="view_loading_type_form" model="ir.ui.view">
+        <field name="name">loading.type.form</field>
+        <field name="model">loading.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- loading.type : tree -->
+    <record id="view_loading_type_tree" model="ir.ui.view">
+         <field name="name">loading.type.tree</field>
+        <field name="model">loading.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- loading.type : action -->
+    <record id="action_loading_type" model="ir.actions.act_window">
+        <field name="name">ฺLoading Type</field>
+        <field name="res_model">loading.type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_loading_type_tree"/>
+    </record>
+
+    <!-- loading.type : menu -->
+    <menuitem id="menu_loading_type"
+              name="Loading Type"
+              parent="sale.menu_sale_config"
+              sequence="102"
+              action="action_loading_type"/>
+</odoo>
