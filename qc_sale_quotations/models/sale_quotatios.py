@@ -36,5 +36,5 @@ class SaleQuotationLines(models.Model):
 
     sale_quotation_id = fields.Many2one('sale.order', string='Sale Quotation')
     # กำหนดฟิลด์ที่คุณต้องการในคลาสนี้
-    field_name_1 = fields.Char(string='Field Name 1')
-    field_name_2 = fields.Char(string='Field Name 2')
+    Description = fields.Char(string='Description')
+    # field_name_2 = fields.Char(string='Field Name 2')
