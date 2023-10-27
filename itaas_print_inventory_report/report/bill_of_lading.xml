@@ -54,10 +54,10 @@
 <!--                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-width: 140px;"/>-->
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:140px; max-width:140px;" alt="Logo"/>
                             </td>
-                            <td width="80%" style="vertical-align: middle;">
-                                <div style="width:500px; word-wrap: break-word;">
-                                    <font style="font-size: 15px;">
-                                        <font style="font-size: 16px;">
+                            <td width="70%" style="vertical-align: middle;">
+                                <div style="width:450px; word-wrap: break-word;">
+                                    <font style="font-size: 16px;font-family:TH SarabunPSK">
+                                        <font style="font-size: 18px;">
                                             <span t-field="o.company_id.name"/>&amp;nbsp;
                                             <t t-if="o.company_id.branch_no == '00000'">
                                                 <span>(สำนักงานใหญ่)</span>
@@ -66,7 +66,7 @@
                                                 (<span t-field="o.company_id.branch_no"/>)
                                             </t>
                                         </font><br/>
-                                        <span t-if="o.company_id.building"><span t-field="o.company_id.building"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.building" ><span t-field="o.company_id.building"/>&amp;nbsp;</span>
 <!--                                        <span t-if="o.company_id.roomnumber">ห้องที่&amp;nbsp;<span t-field="o.company_id.roomnumber"/>&amp;nbsp;</span>-->
 <!--                                        <span t-if="o.company_id.floornumber">ชั้นที่&amp;nbsp;<span t-field="o.company_id.floornumber"/>&amp;nbsp;</span>-->
                                         <span t-if="o.company_id.village">หมู่บ้าน&amp;nbsp;<span t-field="o.company_id.village"/>&amp;nbsp;</span>
@@ -94,14 +94,14 @@
 
                     <div style="border: 1px solid black; margin-top: 10px;"/>
 
-                    <div width="100%" style="text-align:center; margin-top:24px">
+                    <div width="100%" style="text-align:center; margin-top:24px;font-family:TH SarabunPSK">
                         <font style="font-size: 24px;">
                             <b><span> ใบเบิกพัสดุ </span></b>
 
                         </font>
                     </div>
 
-                    <table width="100%" style="font-size:16px; line-height:25px; margin-top:15px;border:0px solid white">
+                    <table width="100%" style="font-size:16px; line-height:25px; margin-top:15px;border:0px solid white;font-family:TH SarabunPSK">
                         <tr>
                             <td width="70%">
                                 <table width="100%" style="border:0px solid white">
@@ -173,7 +173,7 @@
                         </tr>
                     </table>
 
-                    <table width="100%" class="table table-bordered" style="position:absolute; top:340px; height:138mm; font-size:20px;font-size:18px; line-height:25px; margin-top:20px;">
+                    <table width="100%" class="table table-bordered" style="position:absolute; top:330px; height:138mm; font-size:20px;font-size:18px; line-height:20px; margin-top:-30px;font-family:TH SarabunPSK">
                         <thead>
                             <tr >
                                 <b>
@@ -259,7 +259,7 @@
                                           </th>
                                           <th width="10%"><span t-esc="'%.2f'% (line.discount)" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>%</th>
                                           <t t-if="line.discount >=1">
-                                              <th width="15%"><span style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"><t t-esc="'%.2f'% (line.price_subtotal*(line.discount/100))" /></span></th>
+                                              <th width="15%"><span style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"><t t-esc="'%.2f'% (line.price_subtotal-(line.price_subtotal*(line.discount/100)))" /></span></th>
                                           </t>
                                            <t t-if="line.discount ==0">
                                                <th width="15%"> <span style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"><t t-esc="'%.2f'% (line.price_subtotal)"/></span></th>
@@ -411,12 +411,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">100</field>
+        <field name="margin_top">85</field>
         <field name="margin_bottom">95</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">95</field>
+        <field name="header_spacing">80</field>
         <field name="dpi">90</field>
     </record>
 
