@@ -31,7 +31,7 @@
                     <field name="name" invisible="1"/>
                 </group>
                 <footer>
-                    <button name="action_back" string="_Back" type="object" class="oe_highlight"/>
+                    <button name="action_back" string="Back" type="object" class="oe_highlight"/>
                     or
                     <button string="Close" class="oe_highlight" special="cancel"/>
                 </footer>
@@ -95,6 +95,7 @@
             </form>
         </field>
     </record>
+
 
     <!--     tax summary report wizard form view -->
     <!--    ############ NOT COMPLETE YET #############-->

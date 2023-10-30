@@ -559,7 +559,7 @@ class report_sale_tax_report(models.AbstractModel):
             docs = self.env['account.move'].search(domain)
 
             print('docs_1:',docs)
-            print("Debit /Credit note :",docs.is_manual_cn)
+            # print("Debit /Credit note :",docs.is_manual_cn)
             date = datetime.today()
             amount_untaxed = 0
             amount_tax = 0

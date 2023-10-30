@@ -657,10 +657,7 @@ class tax_report(models.TransientModel):
         data = {}
         # data = self.read(['date_from', 'date_to', 'month', 'year', 'report_type', 'tax_id', 'company_id'])[0]
         data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0}
-        chack = str(self.date_from).split('-')[0]
-        if chack == '1902':
-            print("Log:", data)
-            raise UserError(str(data))
+
         if self.report_type == 'sale':
             report_values = self.env['report.itaas_print_tax_report.sale_tax_report_id2']._get_report_values(self,
                                                                                                             data=data)
@@ -673,6 +670,10 @@ class tax_report(models.TransientModel):
             #     #     'date': invoices
             #     # }
             print('report_values : ', report_values)
+            chack = str(self.date_from).split('-')[0]
+            if chack == '1902':
+                print("Log:", report_values)
+                raise UserError(str(report_values))
 
             if self.tax_id.tax_report:
                 worksheet.merge_range('A1:I1',company_id.name , for_center_bold_no_border)
@@ -859,7 +860,7 @@ class tax_report(models.TransientModel):
         buf = fl.getvalue()
         # vals = {'name': namexls, 'report_file': base64.encodestring(buf)}
         vals = {'name': namexls, 'report_file': base64.encodebytes(buf)}
-        self._cr.execute("TRUNCATE tax_excel_export CASCADE")
+        self._cr.execute("TRUNCATE tax_excel_export2 CASCADE")
         wizard_id = self.env['tax.excel.export2'].create(vals)
         return {
             'type': 'ir.actions.act_window',
