@@ -27,4 +27,14 @@ class SaleQuotation(models.Model):
     Importance = fields.Many2one(comodel_name='importance.id', string='Importance')
     important_note = fields.Text(string='Important Note')
 
-    special_need = fields.Char(string='ความต้องการพิเศษ')
+    special_need = fields.One2many('sale.quotation.lines', 'sale_quotation_id', string='ความต้องการพิเศษ')
+
+
+class SaleQuotationLines(models.Model):
+    _name = 'sale.quotation.lines'
+    _description = 'Sale Quotation Lines'
+
+    sale_quotation_id = fields.Many2one('sale.order', string='Sale Quotation')
+    # กำหนดฟิลด์ที่คุณต้องการในคลาสนี้
+    Description = fields.Char(string='Description')
+    # field_name_2 = fields.Char(string='Field Name 2')

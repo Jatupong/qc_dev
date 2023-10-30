@@ -34,13 +34,53 @@
                             <field name="Importance"/>
                             <field name="important_note" string="Important Note"/>
                         </group>
+
+<!--                        <group name="group_right">-->
+<!--                            <field name="special_need" string="ความต้องการพิเศษ">-->
+<!--                                <form string="Sale Quotation Lines">-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="Description" />-->
+<!--&lt;!&ndash;                                        <field name="field_name_2" />&ndash;&gt;-->
+<!--                                        &lt;!&ndash; Add other fields you want to display in the One2many list &ndash;&gt;-->
+<!--                                    </tree>-->
+<!--                                </form>-->
+<!--                            </field>-->
+<!--                        </group>-->
+
                         <group name="group_right">
-                            <field name="special_need" string="ความต้องการพิเศษ"/>
+                            <field name="special_need"  string="ความต้องการพิเศษ">
+                                <tree editable="button">
+                                    <field name="Description" />
+                                </tree>
+                            </field>
                         </group>
+
                     </group>
                 </page>
             </xpath>
+
+
         </field>
     </record>
 
+
+<!--    <record id="view_sale_quotation_lines_form" model="ir.ui.view">-->
+<!--        <field name="name">sale.quotation.lines.form</field>-->
+<!--        <field name="model">sale.quotation.lines</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <form string="Sale Quotation Lines">-->
+<!--                <sheet>-->
+<!--                    <group>-->
+<!--                        <field name="Description"/>-->
+<!--&lt;!&ndash;                        <field name="field_name_2"/>&ndash;&gt;-->
+<!--                        &lt;!&ndash; เพิ่มฟิลด์อื่นๆ ตามความต้องการของคุณ &ndash;&gt;-->
+<!--                    </group>-->
+<!--                </sheet>-->
+<!--            </form>-->
+<!--        </field>-->
+<!--    </record>-->
+
 </odoo>
+
+
+
