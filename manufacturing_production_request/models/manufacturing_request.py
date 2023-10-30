@@ -71,6 +71,8 @@ class ManufacturingProductionRequest(models.Model):
         string='Description',
         copy=False
     )
+
+
     custom_product_uom_id = fields.Many2one(
         'uom.uom', 
         string='Product Unit of Measure',
@@ -206,7 +208,7 @@ class ManufacturingProductionRequest(models.Model):
     def action_view_mrp_production(self):
         self.ensure_one()
         action = self.env.ref('mrp.mrp_production_action').sudo().read()[0]
-        action['domain'] = [('custom_request_id', '=', self.id)]
+        action['domain'] = [('id', '=', self.custom_manufacturing_order_id.id)]
         return action
 
     @api.onchange('custom_product_template_id')

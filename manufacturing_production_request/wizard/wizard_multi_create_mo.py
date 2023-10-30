@@ -33,10 +33,12 @@ class WizardMultiCreateMo(models.TransientModel):
                 raise UserError(_('รายการ Manufacturing Request นี้ ถูกสร้างคำสั่งผลิตเรียบร้อยแล้ว'))
             if data.state == 'a_draft':
                 raise UserError(_('รายการ Manufacturing Request จะต้องถูก Approve ก่อนที่จะสร้างคำสั่งผลิตได้'))
+            if data.state == 'b_confirm':
+                raise UserError(_('รายการ Manufacturing Request ถูก Confirm เรียบร้อยแล้ว'))
         # print('start mr ', new_manufacturing_request_custom_ids)
         for mr in new_manufacturing_request_custom_ids:
             # print('in loop mr ', new_manufacturing_request_custom_ids)
-            # print('mr ', mr)
+            print('mr ', mr)
             tt_mr_ids = mr
             mr_ids = new_manufacturing_request_custom_ids.filtered(lambda x: x.custom_product_template_id == mr.custom_product_template_id and
                                                                              x.custom_bom_id == mr.custom_bom_id and
@@ -47,6 +49,7 @@ class WizardMultiCreateMo(models.TransientModel):
                                                                    )
             tt_mr_ids |= mr_ids
             custom_product_qty = sum(tt_mr_ids.mapped('custom_product_qty'))
+            print('custom_product_qty',custom_product_qty)
 
             mrp_vals = {
                 'product_id': mr.custom_product_template_id.id,
@@ -56,8 +59,9 @@ class WizardMultiCreateMo(models.TransientModel):
                 'origin': ', '.join(tt_mr_ids.mapped('number')),
                 'date_deadline': mr.end_date,
                 'date_planned_start': mr.custom_date_start_wo,
-                'custom_request_id': mr.id,
+                # 'custom_request_id': mr.id,
             }
+            print('mrp_valsmrp_vals',mrp_vals)
             # print('mrp_vals ', mrp_vals)
             new_line = self.env['mrp.production'].new(mrp_vals)
             new_line._onchange_product_id()

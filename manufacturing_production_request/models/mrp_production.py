@@ -15,6 +15,10 @@ class MrpProduction(models.Model):
         copy=False,
     )
 
+    # custom_request_ids = fields.One2many('manufacturing.request.custom', string='Manufacturing Request Line')
+    manufacturing_request_ids = fields.One2many(comodel_name = 'manufacturing.request.custom',inverse_name = 'custom_manufacturing_order_id', string='Manufacturing Request Line')
+
+
     # @api.onchange('product_id', 'picking_type_id', 'company_id')
     # def onchange_product_id(self):
     #     res = super(MrpProduction, self).onchange_product_id()
