@@ -63,6 +63,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="product_delivery_note">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">เลขที่แก้ไขใบส่งมอบผลิตภัณฑ์</span>
+                            <div class="text-muted">
+                                <field name="product_delivery_note_number"/>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-12 col-lg-6 o_setting_box" id="return_out_form">
                         <div class="o_setting_left_pane"/>
                         <div class="o_setting_right_pane">
