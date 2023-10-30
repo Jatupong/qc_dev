@@ -8,8 +8,26 @@
             <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
             <field name="arch" type="xml">
                 <!--  odoo 13 -->
-                <xpath expr="//page[@name='miscellaneous']/group/group" position="inside">
-                    <field name="custom_request_id" />
+<!--                <xpath expr="//page[@name='miscellaneous']/group/group" position="inside">-->
+<!--                    <field name="custom_request_id" />-->
+<!--                </xpath>-->
+
+
+                <xpath expr="//page[@name='miscellaneous']" position="after">
+                    <page string="Manufacturing Requests" name="manufacturing_requests">
+
+                        <field name="manufacturing_request_ids" readonly="1">
+                            <tree editable="0">
+                                <field name="number"/>
+                                <field name="custom_product_template_id"/>
+                                <field name="custom_product_qty"/>
+                                <field name="custom_product_uom_id"/>
+                                <field name="activity_user_id"/>
+                                <field name="create_date"/>
+
+                            </tree>
+                        </field>
+                    </page>
                 </xpath>
             </field>
          </record>
