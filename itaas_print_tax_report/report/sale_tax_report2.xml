@@ -9,6 +9,134 @@
                         <h><strong>
                             <span t-esc="company_id.name"/><br/>รายการส่งออกประจำเดือน
                         </strong></h>
+                        <br/><br/>
+                        <tr>
+                        <td style="text-align: left;">
+                            <font style="font-size: 16px;">
+                                <span>ชื่อผู้ประกอบการ</span>
+                            </font>
+                        </td>
+                        <td style="text-align: left;">
+                            <font style="font-size: 16px;">
+                                <span t-esc="company_id.name"/>
+                            </font>
+                        </td>
+                        <td style="text-align: left;">
+                            <font style="font-size: 16px;">
+                                <span>เลขประจำตัวผู้เสียภาษีอากร</span>
+                            </font>
+                        </td>
+                        <td style="text-align: left;">
+                            <font style="font-size: 16px;">
+                                <span t-esc="company_id.vat"/>
+                            </font>
+                        </td>
+                    </tr><br/>
+                        <tr>
+                        <td style="text-align: left;">
+                            <font style="font-size: 16px;">
+                                <span>ชื่อสถานประกอบการ</span>
+                            </font>
+                        </td>
+                        <td style="text-align: left;">
+                            <font style="font-size: 16px;">
+                                <span t-esc="company_id.name"/>
+                            </font>
+                        </td>
+                        <td colspan="2" style="text-align: left;">
+                            <t t-if="not operating_unit">
+                                <t t-if="company_id.branch_no">
+                                    <t t-if="company_id.branch_no == '00000'">
+                                        <font style="font-size: 22px;">
+                                            &amp;#9746;
+                                        </font>
+                                        <font style="font-size: 16px;">
+                                            <span>สำนักงานใหญ่</span>&amp;emsp;
+                                        </font>
+                                        <font style="font-size: 22px;">
+                                            &amp;#9744;
+                                        </font>
+                                        <font style="font-size: 16px;">
+                                            <span>สาขาที่</span>&amp;ensp;
+                                        </font>
+                                    </t>
+                                    <t t-if="company_id.branch_no != '00000'">
+                                        <font style="font-size: 22px;">
+                                            &amp;#9744;
+                                        </font>
+                                        <font style="font-size: 16px;">
+                                            <span>สำนักงานใหญ่</span>&amp;emsp;
+                                        </font>
+                                        <font style="font-size: 22px;">
+                                            &amp;#9746;
+                                        </font>
+                                        <font style="font-size: 16px;">
+                                            <span>สาขาที่</span>&amp;ensp;
+                                            <span t-esc="company_id.branch_no"/>
+                                        </font>
+                                    </t>
+                                </t>
+                                <t t-if="not company_id.branch_no">
+                                    <font style="font-size: 22px;">
+                                        &amp;#9746;
+                                    </font>
+                                    <font style="font-size: 16px;">
+                                        <span>สำนักงานใหญ่</span>&amp;emsp;
+                                    </font>
+                                    <font style="font-size: 22px;">
+                                        &amp;#9744;
+                                    </font>
+                                    <font style="font-size: 16px;">
+                                        <span>สาขาที่</span>&amp;ensp;
+                                    </font>
+                                </t>
+
+                            </t>
+                            <!--################# if OU-->
+                            <t t-if="operating_unit">
+                                <font style="font-size: 22px;">
+                                    &amp;#9744;
+                                </font>
+                                <font style="font-size: 16px;">
+                                    <span>สำนักงานใหญ่</span>&amp;emsp;
+                                </font>
+                                <font style="font-size: 22px;">
+                                    &amp;#9746;
+                                </font>
+                                <font style="font-size: 16px;">
+                                    <span>สาขาที่</span>&amp;ensp;
+                                    <t t-foreach="operating_unit" t-as="operating_id">
+                                        <span t-esc="operating_id"/>
+                                    </t>
+                                </font>
+
+                            </t>
+
+                        </td>
+                    </tr><br/>
+                        <tr>
+                        <td style="text-align: left;">
+                            <font style="font-size: 16px;">
+                                <span>สถานประกอบการ</span>
+                            </font>
+                        </td>
+                        <td colspan="2" style="text-align: left;">
+                            <font style="font-size: 16px;">
+                                <t t-if="company_id">
+                                    <span t-esc="company_id.get_company_full_address_text()"/>
+
+                                </t>
+                            </font>
+                        </td>
+                        <td style="text-align: right;">
+                            <font style="font-size: 16px;">
+                                <span>หน้า </span>
+                                <span class="page"/>
+                                <span>/</span>
+                                <span class="topage"/>
+                            </font>
+                        </td>
+                    </tr>
                     </font>
                 </div>
             </div>
@@ -86,7 +214,7 @@
                                     <span>รายการ<br/>Customer</span>
                                 </th>
                                 <th colspan="1" rowspan="2">
-                                    <span>จำนวนจริง</span>
+                                    <span>จำนวนชิ้น</span>
                                 </th>
                                 <th colspan="6">
                                     <span>ตามส่งจริง</span>
@@ -107,7 +235,7 @@
                                     <span>BAHT</span>
                                 </th>
                                 <th colspan="1" rowspan="2">
-                                    <span>เลขใบขน</span>
+                                    <span>เลขที่ใบขน</span>
                                 </th>
                                 <th colspan="1" rowspan="2">
                                     <span>ETD</span>
@@ -185,7 +313,7 @@
                                     <td>
                                         <div class="box7">
                                             <t t-if="k['amount_type'] == 'EUR'">
-                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
                                             <t t-if="k['amount_type'] != 'EUR'">
                                                 <span> </span>
@@ -196,7 +324,7 @@
                                     <td>
                                         <div class="box8">
                                             <t t-if="k['amount_type'] == 'USD'">
-                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
                                             <t t-if="k['amount_type'] != 'USD'">
                                                 <span> </span>
@@ -207,7 +335,7 @@
                                     <td>
                                         <div class="box9">
                                             <t t-if="k['amount_type'] == 'GBP'">
-                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
                                             <t t-if="k['amount_type'] != 'GBP'">
                                                 <span> </span>
@@ -229,17 +357,7 @@
                                     <td align="right">
                                         <div class="box11" align="right">
                                             <t t-if="k['amount_type'] == 'THB'">
-<!--                                                <t t-if="k['state'] != 'cancel'">-->
-<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
-                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
-<!--                                                    </t>-->
-<!--                                                </t>-->
-<!--                                                <t t-if="k['state'] == 'cancel'">-->
-<!--                                                    <span>0</span>-->
-<!--                                                </t>-->
+                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
                                              <t t-if="k['amount_type'] == 'THB'">
                                                 <span> </span>
@@ -250,7 +368,7 @@
                                     <td>
                                         <div class="box12">
                                             <t t-if="k['amount_type'] != 'THB' and k['amount_type'] != 'CNY' and k['amount_type'] != 'GBP' and k['amount_type'] != 'USD' and k['amount_type'] != 'EUR'">
-                                               <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
+                                               <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
 
                                         </div>
@@ -259,7 +377,7 @@
                                     <td>
                                         <div class="box12">
                                             <t t-if="k['company_rate']">
-                                                <span t-esc="'{0:,.2f}'.format(float(k['company_rate']))"/>
+                                                <span t-esc="'{0:,.4f}'.format(float(k['company_rate']))"/>
                                             </t>
                                         </div>
                                     </td>
@@ -267,44 +385,24 @@
                                     <td align="right">
                                         <t t-if="k['amount_type'] == 'THB'">
                                             <div class="box13" align="right">
-<!--                                                <t t-if="k['state'] != 'cancel'">-->
-<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>-->
-<!--                                                    </t>-->
-<!--                                                </t>-->
-<!--                                                <t t-if="k['state'] == 'cancel'">-->
-                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['excrate']))"/>
-<!--                                                </t>-->
+                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['company_rate']))"/>
                                             </div>
                                         </t>
                                         <t t-if="k['amount_type'] != 'THB'">
-<!--                                            <t t-if="k['state'] != 'cancel'">-->
-<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float((k['amount_untaxed'] * (-1)) *k['company_rate']))"/>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']* k['company_rate']))"/>-->
-<!--                                                    </t>-->
-<!--                                                </t>-->
-<!--                                                <t t-if="k['state'] == 'cancel'">-->
-                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['company_rate']))"/>
-<!--                                                </t>-->
+                                            <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['company_rate']))"/>
                                         </t>
                                     </td>
 <!--                                    ตามใบขน EUR/USD-->
                                     <td>
                                         <div class="box14">
-                                            <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
+                                            <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                         </div>
                                     </td>
 <!--                                    EXC RATE-->
                                     <td>
                                         <div class="box15">
                                             <t t-if="k['excrate']">
-                                                <span t-esc="'{0:,.2f}'.format(float(k['excrate']))"/>
+                                                <span t-esc="'{0:,.4f}'.format(float(k['excrate']))"/>
                                             </t>
                                         </div>
                                     </td>
@@ -312,31 +410,11 @@
                                     <td align="right">
                                         <t t-if="k['amount_type'] == 'THB'">
                                             <div class="box16" align="right">
-<!--                                                <t t-if="k['state'] != 'cancel'">-->
-<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * (-1)))"/>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] ))"/>-->
-<!--                                                    </t>-->
-<!--                                                </t>-->
-<!--                                                <t t-if="k['state'] == 'cancel'">-->
-                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['excrate']))"/>
-<!--                                                </t>-->
+                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['excrate']))"/>
                                             </div>
                                         </t>
                                         <t t-if="k['amount_type'] != 'THB'">
-<!--                                            <t t-if="k['state'] != 'cancel'">-->
-<!--                                                    <t t-if="k['type'] == 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float((k['amount_untaxed'] * (-1))* k['excrate']))"/>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="k['type'] != 'out_refund'">-->
-<!--                                                        <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']* k['excrate'] ))"/>-->
-<!--                                                    </t>-->
-<!--                                                </t>-->
-<!--                                                <t t-if="k['state'] == 'cancel'">-->
-                                                    <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed'] * k['excrate']))"/>
-<!--                                                </t>-->
+                                            <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['excrate']))"/>
                                         </t>
                                     </td>
 <!--                                    เลขใบขน-->
@@ -350,13 +428,13 @@
 <!--                                    ETD-->
                                     <td>
                                             <t t-if="k['ETD']">
-                                                <span t-esc="k['ETD']"/>
+                                                <span t-esc="k['ETD']" t-options="{'widget': 'date', 'format': 'dd/MM/yyy'}"/>
                                             </t>
                                     </td>
 <!--                                    ETA-->
                                     <td>
                                             <t t-if="k['ETA']">
-                                                <span t-esc="k['ETA']"/>
+                                                <span t-esc="k['ETA']" t-options="{'widget': 'date', 'format': 'dd/MM/yyy'}"/>
                                             </t>
                                     </td>
                                 </tr>
