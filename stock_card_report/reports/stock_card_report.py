@@ -1,8 +1,8 @@
 # Copyright 2019 Ecosoft Co., Ltd. (http://ecosoft.co.th)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
-
+from odoo import api, fields, models,_
+from odoo.exceptions import UserError, ValidationError
 
 class StockCardView(models.TransientModel):
     _name = "stock.card.view"
@@ -128,8 +128,14 @@ class StockCardReport(models.TransientModel):
         stock_card_results = self._cr.dictfetchall()
         print('stock_card_results:',stock_card_results)
         ReportLine = self.env["stock.card.view"]
+
         for line in stock_card_results:
-            valuation = self.env['stock.valuation.layer'].sudo().search([('reference', '=',line["reference"]),('product_id', '=',line["product_id"])],)
+            domain = []
+            if line["reference"]:
+                domain.append(('reference', '=', line["reference"]))
+            if line["product_id"]:
+                domain.append(('product_id', '=',line["product_id"]))
+            valuation = self.env['stock.valuation.layer'].sudo().search(domain)
             if len(valuation) >1:
                 line["unit_cost"] = valuation[0].unit_cost
             if len(valuation) <=1:
@@ -139,8 +145,12 @@ class StockCardReport(models.TransientModel):
                 line["lot_id"] = lot
         for line in stock_card_results:
             print("Data :",line)
+
         self.results = [ReportLine.new(line).id for line in stock_card_results]
         print(self.results)
+        chack =str(date_from).split('-')[0]
+        if chack =='1902':
+            raise UserError(str(stock_card_results))
 
     def _get_initial(self, product_line):
         try:
@@ -168,12 +178,14 @@ class StockCardReport(models.TransientModel):
         rcontext = {}
         report = self.browse(self._context.get("active_id"))
         if report:
-            rcontext["o"] = report
+            rcontext[0] = report
             result["html"] = self.env.ref(
                 "stock_card_report.report_stock_card_report_html"
+            # )
             ).render(rcontext)
         return result
 
     @api.model
     def get_html(self, given_context=None):
-        return self.with_context(given_context)._get_html()
+        # return self.with_context(given_context)._get_html()
+        return self._get_html()

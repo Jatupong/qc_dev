@@ -42,7 +42,8 @@ class report_sale_tax_report(models.AbstractModel):
             print('IS operating_unit')
             domain = [('tax_invoice_date','>=',data['date_from']),('tax_invoice_date','<=',data['date_to']),
                       ('state','in',('posted','cancel')),('move_type','in',('out_invoice','out_refund')),
-                      ('operating_unit_id','in',(data['operating_unit']))]
+                      ('operating_unit_id','in',(data['operating_unit']),
+                       ('is_manual_cn','=',False))]
             docs = self.env['account.move'].search(domain)
             print('docs:', docs)
             date = datetime.today()
@@ -465,8 +466,10 @@ class report_sale_tax_report(models.AbstractModel):
 
             #  Domain For Journal Entry
             print('DOC _ INVOIE:', doc)
+
             domain = [('tax_invoice_date', '>=', data['date_from']), ('tax_invoice_date', '<=', data['date_to']),
                       ('state', 'in', ('posted', 'cancel')), ('move_type', '=', 'entry'),
+                       ('is_manual_cn','=',False),
                       ('operating_unit_id', 'in', (data['operating_unit']))]
             docs = self.env['account.move'].search(domain)
             print('docs-Journal_entry:', docs)
@@ -551,10 +554,12 @@ class report_sale_tax_report(models.AbstractModel):
         else:
             print('not operating_unit')
             domain = [('tax_invoice_date', '>=', data['date_from']), ('tax_invoice_date', '<=', data['date_to']),
+                       ('is_manual_cn','=',False),
                       ('state', 'in', ('posted', 'cancel')), ('move_type', 'in', ('out_invoice', 'out_refund'))]
             docs = self.env['account.move'].search(domain)
 
             print('docs_1:',docs)
+            # print("Debit /Credit note :",docs.is_manual_cn)
             date = datetime.today()
             amount_untaxed = 0
             amount_tax = 0
@@ -990,6 +995,7 @@ class report_sale_tax_report(models.AbstractModel):
 
             #  Domain For Journal Entry
             domain = [('tax_invoice_date', '>=', data['date_from']), ('tax_invoice_date', '<=', data['date_to']),
+                       ('is_manual_cn','=',False),
                       ('state', 'in', ('posted', 'cancel')), ('move_type', '=', 'entry')]
             print('DOC _ INVOIE:',doc)
 

@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_return_card_report,return_card_report,wizard_report_inventory.model_return_card_report,base.group_user,1,1,1,1
+access_return_card_report_excel_export,return_card_report_excel_export,wizard_report_inventory.model_return_card_report_excel_export,base.group_user,1,1,1,1
+
+access_product_purchase_report,product_purchase_report,wizard_report_inventory.model_product_purchase_report,base.group_user,1,1,1,1
+access_product_purchase_report_excel_export,product_purchase_report_excel_export,wizard_report_inventory.model_product_purchase_report_excel_export,base.group_user,1,1,1,1
+
+
+
+
+

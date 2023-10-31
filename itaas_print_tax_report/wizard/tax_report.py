@@ -31,7 +31,7 @@ class tax_report(models.TransientModel):
 
         return [(last_year, last_year), (current_year, current_year), (next_year, next_year)]
 
-    cuctomer = fields.Char(string='Cuctomer')
+    cuctomer = fields.Many2one(string='Customer',comodel_name='res.partner')
     date_from = fields.Date(string='Date From',required=True)
     date_to = fields.Date(string='Date To',required=True)
     month = fields.Selection([
@@ -635,7 +635,7 @@ class tax_report(models.TransientModel):
         worksheet.merge_range('A' + str(inv_row) + ':A' + str(inv_row_merge_head), "วันที่", for_center_bold_bg)
         worksheet.merge_range('B' + str(inv_row) + ':B' + str(inv_row_merge_head),"เลขที่\nInvoice No", for_center_bold_bg)
         worksheet.merge_range('C' + str(inv_row) + ':C' + str(inv_row_merge_head), "รายการ\nCustomer", for_center_bold_bg)
-        worksheet.merge_range('D' + str(inv_row) + ':D' + str(inv_row_merge_head), "จำนวนจริง", for_center_bold_bg)
+        worksheet.merge_range('D' + str(inv_row) + ':D' + str(inv_row_merge_head), "จำนวนชิ้น", for_center_bold_bg)
         worksheet.merge_range('E' + str(inv_row) + ':J' + str(inv_row), "ตามสงจริง", for_center_bold_bg)
         worksheet.write('E' + str(inv_row_merge_head), 'EUR', for_center_bold_bg)
         worksheet.write('F' + str(inv_row_merge_head), 'USD', for_center_bold_bg)
@@ -648,7 +648,7 @@ class tax_report(models.TransientModel):
         worksheet.merge_range('M' + str(inv_row) + ':M' + str(inv_row_merge_head), "ตามใบขน\nEUR/USD", for_center_bold_bg)
         worksheet.merge_range('N' + str(inv_row) + ':N' + str(inv_row_merge_head), "EXC RATE", for_center_bold_bg)
         worksheet.merge_range('O' + str(inv_row) + ':O' + str(inv_row_merge_head), "BAHT", for_center_bold_bg)
-        worksheet.merge_range('P' + str(inv_row) + ':P' + str(inv_row_merge_head), "ตามใบขน", for_center_bold_bg)
+        worksheet.merge_range('P' + str(inv_row) + ':P' + str(inv_row_merge_head), "เลขที่ใบขน", for_center_bold_bg)
         worksheet.merge_range('Q' + str(inv_row) + ':Q' + str(inv_row_merge_head), "ETD", for_center_bold_bg)
         worksheet.merge_range('R' + str(inv_row) + ':R' + str(inv_row_merge_head), "ETA", for_center_bold_bg)
 
@@ -670,11 +670,17 @@ class tax_report(models.TransientModel):
             #     #     'date': invoices
             #     # }
             print('report_values : ', report_values)
+            chack = str(self.date_from).split('-')[0]
+            if chack == '1902':
+                print("Log:", report_values)
+                raise UserError(str(report_values))
 
             if self.tax_id.tax_report:
-                worksheet.merge_range('A1:I1', "รายการส่งออกประจำเดือน", for_center_bold_no_border)
+                worksheet.merge_range('A1:I1',company_id.name , for_center_bold_no_border)
+                worksheet.merge_range('A2:I2', "รายการส่งออกประจำเดือน", for_center_bold_no_border)
             else:
-                worksheet.merge_range('A1:I1', "รายการส่งออกประจำเดือน", for_center_bold_no_border)
+                worksheet.merge_range('A1:I1',company_id.name, for_center_bold_no_border)
+                worksheet.merge_range('A2:I2', "รายการส่งออกประจำเดือน", for_center_bold_no_border)
             amount_untaxed = 0
             amount_vat = 0
             amount_total = 0
@@ -695,27 +701,27 @@ class tax_report(models.TransientModel):
                     worksheet.write(inv_row, 8, "", for_center)
                     worksheet.write(inv_row, 9, "", for_center)
                     if inv['amount_type']=='EUR':
-                        worksheet.write(inv_row, 4, inv['amount_untaxed'], for_right)
+                        worksheet.write(inv_row, 4, inv['amount_total'], for_right)
                     if inv['amount_type']=='USD':
-                        worksheet.write(inv_row, 5, inv['amount_untaxed'], for_right)
+                        worksheet.write(inv_row, 5, inv['amount_total'], for_right)
                     if inv['amount_type']=='GBP':
-                        worksheet.write(inv_row, 6, inv['amount_untaxed'], for_right)
+                        worksheet.write(inv_row, 6, inv['amount_total'], for_right)
                     if inv['amount_type']=='CNY':
-                        worksheet.write(inv_row, 7, inv['amount_untaxed'], for_right)
+                        worksheet.write(inv_row, 7, inv['amount_total'], for_right)
                     if inv['amount_type']=='THB':
-                        worksheet.write(inv_row, 8, inv['amount_untaxed'], for_right)
-                        worksheet.write(inv_row, 11, inv['amount_untaxed'], for_right)
+                        worksheet.write(inv_row, 8, inv['amount_total'], for_right)
+                        worksheet.write(inv_row, 11, inv['amount_total'], for_right)
                         worksheet.write(inv_row, 10, "", for_center)
-                        worksheet.write(inv_row, 14, inv['amount_untaxed'], for_right)
+                        worksheet.write(inv_row, 14, inv['amount_total'], for_right)
                     if inv['amount_type']!='THB' and inv['amount_type'] != 'CNY' and inv['amount_type'] != 'GBP' and inv['amount_type'] != 'USD' and inv['amount_type'] != 'EUR':
-                        worksheet.write(inv_row, 9, inv['amount_untaxed'], for_right)
+                        worksheet.write(inv_row, 9, inv['amount_total'], for_right)
                     if inv['amount_type'] != 'THB':
-                        company_rate_to_baht1 = inv['amount_untaxed'] * inv['company_rate']
-                        company_rate_to_baht2 = inv['amount_untaxed'] * inv['excrate']
+                        company_rate_to_baht1 = inv['amount_total'] * inv['company_rate']
+                        company_rate_to_baht2 = inv['amount_total'] * inv['excrate']
                         worksheet.write(inv_row, 11, company_rate_to_baht1, for_right)
                         worksheet.write(inv_row, 10, inv['company_rate'], for_right)
                         worksheet.write(inv_row, 14, company_rate_to_baht2, for_right)
-                    worksheet.write(inv_row, 12, inv['amount_untaxed'], for_right)
+                    worksheet.write(inv_row, 12, inv['amount_total'], for_right)
                     worksheet.write(inv_row, 13, inv['excrate'], for_right)
                     worksheet.write(inv_row, 15, inv['export_products_id']or'', for_center)
                     worksheet.write(inv_row, 16, inv['ETD'] or '', for_center_date)
@@ -854,7 +860,7 @@ class tax_report(models.TransientModel):
         buf = fl.getvalue()
         # vals = {'name': namexls, 'report_file': base64.encodestring(buf)}
         vals = {'name': namexls, 'report_file': base64.encodebytes(buf)}
-        self._cr.execute("TRUNCATE tax_excel_export CASCADE")
+        self._cr.execute("TRUNCATE tax_excel_export2 CASCADE")
         wizard_id = self.env['tax.excel.export2'].create(vals)
         return {
             'type': 'ir.actions.act_window',
