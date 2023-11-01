@@ -16,9 +16,13 @@
             'security/ir.model.access.csv',
 
             #views
-            'views/return_card_report_view.xml',
+            # 'views/return_card_report_view.xml',
             # 'views/stock_picking_view.xml',
-            'views/product_purchase_report_view.xml'
+            'views/product_purchase_report_view.xml',
+            
+            
+
+
         ],
 
     'license': 'AGPL-3',
