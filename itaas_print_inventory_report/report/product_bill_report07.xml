@@ -519,6 +519,10 @@
                                             <td align="center">
                                                 <div class="word_wrap">
                                                     <span t-field="move_line[y].product_id.name"/>
+                                                    <t t-if="'product_ceg_th' in move_line[y].move_id.product_id.fields_get()">
+                                                        <span t-field="move_line[y].move_id.product_id.product_ceg_th"/><br/>
+                                                    </t>
+
                                                 </div>
                                             </td>
 <!--                                            ลายสินค้า-->
@@ -532,9 +536,6 @@
                                                     <t t-if="'shape_name_eng' in move_line[y].product_id.fields_get()">
                                                         <span t-field="move_line[y].product_id.shape_name_eng"/><br/>
                                                     </t>
-                                                    <t t-if="'product_ceg_th' in move_line[y].move_id.product_id.fields_get()">
-                                                        <span t-field="move_line[y].move_id.product_id.product_ceg_th"/><br/>
-                                                    </t>
 
                                                 </div>
                                             </td>
@@ -546,6 +547,11 @@
                                                             <t t-foreach="value.value_ids" t-as="val_ids">
                                                                 <span t-field="val_ids.name"/>
                                                             </t>
+                                                        </t>
+                                                        <t t-if="value.attribute_id.name=='Shinobu'">
+<!--                                                            <t t-foreach="value.value_ids" t-as="val_ids">-->
+                                                                <span t-field="move_line[y].product_id.attribute_line_ids.value_ids"/>
+<!--                                                            </t>-->
                                                         </t>
                                                     </t>
                                                 </t>
@@ -652,6 +658,10 @@
                                             <td align="center">
                                                 <div class="word_wrap">
                                                     <span t-field="move_line[y].product_id.name"/>
+                                                    <t t-if="'product_ceg_th' in move_line[y].move_id.product_id.fields_get()">
+                                                        <span t-field="move_line[y].move_id.product_id.product_ceg_th"/><br/>
+                                                    </t>
+
                                                 </div>
                                             </td>
                                             <td align="center">
@@ -662,9 +672,9 @@
                                                     <t t-if="'shape_name_eng' in move_line[y].product_id.fields_get()">
                                                         <span t-field="move_line[y].product_id.shape_name_eng"/><br/>
                                                     </t>
-                                                    <t t-if="'product_ceg_th' in move_line[y].move_id.product_id.fields_get()">
-                                                        <span t-field="move_line[y].move_id.product_id.product_ceg_th"/><br/>
-                                                    </t>
+<!--                                                    <t t-if="'product_ceg_th' in move_line[y].move_id.product_id.fields_get()">-->
+<!--                                                        <span t-field="move_line[y].move_id.product_id.product_ceg_th"/><br/>-->
+<!--                                                    </t>-->
 <!--                                                    <span t-if="move_line[y].move_id.product_id.shape_name_eng" t-field="move_line[y].product_id.shape_name_eng"/><span t-field="move_line[y].product_id.shape_name_th"/>-->
                                                     <!--<span t-else="" t-field="-"/>-->
                                                 </div>
@@ -724,6 +734,11 @@
                                                             <t t-foreach="value.value_ids" t-as="val_ids">
                                                                 <span t-field="val_ids.name"/>
                                                             </t>
+                                                        </t>
+                                                        <t t-if="value.attribute_id.name=='Shinobu'">
+<!--                                                            <t t-foreach="value.value_ids" t-as="val_ids">-->
+                                                                <span t-field="move_line[y].product_id.attribute_line_ids.value_ids"/>
+<!--                                                            </t>-->
                                                         </t>
                                                     </t>
                                                 </t>
