@@ -181,6 +181,21 @@ class product_purchase_report(models.TransientModel):
         print(day, monthth, year)
         return day, monthth, year
 
+
+        # for q in moves_layer:
+        #     qty = 0
+        #     for Zum in q.valuation.layer:
+        #         qty += Zum.q.quantity
+        #         print('qty', qty)
+        #
+        # for v in moves_layer:
+        #     value = 0
+        #     for Zum in v.valuation.layer:
+        #         value += Zum.v.value
+
+
+
+
     def print_report_excel(self):
             print('print_report_xls')
             fl = BytesIO()
@@ -202,9 +217,32 @@ class product_purchase_report(models.TransientModel):
 
             for_left_bold = workbook.add_format({'align': 'left', 'bold': True, 'border': True})
             for_center_bold = workbook.add_format({'align': 'center', 'bold': True, 'border': True})
+            for_right_bold = workbook.add_format({'align': 'right', 'bold': True, 'border': True})
             for_center_bold_bg = workbook.add_format(
                 {'align': 'center', 'valign': 'vcenter', 'bold': True, 'border': True, 'bg_color': '#ffff'})
             for_right_bold = workbook.add_format({'align': 'right', 'bold': True, 'border': True})
+            for_right_bold_bg = workbook.add_format({'align': 'right', 'bold': True, 'border': True, 'bg_color': '#FFFF00'})
+            for_right_bold_bg_no_border_left_right = workbook.add_format({
+                'align': 'right',
+                'bold': True,
+                'border': True,
+                'bg_color': '#FFFF00',
+                'top': True,  # เปิดเส้นขอบด้านบน
+                'bottom': True,  # เปิดเส้นขอบด้านล่าง
+                'left': False,  # ปิดเส้นขอบด้านซ้าย
+                'right': False  # ปิดเส้นขอบด้านขวา
+            })
+            for_right_bold_bg_no_border_right = workbook.add_format({
+                'align': 'right',
+                'bold': True,
+                'border': True,
+                'bg_color': '#FFFF00',
+                'top': True,
+                'bottom': True,
+                'left': False,
+                'right': True
+            })
+
 
             for_left = workbook.add_format({'align': 'left', 'border': True})
             for_center = workbook.add_format({'align': 'center', 'border': True})
@@ -247,13 +285,31 @@ class product_purchase_report(models.TransientModel):
             worksheet.set_column('Q:Q', 15)
             worksheet.set_column('R:R', 15)
 
-            domain = []
+
+            # domain = [('product_id', '=', self.product.name)]
+
             # if self.category_id.complete_name != False:
             #     domain += [('categ_id', '=', self.category_id.complete_name)]
             #     # print(domain)
             # if self.product.name != False:
             #     domain += [('name', '=', self.product.name)]
-                # print(domain)
+            #     print(domain)
+
+            domain = [('state', '=', 'done'),
+                      ('date', '>=', self.date_from),
+                      ('date', '<=', self.date_to),
+
+                      # ('company_id', '=', self..company.name),
+
+                      # ('move_line_ids.location_id', 'in', self.location.name),
+
+                      # '|', ('location_dest_id', 'in', location_ids.ids), ('location_id', 'in', location_ids.ids),
+
+                      ('product_id', 'in', self.product.name),
+                      # ('is_inventory', '=', False),
+                      # ('picking_type_id.code', 'in', ['internal']),
+                      ]
+
 
             Stocks = self.env['stock.picking'].search(domain)
             print(Stocks)
@@ -296,16 +352,16 @@ class product_purchase_report(models.TransientModel):
 
             # count = 1
             # for stock in Stocks:
-            #     domain = [('product_id', '=', stock.name)]
-            #     if self.location.complete_name != False:
-            #         domain += [('location_dest_id', '=', self.location.complete_name)]
-            #         # print(domain)
+            #     domain = [('product_id', '=', self.product.name), ('reference', '=', stock.name)]
+            #     # if self.location.complete_name != False:
+            #     #     domain = [('product_id', '=', self.product.name), ('reference', '=', stock.name)]
+            #     #     print(domain)
             #     # if self.warehouse.complete_name != False:
-            #     #     domain += [('location_id', '=', self.warehouse.complete_name)]
+            #     #     domain = [('product_id', '=', self.product.name), ('reference', '=', stock.name)]
             #     #     print(domain)
             #     # if self.date_present != False:
             #     #     domain += [('date', '<=', self.date_present)]
-            #         # print(domain)
+            #     #     print(domain)
             #     print(domain)
             #     worksheet.write('C' + str(inv_row), stock.name, for_center)
             #     moves_history = self.env['stock.move.line'].search(domain)
@@ -322,10 +378,11 @@ class product_purchase_report(models.TransientModel):
             #                 worksheet.write('B' + str(inv_row), stock_picking.petition_number or "", for_center)
             #             except:
             #                 worksheet.write('B' + str(inv_row), "", for_center)
-            #             worksheet.write('C' + str(inv_row), " ", for_center)
+            #             worksheet.write('C' + str(inv_row), stock.location_id or "", for_center)
             #             if stock_picking.reference_date != False:
             #                 day, monthth, year = self.day_to_str(stock_picking.reference_date)
-            #             worksheet.write('C' + str(inv_row), stock.location_id, for_center)
+            #             # worksheet.write('C' + str(inv_row), "{}-{}-{}".format(day, monthth, year), for_center)
+            #             # worksheet.write('C' + str(inv_row), stock.location_id, for_center)
             #             worksheet.write('D' + str(inv_row), stock.default_code or "", for_center)
             #             worksheet.write('E' + str(inv_row), stock.name or "", for_center)
             #             worksheet.write('F' + str(inv_row), move.qty_done or "", for_center)
@@ -363,26 +420,77 @@ class product_purchase_report(models.TransientModel):
                 worksheet.write(inv_row, 2, stock.name or ' ', for_center_border)
                 worksheet.write(inv_row, 3, stock.date_done or ' ', for_center_border_date)
                 worksheet.write(inv_row, 4, stock.group_id.name or ' ', for_center_border)
-                worksheet.write(inv_row, 5, ' ' or ' ', for_center_border)
-                domain = [('product_id', '=', self.product.name), ('reference','=',stock.name)]
+
+                # account.move
+                domain = [
+                    ('date', '>=', self.date_from),
+                    ('date', '<=', self.date_to),
+                ]
+                move_bill = self.env['account.move'].search(domain)
+                for b in move_bill:
+                    worksheet.write(inv_row, 5, b.name or ' ', for_center_border)
+
+                domain = [('state', '=', 'done'),
+                          ('date', '>=', self.date_from),
+                          ('date', '<=', self.date_to),
+                          ('product_id', '=', self.product.name),
+                          ('reference','=',stock.name),
+                          ]
                 moves_history = self.env['stock.move.line'].search(domain)
                 for i in moves_history.lot_id:
                     worksheet.write(inv_row, 6, i.name or ' ', for_center_border)
 
-                domain = [('product_id', '=', self.product.name), ('reference', '=', stock.name)]
+                domain = [
+                          ('product_id', '=', self.product.name),
+                          ('reference','=',stock.name),
+                          ]
                 moves_layer = self.env['stock.valuation.layer'].search(domain)
                 for o in moves_layer:
-                    worksheet.write(inv_row, 7, abs(o.quantity) or '', for_center_border)
+                        # qty = 0
+                        # for Zum in o.valuation.layer:
+                        #     qty += Zum.o.quantity
+                        #
+                        # value = 0
+                        # for Zum in o.valuation.layer:
+                        #     value += Zum.o.value
+
+                    worksheet.write(inv_row, 7, abs(o.quantity) or '0', for_center_border)
 
                 # worksheet.write(inv_row, 7, stock.show_validate or '', for_center_border)
-                # worksheet.write(inv_row, 8, doc.price_subtotal or '', for_right_border_num_format)
-                # cost_value = doc.get_cost_value(doc)
-                # # cost_value = doc.product_id.standard_price
-                # worksheet.write(inv_row, 9, cost_value or '', for_right_border_num_format)
-                # worksheet.write(inv_row, 10, doc.invoice_id.user_id.name or '', for_center_no_border)
-                # worksheet.write(inv_row, 11, doc.invoice_id.origin or '', for_center_no_border)
+                worksheet.write(inv_row, 8, abs(o.value) or '0', for_center_border)
 
-                inv_row += 1
+            inv_row += 1
+
+
+
+            moves_layer = self.env['stock.valuation.layer'].search(domain)
+            qty = 0
+            value = 0
+
+            for o in moves_layer:
+                qty += abs(o.quantity)
+                value += abs(o.value)
+
+
+                # total_cost_qty = sum(stock.get_cost_qty() for stock in Stocks)
+            # total_cost_value = sum(stock.get_cost_value() for stock in Stocks)
+
+
+            # worksheet.merge_range('A' + str(inv_row) + ':G' + str(inv_row), " ", for_right_bold_bg)
+            worksheet.write(inv_row, 0, '', for_right_bold_bg)
+            worksheet.write(inv_row, 1, '', for_right_bold_bg_no_border_left_right)
+            worksheet.write(inv_row, 2, '', for_right_bold_bg_no_border_left_right)
+            worksheet.write(inv_row, 3, '', for_right_bold_bg_no_border_left_right)
+            worksheet.write(inv_row, 4, '', for_right_bold_bg_no_border_left_right)
+            worksheet.write(inv_row, 5, '', for_right_bold_bg_no_border_left_right)
+            worksheet.write(inv_row, 6, 'รวม', for_right_bold_bg_no_border_right)
+            worksheet.write(inv_row, 7, qty, for_right_bold_bg)
+            worksheet.write(inv_row, 8, value, for_right_bold_bg)
+
+
+
+
+                # worksheet.merge_range('A' + str(inv_row) + ':G' + str(inv_row), "รวม", for_right_bold)
 
             workbook.close()
             buf = fl.getvalue()
