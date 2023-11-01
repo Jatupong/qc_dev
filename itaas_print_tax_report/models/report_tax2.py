@@ -59,11 +59,282 @@ class report_sale_tax_report(models.AbstractModel):
                                                       ('type_tax_use', '=', 'sale')])
                 print('taxxxxxxxxxxxxxx:', tax)
                 for move_id in docs:
-                    print('move_id:', move_id)
-                    all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
-                    if all_tax_ids == 1:
-                        if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id and a.tax_ids.is_tax_not_due):
-                            if move_id.adjust_move_id:
+                    if data['customer'] != False:
+                        if self.get_partner_name(move_id) == data['customer']:
+                            print('move_id:', move_id)
+                            all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                            if all_tax_ids == 1:
+                                if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id and a.tax_ids.is_tax_not_due):
+                                    if move_id.adjust_move_id:
+                                        print('move_id:', move_id.id)
+                                        if move_id.journal_id.type_vat == 'tax':
+                                            date = move_id.tax_invoice_date
+                                        elif move_id.journal_id.type_vat == 'not_deal':
+                                            date = move_id.tax_invoice_date
+                                        else:
+                                            date = move_id.tax_invoice_date
+
+                                        if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                            print('aaaaa')
+
+                                            amount_untaxed = move_id.amount_untaxed
+                                            amount_tax = move_id.amount_tax
+                                            amount_total = move_id.amount_total
+                                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                        else:
+                                            rate = self.env['res.currency.rate'].search(
+                                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                                limit=1)
+                                            print('rate:', rate)
+                                            rate = rate.rate
+                                            amount_untaxed = move_id.amount_untaxed / rate
+                                            amount_tax = move_id.amount_tax / rate
+                                            amount_total = move_id.amount_total / rate
+                                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                        if len(move_id.invoice_line_ids) >= 2:
+                                            sum = 0.0
+                                            for i in move_id.invoice_line_ids:
+                                                sum = sum + i.quantity
+                                                print("ID_quantity", i, ":", i.quantity)
+                                        elif len(move_id.invoice_line_ids) <= 1:
+                                            sum = move_id.invoice_line_ids.quantity
+                                        if len(move_id.currency_id.rate_ids) >= 2:
+                                            company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                            print("company_rate!!:", company_rate)
+                                        elif len(move_id.currency_id.rate_ids) < 2:
+                                            company_rate = move_id.currency_id.rate_ids.company_rate
+                                            print("company_rate!!!:", company_rate)
+                                        if company_rate == 0.0:
+                                            company_rate = 1.0
+                                        print("company_rate!!!!:", company_rate)
+                                        move_ids = {
+                                            'date': datedate,
+                                            'name': move_id.tax_inv_number or move_id.name,
+                                            'partner': self.get_partner_name(move_id),
+                                            'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                            'vat': move_id.partner_id.vat,
+                                            'branch': move_id.partner_id.branch_no,
+                                            'amount_untaxed': amount_untaxed,
+                                            'amount_tax': amount_tax,
+                                            'amount_total': amount_total,
+                                            'move_id': move_id,
+                                            'state': move_id.state,
+                                            'type': move_id.move_type,
+                                            'invoice_line': move_id.invoice_line_ids,
+                                            'ETD': move_id.etd,
+                                            'ETA': move_id.eta,
+                                            'quantity': sum,
+                                            'excrate': move_id.customs_department,
+                                            'amount_type': move_id.currency_id.name,
+                                            'export_products_id': move_id.export_products_id,
+                                            'company_rate': company_rate,
+                                        }
+                                        doc.append(move_ids)
+                                        print('doc_last:', doc)
+                                elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
+                                    print('move_id:', move_id.id)
+                                    if move_id.journal_id.type_vat == 'tax':
+                                        date = move_id.tax_invoice_date
+                                    elif move_id.journal_id.type_vat == 'not_deal':
+                                        date = move_id.tax_invoice_date
+                                    else:
+                                        date = move_id.tax_invoice_date
+
+                                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                        print('aaaaa')
+                                        amount_untaxed = move_id.amount_untaxed
+                                        amount_tax = move_id.amount_tax
+                                        amount_total = move_id.amount_total
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                    else:
+                                        rate = self.env['res.currency.rate'].search(
+                                            [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                            limit=1)
+                                        print('rate:', rate)
+                                        rate = rate.rate
+                                        amount_untaxed = move_id.amount_untaxed / rate
+                                        amount_tax = move_id.amount_tax / rate
+                                        amount_total = move_id.amount_total / rate
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                    if len(move_id.invoice_line_ids) >= 2:
+                                        sum = 0.0
+                                        for i in move_id.invoice_line_ids:
+                                            sum = sum + i.quantity
+                                            print("ID_quantity", i, ":", i.quantity)
+                                    elif len(move_id.invoice_line_ids) <= 1:
+                                        sum = move_id.invoice_line_ids.quantity
+                                    if len(move_id.currency_id.rate_ids) >= 2:
+                                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                        print("company_rate!!:", company_rate)
+                                    elif len(move_id.currency_id.rate_ids) < 2:
+                                        company_rate = move_id.currency_id.rate_ids.company_rate
+                                        print("company_rate!!!:", company_rate)
+                                    if company_rate == 0.0:
+                                        company_rate = 1.0
+                                    print("company_rate!!!!:", company_rate)
+                                    move_ids = {
+                                        'date': date,
+                                        'name': move_id.tax_inv_number or move_id.name,
+                                        'partner': self.get_partner_name(move_id),
+                                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                        'vat': move_id.partner_id.vat,
+                                        'branch': move_id.partner_id.branch_no,
+                                        'amount_untaxed': amount_untaxed,
+                                        'amount_tax': amount_tax,
+                                        'amount_total': amount_total,
+                                        'move_id': move_id,
+                                        'state': move_id.state,
+                                        'type': move_id.move_type,
+                                        'invoice_line': move_id.invoice_line_ids,
+                                        'ETD': move_id.etd,
+                                        'ETA': move_id.eta,
+                                        'quantity': sum,
+                                        'excrate': move_id.customs_department,
+                                        'amount_type': move_id.currency_id.name,
+                                        'export_products_id': move_id.export_products_id,
+                                        'company_rate': company_rate,
+                                    }
+                                    doc.append(move_ids)
+                                    print('doc_last:', doc)
+                            else:
+                                print('move_iddddd:', move_id)
+                                if move_id.journal_id.type_vat == 'tax':
+                                    date = move_id.tax_invoice_date
+                                elif move_id.journal_id.type_vat == 'not_deal':
+                                    date = move_id.tax_invoice_date
+                                else:
+                                    date = move_id.tax_invoice_date
+
+                                if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                    amount_untaxed = (move_id.amount_tax / 7) * 100
+                                    amount_tax = move_id.amount_tax
+                                    amount_total = amount_untaxed + amount_tax
+                                    untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                else:
+                                    rate = self.env['res.currency.rate'].search(
+                                        [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                        limit=1)
+                                    rate = rate.rate
+                                    print('rate:', rate)
+                                    amount_untaxed = ((move_id.amount_tax / 7) * 100) / rate
+                                    amount_tax = move_id.amount_tax / rate
+                                    amount_total = (amount_untaxed + amount_tax) / rate
+                                    untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
+                                print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
+                                if len(move_id.invoice_line_ids) >= 2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity", i, ":", i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
+                                if len(move_id.currency_id.rate_ids) >= 2:
+                                    company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                    print("company_rate!!:", company_rate)
+                                elif len(move_id.currency_id.rate_ids) < 2:
+                                    company_rate = move_id.currency_id.rate_ids.company_rate
+                                    print("company_rate!!!:", company_rate)
+                                if company_rate == 0.0:
+                                    company_rate = 1.0
+                                print("company_rate!!!!:", company_rate)
+                                move_ids = {
+                                    'date': date,
+                                    'name': move_id.tax_inv_number or move_id.name,
+                                    'partner': self.get_partner_name(move_id),
+                                    'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                    'vat': move_id.partner_id.vat,
+                                    'branch': move_id.partner_id.branch_no,
+                                    'amount_untaxed': amount_untaxed,
+                                    'amount_tax': amount_tax,
+                                    'amount_total': amount_total,
+                                    'move_id': move_id,
+                                    'state': move_id.state,
+                                    'type': move_id.move_type,
+                                    'invoice_line': move_id.invoice_line_ids,
+                                    'ETD': move_id.etd,
+                                    'ETA': move_id.eta,
+                                    'quantity': sum,
+                                    'excrate': move_id.customs_department,
+                                    'amount_type': move_id.currency_id.name,
+                                    'export_products_id': move_id.export_products_id,
+                                    'company_rate': company_rate,
+                                }
+                                doc.append(move_ids)
+                    else:
+                        print('move_id:', move_id)
+                        all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                        if all_tax_ids == 1:
+                            if move_id.invoice_line_ids.filtered(
+                                    lambda a: a.tax_ids.id == tax.id and a.tax_ids.is_tax_not_due):
+                                if move_id.adjust_move_id:
+                                    print('move_id:', move_id.id)
+                                    if move_id.journal_id.type_vat == 'tax':
+                                        date = move_id.tax_invoice_date
+                                    elif move_id.journal_id.type_vat == 'not_deal':
+                                        date = move_id.tax_invoice_date
+                                    else:
+                                        date = move_id.tax_invoice_date
+
+                                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                        print('aaaaa')
+
+                                        amount_untaxed = move_id.amount_untaxed
+                                        amount_tax = move_id.amount_tax
+                                        amount_total = move_id.amount_total
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                    else:
+                                        rate = self.env['res.currency.rate'].search(
+                                            [('name', '<=', move_id.invoice_date),
+                                             ('company_id', '=', self.env.company.id)],
+                                            limit=1)
+                                        print('rate:', rate)
+                                        rate = rate.rate
+                                        amount_untaxed = move_id.amount_untaxed / rate
+                                        amount_tax = move_id.amount_tax / rate
+                                        amount_total = move_id.amount_total / rate
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                    if len(move_id.invoice_line_ids) >= 2:
+                                        sum = 0.0
+                                        for i in move_id.invoice_line_ids:
+                                            sum = sum + i.quantity
+                                            print("ID_quantity", i, ":", i.quantity)
+                                    elif len(move_id.invoice_line_ids) <= 1:
+                                        sum = move_id.invoice_line_ids.quantity
+                                    if len(move_id.currency_id.rate_ids) >= 2:
+                                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                        print("company_rate!!:", company_rate)
+                                    elif len(move_id.currency_id.rate_ids) < 2:
+                                        company_rate = move_id.currency_id.rate_ids.company_rate
+                                        print("company_rate!!!:", company_rate)
+                                    if company_rate == 0.0:
+                                        company_rate = 1.0
+                                    print("company_rate!!!!:", company_rate)
+                                    move_ids = {
+                                        'date': date,
+                                        'name': move_id.tax_inv_number or move_id.name,
+                                        'partner': self.get_partner_name(move_id),
+                                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                        'vat': move_id.partner_id.vat,
+                                        'branch': move_id.partner_id.branch_no,
+                                        'amount_untaxed': amount_untaxed,
+                                        'amount_tax': amount_tax,
+                                        'amount_total': amount_total,
+                                        'move_id': move_id,
+                                        'state': move_id.state,
+                                        'type': move_id.move_type,
+                                        'invoice_line': move_id.invoice_line_ids,
+                                        'ETD': move_id.etd,
+                                        'ETA': move_id.eta,
+                                        'quantity': sum,
+                                        'excrate': move_id.customs_department,
+                                        'amount_type': move_id.currency_id.name,
+                                        'export_products_id': move_id.export_products_id,
+                                        'company_rate': company_rate,
+                                    }
+                                    doc.append(move_ids)
+                                    print('doc_last:', doc)
+                            elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
                                 print('move_id:', move_id.id)
                                 if move_id.journal_id.type_vat == 'tax':
                                     date = move_id.tax_invoice_date
@@ -74,14 +345,14 @@ class report_sale_tax_report(models.AbstractModel):
 
                                 if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                                     print('aaaaa')
-
                                     amount_untaxed = move_id.amount_untaxed
                                     amount_tax = move_id.amount_tax
                                     amount_total = move_id.amount_total
                                     untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                                 else:
                                     rate = self.env['res.currency.rate'].search(
-                                        [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                        [('name', '<=', move_id.invoice_date),
+                                         ('company_id', '=', self.env.company.id)],
                                         limit=1)
                                     print('rate:', rate)
                                     rate = rate.rate
@@ -106,7 +377,7 @@ class report_sale_tax_report(models.AbstractModel):
                                     company_rate = 1.0
                                 print("company_rate!!!!:", company_rate)
                                 move_ids = {
-                                    'date': date.strftime("%d/%m/%Y"),
+                                    'date': date,
                                     'name': move_id.tax_inv_number or move_id.name,
                                     'partner': self.get_partner_name(move_id),
                                     'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -129,8 +400,8 @@ class report_sale_tax_report(models.AbstractModel):
                                 }
                                 doc.append(move_ids)
                                 print('doc_last:', doc)
-                        elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
-                            print('move_id:', move_id.id)
+                        else:
+                            print('move_iddddd:', move_id)
                             if move_id.journal_id.type_vat == 'tax':
                                 date = move_id.tax_invoice_date
                             elif move_id.journal_id.type_vat == 'not_deal':
@@ -139,21 +410,22 @@ class report_sale_tax_report(models.AbstractModel):
                                 date = move_id.tax_invoice_date
 
                             if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                                print('aaaaa')
-                                amount_untaxed = move_id.amount_untaxed
+                                amount_untaxed = (move_id.amount_tax / 7) * 100
                                 amount_tax = move_id.amount_tax
-                                amount_total = move_id.amount_total
+                                amount_total = amount_untaxed + amount_tax
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                             else:
                                 rate = self.env['res.currency.rate'].search(
                                     [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
                                     limit=1)
-                                print('rate:', rate)
                                 rate = rate.rate
-                                amount_untaxed = move_id.amount_untaxed / rate
+                                print('rate:', rate)
+                                amount_untaxed = ((move_id.amount_tax / 7) * 100) / rate
                                 amount_tax = move_id.amount_tax / rate
-                                amount_total = move_id.amount_total / rate
+                                amount_total = (amount_untaxed + amount_tax) / rate
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                            print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
+                            print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
                             if len(move_id.invoice_line_ids) >= 2:
                                 sum = 0.0
                                 for i in move_id.invoice_line_ids:
@@ -171,7 +443,7 @@ class report_sale_tax_report(models.AbstractModel):
                                 company_rate = 1.0
                             print("company_rate!!!!:", company_rate)
                             move_ids = {
-                                'date': date.strftime("%d/%m/%Y"),
+                                'date': date,
                                 'name': move_id.tax_inv_number or move_id.name,
                                 'partner': self.get_partner_name(move_id),
                                 'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -193,97 +465,304 @@ class report_sale_tax_report(models.AbstractModel):
                                 'company_rate': company_rate,
                             }
                             doc.append(move_ids)
-                            print('doc_last:', doc)
-                    else:
-                        print('move_iddddd:', move_id)
-                        if move_id.journal_id.type_vat == 'tax':
-                            date = move_id.tax_invoice_date
-                        elif move_id.journal_id.type_vat == 'not_deal':
-                            date = move_id.tax_invoice_date
-                        else:
-                            date = move_id.tax_invoice_date
 
-                        if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                            amount_untaxed = (move_id.amount_tax / 7) * 100
-                            amount_tax = move_id.amount_tax
-                            amount_total = amount_untaxed + amount_tax
-                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
-                        else:
-                            rate = self.env['res.currency.rate'].search(
-                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
-                                limit=1)
-                            rate = rate.rate
-                            print('rate:', rate)
-                            amount_untaxed = ((move_id.amount_tax / 7) * 100) / rate
-                            amount_tax = move_id.amount_tax / rate
-                            amount_total = (amount_untaxed + amount_tax) / rate
-                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
-                        print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
-                        print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
-                        if len(move_id.invoice_line_ids) >= 2:
-                            sum = 0.0
-                            for i in move_id.invoice_line_ids:
-                                sum = sum + i.quantity
-                                print("ID_quantity", i, ":", i.quantity)
-                        elif len(move_id.invoice_line_ids) <= 1:
-                            sum = move_id.invoice_line_ids.quantity
-                        if len(move_id.currency_id.rate_ids) >= 2:
-                            company_rate = move_id.currency_id.rate_ids[0].company_rate
-                            print("company_rate!!:", company_rate)
-                        elif len(move_id.currency_id.rate_ids) < 2:
-                            company_rate = move_id.currency_id.rate_ids.company_rate
-                            print("company_rate!!!:", company_rate)
-                        if company_rate == 0.0:
-                            company_rate = 1.0
-                        print("company_rate!!!!:", company_rate)
-                        move_ids = {
-                            'date': date.strftime("%d/%m/%Y"),
-                            'name': move_id.tax_inv_number or move_id.name,
-                            'partner': self.get_partner_name(move_id),
-                            'untaxed_amount_after_discount': untaxed_amount_after_discount,
-                            'vat': move_id.partner_id.vat,
-                            'branch': move_id.partner_id.branch_no,
-                            'amount_untaxed': amount_untaxed,
-                            'amount_tax': amount_tax,
-                            'amount_total': amount_total,
-                            'move_id': move_id,
-                            'state': move_id.state,
-                            'type': move_id.move_type,
-                            'invoice_line': move_id.invoice_line_ids,
-                            'ETD': move_id.etd,
-                            'ETA': move_id.eta,
-                            'quantity': sum,
-                            'excrate': move_id.customs_department,
-                            'amount_type': move_id.currency_id.name,
-                            'export_products_id': move_id.export_products_id,
-                            'company_rate': company_rate,
-                        }
-                        doc.append(move_ids)
             else:
                 print('======TAX_ID_FALSE========')
                 for move_id in docs:
-                    all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
-                    if all_tax_ids == 1:
-                        if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids and a.tax_ids.is_tax_not_due):
-                            print('is_tax_not_due:')
-                            if move_id.adjust_move_id:
+                    if data['customer'] != False:
+                        if self.get_partner_name(move_id) == data['customer']:
+                            all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                            if all_tax_ids == 1:
+                                if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids and a.tax_ids.is_tax_not_due):
+                                    print('is_tax_not_due:')
+                                    if move_id.adjust_move_id:
+                                        if move_id.journal_id.type_vat == 'tax':
+                                            date = move_id.tax_invoice_date
+                                        elif move_id.journal_id.type_vat == 'not_deal':
+                                            date = move_id.tax_invoice_date
+                                        else:
+                                            date = move_id.tax_invoice_date
+                                        print('amount_type !!: ', move_id.currency_id.name)
+                                        if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                            amount_type = move_id.currency_id.name
+                                            # print('amount_type : ',move_id.currency_id.name)
+                                            amount_untaxed = move_id.amount_untaxed
+                                            amount_tax = move_id.amount_tax
+                                            amount_total = move_id.amount_total
+                                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                        else:
+                                            rate = self.env['res.currency.rate'].search(
+                                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                                limit=1)
+                                            rate = rate.rate
+                                            print('rate:', rate)
+                                            amount_untaxed = move_id.amount_untaxed / rate
+                                            amount_tax = move_id.amount_tax / rate
+                                            amount_total = move_id.amount_total / rate
+                                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                        if len(move_id.invoice_line_ids) >= 2:
+                                            sum = 0.0
+                                            for i in move_id.invoice_line_ids:
+                                                sum = sum + i.quantity
+                                                print("ID_quantity", i, ":", i.quantity)
+                                        elif len(move_id.invoice_line_ids) <= 1:
+                                            sum = move_id.invoice_line_ids.quantity
+                                        if len(move_id.currency_id.rate_ids) >= 2:
+                                            company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                            print("company_rate!!:", company_rate)
+                                        elif len(move_id.currency_id.rate_ids) < 2:
+                                            company_rate = move_id.currency_id.rate_ids.company_rate
+                                            print("company_rate!!!:", company_rate)
+                                        if company_rate == 0.0:
+                                            company_rate = 1.0
+                                        print("company_rate!!!!:", company_rate)
+                                        move_ids = {
+                                            'date': date,
+                                            'name': move_id.tax_inv_number or move_id.name,
+                                            'partner': self.get_partner_name(move_id),
+                                            'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                            'vat': move_id.partner_id.vat,
+                                            'branch': move_id.partner_id.branch_no,
+                                            'amount_untaxed': amount_untaxed,
+                                            'amount_tax': amount_tax,
+                                            'amount_total': amount_total,
+                                            'move_id': move_id,
+                                            'state': move_id.state,
+                                            'type': move_id.move_type,
+                                            'invoice_line': move_id.invoice_line_ids,
+                                            'ETD': move_id.etd,
+                                            'ETA': move_id.eta,
+                                            'quantity': sum,
+                                            'excrate': move_id.customs_department,
+                                            'amount_type': move_id.currency_id.name,
+                                            'export_products_id': move_id.export_products_id,
+                                            'company_rate': company_rate,
+                                        }
+
+                                        doc.append(move_ids)
+                                elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids):
+                                    print('is_tax_not_due:')
+                                    if move_id.journal_id.type_vat == 'tax':
+                                        date = move_id.tax_invoice_date
+                                    elif move_id.journal_id.type_vat == 'not_deal':
+                                        date = move_id.tax_invoice_date
+                                    else:
+                                        date = move_id.tax_invoice_date
+
+                                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                        amount_type = move_id.currency_id.name
+                                        print('amount_type : ', amount_type)
+                                        amount_untaxed = move_id.amount_untaxed
+                                        amount_tax = move_id.amount_tax
+                                        amount_total = move_id.amount_total
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                    else:
+                                        rate = self.env['res.currency.rate'].search(
+                                            [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                            limit=1)
+                                        rate = rate.rate
+                                        print('rate:', rate)
+                                        amount_untaxed = move_id.amount_untaxed / rate
+                                        amount_tax = move_id.amount_tax / rate
+                                        amount_total = move_id.amount_total / rate
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                    if len(move_id.invoice_line_ids) >= 2:
+                                        sum = 0.0
+                                        for i in move_id.invoice_line_ids:
+                                            sum = sum + i.quantity
+                                            print("ID_quantity", i, ":", i.quantity)
+                                    elif len(move_id.invoice_line_ids) <= 1:
+                                        sum = move_id.invoice_line_ids.quantity
+                                    if len(move_id.currency_id.rate_ids) >= 2:
+                                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                        print("company_rate!!:", company_rate)
+                                    elif len(move_id.currency_id.rate_ids) < 2:
+                                        company_rate = move_id.currency_id.rate_ids.company_rate
+                                        print("company_rate!!!:", company_rate)
+                                    if company_rate == 0.0:
+                                        company_rate = 1.0
+                                    print("company_rate!!!!:", company_rate)
+                                    move_ids = {
+                                        'date': date,
+                                        'name': move_id.tax_inv_number or move_id.name,
+                                        'partner': self.get_partner_name(move_id),
+                                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                        'vat': move_id.partner_id.vat,
+                                        'branch': move_id.partner_id.branch_no,
+                                        'amount_untaxed': amount_untaxed,
+                                        'amount_tax': amount_tax,
+                                        'amount_total': amount_total,
+                                        'move_id': move_id,
+                                        'state': move_id.state,
+                                        'type': move_id.move_type,
+                                        'invoice_line': move_id.invoice_line_ids,
+                                        'ETD': move_id.etd,
+                                        'ETA': move_id.eta,
+                                        'quantity': sum,
+                                        'excrate': move_id.customs_department,
+                                        'amount_type': move_id.currency_id.name,
+                                        'export_products_id': move_id.export_products_id,
+                                        'company_rate': company_rate,
+                                    }
+                                    doc.append(move_ids)
+                            else:
+                                print('move_iddddd:', move_id)
                                 if move_id.journal_id.type_vat == 'tax':
                                     date = move_id.tax_invoice_date
                                 elif move_id.journal_id.type_vat == 'not_deal':
                                     date = move_id.tax_invoice_date
                                 else:
                                     date = move_id.tax_invoice_date
-                                print('amount_type !!: ', move_id.currency_id.name)
+
                                 if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                                     amount_type = move_id.currency_id.name
-                                    # print('amount_type : ',move_id.currency_id.name)
+                                    print('amount_type : ', amount_type)
+                                    amount_untaxed = (move_id.amount_tax / 7) * 100
+                                    amount_tax = move_id.amount_tax
+                                    amount_total = amount_untaxed + amount_tax
+                                    untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                else:
+                                    rate = self.env['res.currency.rate'].search(
+                                        [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                        limit=1)
+                                    rate = rate.rate
+                                    print('rate:', rate)
+                                    amount_untaxed = ((move_id.amount_tax / 7) * 100) / rate
+                                    amount_tax = move_id.amount_tax / rate
+                                    amount_total = (amount_untaxed + amount_tax) / rate
+                                    untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
+                                print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
+                                if len(move_id.invoice_line_ids) >= 2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity", i, ":", i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
+                                if len(move_id.currency_id.rate_ids) >= 2:
+                                    company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                    print("company_rate!!:", company_rate)
+                                elif len(move_id.currency_id.rate_ids) < 2:
+                                    company_rate = move_id.currency_id.rate_ids.company_rate
+                                    print("company_rate!!!:", company_rate)
+                                if company_rate == 0.0:
+                                    company_rate = 1.0
+                                print("company_rate!!!!:", company_rate)
+                                move_ids = {
+                                    'date': date,
+                                    'name': move_id.tax_inv_number or move_id.name,
+                                    'partner': self.get_partner_name(move_id),
+                                    'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                    'vat': move_id.partner_id.vat,
+                                    'branch': move_id.partner_id.branch_no,
+                                    'amount_untaxed': amount_untaxed,
+                                    'amount_tax': amount_tax,
+                                    'amount_total': amount_total,
+                                    'move_id': move_id,
+                                    'state': move_id.state,
+                                    'type': move_id.move_type,
+                                    'invoice_line': move_id.invoice_line_ids,
+                                    'ETD': move_id.etd,
+                                    'ETA': move_id.eta,
+                                    'quantity': sum,
+                                    'excrate': move_id.customs_department,
+                                    'amount_type': move_id.currency_id.name,
+                                    'export_products_id': move_id.export_products_id,
+                                    'company_rate': company_rate,
+                                }
+                                doc.append(move_ids)
+                    else:
+                        all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                        if all_tax_ids == 1:
+                            if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids and a.tax_ids.is_tax_not_due):
+                                print('is_tax_not_due:')
+                                if move_id.adjust_move_id:
+                                    if move_id.journal_id.type_vat == 'tax':
+                                        date = move_id.tax_invoice_date
+                                    elif move_id.journal_id.type_vat == 'not_deal':
+                                        date = move_id.tax_invoice_date
+                                    else:
+                                        date = move_id.tax_invoice_date
+                                    print('amount_type !!: ', move_id.currency_id.name)
+                                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                        amount_type = move_id.currency_id.name
+                                        # print('amount_type : ',move_id.currency_id.name)
+                                        amount_untaxed = move_id.amount_untaxed
+                                        amount_tax = move_id.amount_tax
+                                        amount_total = move_id.amount_total
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                    else:
+                                        rate = self.env['res.currency.rate'].search(
+                                            [('name', '<=', move_id.invoice_date),
+                                             ('company_id', '=', self.env.company.id)],
+                                            limit=1)
+                                        rate = rate.rate
+                                        print('rate:', rate)
+                                        amount_untaxed = move_id.amount_untaxed / rate
+                                        amount_tax = move_id.amount_tax / rate
+                                        amount_total = move_id.amount_total / rate
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                    if len(move_id.invoice_line_ids) >= 2:
+                                        sum = 0.0
+                                        for i in move_id.invoice_line_ids:
+                                            sum = sum + i.quantity
+                                            print("ID_quantity", i, ":", i.quantity)
+                                    elif len(move_id.invoice_line_ids) <= 1:
+                                        sum = move_id.invoice_line_ids.quantity
+                                    if len(move_id.currency_id.rate_ids) >= 2:
+                                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                        print("company_rate!!:", company_rate)
+                                    elif len(move_id.currency_id.rate_ids) < 2:
+                                        company_rate = move_id.currency_id.rate_ids.company_rate
+                                        print("company_rate!!!:", company_rate)
+                                    if company_rate == 0.0:
+                                        company_rate = 1.0
+                                    print("company_rate!!!!:", company_rate)
+                                    move_ids = {
+                                        'date': date,
+                                        'name': move_id.tax_inv_number or move_id.name,
+                                        'partner': self.get_partner_name(move_id),
+                                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                        'vat': move_id.partner_id.vat,
+                                        'branch': move_id.partner_id.branch_no,
+                                        'amount_untaxed': amount_untaxed,
+                                        'amount_tax': amount_tax,
+                                        'amount_total': amount_total,
+                                        'move_id': move_id,
+                                        'state': move_id.state,
+                                        'type': move_id.move_type,
+                                        'invoice_line': move_id.invoice_line_ids,
+                                        'ETD': move_id.etd,
+                                        'ETA': move_id.eta,
+                                        'quantity': sum,
+                                        'excrate': move_id.customs_department,
+                                        'amount_type': move_id.currency_id.name,
+                                        'export_products_id': move_id.export_products_id,
+                                        'company_rate': company_rate,
+                                    }
+
+                                    doc.append(move_ids)
+                            elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids):
+                                print('is_tax_not_due:')
+                                if move_id.journal_id.type_vat == 'tax':
+                                    date = move_id.tax_invoice_date
+                                elif move_id.journal_id.type_vat == 'not_deal':
+                                    date = move_id.tax_invoice_date
+                                else:
+                                    date = move_id.tax_invoice_date
+
+                                if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                    amount_type = move_id.currency_id.name
+                                    print('amount_type : ', amount_type)
                                     amount_untaxed = move_id.amount_untaxed
                                     amount_tax = move_id.amount_tax
                                     amount_total = move_id.amount_total
                                     untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                                 else:
                                     rate = self.env['res.currency.rate'].search(
-                                        [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                        [('name', '<=', move_id.invoice_date),
+                                         ('company_id', '=', self.env.company.id)],
                                         limit=1)
                                     rate = rate.rate
                                     print('rate:', rate)
@@ -308,7 +787,7 @@ class report_sale_tax_report(models.AbstractModel):
                                     company_rate = 1.0
                                 print("company_rate!!!!:", company_rate)
                                 move_ids = {
-                                    'date': date.strftime("%d/%m/%Y"),
+                                    'date': date,
                                     'name': move_id.tax_inv_number or move_id.name,
                                     'partner': self.get_partner_name(move_id),
                                     'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -329,10 +808,9 @@ class report_sale_tax_report(models.AbstractModel):
                                     'export_products_id': move_id.export_products_id,
                                     'company_rate': company_rate,
                                 }
-
                                 doc.append(move_ids)
-                        elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids):
-                            print('is_tax_not_due:')
+                        else:
+                            print('move_iddddd:', move_id)
                             if move_id.journal_id.type_vat == 'tax':
                                 date = move_id.tax_invoice_date
                             elif move_id.journal_id.type_vat == 'not_deal':
@@ -343,9 +821,9 @@ class report_sale_tax_report(models.AbstractModel):
                             if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                                 amount_type = move_id.currency_id.name
                                 print('amount_type : ', amount_type)
-                                amount_untaxed = move_id.amount_untaxed
+                                amount_untaxed = (move_id.amount_tax / 7) * 100
                                 amount_tax = move_id.amount_tax
-                                amount_total = move_id.amount_total
+                                amount_total = amount_untaxed + amount_tax
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                             else:
                                 rate = self.env['res.currency.rate'].search(
@@ -353,10 +831,12 @@ class report_sale_tax_report(models.AbstractModel):
                                     limit=1)
                                 rate = rate.rate
                                 print('rate:', rate)
-                                amount_untaxed = move_id.amount_untaxed / rate
+                                amount_untaxed = ((move_id.amount_tax / 7) * 100) / rate
                                 amount_tax = move_id.amount_tax / rate
-                                amount_total = move_id.amount_total / rate
+                                amount_total = (amount_untaxed + amount_tax) / rate
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                            print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
+                            print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
                             if len(move_id.invoice_line_ids) >= 2:
                                 sum = 0.0
                                 for i in move_id.invoice_line_ids:
@@ -374,7 +854,7 @@ class report_sale_tax_report(models.AbstractModel):
                                 company_rate = 1.0
                             print("company_rate!!!!:", company_rate)
                             move_ids = {
-                                'date': date.strftime("%d/%m/%Y"),
+                                'date': date,
                                 'name': move_id.tax_inv_number or move_id.name,
                                 'partner': self.get_partner_name(move_id),
                                 'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -396,8 +876,19 @@ class report_sale_tax_report(models.AbstractModel):
                                 'company_rate': company_rate,
                             }
                             doc.append(move_ids)
-                    else:
-                        print('move_iddddd:', move_id)
+
+            #  Domain For Journal Entry
+            print('DOC _ INVOIE:', doc)
+
+            domain = [('tax_invoice_date', '>=', data['date_from']), ('tax_invoice_date', '<=', data['date_to']),
+                      ('state', 'in', ('posted', 'cancel')), ('move_type', '=', 'entry'),
+                       ('is_manual_cn','=',False),
+                      ('operating_unit_id', 'in', (data['operating_unit']))]
+            docs = self.env['account.move'].search(domain)
+            print('docs-Journal_entry:', docs)
+            for move_id in docs:
+                if data['customer'] != False:
+                    if self.get_partner_name(move_id) == data['customer']:
                         if move_id.journal_id.type_vat == 'tax':
                             date = move_id.tax_invoice_date
                         elif move_id.journal_id.type_vat == 'not_deal':
@@ -405,25 +896,97 @@ class report_sale_tax_report(models.AbstractModel):
                         else:
                             date = move_id.tax_invoice_date
 
+                        for move_line in move_id.line_ids.filtered(lambda a: a.account_id.sale_tax_report == True):
+                            if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                print('aaaaa')
+                                amount_type = move_id.currency_id.name
+                                print('amount_type : ', amount_type)
+                                amount_untaxed = move_line.tax_base_amount
+                                amount_tax = move_line.credit
+                                amount_total = move_line.tax_base_amount + move_line.credit
+
+                            else:
+                                rate = self.env['res.currency.rate'].search(
+                                    [('name', '<=', move_id.tax_invoice_date), ('company_id', '=', self.env.company.id)],
+                                    limit=1)
+                                print('rate:', rate)
+                                rate = rate.rate
+                                amount_untaxed = move_line.tax_base_amount / rate
+                                amount_tax = move_line.credit / rate
+                                amount_total = (move_line.tax_base_amount + move_line.credit) / rate
+                            if move_id.adjust_move_id:
+                                name = move_id.tax_inv_number
+                            else:
+                                name = move_id.name
+                            if len(move_id.invoice_line_ids) >= 2:
+                                sum = 0.0
+                                for i in move_id.invoice_line_ids:
+                                    sum = sum + i.quantity
+                                    print("ID_quantity", i, ":", i.quantity)
+                            elif len(move_id.invoice_line_ids) <= 1:
+                                sum = move_id.invoice_line_ids.quantity
+                            if len(move_id.currency_id.rate_ids) >= 2:
+                                company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                print("company_rate!!:", company_rate)
+                            elif len(move_id.currency_id.rate_ids) < 2:
+                                company_rate = move_id.currency_id.rate_ids.company_rate
+                                print("company_rate!!!:", company_rate)
+                            if company_rate == 0.0:
+                                company_rate = 1.0
+                            print("company_rate!!!!:", company_rate)
+                            move_ids = {
+                                'date': date,
+                                'name': move_id.tax_inv_number or move_id.name,
+                                'partner': self.get_partner_name(move_id),
+                                'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                'vat': move_id.partner_id.vat,
+                                'branch': move_id.partner_id.branch_no,
+                                'amount_untaxed': amount_untaxed,
+                                'amount_tax': amount_tax,
+                                'amount_total': amount_total,
+                                'move_id': move_id,
+                                'state': move_id.state,
+                                'type': move_id.move_type,
+                                'invoice_line': move_id.invoice_line_ids,
+                                'ETD': move_id.etd,
+                                'ETA': move_id.eta,
+                                'quantity': sum,
+                                'excrate': move_id.customs_department,
+                                'amount_type': move_id.currency_id.name,
+                                'export_products_id': move_id.export_products_id,
+                                'company_rate': company_rate,
+                            }
+                            doc.append(move_ids)
+                else:
+                    if move_id.journal_id.type_vat == 'tax':
+                        date = move_id.tax_invoice_date
+                    elif move_id.journal_id.type_vat == 'not_deal':
+                        date = move_id.tax_invoice_date
+                    else:
+                        date = move_id.tax_invoice_date
+
+                    for move_line in move_id.line_ids.filtered(lambda a: a.account_id.sale_tax_report == True):
                         if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                            print('aaaaa')
                             amount_type = move_id.currency_id.name
                             print('amount_type : ', amount_type)
-                            amount_untaxed = (move_id.amount_tax / 7) * 100
-                            amount_tax = move_id.amount_tax
-                            amount_total = amount_untaxed + amount_tax
-                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                            amount_untaxed = move_line.tax_base_amount
+                            amount_tax = move_line.credit
+                            amount_total = move_line.tax_base_amount + move_line.credit
+
                         else:
                             rate = self.env['res.currency.rate'].search(
-                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                [('name', '<=', move_id.tax_invoice_date), ('company_id', '=', self.env.company.id)],
                                 limit=1)
-                            rate = rate.rate
                             print('rate:', rate)
-                            amount_untaxed = ((move_id.amount_tax / 7) * 100) / rate
-                            amount_tax = move_id.amount_tax / rate
-                            amount_total = (amount_untaxed + amount_tax) / rate
-                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
-                        print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
-                        print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
+                            rate = rate.rate
+                            amount_untaxed = move_line.tax_base_amount / rate
+                            amount_tax = move_line.credit / rate
+                            amount_total = (move_line.tax_base_amount + move_line.credit) / rate
+                        if move_id.adjust_move_id:
+                            name = move_id.tax_inv_number
+                        else:
+                            name = move_id.name
                         if len(move_id.invoice_line_ids) >= 2:
                             sum = 0.0
                             for i in move_id.invoice_line_ids:
@@ -441,7 +1004,7 @@ class report_sale_tax_report(models.AbstractModel):
                             company_rate = 1.0
                         print("company_rate!!!!:", company_rate)
                         move_ids = {
-                            'date': date.strftime("%d/%m/%Y"),
+                            'date': date,
                             'name': move_id.tax_inv_number or move_id.name,
                             'partner': self.get_partner_name(move_id),
                             'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -463,86 +1026,7 @@ class report_sale_tax_report(models.AbstractModel):
                             'company_rate': company_rate,
                         }
                         doc.append(move_ids)
-
-            #  Domain For Journal Entry
-            print('DOC _ INVOIE:', doc)
-
-            domain = [('tax_invoice_date', '>=', data['date_from']), ('tax_invoice_date', '<=', data['date_to']),
-                      ('state', 'in', ('posted', 'cancel')), ('move_type', '=', 'entry'),
-                       ('is_manual_cn','=',False),
-                      ('operating_unit_id', 'in', (data['operating_unit']))]
-            docs = self.env['account.move'].search(domain)
-            print('docs-Journal_entry:', docs)
-            for move_id in docs:
-                if move_id.journal_id.type_vat == 'tax':
-                    date = move_id.tax_invoice_date
-                elif move_id.journal_id.type_vat == 'not_deal':
-                    date = move_id.tax_invoice_date
-                else:
-                    date = move_id.tax_invoice_date
-
-                for move_line in move_id.line_ids.filtered(lambda a: a.account_id.sale_tax_report == True):
-                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                        print('aaaaa')
-                        amount_type = move_id.currency_id.name
-                        print('amount_type : ', amount_type)
-                        amount_untaxed = move_line.tax_base_amount
-                        amount_tax = move_line.credit
-                        amount_total = move_line.tax_base_amount + move_line.credit
-
-                    else:
-                        rate = self.env['res.currency.rate'].search(
-                            [('name', '<=', move_id.tax_invoice_date), ('company_id', '=', self.env.company.id)],
-                            limit=1)
-                        print('rate:', rate)
-                        rate = rate.rate
-                        amount_untaxed = move_line.tax_base_amount / rate
-                        amount_tax = move_line.credit / rate
-                        amount_total = (move_line.tax_base_amount + move_line.credit) / rate
-                    if move_id.adjust_move_id:
-                        name = move_id.tax_inv_number
-                    else:
-                        name = move_id.name
-                    if len(move_id.invoice_line_ids) >= 2:
-                        sum = 0.0
-                        for i in move_id.invoice_line_ids:
-                            sum = sum + i.quantity
-                            print("ID_quantity", i, ":", i.quantity)
-                    elif len(move_id.invoice_line_ids) <= 1:
-                        sum = move_id.invoice_line_ids.quantity
-                    if len(move_id.currency_id.rate_ids) >= 2:
-                        company_rate = move_id.currency_id.rate_ids[0].company_rate
-                        print("company_rate!!:", company_rate)
-                    elif len(move_id.currency_id.rate_ids) < 2:
-                        company_rate = move_id.currency_id.rate_ids.company_rate
-                        print("company_rate!!!:", company_rate)
-                    if company_rate == 0.0:
-                        company_rate = 1.0
-                    print("company_rate!!!!:", company_rate)
-                    move_ids = {
-                        'date': date.strftime("%d/%m/%Y"),
-                        'name': move_id.tax_inv_number or move_id.name,
-                        'partner': self.get_partner_name(move_id),
-                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
-                        'vat': move_id.partner_id.vat,
-                        'branch': move_id.partner_id.branch_no,
-                        'amount_untaxed': amount_untaxed,
-                        'amount_tax': amount_tax,
-                        'amount_total': amount_total,
-                        'move_id': move_id,
-                        'state': move_id.state,
-                        'type': move_id.move_type,
-                        'invoice_line': move_id.invoice_line_ids,
-                        'ETD': move_id.etd,
-                        'ETA': move_id.eta,
-                        'quantity': sum,
-                        'excrate': move_id.customs_department,
-                        'amount_type': move_id.currency_id.name,
-                        'export_products_id': move_id.export_products_id,
-                        'company_rate': company_rate,
-                    }
-                    doc.append(move_ids)
-            doc.sort(key=lambda k: (k['date'], k['name']))
+            doc.sort(key=lambda k: (k['date']))
             return {
                 'doc_ids': docids,
                 'doc_model': 'account.move',
@@ -574,12 +1058,278 @@ class report_sale_tax_report(models.AbstractModel):
                                                       ('type_tax_use', '=', 'sale')])
                 print('taxxxxxxxxxxxxxx:',tax)
                 for move_id in docs:
-                    print('move_id:',move_id)
-                    all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
-                    if all_tax_ids == 1:
-                        if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id and a.tax_ids.is_tax_not_due):
-                            if move_id.adjust_move_id:
-                                print('move_id:',move_id.id)
+                    if data['customer'] != False:
+                        if self.get_partner_name(move_id) == data['customer']:
+                            print('move_id:',move_id)
+                            all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                            if all_tax_ids == 1:
+                                if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id and a.tax_ids.is_tax_not_due):
+                                    if move_id.adjust_move_id:
+                                        print('move_id:',move_id.id)
+                                        if move_id.journal_id.type_vat == 'tax':
+                                            date = move_id.tax_invoice_date
+                                        elif move_id.journal_id.type_vat == 'not_deal':
+                                            date = move_id.tax_invoice_date
+                                        else:
+                                            date = move_id.tax_invoice_date
+
+                                        if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                            print('aaaaa')
+                                            amount_untaxed = move_id.amount_untaxed
+                                            amount_tax = move_id.amount_tax
+                                            amount_total = move_id.amount_total
+                                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                        else:
+                                            rate = self.env['res.currency.rate'].search(
+                                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
+                                            print('rate:',rate)
+                                            rate = rate.rate
+                                            amount_untaxed = move_id.amount_untaxed / rate
+                                            amount_tax = move_id.amount_tax / rate
+                                            amount_total = move_id.amount_total / rate
+                                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                        if len(move_id.invoice_line_ids) >= 2:
+                                            sum = 0.0
+                                            for i in move_id.invoice_line_ids:
+                                                sum = sum + i.quantity
+                                                print("ID_quantity", i, ":", i.quantity)
+                                        elif len(move_id.invoice_line_ids) <= 1:
+                                            sum = move_id.invoice_line_ids.quantity
+                                        if len(move_id.currency_id.rate_ids) >= 2:
+                                            company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                            print("company_rate!!:", company_rate)
+                                        elif len(move_id.currency_id.rate_ids) < 2:
+                                            company_rate = move_id.currency_id.rate_ids.company_rate
+                                            print("company_rate!!!:", company_rate)
+                                        if company_rate == 0.0:
+                                            company_rate = 1.0
+                                        print("company_rate!!!!:", company_rate)
+                                        move_ids = {
+                                            'date': date,
+                                            'name': move_id.tax_inv_number or move_id.name,
+                                            'partner': self.get_partner_name(move_id),
+                                            'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                            'vat': move_id.partner_id.vat,
+                                            'branch': move_id.partner_id.branch_no,
+                                            'amount_untaxed': amount_untaxed,
+                                            'amount_tax': amount_tax,
+                                            'amount_total': amount_total,
+                                            'move_id': move_id,
+                                            'state': move_id.state,
+                                            'type': move_id.move_type,
+                                            'invoice_line': move_id.invoice_line_ids,
+                                            'ETD': move_id.etd,
+                                            'ETA': move_id.eta,
+                                            'quantity': sum,
+                                            'excrate': move_id.customs_department,
+                                            'amount_type': move_id.currency_id.name,
+                                            'export_products_id': move_id.export_products_id,
+                                            'company_rate': company_rate,
+                                        }
+                                        doc.append(move_ids)
+                                        print('doc_last:', doc)
+                                elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
+                                    print('move_id:',move_id.id)
+                                    if move_id.journal_id.type_vat == 'tax':
+                                        date = move_id.tax_invoice_date
+                                    elif move_id.journal_id.type_vat == 'not_deal':
+                                        date = move_id.tax_invoice_date
+                                    else:
+                                        date = move_id.tax_invoice_date
+
+                                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                        print('aaaaa')
+                                        amount_untaxed = move_id.amount_untaxed
+                                        amount_tax = move_id.amount_tax
+                                        amount_total = move_id.amount_total
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                    else:
+                                        rate = self.env['res.currency.rate'].search(
+                                            [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
+                                        print('rate:',rate)
+                                        rate = rate.rate
+                                        amount_untaxed = move_id.amount_untaxed / rate
+                                        amount_tax = move_id.amount_tax / rate
+                                        amount_total = move_id.amount_total / rate
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                    if len(move_id.invoice_line_ids) >= 2:
+                                        sum = 0.0
+                                        for i in move_id.invoice_line_ids:
+                                            sum = sum + i.quantity
+                                            print("ID_quantity", i, ":", i.quantity)
+                                    elif len(move_id.invoice_line_ids) <= 1:
+                                        sum = move_id.invoice_line_ids.quantity
+                                    if len(move_id.currency_id.rate_ids) >= 2:
+                                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                        print("company_rate!!:", company_rate)
+                                    elif len(move_id.currency_id.rate_ids) < 2:
+                                        company_rate = move_id.currency_id.rate_ids.company_rate
+                                        print("company_rate!!!:", company_rate)
+                                    if company_rate == 0.0:
+                                        company_rate = 1.0
+                                    print("company_rate!!!!:", company_rate)
+                                    move_ids = {
+                                        'date': date,
+                                        'name': move_id.tax_inv_number or move_id.name,
+                                        'partner': self.get_partner_name(move_id),
+                                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                        'vat': move_id.partner_id.vat,
+                                        'branch': move_id.partner_id.branch_no,
+                                        'amount_untaxed': amount_untaxed,
+                                        'amount_tax': amount_tax,
+                                        'amount_total': amount_total,
+                                        'move_id': move_id,
+                                        'state': move_id.state,
+                                        'type': move_id.move_type,
+                                        'invoice_line': move_id.invoice_line_ids,
+                                        'ETD': move_id.etd,
+                                        'ETA': move_id.eta,
+                                        'quantity': sum,
+                                        'excrate': move_id.customs_department,
+                                        'amount_type': move_id.currency_id.name,
+                                        'export_products_id': move_id.export_products_id,
+                                        'company_rate': company_rate,
+                                    }
+                                    doc.append(move_ids)
+                                    print('doc_last:', doc)
+                            else:
+                                print('move_iddddd:',move_id)
+                                if move_id.journal_id.type_vat == 'tax':
+                                    date = move_id.tax_invoice_date
+                                elif move_id.journal_id.type_vat == 'not_deal':
+                                    date = move_id.tax_invoice_date
+                                else:
+                                    date = move_id.tax_invoice_date
+
+                                if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                    amount_untaxed = (move_id.amount_tax / 7) * 100
+                                    amount_tax = move_id.amount_tax
+                                    amount_total = amount_untaxed + amount_tax
+                                    untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                else:
+                                    rate = self.env['res.currency.rate'].search(
+                                        [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                        limit=1)
+                                    rate = rate.rate
+                                    print('rate:', rate)
+                                    amount_untaxed =((move_id.amount_tax / 7) * 100) / rate
+                                    amount_tax = move_id.amount_tax / rate
+                                    amount_total = (amount_untaxed + amount_tax)  / rate
+                                    untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                print('move_id.amount_tax_move_id.amount_tax:',(move_id.amount_tax / 7) * 100)
+                                print('move_id.amount_tax_move_id.amount_tax:',move_id.amount_tax)
+                                if len(move_id.invoice_line_ids) >= 2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity", i, ":", i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
+                                if len(move_id.currency_id.rate_ids) >= 2:
+                                    company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                    print("company_rate!!:", company_rate)
+                                elif len(move_id.currency_id.rate_ids) < 2:
+                                    company_rate = move_id.currency_id.rate_ids.company_rate
+                                    print("company_rate!!!:", company_rate)
+                                if company_rate == 0.0:
+                                    company_rate = 1.0
+                                print("company_rate!!!!:", company_rate)
+                                move_ids = {
+                                    'date': date,
+                                    'name': move_id.tax_inv_number or move_id.name,
+                                    'partner': self.get_partner_name(move_id),
+                                    'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                    'vat': move_id.partner_id.vat,
+                                    'branch': move_id.partner_id.branch_no,
+                                    'amount_untaxed': amount_untaxed,
+                                    'amount_tax': amount_tax,
+                                    'amount_total': amount_total,
+                                    'move_id': move_id,
+                                    'state': move_id.state,
+                                    'type': move_id.move_type,
+                                    'invoice_line': move_id.invoice_line_ids,
+                                    'ETD': move_id.etd,
+                                    'ETA': move_id.eta,
+                                    'quantity': sum,
+                                    'excrate': move_id.customs_department,
+                                    'amount_type': move_id.currency_id.name,
+                                    'export_products_id': move_id.export_products_id,
+                                    'company_rate': company_rate,
+                                }
+                                doc.append(move_ids)
+                    else:
+                        print('move_id:', move_id)
+                        all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                        if all_tax_ids == 1:
+                            if move_id.invoice_line_ids.filtered(
+                                    lambda a: a.tax_ids.id == tax.id and a.tax_ids.is_tax_not_due):
+                                if move_id.adjust_move_id:
+                                    print('move_id:', move_id.id)
+                                    if move_id.journal_id.type_vat == 'tax':
+                                        date = move_id.tax_invoice_date
+                                    elif move_id.journal_id.type_vat == 'not_deal':
+                                        date = move_id.tax_invoice_date
+                                    else:
+                                        date = move_id.tax_invoice_date
+
+                                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                        print('aaaaa')
+                                        amount_untaxed = move_id.amount_untaxed
+                                        amount_tax = move_id.amount_tax
+                                        amount_total = move_id.amount_total
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                    else:
+                                        rate = self.env['res.currency.rate'].search(
+                                            [('name', '<=', move_id.invoice_date),
+                                             ('company_id', '=', self.env.company.id)], limit=1)
+                                        print('rate:', rate)
+                                        rate = rate.rate
+                                        amount_untaxed = move_id.amount_untaxed / rate
+                                        amount_tax = move_id.amount_tax / rate
+                                        amount_total = move_id.amount_total / rate
+                                        untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                    if len(move_id.invoice_line_ids) >= 2:
+                                        sum = 0.0
+                                        for i in move_id.invoice_line_ids:
+                                            sum = sum + i.quantity
+                                            print("ID_quantity", i, ":", i.quantity)
+                                    elif len(move_id.invoice_line_ids) <= 1:
+                                        sum = move_id.invoice_line_ids.quantity
+                                    if len(move_id.currency_id.rate_ids) >= 2:
+                                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                        print("company_rate!!:", company_rate)
+                                    elif len(move_id.currency_id.rate_ids) < 2:
+                                        company_rate = move_id.currency_id.rate_ids.company_rate
+                                        print("company_rate!!!:", company_rate)
+                                    if company_rate == 0.0:
+                                        company_rate = 1.0
+                                    print("company_rate!!!!:", company_rate)
+                                    move_ids = {
+                                        'date': date,
+                                        'name': move_id.tax_inv_number or move_id.name,
+                                        'partner': self.get_partner_name(move_id),
+                                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                        'vat': move_id.partner_id.vat,
+                                        'branch': move_id.partner_id.branch_no,
+                                        'amount_untaxed': amount_untaxed,
+                                        'amount_tax': amount_tax,
+                                        'amount_total': amount_total,
+                                        'move_id': move_id,
+                                        'state': move_id.state,
+                                        'type': move_id.move_type,
+                                        'invoice_line': move_id.invoice_line_ids,
+                                        'ETD': move_id.etd,
+                                        'ETA': move_id.eta,
+                                        'quantity': sum,
+                                        'excrate': move_id.customs_department,
+                                        'amount_type': move_id.currency_id.name,
+                                        'export_products_id': move_id.export_products_id,
+                                        'company_rate': company_rate,
+                                    }
+                                    doc.append(move_ids)
+                                    print('doc_last:', doc)
+                            elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
+                                print('move_id:', move_id.id)
                                 if move_id.journal_id.type_vat == 'tax':
                                     date = move_id.tax_invoice_date
                                 elif move_id.journal_id.type_vat == 'not_deal':
@@ -595,8 +1345,9 @@ class report_sale_tax_report(models.AbstractModel):
                                     untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                                 else:
                                     rate = self.env['res.currency.rate'].search(
-                                        [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
-                                    print('rate:',rate)
+                                        [('name', '<=', move_id.invoice_date),
+                                         ('company_id', '=', self.env.company.id)], limit=1)
+                                    print('rate:', rate)
                                     rate = rate.rate
                                     amount_untaxed = move_id.amount_untaxed / rate
                                     amount_tax = move_id.amount_tax / rate
@@ -619,7 +1370,7 @@ class report_sale_tax_report(models.AbstractModel):
                                     company_rate = 1.0
                                 print("company_rate!!!!:", company_rate)
                                 move_ids = {
-                                    'date': date.strftime("%d/%m/%Y"),
+                                    'date': date,
                                     'name': move_id.tax_inv_number or move_id.name,
                                     'partner': self.get_partner_name(move_id),
                                     'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -642,8 +1393,8 @@ class report_sale_tax_report(models.AbstractModel):
                                 }
                                 doc.append(move_ids)
                                 print('doc_last:', doc)
-                        elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
-                            print('move_id:',move_id.id)
+                        else:
+                            print('move_iddddd:', move_id)
                             if move_id.journal_id.type_vat == 'tax':
                                 date = move_id.tax_invoice_date
                             elif move_id.journal_id.type_vat == 'not_deal':
@@ -652,20 +1403,22 @@ class report_sale_tax_report(models.AbstractModel):
                                 date = move_id.tax_invoice_date
 
                             if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                                print('aaaaa')
-                                amount_untaxed = move_id.amount_untaxed
+                                amount_untaxed = (move_id.amount_tax / 7) * 100
                                 amount_tax = move_id.amount_tax
-                                amount_total = move_id.amount_total
+                                amount_total = amount_untaxed + amount_tax
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                             else:
                                 rate = self.env['res.currency.rate'].search(
-                                    [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
-                                print('rate:',rate)
+                                    [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                    limit=1)
                                 rate = rate.rate
-                                amount_untaxed = move_id.amount_untaxed / rate
+                                print('rate:', rate)
+                                amount_untaxed = ((move_id.amount_tax / 7) * 100) / rate
                                 amount_tax = move_id.amount_tax / rate
-                                amount_total = move_id.amount_total / rate
+                                amount_total = (amount_untaxed + amount_tax) / rate
                                 untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                            print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
+                            print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
                             if len(move_id.invoice_line_ids) >= 2:
                                 sum = 0.0
                                 for i in move_id.invoice_line_ids:
@@ -683,7 +1436,7 @@ class report_sale_tax_report(models.AbstractModel):
                                 company_rate = 1.0
                             print("company_rate!!!!:", company_rate)
                             move_ids = {
-                                'date': date.strftime("%d/%m/%Y"),
+                                'date': date,
                                 'name': move_id.tax_inv_number or move_id.name,
                                 'partner': self.get_partner_name(move_id),
                                 'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -705,107 +1458,190 @@ class report_sale_tax_report(models.AbstractModel):
                                 'company_rate': company_rate,
                             }
                             doc.append(move_ids)
-                            print('doc_last:', doc)
-                    else:
-                        print('move_iddddd:',move_id)
-                        if move_id.journal_id.type_vat == 'tax':
-                            date = move_id.tax_invoice_date
-                        elif move_id.journal_id.type_vat == 'not_deal':
-                            date = move_id.tax_invoice_date
-                        else:
-                            date = move_id.tax_invoice_date
-
-                        if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                            amount_untaxed = (move_id.amount_tax / 7) * 100
-                            amount_tax = move_id.amount_tax
-                            amount_total = amount_untaxed + amount_tax
-                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
-                        else:
-                            rate = self.env['res.currency.rate'].search(
-                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
-                                limit=1)
-                            rate = rate.rate
-                            print('rate:', rate)
-                            amount_untaxed =((move_id.amount_tax / 7) * 100) / rate
-                            amount_tax = move_id.amount_tax / rate
-                            amount_total = (amount_untaxed + amount_tax)  / rate
-                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
-                        print('move_id.amount_tax_move_id.amount_tax:',(move_id.amount_tax / 7) * 100)
-                        print('move_id.amount_tax_move_id.amount_tax:',move_id.amount_tax)
-                        if len(move_id.invoice_line_ids) >= 2:
-                            sum = 0.0
-                            for i in move_id.invoice_line_ids:
-                                sum = sum + i.quantity
-                                print("ID_quantity", i, ":", i.quantity)
-                        elif len(move_id.invoice_line_ids) <= 1:
-                            sum = move_id.invoice_line_ids.quantity
-                        if len(move_id.currency_id.rate_ids) >= 2:
-                            company_rate = move_id.currency_id.rate_ids[0].company_rate
-                            print("company_rate!!:", company_rate)
-                        elif len(move_id.currency_id.rate_ids) < 2:
-                            company_rate = move_id.currency_id.rate_ids.company_rate
-                            print("company_rate!!!:", company_rate)
-                        if company_rate == 0.0:
-                            company_rate = 1.0
-                        print("company_rate!!!!:", company_rate)
-                        move_ids = {
-                            'date': date.strftime("%d/%m/%Y"),
-                            'name': move_id.tax_inv_number or move_id.name,
-                            'partner': self.get_partner_name(move_id),
-                            'untaxed_amount_after_discount': untaxed_amount_after_discount,
-                            'vat': move_id.partner_id.vat,
-                            'branch': move_id.partner_id.branch_no,
-                            'amount_untaxed': amount_untaxed,
-                            'amount_tax': amount_tax,
-                            'amount_total': amount_total,
-                            'move_id': move_id,
-                            'state': move_id.state,
-                            'type': move_id.move_type,
-                            'invoice_line': move_id.invoice_line_ids,
-                            'ETD': move_id.etd,
-                            'ETA': move_id.eta,
-                            'quantity': sum,
-                            'excrate': move_id.customs_department,
-                            'amount_type': move_id.currency_id.name,
-                            'export_products_id': move_id.export_products_id,
-                            'company_rate': company_rate,
-                        }
-                        doc.append(move_ids)
             else:
                 print('======TAX_ID_FALSE========')
                 for move_id in docs:
-                    print('move_id.invoice_line_ids:',move_id.invoice_line_ids.mapped('tax_ids'))
-                    all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
-                    print('all_tax_ids:',all_tax_ids)
-                    if all_tax_ids == 1:
-                        if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids and a.tax_ids.is_tax_not_due):
-                            print('is_tax_not_due')
-                            if move_id.adjust_move_id:
+                    if data['customer'] != False:
+                        if self.get_partner_name(move_id) == data['customer']:
+                            print('move_id.invoice_line_ids:',move_id.invoice_line_ids.mapped('tax_ids'))
+                            all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                            print('all_tax_ids:',all_tax_ids)
+                            if all_tax_ids == 1:
+                                if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids and a.tax_ids.is_tax_not_due):
+                                    print('is_tax_not_due')
+                                    if move_id.adjust_move_id:
+                                        if move_id.journal_id.type_vat == 'tax':
+                                            date = move_id.tax_invoice_date
+                                        elif move_id.journal_id.type_vat == 'not_deal':
+                                            date = move_id.tax_invoice_date
+                                        else:
+                                            date = move_id.tax_invoice_date
+                                        print('amount_type !!: ', move_id.currency_id.name)
+                                        if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                            amount_type = move_id.currency_id.name
+                                            # print('amount_type : ', amount_type)
+                                            amount_untaxed = move_id.amount_untaxed
+                                            amount_tax = move_id.amount_tax
+                                            amount_total = move_id.amount_total
+                                            untaxed_amount_after_discount = move_id.amount_untaxed
+                                            # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                        else:
+                                            rate = self.env['res.currency.rate'].search([('name', '<=', move_id.invoice_date),('company_id', '=', self.env.company.id)], limit=1)
+                                            # rate = rate.rate
+                                            rate = 1
+                                            print('rate:',rate)
+                                            amount_untaxed = move_id.amount_untaxed / rate
+                                            amount_tax = move_id.amount_tax / rate
+                                            amount_total = move_id.amount_total / rate
+                                            # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                            untaxed_amount_after_discount = move_id.amount_untaxed / rate
+                                        if len(move_id.invoice_line_ids) >= 2:
+                                            sum = 0.0
+                                            for i in move_id.invoice_line_ids:
+                                                sum = sum + i.quantity
+                                                print("ID_quantity", i, ":", i.quantity)
+                                        elif len(move_id.invoice_line_ids) <= 1:
+                                            sum = move_id.invoice_line_ids.quantity
+                                        if len(move_id.currency_id.rate_ids) >= 2:
+                                            company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                            print("company_rate!!:", company_rate)
+                                        elif len(move_id.currency_id.rate_ids) < 2:
+                                            company_rate = move_id.currency_id.rate_ids.company_rate
+                                            print("company_rate!!!:", company_rate)
+                                        if company_rate == 0.0:
+                                            company_rate = 1.0
+                                        print("company_rate!!!!:", company_rate)
+                                        move_ids = {
+                                            'date': date,
+                                            'name': move_id.tax_inv_number or move_id.name,
+                                            'partner': self.get_partner_name(move_id),
+                                            'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                            'vat': move_id.partner_id.vat,
+                                            'branch': move_id.partner_id.branch_no,
+                                            'amount_untaxed': amount_untaxed,
+                                            'amount_tax': amount_tax,
+                                            'amount_total': amount_total,
+                                            'move_id': move_id,
+                                            'state': move_id.state,
+                                            'type': move_id.move_type,
+                                            'invoice_line': move_id.invoice_line_ids,
+                                            'ETD': move_id.etd,
+                                            'ETA': move_id.eta,
+                                            'quantity': sum,
+                                            'excrate': move_id.customs_department,
+                                            'amount_type': move_id.currency_id.name,
+                                            'export_products_id': move_id.export_products_id,
+                                            'company_rate': company_rate,
+                                        }
+
+                                        doc.append(move_ids)
+                                elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids):
+                                    print('is_tax_not_due')
+                                    if move_id.journal_id.type_vat == 'tax':
+                                        date = move_id.tax_invoice_date
+                                    elif move_id.journal_id.type_vat == 'not_deal':
+                                        date = move_id.tax_invoice_date
+                                    else:
+                                        date = move_id.tax_invoice_date
+                                    print('amount_type !!: ', move_id.currency_id.name)
+                                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                        amount_type = move_id.currency_id.name
+                                        # print('amount_type : ', amount_type)
+                                        amount_untaxed = move_id.amount_untaxed
+                                        amount_tax = move_id.amount_tax
+                                        amount_total = move_id.amount_total
+                                        # remove remove
+                                        # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+
+                                        untaxed_amount_after_discount = move_id.amount_untaxed
+                                        print("amount_untaxed!:", amount_untaxed)
+                                    else:
+                                        rate = self.env['res.currency.rate'].search(
+                                            [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                            limit=1)
+                                        # rate = rate.rate
+                                        rate = 1
+                                        print('rate:', rate)
+                                        amount_untaxed = move_id.amount_untaxed / rate
+                                        amount_tax = move_id.amount_tax / rate
+                                        amount_total = move_id.amount_total / rate
+                                        print("amount_untaxed!!:", amount_untaxed)
+                                        print("amount_tax!!:", amount_tax)
+                                        print("amount_total!!:", amount_total)
+                                        amount_type = move_id.currency_id.name
+
+                                        # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                        untaxed_amount_after_discount = move_id.amount_untaxed / rate
+                                    if len(move_id.invoice_line_ids)>=2:
+                                        sum = 0.0
+                                        for i in move_id.invoice_line_ids:
+                                            sum = sum + i.quantity
+                                            print("ID_quantity",i,":",i.quantity)
+                                    elif len(move_id.invoice_line_ids) <= 1:
+                                            sum = move_id.invoice_line_ids.quantity
+                                    if len(move_id.currency_id.rate_ids) >= 2:
+                                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                        print("company_rate!!:", company_rate)
+                                    elif len(move_id.currency_id.rate_ids) < 2:
+                                        company_rate = move_id.currency_id.rate_ids.company_rate
+                                        print("company_rate!!!:", company_rate)
+                                    if company_rate==0.0:
+                                        company_rate =1.0
+                                    print("company_rate!!!!:",company_rate)
+                                    move_ids = {
+                                        'date': date,
+                                        'name': move_id.tax_inv_number or move_id.name,
+                                        'partner': self.get_partner_name(move_id),
+                                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                        'vat': move_id.partner_id.vat,
+                                        'branch': move_id.partner_id.branch_no,
+                                        'amount_untaxed': amount_untaxed,
+                                        'amount_tax': amount_tax,
+                                        'amount_total': amount_total,
+                                        'move_id': move_id,
+                                        'state': move_id.state,
+                                        'type': move_id.move_type,
+                                        'invoice_line': move_id.invoice_line_ids,
+                                        'ETD': move_id.etd,
+                                        'ETA': move_id.eta,
+                                        'quantity': sum,
+                                        'excrate': move_id.customs_department,
+                                        'amount_type': move_id.currency_id.name,
+                                        'export_products_id': move_id.export_products_id,
+                                        'company_rate': company_rate,
+                                    }
+                                    doc.append(move_ids)
+                            else:
+                                print('move_iddddd:',move_id)
                                 if move_id.journal_id.type_vat == 'tax':
                                     date = move_id.tax_invoice_date
                                 elif move_id.journal_id.type_vat == 'not_deal':
                                     date = move_id.tax_invoice_date
                                 else:
                                     date = move_id.tax_invoice_date
-                                print('amount_type !!: ', move_id.currency_id.name)
+
                                 if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                                     amount_type = move_id.currency_id.name
-                                    # print('amount_type : ', amount_type)
-                                    amount_untaxed = move_id.amount_untaxed
+                                    print('amount_type : ', amount_type)
+                                    amount_untaxed = (move_id.amount_tax / 7) * 100
                                     amount_tax = move_id.amount_tax
-                                    amount_total = move_id.amount_total
-                                    untaxed_amount_after_discount = move_id.amount_untaxed
+                                    amount_total = amount_untaxed + amount_tax
+                                    untaxed_amount_after_discount = amount_untaxed
                                     # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                                 else:
-                                    rate = self.env['res.currency.rate'].search([('name', '<=', move_id.invoice_date),('company_id', '=', self.env.company.id)], limit=1)
+                                    rate = self.env['res.currency.rate'].search(
+                                        [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                        limit=1)
                                     # rate = rate.rate
                                     rate = 1
-                                    print('rate:',rate)
-                                    amount_untaxed = move_id.amount_untaxed / rate
+                                    print('rate:', rate)
+                                    amount_untaxed =((move_id.amount_tax / 7) * 100) / rate
                                     amount_tax = move_id.amount_tax / rate
-                                    amount_total = move_id.amount_total / rate
+                                    amount_total = (amount_untaxed + amount_tax)  / rate
+                                    untaxed_amount_after_discount = amount_untaxed / rate
                                     # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
-                                    untaxed_amount_after_discount = move_id.amount_untaxed / rate
+                                print('move_id.amount_tax_move_id.amount_tax:',(move_id.amount_tax / 7) * 100)
+                                print('move_id.amount_tax_move_id.amount_tax:',move_id.amount_tax)
                                 if len(move_id.invoice_line_ids) >= 2:
                                     sum = 0.0
                                     for i in move_id.invoice_line_ids:
@@ -823,7 +1659,7 @@ class report_sale_tax_report(models.AbstractModel):
                                     company_rate = 1.0
                                 print("company_rate!!!!:", company_rate)
                                 move_ids = {
-                                    'date': date.strftime("%d/%m/%Y"),
+                                    'date': date,
                                     'name': move_id.tax_inv_number or move_id.name,
                                     'partner': self.get_partner_name(move_id),
                                     'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -844,28 +1680,176 @@ class report_sale_tax_report(models.AbstractModel):
                                     'export_products_id': move_id.export_products_id,
                                     'company_rate': company_rate,
                                 }
-
                                 doc.append(move_ids)
-                        elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids):
-                            print('is_tax_not_due')
+                    else:
+                        print('move_id.invoice_line_ids:', move_id.invoice_line_ids.mapped('tax_ids'))
+                        all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                        print('all_tax_ids:', all_tax_ids)
+                        if all_tax_ids == 1:
+                            if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids and a.tax_ids.is_tax_not_due):
+                                print('is_tax_not_due')
+                                if move_id.adjust_move_id:
+                                    if move_id.journal_id.type_vat == 'tax':
+                                        date = move_id.tax_invoice_date
+                                    elif move_id.journal_id.type_vat == 'not_deal':
+                                        date = move_id.tax_invoice_date
+                                    else:
+                                        date = move_id.tax_invoice_date
+                                    print('amount_type !!: ', move_id.currency_id.name)
+                                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                        amount_type = move_id.currency_id.name
+                                        # print('amount_type : ', amount_type)
+                                        amount_untaxed = move_id.amount_untaxed
+                                        amount_tax = move_id.amount_tax
+                                        amount_total = move_id.amount_total
+                                        untaxed_amount_after_discount = move_id.amount_untaxed
+                                        # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                    else:
+                                        rate = self.env['res.currency.rate'].search(
+                                            [('name', '<=', move_id.invoice_date),
+                                             ('company_id', '=', self.env.company.id)], limit=1)
+                                        # rate = rate.rate
+                                        rate = 1
+                                        print('rate:', rate)
+                                        amount_untaxed = move_id.amount_untaxed / rate
+                                        amount_tax = move_id.amount_tax / rate
+                                        amount_total = move_id.amount_total / rate
+                                        # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                        untaxed_amount_after_discount = move_id.amount_untaxed / rate
+                                    if len(move_id.invoice_line_ids) >= 2:
+                                        sum = 0.0
+                                        for i in move_id.invoice_line_ids:
+                                            sum = sum + i.quantity
+                                            print("ID_quantity", i, ":", i.quantity)
+                                    elif len(move_id.invoice_line_ids) <= 1:
+                                        sum = move_id.invoice_line_ids.quantity
+                                    if len(move_id.currency_id.rate_ids) >= 2:
+                                        company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                        print("company_rate!!:", company_rate)
+                                    elif len(move_id.currency_id.rate_ids) < 2:
+                                        company_rate = move_id.currency_id.rate_ids.company_rate
+                                        print("company_rate!!!:", company_rate)
+                                    if company_rate == 0.0:
+                                        company_rate = 1.0
+                                    print("company_rate!!!!:", company_rate)
+                                    move_ids = {
+                                        'date': date,
+                                        'name': move_id.tax_inv_number or move_id.name,
+                                        'partner': self.get_partner_name(move_id),
+                                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                        'vat': move_id.partner_id.vat,
+                                        'branch': move_id.partner_id.branch_no,
+                                        'amount_untaxed': amount_untaxed,
+                                        'amount_tax': amount_tax,
+                                        'amount_total': amount_total,
+                                        'move_id': move_id,
+                                        'state': move_id.state,
+                                        'type': move_id.move_type,
+                                        'invoice_line': move_id.invoice_line_ids,
+                                        'ETD': move_id.etd,
+                                        'ETA': move_id.eta,
+                                        'quantity': sum,
+                                        'excrate': move_id.customs_department,
+                                        'amount_type': move_id.currency_id.name,
+                                        'export_products_id': move_id.export_products_id,
+                                        'company_rate': company_rate,
+                                    }
+
+                                    doc.append(move_ids)
+                            elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids):
+                                print('is_tax_not_due')
+                                if move_id.journal_id.type_vat == 'tax':
+                                    date = move_id.tax_invoice_date
+                                elif move_id.journal_id.type_vat == 'not_deal':
+                                    date = move_id.tax_invoice_date
+                                else:
+                                    date = move_id.tax_invoice_date
+                                print('amount_type !!: ', move_id.currency_id.name)
+                                if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                    amount_type = move_id.currency_id.name
+                                    # print('amount_type : ', amount_type)
+                                    amount_untaxed = move_id.amount_untaxed
+                                    amount_tax = move_id.amount_tax
+                                    amount_total = move_id.amount_total
+                                    # remove remove
+                                    # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+
+                                    untaxed_amount_after_discount = move_id.amount_untaxed
+                                    print("amount_untaxed!:", amount_untaxed)
+                                else:
+                                    rate = self.env['res.currency.rate'].search(
+                                        [('name', '<=', move_id.invoice_date),
+                                         ('company_id', '=', self.env.company.id)],
+                                        limit=1)
+                                    # rate = rate.rate
+                                    rate = 1
+                                    print('rate:', rate)
+                                    amount_untaxed = move_id.amount_untaxed / rate
+                                    amount_tax = move_id.amount_tax / rate
+                                    amount_total = move_id.amount_total / rate
+                                    print("amount_untaxed!!:", amount_untaxed)
+                                    print("amount_tax!!:", amount_tax)
+                                    print("amount_total!!:", amount_total)
+                                    amount_type = move_id.currency_id.name
+
+                                    # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                    untaxed_amount_after_discount = move_id.amount_untaxed / rate
+                                if len(move_id.invoice_line_ids) >= 2:
+                                    sum = 0.0
+                                    for i in move_id.invoice_line_ids:
+                                        sum = sum + i.quantity
+                                        print("ID_quantity", i, ":", i.quantity)
+                                elif len(move_id.invoice_line_ids) <= 1:
+                                    sum = move_id.invoice_line_ids.quantity
+                                if len(move_id.currency_id.rate_ids) >= 2:
+                                    company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                    print("company_rate!!:", company_rate)
+                                elif len(move_id.currency_id.rate_ids) < 2:
+                                    company_rate = move_id.currency_id.rate_ids.company_rate
+                                    print("company_rate!!!:", company_rate)
+                                if company_rate == 0.0:
+                                    company_rate = 1.0
+                                print("company_rate!!!!:", company_rate)
+                                move_ids = {
+                                    'date': date,
+                                    'name': move_id.tax_inv_number or move_id.name,
+                                    'partner': self.get_partner_name(move_id),
+                                    'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                    'vat': move_id.partner_id.vat,
+                                    'branch': move_id.partner_id.branch_no,
+                                    'amount_untaxed': amount_untaxed,
+                                    'amount_tax': amount_tax,
+                                    'amount_total': amount_total,
+                                    'move_id': move_id,
+                                    'state': move_id.state,
+                                    'type': move_id.move_type,
+                                    'invoice_line': move_id.invoice_line_ids,
+                                    'ETD': move_id.etd,
+                                    'ETA': move_id.eta,
+                                    'quantity': sum,
+                                    'excrate': move_id.customs_department,
+                                    'amount_type': move_id.currency_id.name,
+                                    'export_products_id': move_id.export_products_id,
+                                    'company_rate': company_rate,
+                                }
+                                doc.append(move_ids)
+                        else:
+                            print('move_iddddd:', move_id)
                             if move_id.journal_id.type_vat == 'tax':
                                 date = move_id.tax_invoice_date
                             elif move_id.journal_id.type_vat == 'not_deal':
                                 date = move_id.tax_invoice_date
                             else:
                                 date = move_id.tax_invoice_date
-                            print('amount_type !!: ', move_id.currency_id.name)
+
                             if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
                                 amount_type = move_id.currency_id.name
-                                # print('amount_type : ', amount_type)
-                                amount_untaxed = move_id.amount_untaxed
+                                print('amount_type : ', amount_type)
+                                amount_untaxed = (move_id.amount_tax / 7) * 100
                                 amount_tax = move_id.amount_tax
-                                amount_total = move_id.amount_total
-                                # remove remove
+                                amount_total = amount_untaxed + amount_tax
+                                untaxed_amount_after_discount = amount_untaxed
                                 # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
-
-                                untaxed_amount_after_discount = move_id.amount_untaxed
-                                print("amount_untaxed!:", amount_untaxed)
                             else:
                                 rate = self.env['res.currency.rate'].search(
                                     [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
@@ -873,34 +1857,31 @@ class report_sale_tax_report(models.AbstractModel):
                                 # rate = rate.rate
                                 rate = 1
                                 print('rate:', rate)
-                                amount_untaxed = move_id.amount_untaxed / rate
+                                amount_untaxed = ((move_id.amount_tax / 7) * 100) / rate
                                 amount_tax = move_id.amount_tax / rate
-                                amount_total = move_id.amount_total / rate
-                                print("amount_untaxed!!:", amount_untaxed)
-                                print("amount_tax!!:", amount_tax)
-                                print("amount_total!!:", amount_total)
-                                amount_type = move_id.currency_id.name
-
+                                amount_total = (amount_untaxed + amount_tax) / rate
+                                untaxed_amount_after_discount = amount_untaxed / rate
                                 # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
-                                untaxed_amount_after_discount = move_id.amount_untaxed / rate
-                            if len(move_id.invoice_line_ids)>=2:
+                            print('move_id.amount_tax_move_id.amount_tax:', (move_id.amount_tax / 7) * 100)
+                            print('move_id.amount_tax_move_id.amount_tax:', move_id.amount_tax)
+                            if len(move_id.invoice_line_ids) >= 2:
                                 sum = 0.0
                                 for i in move_id.invoice_line_ids:
                                     sum = sum + i.quantity
-                                    print("ID_quantity",i,":",i.quantity)
+                                    print("ID_quantity", i, ":", i.quantity)
                             elif len(move_id.invoice_line_ids) <= 1:
-                                    sum = move_id.invoice_line_ids.quantity
+                                sum = move_id.invoice_line_ids.quantity
                             if len(move_id.currency_id.rate_ids) >= 2:
                                 company_rate = move_id.currency_id.rate_ids[0].company_rate
                                 print("company_rate!!:", company_rate)
                             elif len(move_id.currency_id.rate_ids) < 2:
                                 company_rate = move_id.currency_id.rate_ids.company_rate
                                 print("company_rate!!!:", company_rate)
-                            if company_rate==0.0:
-                                company_rate =1.0
-                            print("company_rate!!!!:",company_rate)
+                            if company_rate == 0.0:
+                                company_rate = 1.0
+                            print("company_rate!!!!:", company_rate)
                             move_ids = {
-                                'date': date.strftime("%d/%m/%Y"),
+                                'date': date,
                                 'name': move_id.tax_inv_number or move_id.name,
                                 'partner': self.get_partner_name(move_id),
                                 'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -922,8 +1903,18 @@ class report_sale_tax_report(models.AbstractModel):
                                 'company_rate': company_rate,
                             }
                             doc.append(move_ids)
-                    else:
-                        print('move_iddddd:',move_id)
+
+            #  Domain For Journal Entry
+            domain = [('tax_invoice_date', '>=', data['date_from']), ('tax_invoice_date', '<=', data['date_to']),
+                       ('is_manual_cn','=',False),
+                      ('state', 'in', ('posted', 'cancel')), ('move_type', '=', 'entry')]
+            print('DOC _ INVOIE:',doc)
+
+            docs = self.env['account.move'].search(domain)
+            print('docs-c:',docs)
+            for move_id in docs:
+                if data['customer'] != False:
+                    if self.get_partner_name(move_id) == data['customer']:
                         if move_id.journal_id.type_vat == 'tax':
                             date = move_id.tax_invoice_date
                         elif move_id.journal_id.type_vat == 'not_deal':
@@ -931,28 +1922,92 @@ class report_sale_tax_report(models.AbstractModel):
                         else:
                             date = move_id.tax_invoice_date
 
+                        for move_line in move_id.line_ids.filtered(lambda a: a.account_id.sale_tax_report == True):
+                            print('amount_type !!: ', move_id.currency_id.name)
+                            if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                print('aaaaa')
+                                amount_type = move_id.currency_id.name
+                                # print('amount_type : ', amount_type)
+                                amount_untaxed = move_line.tax_base_amount
+                                amount_tax = move_line.credit
+                                amount_total = move_line.tax_base_amount + move_line.credit
+
+                            else:
+                                rate = self.env['res.currency.rate'].search(
+                                    [('name', '<=', move_id.tax_invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
+                                print('rate:',rate)
+                                # rate = rate.rate
+                                rate = 1
+                                amount_untaxed = move_line.tax_base_amount / rate
+                                amount_tax =  move_line.credit / rate
+                                amount_total = (move_line.tax_base_amount + move_line.credit) / rate
+                            if len(move_id.invoice_line_ids) >= 2:
+                                sum = 0.0
+                                for i in move_id.invoice_line_ids:
+                                    sum = sum + i.quantity
+                                    print("ID_quantity", i, ":", i.quantity)
+                            elif len(move_id.invoice_line_ids) <= 1:
+                                sum = move_id.invoice_line_ids.quantity
+                            if len(move_id.currency_id.rate_ids) >= 2:
+                                company_rate = move_id.currency_id.rate_ids[0].company_rate
+                                print("company_rate!!:", company_rate)
+                            elif len(move_id.currency_id.rate_ids) < 2:
+                                company_rate = move_id.currency_id.rate_ids.company_rate
+                                print("company_rate!!!:", company_rate)
+                            if company_rate == 0.0:
+                                company_rate = 1.0
+                            print("company_rate!!!!:", company_rate)
+                            move_ids = {
+                                'date': date,
+                                'name': move_id.tax_inv_number or move_id.name,
+                                'partner': self.get_partner_name(move_id),
+                                'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                'vat': move_id.partner_id.vat,
+                                'branch': move_id.partner_id.branch_no,
+                                'amount_untaxed': amount_untaxed,
+                                'amount_tax': amount_tax,
+                                'amount_total': amount_total,
+                                'move_id': move_id,
+                                'state': move_id.state,
+                                'type': move_id.move_type,
+                                'invoice_line': move_id.invoice_line_ids,
+                                'ETD': move_id.etd,
+                                'ETA': move_id.eta,
+                                'quantity': sum,
+                                'excrate': move_id.customs_department,
+                                'amount_type': move_id.currency_id.name,
+                                'export_products_id': move_id.export_products_id,
+                                'company_rate': company_rate,
+                            }
+                            doc.append(move_ids)
+                else:
+                    if move_id.journal_id.type_vat == 'tax':
+                        date = move_id.tax_invoice_date
+                    elif move_id.journal_id.type_vat == 'not_deal':
+                        date = move_id.tax_invoice_date
+                    else:
+                        date = move_id.tax_invoice_date
+
+                    for move_line in move_id.line_ids.filtered(lambda a: a.account_id.sale_tax_report == True):
+                        print('amount_type !!: ', move_id.currency_id.name)
                         if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                            print('aaaaa')
                             amount_type = move_id.currency_id.name
-                            print('amount_type : ', amount_type)
-                            amount_untaxed = (move_id.amount_tax / 7) * 100
-                            amount_tax = move_id.amount_tax
-                            amount_total = amount_untaxed + amount_tax
-                            untaxed_amount_after_discount = amount_untaxed
-                            # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                            # print('amount_type : ', amount_type)
+                            amount_untaxed = move_line.tax_base_amount
+                            amount_tax = move_line.credit
+                            amount_total = move_line.tax_base_amount + move_line.credit
+
                         else:
                             rate = self.env['res.currency.rate'].search(
-                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                [('name', '<=', move_id.tax_invoice_date), ('company_id', '=', self.env.company.id)],
                                 limit=1)
+                            print('rate:', rate)
                             # rate = rate.rate
                             rate = 1
-                            print('rate:', rate)
-                            amount_untaxed =((move_id.amount_tax / 7) * 100) / rate
-                            amount_tax = move_id.amount_tax / rate
-                            amount_total = (amount_untaxed + amount_tax)  / rate
-                            untaxed_amount_after_discount = amount_untaxed / rate
-                            # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
-                        print('move_id.amount_tax_move_id.amount_tax:',(move_id.amount_tax / 7) * 100)
-                        print('move_id.amount_tax_move_id.amount_tax:',move_id.amount_tax)
+                            amount_untaxed = move_line.tax_base_amount / rate
+                            amount_tax = move_line.credit / rate
+                            amount_total = (move_line.tax_base_amount + move_line.credit) / rate
                         if len(move_id.invoice_line_ids) >= 2:
                             sum = 0.0
                             for i in move_id.invoice_line_ids:
@@ -970,7 +2025,7 @@ class report_sale_tax_report(models.AbstractModel):
                             company_rate = 1.0
                         print("company_rate!!!!:", company_rate)
                         move_ids = {
-                            'date': date.strftime("%d/%m/%Y"),
+                            'date': date,
                             'name': move_id.tax_inv_number or move_id.name,
                             'partner': self.get_partner_name(move_id),
                             'untaxed_amount_after_discount': untaxed_amount_after_discount,
@@ -992,82 +2047,7 @@ class report_sale_tax_report(models.AbstractModel):
                             'company_rate': company_rate,
                         }
                         doc.append(move_ids)
-
-            #  Domain For Journal Entry
-            domain = [('tax_invoice_date', '>=', data['date_from']), ('tax_invoice_date', '<=', data['date_to']),
-                       ('is_manual_cn','=',False),
-                      ('state', 'in', ('posted', 'cancel')), ('move_type', '=', 'entry')]
-            print('DOC _ INVOIE:',doc)
-
-            docs = self.env['account.move'].search(domain)
-            print('docs-c:',docs)
-            for move_id in docs:
-                if move_id.journal_id.type_vat == 'tax':
-                    date = move_id.tax_invoice_date
-                elif move_id.journal_id.type_vat == 'not_deal':
-                    date = move_id.tax_invoice_date
-                else:
-                    date = move_id.tax_invoice_date
-
-                for move_line in move_id.line_ids.filtered(lambda a: a.account_id.sale_tax_report == True):
-                    print('amount_type !!: ', move_id.currency_id.name)
-                    if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                        print('aaaaa')
-                        amount_type = move_id.currency_id.name
-                        # print('amount_type : ', amount_type)
-                        amount_untaxed = move_line.tax_base_amount
-                        amount_tax = move_line.credit
-                        amount_total = move_line.tax_base_amount + move_line.credit
-
-                    else:
-                        rate = self.env['res.currency.rate'].search(
-                            [('name', '<=', move_id.tax_invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
-                        print('rate:',rate)
-                        # rate = rate.rate
-                        rate = 1
-                        amount_untaxed = move_line.tax_base_amount / rate
-                        amount_tax =  move_line.credit / rate
-                        amount_total = (move_line.tax_base_amount + move_line.credit) / rate
-                    if len(move_id.invoice_line_ids) >= 2:
-                        sum = 0.0
-                        for i in move_id.invoice_line_ids:
-                            sum = sum + i.quantity
-                            print("ID_quantity", i, ":", i.quantity)
-                    elif len(move_id.invoice_line_ids) <= 1:
-                        sum = move_id.invoice_line_ids.quantity
-                    if len(move_id.currency_id.rate_ids) >= 2:
-                        company_rate = move_id.currency_id.rate_ids[0].company_rate
-                        print("company_rate!!:", company_rate)
-                    elif len(move_id.currency_id.rate_ids) < 2:
-                        company_rate = move_id.currency_id.rate_ids.company_rate
-                        print("company_rate!!!:", company_rate)
-                    if company_rate == 0.0:
-                        company_rate = 1.0
-                    print("company_rate!!!!:", company_rate)
-                    move_ids = {
-                        'date': date.strftime("%d/%m/%Y"),
-                        'name': move_id.tax_inv_number or move_id.name,
-                        'partner': self.get_partner_name(move_id),
-                        'untaxed_amount_after_discount': untaxed_amount_after_discount,
-                        'vat': move_id.partner_id.vat,
-                        'branch': move_id.partner_id.branch_no,
-                        'amount_untaxed': amount_untaxed,
-                        'amount_tax': amount_tax,
-                        'amount_total': amount_total,
-                        'move_id': move_id,
-                        'state': move_id.state,
-                        'type': move_id.move_type,
-                        'invoice_line': move_id.invoice_line_ids,
-                        'ETD': move_id.etd,
-                        'ETA': move_id.eta,
-                        'quantity': sum,
-                        'excrate': move_id.customs_department,
-                        'amount_type': move_id.currency_id.name,
-                        'export_products_id': move_id.export_products_id,
-                        'company_rate': company_rate,
-                    }
-                    doc.append(move_ids)
-            doc.sort(key=lambda k: (k['date'], k['name']))
+            doc.sort(key=lambda k: (k['date']))
             return {
                 'doc_ids': docids,
                 'doc_model': 'account.move',
@@ -1239,7 +2219,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     }
                     doc.append(move_line_ids)
             if doc:
-                doc.sort(key=lambda k: (k['date'], k['ref']))
+                doc.sort(key=lambda k: (k['date']))
         else:
             print('not operating_unit')
             domain = [('account_id.purchase_tax_report', '=', True),('tax_inv_date','>=',data['date_from']),
@@ -1379,7 +2359,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     }
                     doc.append(move_line_ids)
             if doc:
-                doc.sort(key=lambda k: (k['date'], k['ref']), reverse=False)
+                doc.sort(key=lambda k: (k['date']))
         # print('===================================CASE#2==========================================')
         if 'operating_unit' in data and data['operating_unit']:
             domain = [('account_id.purchase_tax_report', '=', True), ('date_maturity', '>=', data['date_from']),
@@ -1533,7 +2513,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     }
                     doc.append(move_line_ids)
             if doc:
-                doc.sort(key=lambda k: (k['date'], k['ref']), reverse=False)
+                doc.sort(key=lambda k: (k['date']))
         else:
             domain = [('account_id.purchase_tax_report', '=', True), ('date_maturity', '>=', data['date_from']),
                       ('date_maturity', '<=', data['date_to']), ('move_id.state', '=', 'posted'),
@@ -1681,7 +2661,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     }
                     doc.append(move_line_ids)
             if doc:
-                doc.sort(key=lambda k: (k['date'], k['ref']), reverse=False)
+                doc.sort(key=lambda k: (k['date']))
         # print('=====================================CASE#3========================================')
         if 'operating_unit' in data and data['operating_unit']:
             print('case 3 OU')
@@ -1837,7 +2817,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     }
                     doc.append(move_line_ids)
             if doc:
-                doc.sort(key=lambda k: (k['date'], k['ref']), reverse=False)
+                doc.sort(key=lambda k: (k['date']))
         else:
             print('case3 not ou')
             domain = [('account_id.purchase_tax_report', '=', False), ('tax_inv_date', '>=', data['date_from']),
@@ -1983,7 +2963,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     }
                     doc.append(move_line_ids)
             if doc:
-                doc.sort(key=lambda k: (k['date'], k['ref']), reverse=False)
+                doc.sort(key=lambda k: (k['date']))
 
         # print('=====================================CASE#4 ========================================')
         if 'operating_unit' in data and data['operating_unit']:
@@ -2137,7 +3117,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     }
                     doc.append(move_line_ids)
             if doc:
-                doc.sort(key=lambda k: (k['date'], k['ref']), reverse=False)
+                doc.sort(key=lambda k: (k['date']))
         else:
             print('case4 not ou')
             domain = [('account_id.purchase_tax_report', '=', True), ('tax_inv_date', '>=', data['date_from']),
@@ -2288,7 +3268,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     }
                     doc.append(move_line_ids)
             if doc:
-                doc.sort(key=lambda k: (k['date'], k['ref']), reverse=False)
+                doc.sort(key=lambda k: (k['date']))
         return {
             'doc_ids': docids,
             'doc_model': 'account.move',

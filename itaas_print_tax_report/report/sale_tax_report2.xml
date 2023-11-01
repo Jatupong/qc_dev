@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <template id="sale_tax_report_id2">
+    <template id="sale_tax_report_id2" >
         <t t-set="i" t-value="1"/>
         <t t-call="web.basic_layout">
-            <div class="header">
+
+            <div class="header" style="font-family:TH SarabunPSK;">
+                <div class="col-xs-2" style="text-align:right">
+                    <!--                    <td style="text-align: right;">-->
+                            <font style="font-size: 16px;">
+                                <span>หน้า </span>
+                                <span class="page"/>
+                                <span>/</span>
+                                <span class="topage"/>
+                            </font>
+<!--                        </td>-->
+                </div>
                 <div class="col-xs-12" style="text-align: center">
                     <font style="font-size: 16px;">
                         <h><strong>
@@ -128,17 +139,12 @@
                                 </t>
                             </font>
                         </td>
-                        <td style="text-align: right;">
-                            <font style="font-size: 16px;">
-                                <span>หน้า </span>
-                                <span class="page"/>
-                                <span>/</span>
-                                <span class="topage"/>
-                            </font>
-                        </td>
+
                     </tr>
                     </font>
+
                 </div>
+
             </div>
             <div class="page">
 
@@ -286,7 +292,7 @@
                                     <td>
 
                                             <t t-if="k['date']">
-                                                <span t-esc="k['date']"/>
+                                                <span t-esc="k['date']" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
                                             </t>
 
                                     </td>
