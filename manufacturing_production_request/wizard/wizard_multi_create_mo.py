@@ -34,7 +34,7 @@ class WizardMultiCreateMo(models.TransientModel):
             if data.state == 'a_draft':
                 raise UserError(_('รายการ Manufacturing Request จะต้องถูก Approve ก่อนที่จะสร้างคำสั่งผลิตได้'))
             if data.state == 'b_confirm':
-                raise UserError(_('รายการ Manufacturing Request ถูก Confirm เรียบร้อยแล้ว'))
+                raise UserError(_('รายการ Manufacturing Request ต้องอยู่ในสถานะ Approved เท่านั้น'))
         # print('start mr ', new_manufacturing_request_custom_ids)
         for mr in new_manufacturing_request_custom_ids:
             # print('in loop mr ', new_manufacturing_request_custom_ids)
