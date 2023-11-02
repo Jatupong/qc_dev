@@ -3,6 +3,7 @@
 
 from odoo import api, fields, models,_
 from odoo.exceptions import UserError, ValidationError
+from datetime import datetime
 
 class StockCardView(models.TransientModel):
     _name = "stock.card.view"
@@ -150,7 +151,20 @@ class StockCardReport(models.TransientModel):
         print(self.results)
         chack =str(date_from).split('-')[0]
         if chack =='1902':
-            raise UserError(str(stock_card_results))
+            mess = ""
+            mess += "Date From :" + str(date_from) + "\n"
+            mess += "Date To :" + str(self.date_to) + "\n"
+            mess += "locations :["
+            for i in locations:
+                mess = mess + str(i.name)+","
+            mess += "]\n"
+            mess +="results :"+str(self.results)+"\n"
+            # raise UserError(str(report_values))
+            mess += "Data :\n"
+            for i in stock_card_results:
+                mess = mess + str(i) + "\n"
+            mess += "By : [" + str(self.env.user.name) + "] At : [" + str(datetime.now().strftime("%d/%m/%Y %H:%M:%S")) + "]"
+            raise UserError(str(mess))
 
     def _get_initial(self, product_line):
         try:
