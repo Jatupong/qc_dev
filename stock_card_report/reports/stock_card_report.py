@@ -176,7 +176,10 @@ class StockCardReport(models.TransientModel):
             print('product_output_qty:',product_output_qty)
             return product_input_qty - product_output_qty
         except:
-            return 0
+            return 0.0
+
+    def _get_type_by_shinobu(self,val):
+        return str(type(val)).split("'")[1]
 
     def print_report(self, report_type="qweb"):
         self.ensure_one()

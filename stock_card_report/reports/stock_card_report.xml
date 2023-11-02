@@ -72,7 +72,13 @@
                         <div class="act_as_cell"/>
                         <div class="act_as_cell"/>
                         <div class="act_as_cell right">
-                            <t t-esc="'{0:,.2f}'.format(initial)"/>
+                            <t t-set="chack" t-value="o._get_type_by_shinobu(initial)"/>
+                            <t t-if="chack == 'int' or chack == 'float'">
+                                <t t-esc="'{0:,.2f}'.format(initial)"/>
+                            </t>
+                            <t t-if="chack != 'int' and chack != 'float'">
+                                initial type [<t t-esc="chack"/>]
+                            </t>
                         </div>
                     </div>
                     <!-- Display each lines -->
