@@ -637,7 +637,7 @@ class tax_report(models.TransientModel):
         worksheet.merge_range('B' + str(inv_row) + ':B' + str(inv_row_merge_head),"เลขที่\nInvoice No", for_center_bold_bg)
         worksheet.merge_range('C' + str(inv_row) + ':C' + str(inv_row_merge_head), "รายการ\nCustomer", for_center_bold_bg)
         worksheet.merge_range('D' + str(inv_row) + ':D' + str(inv_row_merge_head), "จำนวนชิ้น", for_center_bold_bg)
-        worksheet.merge_range('E' + str(inv_row) + ':J' + str(inv_row), "ตามสงจริง", for_center_bold_bg)
+        worksheet.merge_range('E' + str(inv_row) + ':J' + str(inv_row), "ตามส่งจริง", for_center_bold_bg)
         worksheet.write('E' + str(inv_row_merge_head), 'EUR', for_center_bold_bg)
         worksheet.write('F' + str(inv_row_merge_head), 'USD', for_center_bold_bg)
         worksheet.write('G' + str(inv_row_merge_head), 'GBP', for_center_bold_bg)
