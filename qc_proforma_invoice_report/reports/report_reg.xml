@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_A4_Five_Margin_proforma_invoice" model="report.paperformat">
+            <field name="name">A4_Five_Margin_proforma_invoice</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">15</field>
+            <field name="margin_bottom">35</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">10</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="qc_proforma_invoice_report"
+                model="sale.order"
+                string="Proforma invoice (มาตรฐานโรงงาน)"
+                report_type="qweb-html"
+                paperformat="paperformat_A4_Five_Margin_proforma_invoice"
+                name="qc_proforma_invoice_report.qc_proforma_invoice_report_id"
+                file="qc_proforma_invoice_report.qc_proforma_invoice_report_id"
+        />
+
+    </data>
+</odoo>
