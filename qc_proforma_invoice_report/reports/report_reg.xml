@@ -20,7 +20,7 @@
                 id="qc_proforma_invoice_report"
                 model="sale.order"
                 string="Proforma invoice (มาตรฐานโรงงาน)"
-                report_type="qweb-html"
+                report_type="qweb-pdf"
                 paperformat="paperformat_A4_Five_Margin_proforma_invoice"
                 name="qc_proforma_invoice_report.qc_proforma_invoice_report_id"
                 file="qc_proforma_invoice_report.qc_proforma_invoice_report_id"

@@ -80,6 +80,7 @@
                     <div class="font_size_10" style="text-align:right; padding-bottom:10px;">
                         <span t-field="o.company_id.proforma_invoice_no_form"/>
                         : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                        <span>Page </span><span class="page"/> / <span class="topage"/>
                     </div>
                     <table width="100%" class="font_fam table table-nobordered font_size_18" style="border-top:2px solid black; border-bottom:2px solid black;">
                         <tr>
@@ -107,9 +108,6 @@
                             <td width="25%" style="text-align:center; vertical-align: bottom;">
                                 <div class="font_size_28">
                                     <strong>PROFORMA INVOICE</strong>
-                                </div>
-                                <div class="font_size_14">
-                                    <span>Page </span><span class="page"/> / <span class="topage"/><br/>
                                 </div>
                             </td>
                         </tr>
@@ -595,24 +593,22 @@
                                 KINDLY ARRANGE YOUR PAYMENT THROUGH OUR BANK ACCOUNT:
                             </span>
                         </p>
-                        <t t-set="bank_ids" t-value="o.company_id.bank_ids"/>
-                        <t t-if="bank_ids">
-                            <t t-set="partner_bank_id" t-value="bank_ids[0]"/>
+                        <t t-if="o.partner_bank_id">
                             <p>
-                                <span t-field="partner_bank_id.bank_id.name"/>
-                                <span>ACCOUNT NUMBER: </span><span t-field="partner_bank_id.acc_number"/>
-                                <span>CODE: </span><span t-field="partner_bank_id.bank_id.bic"/>
+                                <span t-field="o.partner_bank_id.bank_id.name"/>
+                                <span>ACCOUNT NUMBER: </span><span t-field="o.partner_bank_id.acc_number"/>
+                                <span>CODE: </span><span t-field="o.partner_bank_id.bank_id.bic"/>
                             </p>
                             <p class="font_size_14">
                                 <span>Address:</span>
-                                <span t-field="partner_bank_id.bank_id.street"/>
-                                <span t-field="partner_bank_id.bank_id.street2"/>
-                                <span t-field="partner_bank_id.bank_id.city"/>
-                                <span t-field="partner_bank_id.bank_id.state"/>
-                                <span t-field="partner_bank_id.bank_id.country"/>
-                                <span t-field="partner_bank_id.bank_id.zip"/>
-                                <span>TEL:</span><span t-field="partner_bank_id.bank_id.bic"/>
-                                <span>FAX:</span><span t-field="partner_bank_id.bank_id.fax"/>
+                                <span t-field="o.partner_bank_id.bank_id.street"/>
+                                <span t-field="o.partner_bank_id.bank_id.street2"/>
+                                <span t-field="o.partner_bank_id.bank_id.city"/>
+                                <span t-field="o.partner_bank_id.bank_id.state"/>
+                                <span t-field="o.partner_bank_id.bank_id.country"/>
+                                <span t-field="o.partner_bank_id.bank_id.zip"/>
+                                <span>TEL:</span><span t-field="o.partner_bank_id.bank_id.bic"/>
+                                <span>FAX:</span><span t-field="o.partner_bank_id.bank_id.fax"/>
                             </p>
                         </t>
                     </div>
