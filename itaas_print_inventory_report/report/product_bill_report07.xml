@@ -499,21 +499,21 @@
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
                         <table class="table-bordered-b font_fam"
-                               style="height:180mm; font-size:12px; line-height:16px;margin_top:10px;font-family: TH SarabunPSK">
+                               style="height:180mm; font-size:12px; line-height:16px; font-family: TH SarabunPSK">
                             <thead>
                                 <tr>
-                                    <th width="5%" rowspan="2">ลำดับ</th>
-                                    <th width="10%" rowspan="2">ใบสั่งผลิต</th>
-                                    <th width="10%" rowspan="2">รหัส</th>
-                                    <th width="20%" rowspan="2">รายการ</th>
-                                    <th width="10%" rowspan="2">ลายสินค้า</th>
-                                    <th width="5%" rowspan="2">โลโก้</th>
-                                    <th width="10%" colspan="2">ประเภทโลโก้</th>
-                                    <th width="10%" rowspan="2">ตกแต่งพิเศษ</th>
-                                    <th width="5%" rowspan="2">จำนวนส่ง</th>
-                                    <th width="5%" rowspan="2">จำนวนรับ</th>
-                                    <th width="5%" rowspan="2">ของเสีย</th>
-                                    <th width="5%" rowspan="2">หมายเหตุ</th>
+                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">ลำดับ</th>
+                                    <th width="10%" rowspan="2" style="font-family: TH SarabunPSK">ใบสั่งผลิต</th>
+                                    <th width="10%" rowspan="2" style="font-family: TH SarabunPSK">รหัส</th>
+                                    <th width="20%" rowspan="2" style="font-family: TH SarabunPSK">รายการ</th>
+                                    <th width="10%" rowspan="2" style="font-family: TH SarabunPSK">ลายสินค้า</th>
+                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">โลโก้</th>
+                                    <th width="10%" colspan="2" style="font-family: TH SarabunPSK">ประเภทโลโก้</th>
+                                    <th width="10%" rowspan="2" style="font-family: TH SarabunPSK">ตกแต่งพิเศษ</th>
+                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">จำนวนส่ง</th>
+                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">จำนวนรับ</th>
+                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">ของเสีย</th>
+                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">หมายเหตุ</th>
 
                                 </tr>
 
@@ -1158,12 +1158,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">40</field>
+        <field name="margin_top">45</field>
         <field name="margin_bottom">55</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">35</field>
+        <field name="header_spacing">40</field>
         <field name="dpi">90</field>
     </record>
 
