@@ -9,20 +9,21 @@
         <field name="arch" type="xml">
 
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="department"></field>
-                <field name="id_pp"></field>
-                <field name="id_po"></field>
-                <field name="w_load_product"></field>
-                <field name="box_type"></field>
-                <field name="download_with"></field>
+                <field name="department"/>
+                <field name="id_pp"/>
+                <field name="id_po"/>
+                <field name="w_load_product"/>
+                <field name="box_type"/>
+                <field name="download_with"/>
             </xpath>
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
-                <field name="correction"></field>
-                <field name="currency"></field>
-                <field name="container"></field>
-                <field name="loading_type"></field>
-                <field name="bar_code"></field>
+                <field name="correction"/>
+                <field name="currency"/>
+                <field name="container"/>
+                <field name="loading_type"/>
+                <field name="bar_code"/>
+                <field name="partner_bank_id"/>
             </xpath>
 
             <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
@@ -35,17 +36,17 @@
                             <field name="important_note" string="Important Note"/>
                         </group>
 
-<!--                        <group name="group_right">-->
-<!--                            <field name="special_need" string="ความต้องการพิเศษ">-->
-<!--                                <form string="Sale Quotation Lines">-->
-<!--                                    <tree editable="bottom">-->
-<!--                                        <field name="Description" />-->
-<!--&lt;!&ndash;                                        <field name="field_name_2" />&ndash;&gt;-->
-<!--                                        &lt;!&ndash; Add other fields you want to display in the One2many list &ndash;&gt;-->
-<!--                                    </tree>-->
-<!--                                </form>-->
-<!--                            </field>-->
-<!--                        </group>-->
+                        <!--                        <group name="group_right">-->
+                        <!--                            <field name="special_need" string="ความต้องการพิเศษ">-->
+                        <!--                                <form string="Sale Quotation Lines">-->
+                        <!--                                    <tree editable="bottom">-->
+                        <!--                                        <field name="Description" />-->
+                        <!--&lt;!&ndash;                                        <field name="field_name_2" />&ndash;&gt;-->
+                        <!--                                        &lt;!&ndash; Add other fields you want to display in the One2many list &ndash;&gt;-->
+                        <!--                                    </tree>-->
+                        <!--                                </form>-->
+                        <!--                            </field>-->
+                        <!--                        </group>-->
 
                         <group name="group_right">
                             <field name="special_need"  string="ความต้องการพิเศษ">
@@ -64,21 +65,21 @@
     </record>
 
 
-<!--    <record id="view_sale_quotation_lines_form" model="ir.ui.view">-->
-<!--        <field name="name">sale.quotation.lines.form</field>-->
-<!--        <field name="model">sale.quotation.lines</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <form string="Sale Quotation Lines">-->
-<!--                <sheet>-->
-<!--                    <group>-->
-<!--                        <field name="Description"/>-->
-<!--&lt;!&ndash;                        <field name="field_name_2"/>&ndash;&gt;-->
-<!--                        &lt;!&ndash; เพิ่มฟิลด์อื่นๆ ตามความต้องการของคุณ &ndash;&gt;-->
-<!--                    </group>-->
-<!--                </sheet>-->
-<!--            </form>-->
-<!--        </field>-->
-<!--    </record>-->
+    <!--    <record id="view_sale_quotation_lines_form" model="ir.ui.view">-->
+    <!--        <field name="name">sale.quotation.lines.form</field>-->
+    <!--        <field name="model">sale.quotation.lines</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <form string="Sale Quotation Lines">-->
+    <!--                <sheet>-->
+    <!--                    <group>-->
+    <!--                        <field name="Description"/>-->
+    <!--&lt;!&ndash;                        <field name="field_name_2"/>&ndash;&gt;-->
+    <!--                        &lt;!&ndash; เพิ่มฟิลด์อื่นๆ ตามความต้องการของคุณ &ndash;&gt;-->
+    <!--                    </group>-->
+    <!--                </sheet>-->
+    <!--            </form>-->
+    <!--        </field>-->
+    <!--    </record>-->
 
 </odoo>
 

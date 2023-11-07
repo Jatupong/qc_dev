@@ -13,7 +13,7 @@
                 """,
     'author': 'IT as a Service Co., Ltd.',
     'website': 'www.itaas.co.th',
-    'depends': ['mrp', 'itaas_company_detail_address', 'itaas_company_setting'],
+    'depends': ['mrp', 'itaas_company_detail_address', 'itaas_company_setting', 'qc_sale_order'],
     'data': [
 
         'views/res_company_view.xml',

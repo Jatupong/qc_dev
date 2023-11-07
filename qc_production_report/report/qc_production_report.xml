@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-        <template id="qc_production_report_id" >
+        <template id="qc_sale_production_report_id" >
 
                 <t t-foreach="docs" t-as="o">
-                        <t t-set="order_line_id" t-value="o._get_sale_order_line()"/>
+                        <t t-set="mrp_production_ids" t-value="o.mrp_production_ids"/>
 
                         <t t-call="web.basic_layout">
                                 <div class="header">
@@ -16,11 +16,6 @@
                                                 .font_fam{
                                                 font-family: Sarabun-Regular;
                                                 src: local('United'), url("/qc_production_report/static/font/Sarabun-Regular.ttf") format('opentype');
-                                                }
-                                                .word_wrap{
-                                                word-wrap: break-word;
-                                                overflow: hidden;
-                                                <!--background-color:#cccccc;-->
                                                 }
                                                 table.table-bordered{
                                                 border:1px solid black;
@@ -41,6 +36,92 @@
                                                 table.table-bordered &gt; tfoot &gt; tr &gt; td{
                                                 border:1px solid black;
                                                 padding:3px;
+                                                }
+                                                table.table-nobordered{
+                                                margin:0px;
+                                                margin-top:0px;
+                                                margin-bottom:0px;
+                                                width: 100%;
+                                                }
+                                                table.table-nobordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; thead &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+
+                                                table.table-bordered {
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                vertical-align: middle;
+                                                text-align:center;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+
+                                                table.table-bordered-b {
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                vertical-align: middle;
+                                                text-align:center;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; tbody &gt; tr &gt; td{
+                                                border:0px solid White;
+                                                border-left: 1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+
+                                                table.table-nobordered-b{
+                                                margin:0px;
+                                                width: 100%;
+                                                }
+                                                table.table-nobordered-b &gt; thead &gt; tr &gt; th{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; thead &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                .word_wrap{
+                                                word-wrap: break-word;
+                                                <!--background-color:#cccccc;-->
                                                 }
                                                 .font_size_32{
                                                 font-size: 32px;
@@ -70,9 +151,6 @@
                                                 font-size: 14px;
                                                 line-height: 12px;
                                                 }
-                                                span{
-                                                line-height: inherit;
-                                                }
                                         </style>
 
                                         <table width="100%" class="font_fam table table-bordered font_size_14">
@@ -97,20 +175,16 @@
                                         <table width="100%" class="font_fam table table-nobordered font_size_14">
                                                 <tr>
                                                         <td width="20%">เลขที่สั่งผลิต</td>
-                                                        <td width="30%">: <span t-field="o.custom_request_id"/></td>
+                                                        <td width="30%">: <span t-field="o.name"/></td>
                                                         <td width="20%">วันที่</td>
                                                         <td width="30%">:
-                                                                <t t-if="order_line_id">
-                                                                        <span t-field="order_line_id.order_id.date_order"/>
-                                                                </t>
+                                                                <span t-field="o.date_order"/>
                                                         </td>
                                                 </tr>
                                                 <tr>
                                                         <td>ชื่อลูกค้า</td>
                                                         <td>:
-                                                                <t t-if="order_line_id">
-                                                                        <span t-field="order_line_id.order_id.partner_id"/>
-                                                                </t>
+                                                                <span t-field="o.partner_id"/>
                                                         </td>
                                                         <td>กำหนดส่ง</td>
                                                         <td>:
@@ -119,33 +193,25 @@
                                                 <tr>
                                                         <td>P/O No.</td>
                                                         <td>:
-                                                                <t t-if="order_line_id">
-                                                                        <span t-field="order_line_id.order_id.client_order_ref"/>
-                                                                </t>
+                                                                <span t-field="o.client_order_ref"/>
                                                         </td>
                                                         <td>P/I No.</td>
                                                         <td>:
-                                                                <t t-if="order_line_id">
-                                                                        <span t-field="order_line_id.order_id"/>
-                                                                </t>
+                                                                <span t-field="o.name"/>
                                                         </td>
                                                 </tr>
                                                 <tr>
                                                         <td>Shipping Mark</td>
                                                         <td>:
-                                                                <!--<t t-if="order_line_id">-->
-                                                                <!--        <span t-field="order_line_id.order_id.box_type"/>-->
-                                                                <!--</t>-->
+                                                                <span t-field="o.box_type"/>
                                                         </td>
                                                         <td>Packing</td>
                                                         <td>:
-                                                                <!--                                                                <span t-field=""/>-->
                                                         </td>
                                                 </tr>
                                                 <tr>
                                                         <td>Backstamp</td>
                                                         <td>:
-                                                                <!--                                                                <span t-field=""/>-->
                                                         </td>
                                                         <td></td>
                                                         <td></td>
@@ -300,70 +366,99 @@
                                         </style>
 
                                         <table width="100%" class="font_fam table table-bordered font_size_14" style="border-color:black;">
-                                                <thead>
+                                                <thead style="backgroup-color:#bbbbbb;">
                                                         <tr>
-                                                                <td rowspan="2">
+                                                                <th rowspan="2">
                                                                         <span>ลำดับ</span>
-                                                                </td>
-                                                                <td rowspan="2">
+                                                                </th>
+                                                                <th rowspan="2">
                                                                         <span>รหัส</span>
-                                                                </td>
-                                                                <td rowspan="2">
+                                                                </th>
+                                                                <th rowspan="2">
                                                                         <span>รายการ</span>
-                                                                </td>
-                                                                <td rowspan="2">
+                                                                </th>
+                                                                <th rowspan="2">
                                                                         <span>โลโก้</span>
-                                                                </td>
-                                                                <td rowspan="2">
+                                                                </th>
+                                                                <th rowspan="2">
                                                                         <span>ตกแต่ง</span>
-                                                                </td>
-                                                                <td colspan="2">
+                                                                </th>
+                                                                <th colspan="2">
                                                                         <span>กล่อง</span>
-                                                                </td>
-                                                                <td rowspan="2">
+                                                                </th>
+                                                                <th rowspan="2">
                                                                         <span>จำนวน</span>
-                                                                </td>
+                                                                </th>
                                                         </tr>
                                                         <tr>
-                                                                <td>
+                                                                <th>
                                                                         <span>ใน</span>
-                                                                </td>
-                                                                <td>
+                                                                </th>
+                                                                <th>
                                                                         <span>นอก</span>
-                                                                </td>
+                                                                </th>
                                                         </tr>
                                                 </thead>
                                                 <tbody>
                                                         <t t-set="i_num" t-value="0"/>
-                                                        <t t-foreach="o.move_raw_ids" t-as="line">
+                                                        <t t-foreach="mrp_production_ids" t-as="mrp">
                                                                 <t t-set="i_num" t-value="i_num + 1"/>
                                                                 <tr>
                                                                         <td align="center">
                                                                                 <span t-esc="i_num"/>
                                                                         </td>
                                                                         <td>
-                                                                                <span t-field="line.product_id.default_code"/>
+                                                                                <span t-field="mrp.product_id.default_code"/>
                                                                         </td>
                                                                         <td>
-                                                                                <span t-field="line.product_id.name"/>
+                                                                                <span t-field="mrp.product_id.name"/>
                                                                         </td>
                                                                         <td align="center">
-                                                                                <!--<span t-field="line.product_id.attribute_id"/>-->
+                                                                                <span t-field="mrp.product_id.logo"/>
                                                                         </td>
                                                                         <td>
-                                                                                <!--<span t-field="line.product_id.attribute_id"/>-->
-                                                                        </td>
-                                                                        <td align="center">
-                                                                                <span t-field="line.product_uom_qty"/>
-                                                                        </td>
-                                                                        <td align="center">
-                                                                                <span t-field="line.product_uom_qty"/>
+                                                                                <span t-field="mrp.product_id.decorate"/>
                                                                         </td>
                                                                         <td align="right">
-                                                                                <span t-field="line.product_uom_qty"/> <span t-field="line.product_uom"/>
+                                                                                <span t-field="mrp.product_qty"/>
+                                                                        </td>
+                                                                        <td align="right">
+                                                                                <span t-field="mrp.product_qty"/>
+                                                                        </td>
+                                                                        <td align="right">
+                                                                                <span t-field="mrp.product_qty"/> <span t-field="mrp.product_uom_id"/>
                                                                         </td>
                                                                 </tr>
                                                         </t>
+                                                        <!--                                                        <t t-foreach="mrp.move_raw_ids" t-as="line">-->
+                                                        <!--                                                                <t t-set="i_num" t-value="i_num + 1"/>-->
+                                                        <!--                                                                <tr>-->
+                                                        <!--                                                                        <td align="center">-->
+                                                        <!--                                                                                <span t-esc="i_num"/>-->
+                                                        <!--                                                                        </td>-->
+                                                        <!--                                                                        <td>-->
+                                                        <!--                                                                                <span t-field="line.product_id.default_code"/>-->
+                                                        <!--                                                                        </td>-->
+                                                        <!--                                                                        <td>-->
+                                                        <!--                                                                                <span t-field="line.product_id.name"/>-->
+                                                        <!--                                                                        </td>-->
+                                                        <!--                                                                        <td align="center">-->
+                                                        <!--                                                                                &lt;!&ndash;<span t-field="line.product_id.attribute_id"/>&ndash;&gt;-->
+                                                        <!--                                                                        </td>-->
+                                                        <!--                                                                        <td>-->
+                                                        <!--                                                                                &lt;!&ndash;<span t-field="line.product_id.attribute_id"/>&ndash;&gt;-->
+                                                        <!--                                                                        </td>-->
+                                                        <!--                                                                        <td align="center">-->
+                                                        <!--                                                                                <span t-field="line.product_uom_qty"/>-->
+                                                        <!--                                                                        </td>-->
+                                                        <!--                                                                        <td align="center">-->
+                                                        <!--                                                                                <span t-field="line.product_uom_qty"/>-->
+                                                        <!--                                                                        </td>-->
+                                                        <!--                                                                        <td align="right">-->
+                                                        <!--                                                                                <span t-field="line.product_uom_qty"/> <span t-field="line.product_uom"/>-->
+                                                        <!--                                                                        </td>-->
+                                                        <!--                                                                </tr>-->
+                                                        <!--                                                        </t>-->
                                                 </tbody>
                                                 <tfoot>
                                                         <tr>
@@ -371,16 +466,14 @@
                                                                         <span>รวม</span>
                                                                 </td>
                                                                 <td colspan="3" align="center">
-                                                                        <span t-esc="'{0:,.2f}'.format(sum(o.move_raw_ids.mapped('product_uom_qty')))"/>
+                                                                        <span t-esc="'{0:,.2f}'.format(sum(mrp_production_ids.mapped('product_qty')))"/>
                                                                 </td>
                                                         </tr>
                                                 </tfoot>
                                         </table>
                                         <div class="font_size_14">
                                                 <span>หมายเหตุ</span>
-                                                <t t-if="order_line_id">
-                                                        <span t-esc="order_line_id.order_id.note"/>
-                                                </t>
+                                                <span t-esc="o.note"/>
                                         </div>
 
                                         <table width="100%" class="font_fam table table-nobordered font_size_14" style="text-align:center;">
@@ -392,7 +485,7 @@
                                                 <tr>
                                                         <td>
                                                                 <span>ผู้จัดทำ/ตรวจสอบ__________________</span><br/>
-                                                                <span>วันที___________________________</span>
+                                                                <span>วันที่___________________________</span>
                                                         </td>
                                                         <td>
 
@@ -400,24 +493,24 @@
                                                         <td>
                                                                 <span>รับทราบ________________________</span><br/>
                                                                 <span>ผู้จัดการส่วนวางแผน 1</span><br/>
-                                                                <span>วันที___________________________</span>
+                                                                <span>วันที่___________________________</span>
                                                         </td>
                                                 </tr>
                                                 <tr>
                                                         <td>
                                                                 <span>ผู้อนุมัติ_________________________</span><br/>
                                                                 <span>ผู้จัดการฝ่าย/ส่วนการตลาด</span><br/>
-                                                                <span>วันที___________________________</span>
+                                                                <span>วันที่___________________________</span>
                                                         </td>
                                                         <td>
                                                                 <span>รับทราบ________________________</span><br/>
                                                                 <span>ส่วนบริการการตลาดและการผลิต</span><br/>
-                                                                <span>วันที___________________________</span>
+                                                                <span>วันที่___________________________</span>
                                                         </td>
                                                         <td>
                                                                 <span>รับทราบ________________________</span><br/>
                                                                 <span>ผู้จัดการส่วนวางแผน 2</span><br/>
-                                                                <span>วันที___________________________</span>
+                                                                <span>วันที่___________________________</span>
                                                         </td>
                                                 </tr>
                                         </table>

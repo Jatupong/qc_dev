@@ -28,6 +28,7 @@ class SaleQuotation(models.Model):
     important_note = fields.Text(string='Important Note')
 
     special_need = fields.One2many('sale.quotation.lines', 'sale_quotation_id', string='ความต้องการพิเศษ')
+    partner_bank_id = fields.Many2one('res.partner.bank', string='Bank')
 
 
 class SaleQuotationLines(models.Model):
