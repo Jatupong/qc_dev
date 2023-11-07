@@ -1,63 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <template id="sale_tax_report_id2" >
+    <template id="sale_tax_report_id2">
         <t t-set="i" t-value="1"/>
         <t t-call="web.basic_layout">
 
             <div class="header" style="font-family:TH SarabunPSK;">
                 <div class="col-xs-2" style="text-align:right">
                     <!--                    <td style="text-align: right;">-->
-                            <font style="font-size: 16px;">
-                                <span>หน้า </span>
-                                <span class="page"/>
-                                <span>/</span>
-                                <span class="topage"/>
-                            </font>
-<!--                        </td>-->
+                    <font style="font-size: 16px;">
+                        <span>หน้า</span>
+                        <span class="page"/>
+                        <span>/</span>
+                        <span class="topage"/>
+                    </font>
+                    <!--                        </td>-->
                 </div>
                 <div class="col-xs-12" style="text-align: center">
                     <font style="font-size: 16px;">
-                        <h><strong>
-                            <span t-esc="company_id.name"/><br/>รายการส่งออกประจำเดือน
-                        </strong></h>
-                        <br/><br/>
-                        <tr>
-                        <td style="text-align: left;">
-                            <font style="font-size: 16px;">
-                                <span>ชื่อผู้ประกอบการ</span>
-                            </font>
-                        </td>
-                        <td style="text-align: left;">
-                            <font style="font-size: 16px;">
+                        <h>
+                            <strong>
                                 <span t-esc="company_id.name"/>
-                            </font>
-                        </td>
-                        <td style="text-align: left;">
-                            <font style="font-size: 16px;">
-                                <span>เลขประจำตัวผู้เสียภาษีอากร</span>
-                            </font>
-                        </td>
-                        <td style="text-align: left;">
-                            <font style="font-size: 16px;">
-                                <span t-esc="company_id.vat"/>
-                            </font>
-                        </td>
-                    </tr><br/>
+                                <br/>รายการส่งออกประจำเดือน!
+                            </strong>
+                        </h>
+                        <br/>
+                        <br/>
                         <tr>
-                        <td style="text-align: left;">
-                            <font style="font-size: 16px;">
-                                <span>ชื่อสถานประกอบการ</span>
-                            </font>
-                        </td>
-                        <td style="text-align: left;">
-                            <font style="font-size: 16px;">
-                                <span t-esc="company_id.name"/>
-                            </font>
-                        </td>
-                        <td colspan="2" style="text-align: left;">
-                            <t t-if="not operating_unit">
-                                <t t-if="company_id.branch_no">
-                                    <t t-if="company_id.branch_no == '00000'">
+                            <td style="text-align: left;">
+                                <font style="font-size: 16px;">
+                                    <span>ชื่อผู้ประกอบการ</span>
+                                </font>
+                            </td>
+                            <td style="text-align: left;">
+                                <font style="font-size: 16px;">
+                                    <span t-esc="company_id.name"/>
+                                </font>
+                            </td>
+                            <td style="text-align: left;">
+                                <font style="font-size: 16px;">
+                                    <span>เลขประจำตัวผู้เสียภาษีอากร</span>
+                                </font>
+                            </td>
+                            <td style="text-align: left;">
+                                <font style="font-size: 16px;">
+                                    <span t-esc="company_id.vat"/>
+                                </font>
+                            </td>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td style="text-align: left;">
+                                <font style="font-size: 16px;">
+                                    <span>ชื่อสถานประกอบการ</span>
+                                </font>
+                            </td>
+                            <td style="text-align: left;">
+                                <font style="font-size: 16px;">
+                                    <span t-esc="company_id.name"/>
+                                </font>
+                            </td>
+                            <td colspan="2" style="text-align: left;">
+                                <t t-if="not operating_unit">
+                                    <t t-if="company_id.branch_no">
+                                        <t t-if="company_id.branch_no == '00000'">
+                                            <font style="font-size: 22px;">
+                                                &amp;#9746;
+                                            </font>
+                                            <font style="font-size: 16px;">
+                                                <span>สำนักงานใหญ่</span>&amp;emsp;
+                                            </font>
+                                            <font style="font-size: 22px;">
+                                                &amp;#9744;
+                                            </font>
+                                            <font style="font-size: 16px;">
+                                                <span>สาขาที่</span>&amp;ensp;
+                                            </font>
+                                        </t>
+                                        <t t-if="company_id.branch_no != '00000'">
+                                            <font style="font-size: 22px;">
+                                                &amp;#9744;
+                                            </font>
+                                            <font style="font-size: 16px;">
+                                                <span>สำนักงานใหญ่</span>&amp;emsp;
+                                            </font>
+                                            <font style="font-size: 22px;">
+                                                &amp;#9746;
+                                            </font>
+                                            <font style="font-size: 16px;">
+                                                <span>สาขาที่</span>&amp;ensp;
+                                                <span t-esc="company_id.branch_no"/>
+                                            </font>
+                                        </t>
+                                    </t>
+                                    <t t-if="not company_id.branch_no">
                                         <font style="font-size: 22px;">
                                             &amp;#9746;
                                         </font>
@@ -71,76 +106,47 @@
                                             <span>สาขาที่</span>&amp;ensp;
                                         </font>
                                     </t>
-                                    <t t-if="company_id.branch_no != '00000'">
-                                        <font style="font-size: 22px;">
-                                            &amp;#9744;
-                                        </font>
-                                        <font style="font-size: 16px;">
-                                            <span>สำนักงานใหญ่</span>&amp;emsp;
-                                        </font>
-                                        <font style="font-size: 22px;">
-                                            &amp;#9746;
-                                        </font>
-                                        <font style="font-size: 16px;">
-                                            <span>สาขาที่</span>&amp;ensp;
-                                            <span t-esc="company_id.branch_no"/>
-                                        </font>
-                                    </t>
+
                                 </t>
-                                <t t-if="not company_id.branch_no">
+                                <!--################# if OU-->
+                                <t t-if="operating_unit">
                                     <font style="font-size: 22px;">
-                                        &amp;#9746;
+                                        &amp;#9744;
                                     </font>
                                     <font style="font-size: 16px;">
                                         <span>สำนักงานใหญ่</span>&amp;emsp;
                                     </font>
                                     <font style="font-size: 22px;">
-                                        &amp;#9744;
+                                        &amp;#9746;
                                     </font>
                                     <font style="font-size: 16px;">
                                         <span>สาขาที่</span>&amp;ensp;
+                                        <t t-foreach="operating_unit" t-as="operating_id">
+                                            <span t-esc="operating_id"/>
+                                        </t>
                                     </font>
+
                                 </t>
 
-                            </t>
-                            <!--################# if OU-->
-                            <t t-if="operating_unit">
-                                <font style="font-size: 22px;">
-                                    &amp;#9744;
-                                </font>
+                            </td>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td style="text-align: left;">
                                 <font style="font-size: 16px;">
-                                    <span>สำนักงานใหญ่</span>&amp;emsp;
+                                    <span>สถานประกอบการ</span>
                                 </font>
-                                <font style="font-size: 22px;">
-                                    &amp;#9746;
-                                </font>
+                            </td>
+                            <td colspan="2" style="text-align: left;">
                                 <font style="font-size: 16px;">
-                                    <span>สาขาที่</span>&amp;ensp;
-                                    <t t-foreach="operating_unit" t-as="operating_id">
-                                        <span t-esc="operating_id"/>
+                                    <t t-if="company_id">
+                                        <span t-esc="company_id.get_company_full_address_text()"/>
+
                                     </t>
                                 </font>
+                            </td>
 
-                            </t>
-
-                        </td>
-                    </tr><br/>
-                        <tr>
-                        <td style="text-align: left;">
-                            <font style="font-size: 16px;">
-                                <span>สถานประกอบการ</span>
-                            </font>
-                        </td>
-                        <td colspan="2" style="text-align: left;">
-                            <font style="font-size: 16px;">
-                                <t t-if="company_id">
-                                    <span t-esc="company_id.get_company_full_address_text()"/>
-
-                                </t>
-                            </font>
-                        </td>
-
-                    </tr>
+                        </tr>
                     </font>
 
                 </div>
@@ -214,10 +220,12 @@
                                     <span>วันที่</span>
                                 </th>
                                 <th colspan="1" rowspan="2">
-                                    <span>เลขที่<br/>Invoice No.</span>
+                                    <span>เลขที่<br/>Invoice No.
+                                    </span>
                                 </th>
                                 <th colspan="1" rowspan="2">
-                                    <span>รายการ<br/>Customer</span>
+                                    <span>รายการ<br/>Customer
+                                    </span>
                                 </th>
                                 <th colspan="1" rowspan="2">
                                     <span>จำนวนชิ้น</span>
@@ -226,16 +234,19 @@
                                     <span>ตามส่งจริง</span>
                                 </th>
                                 <th colspan="1" rowspan="2">
-                                    <span>EXC<br/>RATE</span>
+                                    <span>EXC<br/>RATE
+                                    </span>
                                 </th>
                                 <th colspan="1" rowspan="2">
                                     <span>BAHT</span>
                                 </th>
                                 <th colspan="1" rowspan="2">
-                                    <span>ตามใบขน<br/>EUR/USD</span>
+                                    <span>ตามใบขน<br/>EUR/USD
+                                    </span>
                                 </th>
                                 <th colspan="1" rowspan="2">
-                                    <span>EXC<br/>RATE</span>
+                                    <span>EXC<br/>RATE
+                                    </span>
                                 </th>
                                 <th colspan="1" rowspan="2">
                                     <span>BAHT</span>
@@ -283,7 +294,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="sale_tbody" style="font-size: 14px;">
+                        <tbody class="sale_tbody" style="font-size: 12px;">
                             <t t-set="sum_untaxed" t-value="0"/>
                             <t t-set="sum_vat" t-value="0"/>
                             <t t-set="sum_total" t-value="0"/>
@@ -291,95 +302,97 @@
                                 <tr>
                                     <td>
 
-                                            <t t-if="k['date']">
-                                                <span t-esc="k['date']" t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
-                                            </t>
+                                        <t t-if="k['date']">
+                                            <span t-esc="k['date']"
+                                                  t-options='{"widget": "date","format": "dd/MM/yyyy"}'/>
+                                        </t>
 
                                     </td>
                                     <td>
 
-                                            <span t-esc="k['name']"/>
+                                        <span t-esc="k['name']"/>
 
                                     </td>
                                     <td>
 
-                                            <t t-if="k['partner']">
-                                                <span t-esc="k['partner']"/>
-                                            </t>
+                                        <t t-if="k['partner']">
+                                            <span t-esc="k['partner']"/>
+                                        </t>
 
                                     </td>
                                     <td>
                                         <div class="box6" align="right">
                                             <t t-if="k['quantity']">
-                                                <span t-esc="k['quantity']"/>
+                                                <span t-esc="k['quantity']"
+                                                      t-options='{"widget": "float", "precision": 0}'/>
                                             </t>
                                         </div>
                                     </td>
-<!--                                    EUR-->
+                                    <!--                                    EUR-->
                                     <td>
                                         <div class="box7">
                                             <t t-if="k['amount_type'] == 'EUR'">
                                                 <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
                                             <t t-if="k['amount_type'] != 'EUR'">
-                                                <span> </span>
+                                                <span></span>
                                             </t>
                                         </div>
                                     </td>
-<!--                                    USD-->
+                                    <!--                                    USD-->
                                     <td>
                                         <div class="box8">
                                             <t t-if="k['amount_type'] == 'USD'">
                                                 <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
                                             <t t-if="k['amount_type'] != 'USD'">
-                                                <span> </span>
+                                                <span></span>
                                             </t>
                                         </div>
                                     </td>
-<!--                                    GBP-->
+                                    <!--                                    GBP-->
                                     <td>
                                         <div class="box9">
                                             <t t-if="k['amount_type'] == 'GBP'">
                                                 <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
                                             <t t-if="k['amount_type'] != 'GBP'">
-                                                <span> </span>
+                                                <span></span>
                                             </t>
                                         </div>
                                     </td>
-<!--                                    CNY-->
+                                    <!--                                    CNY-->
                                     <td>
                                         <div class="box10">
                                             <t t-if="k['amount_type'] == 'CNY'">
                                                 <span t-esc="'{0:,.2f}'.format(float(k['amount_untaxed']))"/>
                                             </t>
                                             <t t-if="k['amount_type'] != 'CNY'">
-                                                <span> </span>
+                                                <span></span>
                                             </t>
                                         </div>
                                     </td>
-<!--                                    THB -->
+                                    <!--                                    THB -->
                                     <td align="right">
-                                        <div class="box11" align="right">
+                                        <div class="box11">
                                             <t t-if="k['amount_type'] == 'THB'">
                                                 <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
-                                             <t t-if="k['amount_type'] == 'THB'">
-                                                <span> </span>
+                                            <t t-if="k['amount_type'] == 'THB'">
+                                                <span></span>
                                             </t>
                                         </div>
                                     </td>
-<!--                                    Other-->
+                                    <!--                                    Other-->
                                     <td>
                                         <div class="box12">
                                             <t t-if="k['amount_type'] != 'THB' and k['amount_type'] != 'CNY' and k['amount_type'] != 'GBP' and k['amount_type'] != 'USD' and k['amount_type'] != 'EUR'">
-                                               <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                             </t>
 
                                         </div>
                                     </td>
-<!--                                    EXC RATE-->
+                                    <!--                                    EXC RATE-->
                                     <td>
                                         <div class="box12">
                                             <t t-if="k['company_rate']">
@@ -387,24 +400,22 @@
                                             </t>
                                         </div>
                                     </td>
-<!--                                    BATH-->
-                                    <td align="right">
+                                    <!--                                    BATH-->
+                                    <td>
                                         <t t-if="k['amount_type'] == 'THB'">
-                                            <div class="box13" align="right">
-                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['company_rate']))"/>
-                                            </div>
+                                            <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['company_rate']))"/>
                                         </t>
                                         <t t-if="k['amount_type'] != 'THB'">
                                             <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['company_rate']))"/>
                                         </t>
                                     </td>
-<!--                                    ตามใบขน EUR/USD-->
+                                    <!--                                    ตามใบขน EUR/USD-->
                                     <td>
                                         <div class="box14">
                                             <span t-esc="'{0:,.2f}'.format(float(k['amount_total']))"/>
                                         </div>
                                     </td>
-<!--                                    EXC RATE-->
+                                    <!--                                    EXC RATE-->
                                     <td>
                                         <div class="box15">
                                             <t t-if="k['excrate']">
@@ -412,18 +423,16 @@
                                             </t>
                                         </div>
                                     </td>
-<!--                                    BAHT-->
-                                    <td align="right">
+                                    <!--                                    BAHT-->
+                                    <td>
                                         <t t-if="k['amount_type'] == 'THB'">
-                                            <div class="box16" align="right">
-                                                <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['excrate']))"/>
-                                            </div>
+                                            <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['excrate']))"/>
                                         </t>
                                         <t t-if="k['amount_type'] != 'THB'">
                                             <span t-esc="'{0:,.2f}'.format(float(k['amount_total'] * k['excrate']))"/>
                                         </t>
                                     </td>
-<!--                                    เลขใบขน-->
+                                    <!--                                    เลขใบขน-->
                                     <td>
                                         <div class="box17">
                                             <t t-if="k['export_products_id']">
@@ -431,17 +440,19 @@
                                             </t>
                                         </div>
                                     </td>
-<!--                                    ETD-->
+                                    <!--                                    ETD-->
                                     <td>
-                                            <t t-if="k['ETD']">
-                                                <span t-esc="k['ETD']" t-options="{'widget': 'date', 'format': 'dd/MM/yyy'}"/>
-                                            </t>
+                                        <t t-if="k['ETD']">
+                                            <span t-esc="k['ETD']"
+                                                  t-options="{'widget': 'date', 'format': 'dd/MM/yyy'}"/>
+                                        </t>
                                     </td>
-<!--                                    ETA-->
+                                    <!--                                    ETA-->
                                     <td>
-                                            <t t-if="k['ETA']">
-                                                <span t-esc="k['ETA']" t-options="{'widget': 'date', 'format': 'dd/MM/yyy'}"/>
-                                            </t>
+                                        <t t-if="k['ETA']">
+                                            <span t-esc="k['ETA']"
+                                                  t-options="{'widget': 'date', 'format': 'dd/MM/yyy'}"/>
+                                        </t>
                                     </td>
                                 </tr>
                             </t>
