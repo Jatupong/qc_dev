@@ -7,6 +7,7 @@ from bahttext import bahttext
 from num2words import num2words
 import locale
 
+
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -150,7 +151,32 @@ class AccountMove(models.Model):
         for move in self:
             line_ids = move.line_ids.filtered(lambda r: r.payment_id)
             if line_ids and line_ids[0].payment_id:
-                return self.env['account.move.line'].search([('payment_id','=',line_ids[0].payment_id.id),('move_id','!=',move.id)])
+                return self.env['account.move.line'].search(
+                    [('payment_id', '=', line_ids[0].payment_id.id), ('move_id', '!=', move.id)])
             else:
                 return False
+    def get_total(self,Data):
+        # Data = self.invoice_line_ids
+        # print(Data)
+        ans = 0.0
+        print(Data)
+        for data in Data:
+            ans += data.quantity * data.price_unit
+        print("Total :",ans)
+        return ans
+
+    def get_discount(self,Data):
+        ans = 0.0
+        if "discount" in Data.fields_get():
+            for data in Data:
+                ans += (data.quantity * data.price_unit)*(data.discount/100)
+        print("Discount :", ans)
+        return ans
+
+    def get_subtotal(self,Data):
+        ans = 0.0
+        ans = self.get_total(Data)-self.get_discount(Data)
+        if ans <= -1:
+            ans = ans*(-1)
+        return ans
 

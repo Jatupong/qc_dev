@@ -717,16 +717,23 @@
                                                 <tr>
 
                                                     <td width="10%">
-                                                        <t t-if="o.currency_id.name == 'THB'">
-                                                            <strong> <span>บาท/Baht</span> </strong>
-                                                        </t>
-                                                        <t t-if="not o.currency_id.name == 'THB'">
-                                                            <strong><span t-field="o.currency_id"/></strong>
+                                                        <t t-if="end ==(break_line[len(break_line)-1])">
+                                                            <t t-if="o.currency_id.name == 'THB'">
+                                                                <strong> <span>บาท/Baht</span> </strong>
+                                                            </t>
+                                                            <t t-if="not o.currency_id.name == 'THB'">
+                                                                <strong><span t-field="o.currency_id"/></strong>
+                                                            </t>
                                                         </t>
                                                     </td>
                                                     <td width="90%" align="center" style="vertical-align: middle;">
                                                         <t t-if="end ==(break_line[len(break_line)-1])">
-                                                            <strong>(<span t-esc="o.baht_text(o.amount_total)"/>)</strong>
+                                                            <t t-if="o.currency_id.name == 'THB'">
+                                                                <strong>(<span t-esc="o.baht_text(o.amount_total)"/> )</strong>
+                                                            </t>
+                                                            <t t-if="not o.currency_id.name == 'THB'">
+                                                                <strong>(<span t-esc="o.num2_words(o.amount_total)"/> )</strong>
+                                                            </t>
                                                         </t>
                                                     </td>
 
@@ -738,7 +745,7 @@
                                             <span>Total</span></strong></td>
                                         <td align="right">
 <!--                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/>-->
-                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
+                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_total(o.invoice_line_ids))"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -765,7 +772,7 @@
                                             </strong>
                                         </td>
                                         <td align="right">
-                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(discounted_amount))"/>
+                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_discount(o.invoice_line_ids))"/>
                                         </td>
                                     </tr>
 
@@ -777,6 +784,7 @@
 <!--                                            <br/>-->
                                             <span>Subtotal</span></strong></td>
                                         <td align="right">
+                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_subtotal(o.invoice_line_ids))"/>
 <!--                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(amount_untaxed_after_discounted_amount))"/>-->
                                         </td>
                                     </tr>
@@ -825,7 +833,7 @@
 <!--                                            </t>-->
                                         </td>
                                         <td align="right">
-<!--                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>-->
+                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>
                                         </td>
                                     </tr>
 
@@ -848,7 +856,7 @@
                                             <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span>/
 <!--                                                <br/>-->
                                                 <span>Net Total</span></strong></td>
-                                            <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/></td>
+                                            <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.sum_untaxed))"/></td>
                                         </tr>
                                     </t>
                                 </tfoot>
