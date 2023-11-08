@@ -2,7 +2,7 @@
 #############################################################################
 
 {
-    'name': "Wizard Stock Custom Report",
+    'name': "Product Purchase Report",
     'version': '16.0.1.1',
     'description': """""",
     'author': "ITAAS",
@@ -16,8 +16,6 @@
             'security/ir.model.access.csv',
 
             #views
-            # 'views/return_card_report_view.xml',
-            # 'views/stock_picking_view.xml',
             'views/product_purchase_report_view.xml',
             
             

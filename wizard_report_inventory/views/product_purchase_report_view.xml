@@ -30,15 +30,15 @@
                 <group>
                     <group>
 
-                        <field name="date_from" required="0"/>
-                        <field name="date_to" required="0"/>
-                        <field name="warehouse" required="0"/>
+                        <field name="date_from"/>
+                        <field name="date_to" />
+                        <field name="warehouse" />
                         <field name="location"/>
                     </group>
 
                     <group>
-                        <field name="category_id" required="0"/>
-                        <field name="product" required="0"/>
+                        <field name="category_id" />
+                        <field name="product" />
                     </group>
 
                 </group>
