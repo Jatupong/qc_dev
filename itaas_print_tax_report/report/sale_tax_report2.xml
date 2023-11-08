@@ -294,7 +294,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="sale_tbody" style="font-size: 12px;">
+                        <tbody class="sale_tbody" style="font-size: 10px;">
                             <t t-set="sum_untaxed" t-value="0"/>
                             <t t-set="sum_vat" t-value="0"/>
                             <t t-set="sum_total" t-value="0"/>
