@@ -67,7 +67,7 @@ class WizardAccountAgingReport(models.TransientModel):
                   ('move_type', 'in', ['out_invoice']),
                   ]
 
-        return self.env['account.move'].search(domain)
+        return self.env['account.move'].search(domain, order='invoice_date')
 
     def _get_in_invoice(self):
         domain = [
@@ -77,12 +77,7 @@ class WizardAccountAgingReport(models.TransientModel):
             ('move_type', 'in', ['in_invoice']),
         ]
 
-        return self.env['account.move'].search(domain)
-
-    def _get_invoice_days(self, move):
-        invoice_days = (move.invoice_date - fields.Date.today()).days
-
-        return invoice_days
+        return self.env['account.move'].search(domain, order='invoice_date')
 
     def convert_usertz_to_utc(self, date_time):
         user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
@@ -98,9 +93,11 @@ class WizardAccountAgingReport(models.TransientModel):
         invoice_ids = self._get_in_invoice()
         if not invoice_ids:
             raise UserError(_("Document is empty."))
-        for move in invoice_ids:
 
-            purchase_id = move.line_ids.purchase_line_id.order_id
+        balance_amount_other_currency = 0.0
+        balance_amount = 0.0
+        for move in invoice_ids:
+            purchase_id = move.invoice_line_ids.purchase_line_id.order_id
             if purchase_id:
                 po_no = purchase_id.name or ''
                 po_amount_total = '{0:,.2f}'.format(purchase_id.amount_total)
@@ -109,38 +106,42 @@ class WizardAccountAgingReport(models.TransientModel):
                 po_amount_total = ''
 
             credit_limit_amount = 0.0
-            currency_name = ''
-            if move.currency_id != move.company_currency_id:
-                price_total = sum(move.line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
-                amount_other_currency = price_total
-                currency_rate = move.company_currency_id._get_rates(move.company_id,
-                                                                    move.invoice_date or move.date).get(
-                    move.company_currency_id.id)
 
-                amount_currency = move.currency_id._convert(price_total,
-                                                            move.company_currency_id,
-                                                            move.company_id,
-                                                            move.invoice_date or move.date)
+            invoice_line_ids = move.invoice_line_ids.filtered(lambda x: not x.purchase_line_id.is_deposit)
+            if invoice_line_ids:
+                if move.currency_id != move.company_currency_id:
+                    currency_name = move.currency_id.name
+                    price_total = sum(invoice_line_ids.mapped('price_total'))
+                    amount_other_currency = price_total
+                    currency_rate = move.currency_id._get_rates(move.company_id, move.date).get(move.currency_id.id)
+                    amount_currency = move.currency_id._convert(price_total,
+                                                                move.company_currency_id,
+                                                                move.company_id,
+                                                                move.invoice_date or move.date)
+                else:
+                    amount_other_currency = 0.0
+                    currency_rate = ''
+                    currency_name = ''
+                    amount_currency = sum(invoice_line_ids.mapped('price_total'))
             else:
                 amount_other_currency = 0.0
                 currency_rate = ''
-                amount_currency = sum(move.line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
+                currency_name = ''
+                amount_currency = 0.0
 
-            if move.line_ids.filtered(lambda x: x.is_downpayment):
+            move_lines_is_deposit = move.invoice_line_ids.filtered(lambda x: x.purchase_line_id.is_deposit)
+            if move_lines_is_deposit:
+                down_payment_date = move.invoice_date
                 if move.currency_id != move.company_currency_id:
-                    price_total = abs(sum(move.line_ids.filtered(lambda x: x.is_downpayment).mapped('price_total')))
+                    price_total = abs(sum(move_lines_is_deposit.mapped('price_total')))
                     down_payment_amount_other_currency = move.currency_id._convert(price_total,
                                                                                    move.company_currency_id,
                                                                                    move.company_id,
                                                                                    move.invoice_date or move.date)
-                    down_payment_date = ''
-                    down_payment_amount = abs(
-                        sum(move.line_ids.filtered(lambda x: x.is_downpayment).mapped('price_total')))
+                    down_payment_amount = abs(sum(move_lines_is_deposit.mapped('price_total')))
                 else:
                     down_payment_amount_other_currency = 0.0
-                    down_payment_date = ''
-                    down_payment_amount = abs(
-                        sum(move.line_ids.filtered(lambda x: x.is_downpayment).mapped('price_total')))
+                    down_payment_amount = abs(sum(move_lines_is_deposit.mapped('price_total')))
             else:
                 down_payment_amount_other_currency = 0.0
                 down_payment_date = ''
@@ -168,13 +169,15 @@ class WizardAccountAgingReport(models.TransientModel):
                 cn_amount = 0.0
 
             inv_amount_other_currency = amount_other_currency - (
-                        down_payment_amount_other_currency + cn_amount_other_currency)
+                    down_payment_amount_other_currency + cn_amount_other_currency)
             inv_amount = amount_currency - (down_payment_amount + cn_amount)
 
-            balance_amount_other_currency = 0.0
-            balance_amount = 0.0
+            balance_amount_other_currency += inv_amount_other_currency
+            balance_amount += inv_amount
 
             credit_limit_note = ''
+            payment_term = move.invoice_payment_term_id.name or ''
+            length_payment_term = move.invoice_payment_term_id.line_ids and move.invoice_payment_term_id.line_ids[0].days or ''
 
             value = {
                 'invoice_date': move.invoice_date or '',
@@ -182,11 +185,11 @@ class WizardAccountAgingReport(models.TransientModel):
                 'pi_no': po_no,
                 'po_amount_total': po_amount_total,
                 'bill_no': move.name or '',
-                'payment_term': move.invoice_payment_term_id.name or '',
-                'length_payment_term': move.invoice_payment_term_id.name or '',
-                'credit_limit': credit_limit_amount,
+                'payment_term': payment_term or '',
+                'length_payment_term': length_payment_term,
+                'credit_limit': move.partner_id.credit_limit or '',
                 'due_date': move.invoice_date_due.strftime('%d/%m/%Y'),
-                'creditor_age': move.partner_id.use_partner_credit_limit or '',
+                'creditor_age': move.invoice_date - fields.Date.today(),
                 'currency_name': currency_name,
                 'currency_rate': currency_rate,
                 'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
@@ -213,47 +216,48 @@ class WizardAccountAgingReport(models.TransientModel):
         invoice_ids = self._get_out_invoice()
         if not invoice_ids:
             raise UserError(_("Document is empty."))
-        for move in invoice_ids:
 
-            if move.line_ids.sale_line_ids:
-                sale_id = move.line_ids.sale_line_ids[0].order_id
+        balance_amount_other_currency = 0.0
+        balance_amount = 0.0
+        for move in invoice_ids:
+            if move.invoice_line_ids.sale_line_ids:
+                sale_id = move.invoice_line_ids.sale_line_ids[0].order_id
                 so_no = sale_id.name
                 so_amount_total = '{0:,.2f}'.format(sale_id.amount_total)
             else:
-                sale_id = False
                 so_no = ''
                 so_amount_total = ''
 
-            credit_limit_amount = 0.0
+            credit_limit_amount = move.partner_id.credit_limit or ''
             currency_name = ''
+            invoice_line_ids = move.invoice_line_ids.filtered(lambda x: not x.is_downpayment)
             if move.currency_id != move.company_currency_id:
-                price_total = sum(move.line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
+                currency_name = move.currency_id.name
+                price_total = sum(invoice_line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
+                currency_rate = move.currency_id._get_rates(move.company_id, move.date).get(move.currency_id.id)
                 amount_other_currency = price_total
-                currency_rate = move.company_currency_id._get_rates(move.company_id,
-                                                                    move.invoice_date or move.date).get(move.company_currency_id.id)
-
                 amount_currency = move.currency_id._convert(price_total,
                                                             move.company_currency_id,
                                                             move.company_id,
                                                             move.invoice_date or move.date)
             else:
-                amount_other_currency = 0.0
                 currency_rate = ''
-                amount_currency = sum(move.line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
+                amount_other_currency = 0.0
+                amount_currency = sum(invoice_line_ids.mapped('price_total'))
 
-            if move.line_ids.filtered(lambda x:x.is_downpayment):
+            invoice_line_is_downpayment = move.invoice_line_ids.filtered(lambda x:x.is_downpayment)
+            if invoice_line_is_downpayment:
+                down_payment_date = move.invoice_date
                 if move.currency_id != move.company_currency_id:
-                    price_total = abs(sum(move.line_ids.filtered(lambda x:x.is_downpayment).mapped('price_total')))
+                    price_total = abs(sum(invoice_line_is_downpayment.mapped('price_total')))
                     down_payment_amount_other_currency = move.currency_id._convert(price_total,
                                                                                    move.company_currency_id,
                                                                                    move.company_id,
                                                                                    move.invoice_date or move.date)
-                    down_payment_date = ''
-                    down_payment_amount = abs(sum(move.line_ids.filtered(lambda x:x.is_downpayment).mapped('price_total')))
+                    down_payment_amount = abs(sum(invoice_line_is_downpayment.mapped('price_total')))
                 else:
                     down_payment_amount_other_currency = 0.0
-                    down_payment_date = ''
-                    down_payment_amount = abs(sum(move.line_ids.filtered(lambda x: x.is_downpayment).mapped('price_total')))
+                    down_payment_amount = abs(sum(invoice_line_is_downpayment.mapped('price_total')))
             else:
                 down_payment_amount_other_currency = 0.0
                 down_payment_date = ''
@@ -283,10 +287,14 @@ class WizardAccountAgingReport(models.TransientModel):
             inv_amount_other_currency = amount_other_currency - (down_payment_amount_other_currency + cn_amount_other_currency)
             inv_amount = amount_currency - (down_payment_amount + cn_amount)
 
-            balance_amount_other_currency = 0.0
-            balance_amount = 0.0
+            balance_amount_other_currency += inv_amount_other_currency
+            balance_amount += inv_amount
 
             credit_limit_note = ''
+
+            payment_term = move.invoice_payment_term_id.name or ''
+            length_payment_term = move.invoice_payment_term_id.line_ids and move.invoice_payment_term_id.line_ids[0].days or ''
+            creditor_age = move.invoice_date - fields.Date.today()
 
             value = {
                 'team_name': move.team_id.name or '',
@@ -295,11 +303,11 @@ class WizardAccountAgingReport(models.TransientModel):
                 'so_no': so_no,
                 'so_amount_total': so_amount_total,
                 'move_name': move.name or '',
-                'payment_term': move.invoice_payment_term_id.name or '',
-                'length_payment_term': move.invoice_payment_term_id.name or '',
+                'payment_term': payment_term,
+                'length_payment_term': length_payment_term,
                 'credit_limit_amount': credit_limit_amount,
                 'due_date': move.invoice_date_due.strftime('%d/%m/%Y'),
-                'creditor_age': move.partner_id.use_partner_credit_limit or '',
+                'creditor_age': creditor_age or '',
                 'currency_name': currency_name,
                 'currency_rate': currency_rate,
                 'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
@@ -460,13 +468,13 @@ class WizardAccountApAgingReportXls(models.AbstractModel):
             i_col += 1
             worksheet.write(i_row, i_col, move['payment_term'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move['length_payment_term'], for_left_border)
+            worksheet.write(i_row, i_col, move['length_payment_term'], for_right_border)
             i_col += 1
             worksheet.write(i_row, i_col, move['credit_limit'], for_left_border)
             i_col += 1
             worksheet.write(i_row, i_col, move['due_date'], for_center_date)
             i_col += 1
-            worksheet.write(i_row, i_col, move['creditor_age'], for_left_border)
+            worksheet.write(i_row, i_col, move['creditor_age'], for_right_border)
             i_col += 1
             worksheet.write(i_row, i_col, move['currency_name'], for_right_border_num_format)
             i_col += 1
@@ -476,7 +484,7 @@ class WizardAccountApAgingReportXls(models.AbstractModel):
             i_col += 1
             worksheet.write(i_row, i_col, move['amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, move['dp_date'], for_left_border)
+            worksheet.write(i_row, i_col, move['dp_date'], for_center_date)
             i_col += 1
             worksheet.write(i_row, i_col, move['dp_amount_other_currency'], for_right_border_num_format)
             i_col += 1
@@ -671,7 +679,7 @@ class WizardAccountArAgingReportXls(models.AbstractModel):
             i_col += 1
             worksheet.write(i_row, i_col, move['dp_amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, move['cn_date'], for_left_border)
+            worksheet.write(i_row, i_col, move['cn_date'], for_center_date)
             i_col += 1
             worksheet.write(i_row, i_col, move['cn_no'], for_left_border)
             i_col += 1
