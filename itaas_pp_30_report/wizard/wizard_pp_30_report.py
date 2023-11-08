@@ -87,7 +87,7 @@ class WizardPP30Report(models.TransientModel):
              then sum(aml.price_total) end as internal_amount
         FROM account_move_line aml
         JOIN account_move am ON aml.move_id = am.id
-        WHERE aml.date BETWEEN %s AND %s AND am.move_type = 'out_invoice' AND am.state = 'posted'
+        WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice' AND am.state = 'posted'
         GROUP BY aml_month, aml_year, aml.journal_id;
         """)
         self._cr.execute(sql, (
@@ -101,7 +101,8 @@ class WizardPP30Report(models.TransientModel):
         EXTRACT(YEAR FROM aml.date) AS aml_year,
         sum(price_subtotal) AS price_subtotal
         FROM account_move_line aml
-        WHERE aml.journal_id = %s and aml.price_subtotal != aml.price_total and aml.date BETWEEN %s AND %s
+        JOIN account_move am ON aml.move_id = am.id
+        WHERE aml.journal_id = %s AND aml.price_subtotal != aml.price_total AND am.date BETWEEN %s AND %s AND am.state = 'posted'
         GROUP BY aml_month, aml_year;""", (
             self.journal_shop_sale_id.id, date_from, date_to))
         results_shop_sale_vat = self._cr.dictfetchall()
@@ -112,7 +113,8 @@ class WizardPP30Report(models.TransientModel):
                 EXTRACT(YEAR FROM aml.date) AS aml_year,
                 sum(price_subtotal) AS price_subtotal
                 FROM account_move_line aml
-                WHERE aml.journal_id = %s and aml.price_subtotal = aml.price_total and aml.date BETWEEN %s AND %s
+                JOIN account_move am ON aml.move_id = am.id
+                WHERE aml.journal_id = %s and aml.price_subtotal = aml.price_total and aml.date BETWEEN %s AND %s AND am.state = 'posted'
                 GROUP BY aml_month, aml_year;""", (
             self.journal_shop_sale_id.id, date_from, date_to))
         results_shop_sale_no_vat = self._cr.dictfetchall()
@@ -124,7 +126,7 @@ class WizardPP30Report(models.TransientModel):
                         sum(price_total) - sum(price_subtotal) AS amount_tax
                         FROM account_move_line aml
                         JOIN account_move am ON aml.move_id = am.id
-                        WHERE aml.date BETWEEN %s AND %s AND am.move_type = 'out_invoice'
+                        WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice' AND am.state = 'posted'
                         GROUP BY aml_month, aml_year;""", (
             date_from, date_to))
         results_sale_taxes = self._cr.dictfetchall()
@@ -137,7 +139,7 @@ class WizardPP30Report(models.TransientModel):
                                 sum(aml.price_total) - sum(aml.price_subtotal) AS amount_tax
                                 FROM account_move_line aml
                                 JOIN account_move am ON aml.move_id = am.id
-                                WHERE aml.date BETWEEN %s AND %s AND am.move_type = 'in_invoice'
+                                WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'in_invoice' AND am.state = 'posted'
                                 GROUP BY aml_month, aml_year;""", (
             date_from, date_to))
         results_purchase = self._cr.dictfetchall()
