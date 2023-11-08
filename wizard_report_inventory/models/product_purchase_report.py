@@ -12,25 +12,25 @@ from io import BytesIO
 import xlsxwriter
 from dateutil.relativedelta import relativedelta
 
+
 # from datetime import date
 
 def strToDate(dt):
     return date(int(dt[0:4]), int(dt[5:7]), int(dt[8:10]))
+
 
 class product_purchase_report(models.TransientModel):
     # return_card_report
     # _name = "return.card.report"
     _name = "product.purchase.report"
 
-
-    date_from = fields.Date(string='Date From',requests=True)
-    date_to = fields.Date(string='Date To',requests=True)
+    date_from = fields.Date(string='Date From', requests=True)
+    date_to = fields.Date(string='Date To', requests=True)
     warehouse = fields.Many2one(string="Warehouse", comodel_name='stock.warehouse')
     location = fields.Many2one(string="Location", comodel_name='stock.location')
 
-    category_id = fields.Many2one(string='Category',comodel_name='product.category')
-    product = fields.Many2one(string='Product',comodel_name='product.template')
-
+    category_id = fields.Many2one(string='Category', comodel_name='product.category')
+    product = fields.Many2one(string='Product', comodel_name='product.template')
 
     # def get_detail(self):
     #     result = []
@@ -74,7 +74,6 @@ class product_purchase_report(models.TransientModel):
     #     result.append(line1)
     #     return result
 
-
     # def get_detail_by_branch(self):
     #     result = []
     #
@@ -112,7 +111,7 @@ class product_purchase_report(models.TransientModel):
     #         result.append(line1)
     #     return result
 
-    def day_to_str(self,date_from):
+    def day_to_str(self, date_from):
         Date = str(date_from).split("-")
         print(Date)
         year = int(Date[0]) + 543
@@ -181,7 +180,6 @@ class product_purchase_report(models.TransientModel):
         print(day, monthth, year)
         return day, monthth, year
 
-
         # for q in moves_layer:
         #     qty = 0
         #     for Zum in q.valuation.layer:
@@ -193,175 +191,154 @@ class product_purchase_report(models.TransientModel):
         #     for Zum in v.valuation.layer:
         #         value += Zum.v.value
 
-
-
-
     def print_report_excel(self):
-            print('print_report_xls')
-            fl = BytesIO()
-            workbook = xlsxwriter.Workbook(fl)
-            name = 'Product purchase report'
-            namexls = 'Product purchase report' + '.xls'
-            worksheet = workbook.add_worksheet(name)
-            company = self.env.company
+        print('print_report_xls')
+        fl = BytesIO()
+        workbook = xlsxwriter.Workbook(fl)
+        name = 'Product purchase report'
+        namexls = 'Product purchase report' + '.xls'
+        worksheet = workbook.add_worksheet(name)
+        company = self.env.company
 
-            for_left_bold_no_border = workbook.add_format({'align': 'left', 'bold': True})
-            for_center_bold_no_border = workbook.add_format({'align': 'center', 'bold': True})
-            for_right_bold_no_border = workbook.add_format({'align': 'right', 'bold': True})
+        for_left_bold_no_border = workbook.add_format({'align': 'left', 'bold': True})
+        for_center_bold_no_border = workbook.add_format({'align': 'center', 'bold': True})
+        for_right_bold_no_border = workbook.add_format({'align': 'right', 'bold': True})
 
-            for_left_no_border = workbook.add_format({'align': 'left'})
-            for_left_border = workbook.add_format({'align': 'left', 'border': True})
-            for_center_no_border = workbook.add_format({'align': 'center'})
-            for_center_border = workbook.add_format({'align': 'center', 'border': True})
-            for_right_no_border = workbook.add_format({'align': 'right'})
+        for_left_no_border = workbook.add_format({'align': 'left'})
+        for_left_border = workbook.add_format({'align': 'left', 'border': True})
+        for_center_no_border = workbook.add_format({'align': 'center'})
+        for_center_border = workbook.add_format({'align': 'center', 'border': True})
+        for_right_no_border = workbook.add_format({'align': 'right'})
 
-            for_left_bold = workbook.add_format({'align': 'left', 'bold': True, 'border': True})
-            for_center_bold = workbook.add_format({'align': 'center', 'bold': True, 'border': True})
-            for_right_bold = workbook.add_format({'align': 'right', 'bold': True, 'border': True})
-            for_center_bold_bg = workbook.add_format(
-                {'align': 'center', 'valign': 'vcenter', 'bold': True, 'border': True, 'bg_color': '#ffff'})
-            for_right_bold = workbook.add_format({'align': 'right', 'bold': True, 'border': True})
-            for_right_bold_bg = workbook.add_format({'align': 'right', 'bold': True, 'border': True, 'bg_color': '#FFFF00'})
-            for_right_bold_bg_no_border_left_right = workbook.add_format({
-                'align': 'right',
-                'bold': True,
-                'border': True,
-                'bg_color': '#FFFF00',
-                'top': True,  # เปิดเส้นขอบด้านบน
-                'bottom': True,  # เปิดเส้นขอบด้านล่าง
-                'left': False,  # ปิดเส้นขอบด้านซ้าย
-                'right': False  # ปิดเส้นขอบด้านขวา
-            })
-            for_right_bold_bg_no_border_right = workbook.add_format({
-                'align': 'right',
-                'bold': True,
-                'border': True,
-                'bg_color': '#FFFF00',
-                'top': True,
-                'bottom': True,
-                'left': False,
-                'right': True
-            })
+        for_left_bold = workbook.add_format({'align': 'left', 'bold': True, 'border': True})
+        for_center_bold = workbook.add_format({'align': 'center', 'bold': True, 'border': True})
+        for_right_bold = workbook.add_format({'align': 'right', 'bold': True, 'border': True})
+        for_center_bold_bg = workbook.add_format(
+            {'align': 'center', 'valign': 'vcenter', 'bold': True, 'border': True, 'bg_color': '#ffff'})
+        for_right_bold = workbook.add_format({'align': 'right', 'bold': True, 'border': True})
+        for_right_bold_bg = workbook.add_format({'align': 'right', 'bold': True, 'border': True, 'bg_color': '#FFFF00'})
+        for_right_bold_bg_no_border_left_right = workbook.add_format({
+            'align': 'right',
+            'bold': True,
+            'border': True,
+            'bg_color': '#FFFF00',
+            'top': True,  # เปิดเส้นขอบด้านบน
+            'bottom': True,  # เปิดเส้นขอบด้านล่าง
+            'left': False,  # ปิดเส้นขอบด้านซ้าย
+            'right': False  # ปิดเส้นขอบด้านขวา
+        })
+        for_right_bold_bg_no_border_right = workbook.add_format({
+            'align': 'right',
+            'bold': True,
+            'border': True,
+            'bg_color': '#FFFF00',
+            'top': True,
+            'bottom': True,
+            'left': False,
+            'right': True
+        })
 
+        for_left = workbook.add_format({'align': 'left', 'border': True})
+        for_center = workbook.add_format({'align': 'center', 'border': True})
+        for_right = workbook.add_format({'align': 'right', 'border': True, 'num_format': '#,##0.00'})
 
-            for_left = workbook.add_format({'align': 'left', 'border': True})
-            for_center = workbook.add_format({'align': 'center', 'border': True})
-            for_right = workbook.add_format({'align': 'right', 'border': True, 'num_format': '#,##0.00'})
+        for_right_bold_no_border_date = workbook.add_format(
+            {'align': 'right', 'bold': True, 'num_format': 'dd/mm/yy'})
+        for_right_border_num_format = workbook.add_format(
+            {'align': 'right', 'border': True, 'num_format': '#,##0.00'})
+        for_right_bold_border_num_format = workbook.add_format(
+            {'align': 'right', 'bold': True, 'border': True, 'num_format': '#,##0.00'})
 
-            for_right_bold_no_border_date = workbook.add_format(
-                {'align': 'right', 'bold': True, 'num_format': 'dd/mm/yy'})
-            for_right_border_num_format = workbook.add_format(
-                {'align': 'right', 'border': True, 'num_format': '#,##0.00'})
-            for_right_bold_border_num_format = workbook.add_format(
-                {'align': 'right', 'bold': True, 'border': True, 'num_format': '#,##0.00'})
+        for_center_bold_no_border_date = workbook.add_format(
+            {'align': 'center', 'bold': True, 'num_format': 'dd/mm/yy'})
+        for_center_border_date = workbook.add_format(
+            {'align': 'center', 'bold': False, 'border': True, 'num_format': 'dd/mm/yy'})
+        for_left_bold_no_border_date = workbook.add_format(
+            {'align': 'left', 'bold': True, 'num_format': 'dd/mm/yy'})
 
-            for_center_bold_no_border_date = workbook.add_format(
-                {'align': 'center', 'bold': True, 'num_format': 'dd/mm/yy'})
-            for_center_border_date = workbook.add_format(
-                {'align': 'center', 'bold': False, 'border': True, 'num_format': 'dd/mm/yy'})
-            for_left_bold_no_border_date = workbook.add_format(
-                {'align': 'left', 'bold': True, 'num_format': 'dd/mm/yy'})
+        for_center_date = workbook.add_format({'align': 'center', 'border': False, 'num_format': 'dd/mm/yyyy'})
 
-            for_center_date = workbook.add_format({'align': 'center', 'border': False, 'num_format': 'dd/mm/yyyy'})
+        worksheet.set_column('A:A', 15)
+        worksheet.set_column('B:B', 15)
+        worksheet.set_column('C:C', 15)
+        worksheet.set_column('D:D', 15)
+        worksheet.set_column('E:E', 15)
+        worksheet.set_column('F:F', 15)
+        worksheet.set_column('G:G', 15)
+        worksheet.set_column('H:H', 15)
+        worksheet.set_column('I:I', 15)
+        worksheet.set_column('J:J', 15)
+        worksheet.set_column('K:K', 15)
+        worksheet.set_column('L:L', 15)
+        worksheet.set_column('M:M', 15)
+        worksheet.set_column('N:N', 15)
+        worksheet.set_column('O:O', 15)
+        worksheet.set_column('P:P', 25)
+        worksheet.set_column('Q:Q', 20)
+        worksheet.set_column('R:R', 20)
+        worksheet.set_column('S:S', 25)
 
-            worksheet.set_column('A:A', 15)
-            worksheet.set_column('B:B', 15)
-            worksheet.set_column('C:C', 15)
-            worksheet.set_column('D:D', 15)
-            worksheet.set_column('E:E', 15)
-            worksheet.set_column('F:F', 15)
-            worksheet.set_column('G:G', 15)
-            worksheet.set_column('H:H', 15)
-            worksheet.set_column('I:I', 15)
-            worksheet.set_column('J:J', 15)
-            worksheet.set_column('K:K', 15)
-            worksheet.set_column('L:L', 15)
-            worksheet.set_column('M:M', 15)
-            worksheet.set_column('N:N', 15)
-            worksheet.set_column('O:O', 15)
-            worksheet.set_column('P:P', 25)
-            worksheet.set_column('Q:Q', 20)
-            worksheet.set_column('R:R', 20)
-            worksheet.set_column('S:S', 25)
+        inv_row = 1
+        worksheet.merge_range('A' + str(inv_row) + ':I' + str(inv_row), 'รายงานการซื้อสินค้า', for_center_bold)
 
-            inv_row = 1
-            worksheet.merge_range('A' + str(inv_row) + ':I' + str(inv_row), 'รายงานการซื้อสินค้า', for_center_bold)
+        inv_row += 1
+        day, monthth, year = self.day_to_str(date.today())
+        worksheet.merge_range('A' + str(inv_row) + ':I' + str(inv_row),
+                              "ข้อมูลวันที่ {} - {}".format(self.date_from, self.date_to), for_center_bold)
 
+        inv_row += 2
+        worksheet.write('D' + str(inv_row), "คลังสินค้า", for_center_bold)
+        worksheet.write('E' + str(inv_row), self.location.name, for_center_bold)
+        inv_row += 1
+        worksheet.write('D' + str(inv_row), "Catergory", for_center_bold)
+        worksheet.write('E' + str(inv_row), self.category_id.name, for_center_bold)
+        inv_row += 1
+        worksheet.write('D' + str(inv_row), "สินค้า", for_center_bold)
+        worksheet.write('E' + str(inv_row), self.product.name, for_center_bold)
 
-            inv_row += 1
-            day, monthth, year = self.day_to_str(date.today())
-            worksheet.merge_range('A' + str(inv_row) + ':I' + str(inv_row),"ข้อมูลวันที่ {} - {}".format(self.date_from,self.date_to), for_center_bold)
+        inv_row += 2
+        worksheet.merge_range('A' + str(inv_row) + ':G' + str(inv_row), " ", for_center_bold)
+        worksheet.merge_range('H' + str(inv_row) + ':I' + str(inv_row), "ยอด", for_center_bold)
 
-            inv_row += 2
-            worksheet.write('D' + str(inv_row), "คลังสินค้า", for_center_bold)
-            worksheet.write('E' + str(inv_row), self.location.name, for_center_bold)
-            inv_row += 1
-            worksheet.write('D' + str(inv_row), "Catergory", for_center_bold)
-            worksheet.write('E' + str(inv_row), self.category_id.name, for_center_bold)
-            inv_row += 1
-            worksheet.write('D' + str(inv_row), "สินค้า", for_center_bold)
-            worksheet.write('E' + str(inv_row), self.product.name, for_center_bold)
+        inv_row += 1
+        header = ["Suppiler", "วันที่เข้ารับ", "Picking Number", "วันที่ตาม PO", "เลขที่อ้างอิง", "Bills", "Lot",
+                  "จำนวน", "มูลค่า"]
+        Col = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S"]
+        # haeder
+        worksheet.set_row(inv_row - 1, 20)
+        for i in range(len(header)):
+            try:
+                worksheet.write(str(Col[i]) + str(inv_row), header[i], for_center_bold)
+            except:
+                worksheet.write(str(Col[i]) + str(inv_row), "", for_center_bold)
+        # ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-            inv_row += 2
-            worksheet.merge_range('A' + str(inv_row) + ':G' + str(inv_row)," ", for_center_bold)
-            worksheet.merge_range('H' + str(inv_row) + ':I' + str(inv_row), "ยอด", for_center_bold)
+        domain = [('scheduled_date', '>=', self.date_from), ('scheduled_date', '<=', self.date_to)
+                  ]
+        # if len(self.warehouse) >= 1:
+        #     domain += [('location_id', '=', self.warehouse)]
+        if len(self.location) >= 1:
+            domain += [('location_id.name', '=', self.location.name)]
+        # if self.category_id != False:
+        #     domain += [('date_order', '=', self.category_id)]
 
-            inv_row += 1
-            header = ["Suppiler","วันที่เข้ารับ","Picking Number","วันที่ตาม PO","เลขที่อ้างอิง","Bills","Lot","จำนวน","มูลค่า"]
-            Col = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S"]
-            # haeder
-            worksheet.set_row(inv_row - 1, 20)
-            for i in range(len(header)):
-                try:
-                    worksheet.write(str(Col[i]) + str(inv_row), header[i], for_center_bold)
-                except:
-                    worksheet.write(str(Col[i]) + str(inv_row), "", for_center_bold)
-# ---------------------------------------------------------------------------------------------------------------------------------------------------------
+        Stocks = self.env['stock.picking'].search(domain)
+        print(Stocks)
 
-            domain = [('scheduled_date','>=',self.date_from),('scheduled_date','<=',self.date_to)
-                      ]
-            # if len(self.warehouse) >= 1:
-            #     domain += [('location_id', '=', self.warehouse)]
-            if len(self.location) >= 1:
-                domain += [('location_id.name', '=', self.location.name)]
-            # if self.category_id != False:
-            #     domain += [('date_order', '=', self.category_id)]
+        for stock in Stocks:
+            worksheet.write(inv_row, 0, stock.partner_id.name or ' ', for_center)
+            worksheet.write(inv_row, 1, stock.scheduled_date or ' ', for_center_border_date)
+            worksheet.write(inv_row, 2, stock.name or ' ', for_center)
+            worksheet.write(inv_row, 3, stock.date_done or ' ', for_center_border_date)
+            worksheet.write(inv_row, 4, stock.group_id.name or ' ', for_center)
 
-            Stocks = self.env['stock.picking'].search(domain)
-            print(Stocks)
-
-            for stock in Stocks:
-                worksheet.write(inv_row, 0, stock.partner_id.name or ' ', for_center)
-                worksheet.write(inv_row, 1, stock.scheduled_date or ' ', for_center_border_date)
-                worksheet.write(inv_row, 2, stock.name or ' ', for_center)
-                worksheet.write(inv_row, 3, stock.date_done or ' ', for_center_border_date)
-                worksheet.write(inv_row, 4, stock.group_id.name or ' ', for_center)
-
-                domain = [("invoice_origin","=",stock.origin)]
-                move_bill = self.env['account.move'].search(domain)
-                for bill in move_bill:
-                    worksheet.write(inv_row, 5, bill.name or ' ', for_center)
-                for line in stock.move_line_nosuggest_ids:
-                    if len(self.product) >= 1:
-                        if line.product_id == self.product:
-                            worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
-                            worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
-                            worksheet.write(inv_row, 8,line.qty_done * line.product_id.standard_price or ' ', for_right_border_num_format)
-                            inv_row += 1
-                            worksheet.write(inv_row, 0, ' ', for_center)
-                            worksheet.write(inv_row, 1, ' ', for_center_border_date)
-                            worksheet.write(inv_row, 2, ' ', for_center)
-                            worksheet.write(inv_row, 3, ' ', for_center_border_date)
-                            worksheet.write(inv_row, 4, ' ', for_center)
-                            worksheet.write(inv_row, 5, ' ', for_center)
-                        if line.product_id != self.product:
-                            worksheet.write(inv_row, 0, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 1, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 2, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 3, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 4, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 5, ' ', for_center_no_border)
-                    if len(self.product) == 0:
+            domain = [("invoice_origin", "=", stock.origin)]
+            move_bill = self.env['account.move'].search(domain)
+            for bill in move_bill:
+                worksheet.write(inv_row, 5, bill.name or ' ', for_center)
+            for line in stock.move_line_nosuggest_ids:
+                if len(self.product) >= 1:
+                    if line.product_id == self.product:
                         worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
                         worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
                         worksheet.write(inv_row, 8, line.qty_done * line.product_id.standard_price or ' ',
@@ -373,25 +350,43 @@ class product_purchase_report(models.TransientModel):
                         worksheet.write(inv_row, 3, ' ', for_center_border_date)
                         worksheet.write(inv_row, 4, ' ', for_center)
                         worksheet.write(inv_row, 5, ' ', for_center)
+                    if line.product_id != self.product:
+                        worksheet.write(inv_row, 0, ' ', for_center_no_border)
+                        worksheet.write(inv_row, 1, ' ', for_center_no_border)
+                        worksheet.write(inv_row, 2, ' ', for_center_no_border)
+                        worksheet.write(inv_row, 3, ' ', for_center_no_border)
+                        worksheet.write(inv_row, 4, ' ', for_center_no_border)
+                        worksheet.write(inv_row, 5, ' ', for_center_no_border)
+                if len(self.product) == 0:
+                    worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
+                    worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
+                    worksheet.write(inv_row, 8, line.qty_done * line.product_id.standard_price or ' ',
+                                    for_right_border_num_format)
+                    inv_row += 1
+                    worksheet.write(inv_row, 0, ' ', for_center)
+                    worksheet.write(inv_row, 1, ' ', for_center_border_date)
+                    worksheet.write(inv_row, 2, ' ', for_center)
+                    worksheet.write(inv_row, 3, ' ', for_center_border_date)
+                    worksheet.write(inv_row, 4, ' ', for_center)
+                    worksheet.write(inv_row, 5, ' ', for_center)
 
-                # inv_row += 1
+            # inv_row += 1
 
-# ---------------------------------------------------------------------------------------------------------------------------------------------------------
+        # ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-            workbook.close()
-            buf = fl.getvalue()
-            vals = {'name': namexls, 'report_file': base64.encodebytes(buf)}
-            self._cr.execute("TRUNCATE product_purchase_report_excel_export CASCADE")
-            wizard_id = self.env['product.purchase.report.excel.export'].create(vals)
-            return {
-                'type': 'ir.actions.act_window',
-                'view_type': 'form',
-                'view_mode': 'form',
-                'res_model': 'product.purchase.report.excel.export',
-                'target': 'new',
-                'res_id': wizard_id.id,
-            }
+        workbook.close()
+        buf = fl.getvalue()
+        vals = {'name': namexls, 'report_file': base64.encodebytes(buf)}
+        self._cr.execute("TRUNCATE product_purchase_report_excel_export CASCADE")
+        wizard_id = self.env['product.purchase.report.excel.export'].create(vals)
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'product.purchase.report.excel.export',
+            'target': 'new',
+            'res_id': wizard_id.id,
+        }
 
 
 # ---------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -414,4 +409,3 @@ class product_purchase_report_excel_export(models.TransientModel):
             'res_model': 'product.purchase.report',
             'target': 'new',
         }
-
