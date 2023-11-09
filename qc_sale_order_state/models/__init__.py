@@ -3,3 +3,4 @@
 # Copyright (C) 2022-today www.itaas.co.th (Dev K.Book)
 
 from . import sale_order_state
+from . import sale_order_line
