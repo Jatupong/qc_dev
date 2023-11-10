@@ -786,9 +786,9 @@
                                     <t t-if="o.company_id.partner_id.bank_ids">
                                         <tr>
                                             <td t-att-colspan="colspan_foot">
-                                                เลขที่บัญชี
-                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>
-                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/><br/>
+<!--                                                เลขที่บัญชี-->
+<!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>-->
+<!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/><br/>-->
                                             </td>
                                             <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span><br/><span>Net Total</span></strong></td>
                                             <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/></td>
