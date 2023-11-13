@@ -144,6 +144,8 @@ class ManufacturingProductionRequest(models.Model):
         copy=False,
     )
 
+    sale_order_id = fields.Many2one('sale.order.line',string='Sale Order')
+
 
     def custom_action_cancel(self):
         for rec in self:

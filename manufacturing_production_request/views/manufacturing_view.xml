@@ -70,6 +70,7 @@
                                     <field name="approve_by"/>
                                     <field name="manufacturing_create_by"/>
                                     <field name="custom_manufacturing_order_id" invisible="1"/>
+                                    <field name="sale_order_id" />
                                 </group>
                                 <group>
                                     <field name="confirm_date"/>

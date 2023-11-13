@@ -789,7 +789,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td t-att-colspan="colspan_foot" rowspan="1">
+                                        <td t-att-colspan="colspan_foot" rowspan="2">
                                             <table width="100%">
 <!--                                                <tr>-->
 <!--                                                <td width="50%" style="border: 1px solid white">-->
@@ -839,11 +839,11 @@
 
                                     <t t-if="o.company_id.partner_id.bank_ids">
                                         <tr>
-                                            <td t-att-colspan="colspan_foot">
-                                                เลขที่บัญชี
-                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>
-                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/><br/>
-                                            </td>
+<!--                                            <td t-att-colspan="colspan_foot">-->
+<!--                                                เลขที่บัญชี-->
+<!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>-->
+<!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/><br/>-->
+<!--                                            </td>-->
                                             <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span>/
 <!--                                                <br/>-->
                                                 <span>Net Total</span></strong></td>
