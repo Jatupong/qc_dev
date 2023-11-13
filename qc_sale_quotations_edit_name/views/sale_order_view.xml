@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--res.partner : inherit form view-->
+    <record id="view_sale_quotations_edit_name" model="ir.ui.view">
+        <field name="name">sale.order.edit.name</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department']" position="attributes">
+                <attribute name="string">Sale Team</attribute>
+            </xpath>
+            <xpath expr="//field[@name='id_pp']" position="attributes">
+                <attribute name="string">PP No.</attribute>
+            </xpath>
+            <xpath expr="//field[@name='id_po']" position="attributes">
+                <attribute name="string">PO No.</attribute>
+            </xpath>
+            <xpath expr="//field[@name='w_load_product']" position="attributes">
+                <attribute name="string">Requested Week</attribute>
+            </xpath>
+            <xpath expr="//field[@name='box_type']" position="attributes">
+                <attribute name="string">Packaging</attribute>
+            </xpath>
+            <xpath expr="//field[@name='download_with']" position="attributes">
+                <attribute name="string">Consolidate With</attribute>
+            </xpath>
+            <xpath expr="//field[@name='validity_date']" position="attributes">
+                <attribute name="string">Delivery Week</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_order']" position="attributes">
+                <attribute name="string">Issued Date</attribute>
+            </xpath>
+            <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                <attribute name="string">Price List</attribute>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="attributes">
+                <attribute name="string">Payment Terms</attribute>
+            </xpath>
+            <xpath expr="//field[@name='correction']" position="attributes">
+                <attribute name="string">Revision</attribute>
+            </xpath>
+            <xpath expr="//field[@name='currency']" position="attributes">
+                <attribute name="string">Currency</attribute>
+            </xpath>
+            <xpath expr="//field[@name='container']" position="attributes">
+                <attribute name="string">Container Size</attribute>
+            </xpath>
+            <xpath expr="//field[@name='loading_type']" position="attributes">
+                <attribute name="string">Loading Type</attribute>
+            </xpath>
+            <xpath expr="//field[@name='bar_code']" position="attributes">
+                <attribute name="string">BarCode</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_bank_id']" position="attributes">
+                <attribute name="string">Bank Detail</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='urgent_need']" position="attributes">
+                <attribute name="string">Priority</attribute>
+            </xpath>
+            <xpath expr="//field[@name='want_to_deliver']" position="attributes">
+                <attribute name="string">Type of Delivery</attribute>
+            </xpath>
+            <xpath expr="//field[@name='Importance']" position="attributes">
+                <attribute name="string">Remark</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
