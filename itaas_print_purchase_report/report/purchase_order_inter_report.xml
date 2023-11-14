@@ -370,12 +370,13 @@
                                     </font>
                                     <br/>
                                     <br/>
-                                  <font style="font-size: 20px;">
+                                  <font style="font-size: 18px;">
                                   <strong>  <span>ใบสั่งซื้อ/สั่งจ้างต่างประเทศ</span></strong>
                                     </font>
                                 </t>
                             </div>
                             <div class="font_size_14">
+                                <span> PURCHASE ORDER </span><br/>
                                 <span>หน้า</span><span class="page"/> / <span class="topage"/>
                             </div>
                         </td>
