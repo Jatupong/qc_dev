@@ -20,6 +20,28 @@
                         overflow: hidden;
                         <!--background-color:#cccccc;-->
                         }
+                        table.table-nobordered{
+                        margin:0px;
+                        margin-top:0px;
+                        margin-bottom:0px;
+                        width: 100%;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
@@ -84,10 +106,10 @@
                     </div>
                     <table width="100%" class="font_fam table table-nobordered font_size_18" style="border-top:2px solid black; border-bottom:2px solid black;">
                         <tr>
-                            <td width="20%" style="vertical-align: middle;">
-                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:150px; max-width:150px;" alt="Logo"/>
+                            <td width="15%" style="vertical-align: middle;">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:70px; max-width:70px;" alt="Logo"/>
                             </td>
-                            <td width="55%" style="vertical-align: middle;">
+                            <td width="50%" style="vertical-align: middle;">
                                 <div style="width:500px; word-wrap: break-word;">
                                     <font class="font_size_20">
                                         <p>
@@ -105,7 +127,7 @@
                                     </font>
                                 </div>
                             </td>
-                            <td width="25%" style="text-align:center; vertical-align: bottom;">
+                            <td width="35%" style="text-align:center; vertical-align: bottom;">
                                 <div class="font_size_28">
                                     <strong>PROFORMA INVOICE</strong>
                                 </div>
