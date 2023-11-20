@@ -118,16 +118,16 @@ class SaleOrder(models.Model):
             if not obj.product_id.bom_ids.id:
                 raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
 
-            if obj.move_ids.product_virtual_available < 0:
-                print('No product')
+            sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
+            print('sum_all_reserved',sum_all_reserved)
 
 
 
-        # for sale in self.order_line:
+            if sum_all_reserved > 0:
                 print('Reserved222', obj)
                 so_val = {
                     'custom_product_template_id': obj.product_id.id,
-                    'custom_product_qty': obj.product_uom_qty,
+                    'custom_product_qty': sum_all_reserved,
                     'end_date': obj.create_date,
                     'custom_date_start_wo': obj.create_date,
                     'custom_product_uom_id': obj.product_uom.id,
@@ -138,6 +138,8 @@ class SaleOrder(models.Model):
                 }
                 print('so_val',so_val)
                 self.env['manufacturing.request.custom'].create(so_val)
+
+
 
 
     def action_view_mr_order(self):
