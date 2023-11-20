@@ -59,7 +59,38 @@ class SaleOrder(models.Model):
             context.pop('default_name', None)
 
             self.with_context(context)._action_confirm()
+
+
             obj.write({'state': 'check_delivery'})
+
+            for obj in self.order_line:
+                # product_quant = self.env['stock.quant'].search([('product_id.id', '=', obj.product_id.id)])
+                # print('product_quant',product_quant)
+                print('objjjjjj', obj.product_uom_qty)
+                print('objjjjjj6666', obj.move_ids)
+                print('objjjjjj', obj.move_ids.product_virtual_available)
+                print('objjjjjj', obj.move_ids.product_qty_available)
+                if not obj.product_id.bom_ids.id:
+                    raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
+
+                sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
+                print('sum_all_reserved', sum_all_reserved)
+
+                if sum_all_reserved > 0:
+                    print('Reserved222', obj)
+                    so_val = {
+                        'custom_product_template_id': obj.product_id.id,
+                        'custom_product_qty': sum_all_reserved,
+                        'end_date': obj.create_date,
+                        'custom_date_start_wo': obj.create_date,
+                        'custom_product_uom_id': obj.product_uom.id,
+                        'custom_bom_id': obj.product_id.bom_ids.id,
+                        'sale_order_id': obj.id
+                        # 'custom_bom_idh': obj.product_id.variant_bom_ids.id,
+
+                    }
+                    print('so_val', so_val)
+                    self.env['manufacturing.request.custom'].create(so_val)
 
     def action_delivery_confirm(self):
         for obj in self:
@@ -105,39 +136,39 @@ class SaleOrder(models.Model):
     #         'signed_on': False,
     #     })
 
-    def action_do_and_mr(self):
-        print('action_do_and_mr')
-        #
-        for obj in self.order_line:
-            # product_quant = self.env['stock.quant'].search([('product_id.id', '=', obj.product_id.id)])
-            # print('product_quant',product_quant)
-            print('objjjjjj',obj.product_uom_qty)
-            print('objjjjjj6666',obj.move_ids)
-            print('objjjjjj',obj.move_ids.product_virtual_available)
-            print('objjjjjj',obj.move_ids.product_qty_available)
-            if not obj.product_id.bom_ids.id:
-                raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
-
-            sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
-            print('sum_all_reserved',sum_all_reserved)
-
-
-
-            if sum_all_reserved > 0:
-                print('Reserved222', obj)
-                so_val = {
-                    'custom_product_template_id': obj.product_id.id,
-                    'custom_product_qty': sum_all_reserved,
-                    'end_date': obj.create_date,
-                    'custom_date_start_wo': obj.create_date,
-                    'custom_product_uom_id': obj.product_uom.id,
-                    'custom_bom_id': obj.product_id.bom_ids.id,
-                    'sale_order_id':obj.id
-                    # 'custom_bom_idh': obj.product_id.variant_bom_ids.id,
-
-                }
-                print('so_val',so_val)
-                self.env['manufacturing.request.custom'].create(so_val)
+    # def action_do_and_mr(self):
+    #     print('action_do_and_mr')
+    #     #
+    #     for obj in self.order_line:
+    #         # product_quant = self.env['stock.quant'].search([('product_id.id', '=', obj.product_id.id)])
+    #         # print('product_quant',product_quant)
+    #         print('objjjjjj',obj.product_uom_qty)
+    #         print('objjjjjj6666',obj.move_ids)
+    #         print('objjjjjj',obj.move_ids.product_virtual_available)
+    #         print('objjjjjj',obj.move_ids.product_qty_available)
+    #         if not obj.product_id.bom_ids.id:
+    #             raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
+    #
+    #         sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
+    #         print('sum_all_reserved',sum_all_reserved)
+    #
+    #
+    #
+    #         if sum_all_reserved > 0:
+    #             print('Reserved222', obj)
+    #             so_val = {
+    #                 'custom_product_template_id': obj.product_id.id,
+    #                 'custom_product_qty': sum_all_reserved,
+    #                 'end_date': obj.create_date,
+    #                 'custom_date_start_wo': obj.create_date,
+    #                 'custom_product_uom_id': obj.product_uom.id,
+    #                 'custom_bom_id': obj.product_id.bom_ids.id,
+    #                 'sale_order_id':obj.id
+    #                 # 'custom_bom_idh': obj.product_id.variant_bom_ids.id,
+    #
+    #             }
+    #             print('so_val',so_val)
+    #             self.env['manufacturing.request.custom'].create(so_val)
 
 
 
