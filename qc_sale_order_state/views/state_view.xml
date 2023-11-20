@@ -18,7 +18,7 @@
 <!--            </xpath>-->
 
             <xpath expr="//button[@name='action_cancel']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['sent','sale','done']), ('id', '=', False)]}</attribute>
+                <attribute name="attrs">{'invisible': ['|', ('state', 'in', ['draft','cancel']), ('id', '=', False)]}</attribute>
             </xpath>
 
             <xpath expr="//button[@name='action_draft']" position="replace">
@@ -36,7 +36,7 @@
                 <button name="action_confirm_sale" string="Sales Order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['pp_confirm'])]}"/>
                 <button name="action_production" string="Production order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['sale'])]}"/>
                 <button name="action_done_sale" string="Done" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['sale','production'])]}"/>
-                <button name="action_do_and_mr" string="Gen MR" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['check_delivery'])]}"/>
+<!--                <button name="action_do_and_mr" string="Gen MR" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['check_delivery'])]}"/>-->
             </xpath>
 
 <!--            <xpath expr="//button[@name='action_draft']" position="after">-->
