@@ -572,7 +572,7 @@
                                     <!--<span t-if="o.company_id.moo_number">หมู่ที่<span t-field="o.company_id.moo_number"/>&amp;nbsp;</span>-->
                                     <!--<span t-if="o.company_id.soi_number">ซอย<span t-field="o.company_id.soi_number"/>&amp;nbsp;</span>-->
                                     <span t-if="o.company_id.street">ถนน<span t-esc="o.company_id.street"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span><br/>
+                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;</span>
@@ -690,7 +690,7 @@
                     <t t-set="max_body_height" t-value="160"/>
                     <t t-set="new_line_height" t-value="5"/>
                     <t t-set="row_line_height" t-value="5"/>
-                    <t t-set="max_line_lenght" t-value="40"/>
+                    <t t-set="max_line_lenght" t-value="50"/>
 
                     <t t-if="o.move_line_nosuggest_ids">
                         <t t-set="move_line" t-value="o.move_line_nosuggest_ids"/>

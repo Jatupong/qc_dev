@@ -632,59 +632,61 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                                                <t t-foreach="range(start,break_line[x],1)" t-as="y">
-                                                                    <t t-if="(y+1)!=(break_line[x])">
-                                                                        <tr style="height:30px;">
-                                                                            <td align="center">
-                                                                                <span t-esc="y+1"/>
-                                                                            </td>
-                                                                            <td align="left">
-                                                                                <span t-field="o.line_ids[y].product_id.default_code"/>
-                                                                            </td>
-                                                                            <td>
-                                                                                <span t-field="o.line_ids[y].product_id.name"/>
-                                                                            </td>
-                                                                            <td align="center">
-                                                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].product_qty))"/>
-                                                                                &amp;nbsp;
-                                                                                <span t-field="o.line_ids[y].product_uom_id"/>
-                                                                            </td>
-                                                                            <td align="right">
-                                                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>
-                                                                            </td>
-                                                                            <td align="right">
-                                                                                <t t-set="amount" t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
-                                                                                <span t-esc="'{0:,.2f}'.format(float(amount))"/>
-                                                                            </td>
-                                                                        </tr>
-                                                                    </t>
-                                                                    <t t-if="(y+1)==(break_line[x])">
-                                                                        <tr>
-                                                                            <td align="center">
-                                                                                <span t-esc="y+1"/>
-                                                                            </td>
-                                                                            <td align="left">
-                                                                                <span t-field="o.line_ids[y].product_id.default_code"/>
-                                                                            </td>
-                                                                            <td>
-                                                                                <span t-field="o.line_ids[y].product_id.name"/>
-                                                                            </td>
-                                                                            <td align="center">
-                                                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].product_qty))"/>
-                                                                                &amp;nbsp;
-                                                                                <span t-field="o.line_ids[y].product_uom_id"/>
-                                                                            </td>
-                                                                            <td align="right">
-                                                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>
-                                                                            </td>
-                                                                            <td align="right">
-                                                                                <t t-set="amount" t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
-                                                                                <span t-esc="'{0:,.2f}'.format(float(amount))"/>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <t t-set="end" t-value="(break_line[x])"/>
-                                                                    </t>
-                                                                </t>
+                                <t t-foreach="range(start,break_line[x],1)" t-as="y">
+                                    <t t-if="(y+1)!=(break_line[x])">
+                                        <tr style="height:30px;">
+                                            <td align="center">
+                                                <span t-esc="y+1"/>
+                                            </td>
+                                            <td align="left">
+                                                <span t-field="o.line_ids[y].product_id.default_code"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.line_ids[y].product_id.name"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].product_qty))"/>
+                                                &amp;nbsp;
+                                                <span t-field="o.line_ids[y].product_uom_id"/>
+                                            </td>
+                                            <td align="right">
+                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>
+                                            </td>
+                                            <td align="right">
+                                                <t t-set="amount"
+                                                   t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(amount))"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="(y+1)==(break_line[x])">
+                                        <tr>
+                                            <td align="center">
+                                                <span t-esc="y+1"/>
+                                            </td>
+                                            <td align="left">
+                                                <span t-field="o.line_ids[y].product_id.default_code"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.line_ids[y].product_id.name"/>
+                                            </td>
+                                            <td align="center">
+                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].product_qty))"/>
+                                                &amp;nbsp;
+                                                <span t-field="o.line_ids[y].product_uom_id"/>
+                                            </td>
+                                            <td align="right">
+                                                <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>
+                                            </td>
+                                            <td align="right">
+                                                <t t-set="amount"
+                                                   t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(amount))"/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="end" t-value="(break_line[x])"/>
+                                    </t>
+                                </t>
                             </tbody>
                             <tfoot>
                                 <tr style="height: 60px;">
