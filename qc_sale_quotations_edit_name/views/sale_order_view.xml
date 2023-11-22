@@ -9,6 +9,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='department']" position="attributes">
                 <attribute name="string">Sale Team</attribute>
+                <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='id_pp']" position="attributes">
                 <attribute name="string">PP No.</attribute>

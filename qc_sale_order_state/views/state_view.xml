@@ -54,6 +54,12 @@
                 </button>
             </div>
 
+            <xpath expr="//field[@name='partner_shipping_id']" position="after">
+                    <field name="attn_id"/>
+                    <field name="cc_id"/>
+
+
+                </xpath>
 
 
         </field>
@@ -75,11 +81,7 @@
 <!--                <attribute name="invisible">1</attribute>-->
 <!--            </xpath>-->
 
-<!--                <xpath expr="//field[@name='amount_total']" position="after">-->
-<!--                    <field name="state_sale_order"/>-->
 
-
-<!--                </xpath>-->
 
 <!--            </field>-->
 <!--        </record>-->
