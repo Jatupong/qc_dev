@@ -57,6 +57,7 @@
             <xpath expr="//field[@name='partner_shipping_id']" position="after">
                     <field name="attn_id"/>
                     <field name="cc_id"/>
+                    <field name="delivery_exp_date"/>
 
 
                 </xpath>

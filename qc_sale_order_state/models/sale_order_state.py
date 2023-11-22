@@ -30,8 +30,10 @@ class SaleOrder(models.Model):
                                         # compute='get_sale_count_one'
                                         )
 
-    attn_id = fields.Many2one('res.users', string="Attn")
-    cc_id = fields.Many2one('res.users', string="CC")
+    attn_id = fields.Many2one('res.partner', string="Attn")
+    cc_id = fields.Many2one('res.partner', string="CC")
+
+    delivery_exp_date = fields.Date(string="วันหมดอายุส่งมอบ")
 
 
 
