@@ -322,27 +322,52 @@ class product_purchase_report(models.TransientModel):
         # if self.category_id != False:
         #     domain += [('date_order', '=', self.category_id)]
 
+        sum_unit = 0.0
+        sum_price = 0.0
         Stocks = self.env['stock.picking'].search(domain)
-        print(Stocks)
+        print(Stocks.sorted(key=lambda x: str(x.partner_id.name)))
+        for stock in Stocks.sorted(key=lambda x: str(x.partner_id.name)):
+            if 'P0' in str(stock.group_id.name) and 'IN' in str(stock.name).split('/'):
+                worksheet.write(inv_row, 0, stock.partner_id.name or ' ', for_center)
+                worksheet.write(inv_row, 1, stock.scheduled_date or ' ', for_center_border_date)
+                worksheet.write(inv_row, 2, stock.name or ' ', for_center)
+                worksheet.write(inv_row, 3, stock.date_done or ' ', for_center_border_date)
+                worksheet.write(inv_row, 4, stock.group_id.name or ' ', for_center)
 
-        for stock in Stocks:
-            worksheet.write(inv_row, 0, stock.partner_id.name or ' ', for_center)
-            worksheet.write(inv_row, 1, stock.scheduled_date or ' ', for_center_border_date)
-            worksheet.write(inv_row, 2, stock.name or ' ', for_center)
-            worksheet.write(inv_row, 3, stock.date_done or ' ', for_center_border_date)
-            worksheet.write(inv_row, 4, stock.group_id.name or ' ', for_center)
-
-            domain = [("invoice_origin", "=", stock.origin)]
-            move_bill = self.env['account.move'].search(domain)
-            for bill in move_bill:
-                worksheet.write(inv_row, 5, bill.name or ' ', for_center)
-            for line in stock.move_line_nosuggest_ids:
-                if len(self.product) >= 1:
-                    if line.product_id == self.product:
+                domain = [("invoice_origin", "=", stock.origin)]
+                move_bill = self.env['account.move'].search(domain)
+                for bill in move_bill:
+                    worksheet.write(inv_row, 5, bill.name or ' ', for_center)
+                for line in stock.move_line_nosuggest_ids:
+                    if len(self.product) >= 1:
+                        if line.product_id == self.product:
+                            worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
+                            worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
+                            worksheet.write(inv_row, 8, line.qty_done * line.product_id.standard_price or ' ',
+                                            for_right_border_num_format)
+                            sum_unit += line.qty_done
+                            sum_price += line.qty_done * line.product_id.standard_price
+                            inv_row += 1
+                            worksheet.write(inv_row, 0, ' ', for_center)
+                            worksheet.write(inv_row, 1, ' ', for_center_border_date)
+                            worksheet.write(inv_row, 2, ' ', for_center)
+                            worksheet.write(inv_row, 3, ' ', for_center_border_date)
+                            worksheet.write(inv_row, 4, ' ', for_center)
+                            worksheet.write(inv_row, 5, ' ', for_center)
+                        if line.product_id != self.product:
+                            worksheet.write(inv_row, 0, ' ', for_center_no_border)
+                            worksheet.write(inv_row, 1, ' ', for_center_no_border)
+                            worksheet.write(inv_row, 2, ' ', for_center_no_border)
+                            worksheet.write(inv_row, 3, ' ', for_center_no_border)
+                            worksheet.write(inv_row, 4, ' ', for_center_no_border)
+                            worksheet.write(inv_row, 5, ' ', for_center_no_border)
+                    if len(self.product) == 0:
                         worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
                         worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
                         worksheet.write(inv_row, 8, line.qty_done * line.product_id.standard_price or ' ',
                                         for_right_border_num_format)
+                        sum_unit += line.qty_done
+                        sum_price += line.qty_done * line.product_id.standard_price
                         inv_row += 1
                         worksheet.write(inv_row, 0, ' ', for_center)
                         worksheet.write(inv_row, 1, ' ', for_center_border_date)
@@ -350,27 +375,11 @@ class product_purchase_report(models.TransientModel):
                         worksheet.write(inv_row, 3, ' ', for_center_border_date)
                         worksheet.write(inv_row, 4, ' ', for_center)
                         worksheet.write(inv_row, 5, ' ', for_center)
-                    if line.product_id != self.product:
-                        worksheet.write(inv_row, 0, ' ', for_center_no_border)
-                        worksheet.write(inv_row, 1, ' ', for_center_no_border)
-                        worksheet.write(inv_row, 2, ' ', for_center_no_border)
-                        worksheet.write(inv_row, 3, ' ', for_center_no_border)
-                        worksheet.write(inv_row, 4, ' ', for_center_no_border)
-                        worksheet.write(inv_row, 5, ' ', for_center_no_border)
-                if len(self.product) == 0:
-                    worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
-                    worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
-                    worksheet.write(inv_row, 8, line.qty_done * line.product_id.standard_price or ' ',
-                                    for_right_border_num_format)
-                    inv_row += 1
-                    worksheet.write(inv_row, 0, ' ', for_center)
-                    worksheet.write(inv_row, 1, ' ', for_center_border_date)
-                    worksheet.write(inv_row, 2, ' ', for_center)
-                    worksheet.write(inv_row, 3, ' ', for_center_border_date)
-                    worksheet.write(inv_row, 4, ' ', for_center)
-                    worksheet.write(inv_row, 5, ' ', for_center)
 
-            # inv_row += 1
+        inv_row += 1
+        worksheet.merge_range('A' + str(inv_row) + ':G' + str(inv_row),"รวม", for_right_bold)
+        worksheet.write(inv_row-1, 7, sum_unit or '', for_right_border_num_format)
+        worksheet.write(inv_row-1, 8,sum_price or '' , for_right_border_num_format)
 
         # ---------------------------------------------------------------------------------------------------------------------------------------------------------
 
