@@ -278,8 +278,6 @@ class WizardDepositReportXls(models.AbstractModel):
                         i_col += 1
                         worksheet.write(i_row, i_col, inv_amount_total_out or '', for_right_border_num_format)
 
-
-
                         payment_name = []
                         for i in inv.invoice_line_ids:
                             payment_name.append(i.product_id.name)
