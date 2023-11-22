@@ -113,6 +113,22 @@ class SaleOrder(models.Model):
             obj.write({'state': 'sale'})
 
 
+    def action_set_pre_production(self):
+        for obj in self:
+            obj.write({'state': 'sent'})
+
+
+    def action_set_check_delivery(self):
+        for obj in self:
+            obj.write({'state': 'check_delivery'})
+
+
+    def action_set_sales_order(self):
+        print('action_confirm_sale')
+        for obj in self:
+            obj.write({'state': 'sale'})
+
+
 
 
     # def _get_forbidden_state_confirm(self):

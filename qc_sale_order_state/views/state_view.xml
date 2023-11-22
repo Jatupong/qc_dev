@@ -36,6 +36,12 @@
                 <button name="action_confirm_sale" string="Sales Order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['pp_confirm'])]}"/>
                 <button name="action_production" string="Production order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['sale'])]}"/>
                 <button name="action_done_sale" string="Done" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['sale','production'])]}"/>
+
+
+
+                <button name="action_set_pre_production" string="Set-Pre Production" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production'])]}"/>
+                <button name="action_set_check_delivery" string="Set-Check Delivert" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production'])]}"/>
+                <button name="action_set_sales_order" string="Set-Sales Order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production'])]}"/>
 <!--                <button name="action_do_and_mr" string="Gen MR" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['check_delivery'])]}"/>-->
             </xpath>
 
@@ -55,8 +61,10 @@
             </div>
 
             <xpath expr="//field[@name='partner_shipping_id']" position="after">
-                    <field name="attn_id"/>
-                    <field name="cc_id"/>
+                    <field name="attn_id" domain="[('parent_id','=',partner_id),('type','=','contact')]"
+                       options="{'no_create': True, 'no_create_edit':True}"/>
+                    <field name="cc_id" domain="[('parent_id','=',partner_id),('type','=','contact')]"
+                       options="{'no_create': True, 'no_create_edit':True}"/>
                     <field name="delivery_exp_date"/>
 
 
