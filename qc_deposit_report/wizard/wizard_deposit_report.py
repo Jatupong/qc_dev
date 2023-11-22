@@ -316,7 +316,6 @@ class WizardDepositReportXls(models.AbstractModel):
 
 
 
-
                         # note
                         i_col += 1
                         if inv.narration !=False:
