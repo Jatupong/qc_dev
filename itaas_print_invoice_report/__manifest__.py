@@ -33,7 +33,7 @@
         'report/invoice_and_tax_invoice_report.xml',
         'report/tax_invoice_report.xml',
         'report/receipt_report.xml',
-        'report/tax_invoice_and_receipt_report.xml',
+        # 'report/tax_invoice_and_receipt_report.xml',
         'report/creditnote_report.xml',
         'report/debitnote_report.xml',
         'report/down_payment_report.xml',
