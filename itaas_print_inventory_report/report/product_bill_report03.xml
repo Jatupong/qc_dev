@@ -581,7 +581,8 @@
                         }
                     </style>
 
-                    <t t-set="max_body_height" t-value="170"/>
+<!--                    <t t-set="max_body_height" t-value="170"/>-->
+                    <t t-set="max_body_height" t-value="220"/>
                     <t t-set="new_line_height" t-value="5"/>
                     <t t-set="row_line_height" t-value="5"/>
                     <t t-set="max_line_lenght" t-value="40"/>
