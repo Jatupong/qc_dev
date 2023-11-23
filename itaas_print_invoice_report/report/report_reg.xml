@@ -106,38 +106,38 @@
                 print_report_name="('ใบเสร็จรับเงิน - %s' % (object.name))"
         />
 
-        <record id="paperformat_A4_Five_Margin_tax_invoice_and_receipt" model="report.paperformat">
-            <field name="name">A4_Five_Margin_tax_invoice_and_receipt</field>
-            <field name="default" eval="False"/>
-            <field name="format">A4</field>
-            <field name="orientation">Portrait</field>
-<!--            <field name="margin_top">117</field>-->
+<!--        <record id="paperformat_A4_Five_Margin_tax_invoice_and_receipt" model="report.paperformat">-->
+<!--            <field name="name">A4_Five_Margin_tax_invoice_and_receipt</field>-->
+<!--            <field name="default" eval="False"/>-->
+<!--            <field name="format">A4</field>-->
+<!--            <field name="orientation">Portrait</field>-->
+<!--&lt;!&ndash;            <field name="margin_top">117</field>&ndash;&gt;-->
+<!--&lt;!&ndash;            <field name="margin_bottom">42</field>&ndash;&gt;-->
+<!--&lt;!&ndash;            <field name="margin_left">5</field>&ndash;&gt;-->
+<!--&lt;!&ndash;            <field name="margin_right">5</field>&ndash;&gt;-->
+<!--&lt;!&ndash;            <field name="header_line" eval="False"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <field name="header_spacing">112</field>&ndash;&gt;-->
+<!--&lt;!&ndash;            <field name="dpi">90</field>&ndash;&gt;-->
+<!--            <field name="margin_top">102</field>-->
 <!--            <field name="margin_bottom">42</field>-->
 <!--            <field name="margin_left">5</field>-->
 <!--            <field name="margin_right">5</field>-->
 <!--            <field name="header_line" eval="False"/>-->
-<!--            <field name="header_spacing">112</field>-->
+<!--            <field name="header_spacing">97</field>-->
 <!--            <field name="dpi">90</field>-->
-            <field name="margin_top">102</field>
-            <field name="margin_bottom">42</field>
-            <field name="margin_left">5</field>
-            <field name="margin_right">5</field>
-            <field name="header_line" eval="False"/>
-            <field name="header_spacing">97</field>
-            <field name="dpi">90</field>
-        </record>
+<!--        </record>-->
 
-        <report
-                id="tax_invoice_and_receipt_report"
-                model="account.move"
-                menu="True"
-                report_type="qweb-pdf"
-                string="ใบกำกับภาษี/ใบเสร็จรับเงิน"
-                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_tax_invoice_and_receipt"
-                name="itaas_print_invoice_report.tax_invoice_and_receipt_report_id"
-                file="itaas_print_invoice_report.tax_invoice_and_receipt_report_id"
-                print_report_name="('ใบกำกับภาษี/ใบเสร็จรับเงิน - %s' % (object.name))"
-        />
+<!--        <report-->
+<!--                id="tax_invoice_and_receipt_report"-->
+<!--                model="account.move"-->
+<!--                menu="True"-->
+<!--                report_type="qweb-pdf"-->
+<!--                string="ใบกำกับภาษี/ใบเสร็จรับเงิน"-->
+<!--                paperformat="itaas_print_invoice_report.paperformat_A4_Five_Margin_tax_invoice_and_receipt"-->
+<!--                name="itaas_print_invoice_report.tax_invoice_and_receipt_report_id"-->
+<!--                file="itaas_print_invoice_report.tax_invoice_and_receipt_report_id"-->
+<!--                print_report_name="('ใบกำกับภาษี/ใบเสร็จรับเงิน - %s' % (object.name))"-->
+<!--        />-->
 
         <record id="paperformat_A4_Five_Margin_credit_note" model="report.paperformat">
             <field name="name">A4_Five_Margin_credit_note</field>

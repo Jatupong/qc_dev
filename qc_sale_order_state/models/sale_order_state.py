@@ -37,6 +37,11 @@ class SaleOrder(models.Model):
 
     delivery_date = fields.Datetime(string="Delivery Date" ,readonly=True)
 
+    @api.onchange('commitment_date')
+    def _onchange_model_id(self):
+        for data in self:
+            data.delivery_date = data.commitment_date
+
 
 
 
@@ -108,7 +113,8 @@ class SaleOrder(models.Model):
         for obj in self:
             print(obj)
             obj.write({'state': 'pp_confirm',
-                       'delivery_date': self.commitment_date})
+                       # 'delivery_date': self.commitment_date
+                       })
 
     # #
     def action_confirm_sale(self):
