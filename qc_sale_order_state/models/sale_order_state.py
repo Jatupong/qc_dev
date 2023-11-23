@@ -35,6 +35,8 @@ class SaleOrder(models.Model):
 
     delivery_exp_date = fields.Date(string="วันหมดอายุส่งมอบ")
 
+    delivery_date = fields.Datetime(string="Delivery Date" ,readonly=True)
+
 
 
 
@@ -105,7 +107,9 @@ class SaleOrder(models.Model):
     def action_pp_confirm(self):
         for obj in self:
             print(obj)
-            obj.write({'state': 'pp_confirm'})
+            obj.write({'state': 'pp_confirm',
+                       'delivery_date': self.commitment_date})
+
     # #
     def action_confirm_sale(self):
         print('action_confirm_sale')

@@ -7,15 +7,15 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
 
-<!--            <xpath expr="//field[@name='state']" position="attributes">-->
-<!--                <attribute name="invisible">1</attribute>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//button[7]" position="attributes">-->
-<!--                <attribute name="invisible">1</attribute>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//button[8]" position="attributes">-->
-<!--                <attribute name="invisible">1</attribute>-->
-<!--            </xpath>-->
+            <!--            <xpath expr="//field[@name='state']" position="attributes">-->
+            <!--                <attribute name="invisible">1</attribute>-->
+            <!--            </xpath>-->
+            <!--            <xpath expr="//button[7]" position="attributes">-->
+            <!--                <attribute name="invisible">1</attribute>-->
+            <!--            </xpath>-->
+            <!--            <xpath expr="//button[8]" position="attributes">-->
+            <!--                <attribute name="invisible">1</attribute>-->
+            <!--            </xpath>-->
 
             <xpath expr="//button[@name='action_cancel']" position="attributes">
                 <attribute name="attrs">{'invisible': ['|', ('state', 'in', ['draft','cancel']), ('id', '=', False)]}</attribute>
@@ -42,12 +42,12 @@
                 <button name="action_set_pre_production" string="Set-Pre Production" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production','sale','pp_confirm','delivery_confirm'])]}"/>
                 <button name="action_set_check_delivery" string="Set-Check Delivert" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production','sale','pp_confirm'])]}"/>
                 <button name="action_set_sales_order" string="Set-Sales Order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production'])]}"/>
-<!--                <button name="action_do_and_mr" string="Gen MR" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['check_delivery'])]}"/>-->
+                <!--                <button name="action_do_and_mr" string="Gen MR" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['check_delivery'])]}"/>-->
             </xpath>
 
-<!--            <xpath expr="//button[@name='action_draft']" position="after">-->
-<!--                <field name="state_sale_order" widget="statusbar" statusbar_visible="draft,sent,check_delivery,delivery_confirm,pp_confirm,sale,production"/>-->
-<!--            </xpath>-->
+            <!--            <xpath expr="//button[@name='action_draft']" position="after">-->
+            <!--                <field name="state_sale_order" widget="statusbar" statusbar_visible="draft,sent,check_delivery,delivery_confirm,pp_confirm,sale,production"/>-->
+            <!--            </xpath>-->
 
             <xpath expr="//field[@name='state']" position="attributes">
                 <attribute name="statusbar_visible">draft,sent,check_delivery,delivery_confirm,pp_confirm,sale,production</attribute>
@@ -55,45 +55,49 @@
 
             <div name="button_box" position="inside">
                 <button type="object" name="action_view_mr_order" class="oe_stat_button" icon="/qc_sale_order_state/views/kitty.png" groups="base.group_user" >
-                   <field name="mr_order_count_one" widget="statinfo" string="Mr"/>
+                    <field name="mr_order_count_one" widget="statinfo" string="Mr"/>
 
                 </button>
             </div>
 
             <xpath expr="//field[@name='partner_shipping_id']" position="after">
-                    <field name="attn_id" domain="[('parent_id','=',partner_id),('type','=','contact')]"
+                <field name="attn_id" domain="[('parent_id','=',partner_id),('type','=','contact')]"
                        options="{'no_create': True, 'no_create_edit':True}"/>
-                    <field name="cc_id" domain="[('parent_id','=',partner_id),('type','=','contact')]"
+                <field name="cc_id" domain="[('parent_id','=',partner_id),('type','=','contact')]"
                        options="{'no_create': True, 'no_create_edit':True}"/>
-                    <field name="delivery_exp_date"/>
+                <field name="delivery_exp_date"/>
 
 
-                </xpath>
+            </xpath>
+
+            <xpath expr="//field[@name='validity_date']" position="before">
+                <field name="delivery_date"/>
+            </xpath>
 
 
         </field>
     </record>
 
 
-<!--        <record id="view_sale_order_form_qc_sale_state_order_tree" model="ir.ui.view">-->
-<!--            <field name="name">view.sale.order.form.qc.sale.state.order.tree</field>-->
-<!--            <field name="model">sale.order</field>-->
-<!--            <field name="inherit_id" ref="sale.view_quotation_tree"/>-->
-<!--            <field name="arch" type="xml">-->
+    <!--        <record id="view_sale_order_form_qc_sale_state_order_tree" model="ir.ui.view">-->
+    <!--            <field name="name">view.sale.order.form.qc.sale.state.order.tree</field>-->
+    <!--            <field name="model">sale.order</field>-->
+    <!--            <field name="inherit_id" ref="sale.view_quotation_tree"/>-->
+    <!--            <field name="arch" type="xml">-->
 
-<!--                <xpath expr="//tree" position="attributes">-->
-<!--                <attribute name="decoration-info">state_sale_order in ['draft', 'sent']</attribute>-->
-<!--                <attribute name="decoration-muted">state_sale_order in ['cancel']</attribute>-->
-<!--            </xpath>-->
+    <!--                <xpath expr="//tree" position="attributes">-->
+    <!--                <attribute name="decoration-info">state_sale_order in ['draft', 'sent']</attribute>-->
+    <!--                <attribute name="decoration-muted">state_sale_order in ['cancel']</attribute>-->
+    <!--            </xpath>-->
 
-<!--                <xpath expr="//field[@name='state']" position="attributes">-->
-<!--                <attribute name="invisible">1</attribute>-->
-<!--            </xpath>-->
+    <!--                <xpath expr="//field[@name='state']" position="attributes">-->
+    <!--                <attribute name="invisible">1</attribute>-->
+    <!--            </xpath>-->
 
 
 
-<!--            </field>-->
-<!--        </record>-->
+    <!--            </field>-->
+    <!--        </record>-->
 
 
 
