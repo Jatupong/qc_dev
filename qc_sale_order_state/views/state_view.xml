@@ -39,8 +39,8 @@
 
 
 
-                <button name="action_set_pre_production" string="Set-Pre Production" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production'])]}"/>
-                <button name="action_set_check_delivery" string="Set-Check Delivert" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production'])]}"/>
+                <button name="action_set_pre_production" string="Set-Pre Production" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production','sale','pp_confirm','delivery_confirm'])]}"/>
+                <button name="action_set_check_delivery" string="Set-Check Delivert" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production','sale','pp_confirm'])]}"/>
                 <button name="action_set_sales_order" string="Set-Sales Order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['production'])]}"/>
 <!--                <button name="action_do_and_mr" string="Gen MR" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['check_delivery'])]}"/>-->
             </xpath>
