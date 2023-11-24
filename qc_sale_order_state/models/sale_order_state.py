@@ -35,7 +35,12 @@ class SaleOrder(models.Model):
 
     delivery_exp_date = fields.Date(string="วันหมดอายุส่งมอบ")
 
-    delivery_date = fields.Datetime(string="Delivery Date" ,readonly=True)
+    delivery_date = fields.Datetime(string="Delivery Date" ,readonly=True ,compute='_compute_deliverydate')
+
+    def _compute_deliverydate(self):
+        for data in self:
+            data.delivery_date = data.commitment_date
+
 
     @api.onchange('commitment_date')
     def _onchange_model_id(self):
