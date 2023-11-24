@@ -288,13 +288,13 @@ class product_purchase_report(models.TransientModel):
 
         inv_row += 2
         worksheet.write('D' + str(inv_row), "คลังสินค้า", for_center_bold)
-        worksheet.write('E' + str(inv_row), self.location.name, for_center_bold)
+        worksheet.write('E' + str(inv_row), self.location.name or '', for_center_bold)
         inv_row += 1
         worksheet.write('D' + str(inv_row), "Catergory", for_center_bold)
-        worksheet.write('E' + str(inv_row), self.category_id.name, for_center_bold)
+        worksheet.write('E' + str(inv_row), self.category_id.name or '', for_center_bold)
         inv_row += 1
         worksheet.write('D' + str(inv_row), "สินค้า", for_center_bold)
-        worksheet.write('E' + str(inv_row), self.product.name, for_center_bold)
+        worksheet.write('E' + str(inv_row), self.product.name or '', for_center_bold)
 
         inv_row += 2
         worksheet.merge_range('A' + str(inv_row) + ':G' + str(inv_row), " ", for_center_bold)
@@ -315,59 +315,71 @@ class product_purchase_report(models.TransientModel):
 
         domain = [('scheduled_date', '>=', self.date_from), ('scheduled_date', '<=', self.date_to)
                   ]
-        # if len(self.warehouse) >= 1:
-        #     domain += [('location_id', '=', self.warehouse)]
+        if len(self.warehouse) >= 1:
+            domain += [('location_id', '=', self.warehouse)]
         if len(self.location) >= 1:
             domain += [('location_id.name', '=', self.location.name)]
-        # if self.category_id != False:
-        #     domain += [('date_order', '=', self.category_id)]
+        # if len(self.product.name)>= 1:
+        #     domain += [('product_id.name', '=', self.product.name)]
 
         sum_unit = 0.0
         sum_price = 0.0
         Stocks = self.env['stock.picking'].search(domain)
         print(Stocks.sorted(key=lambda x: str(x.partner_id.name)))
         for stock in Stocks.sorted(key=lambda x: str(x.partner_id.name)):
-            if 'P0' in str(stock.group_id.name) and 'IN' in str(stock.name).split('/'):
-                worksheet.write(inv_row, 0, stock.partner_id.name or ' ', for_center)
-                worksheet.write(inv_row, 1, stock.scheduled_date or ' ', for_center_border_date)
-                worksheet.write(inv_row, 2, stock.name or ' ', for_center)
-                worksheet.write(inv_row, 3, stock.date_done or ' ', for_center_border_date)
-                worksheet.write(inv_row, 4, stock.group_id.name or ' ', for_center)
 
-                domain = [("invoice_origin", "=", stock.origin)]
-                move_bill = self.env['account.move'].search(domain)
-                for bill in move_bill:
-                    worksheet.write(inv_row, 5, bill.name or ' ', for_center)
-                for line in stock.move_line_nosuggest_ids:
-                    if len(self.product) >= 1:
-                        if line.product_id == self.product:
-                            worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
-                            worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
-                            worksheet.write(inv_row, 8, line.qty_done * line.product_id.standard_price or ' ',
-                                            for_right_border_num_format)
-                            sum_unit += line.qty_done
-                            sum_price += line.qty_done * line.product_id.standard_price
-                            inv_row += 1
-                            worksheet.write(inv_row, 0, ' ', for_center)
-                            worksheet.write(inv_row, 1, ' ', for_center_border_date)
-                            worksheet.write(inv_row, 2, ' ', for_center)
-                            worksheet.write(inv_row, 3, ' ', for_center_border_date)
-                            worksheet.write(inv_row, 4, ' ', for_center)
-                            worksheet.write(inv_row, 5, ' ', for_center)
-                        if line.product_id != self.product:
-                            worksheet.write(inv_row, 0, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 1, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 2, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 3, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 4, ' ', for_center_no_border)
-                            worksheet.write(inv_row, 5, ' ', for_center_no_border)
-                    if len(self.product) == 0:
+            if self.product.name != False and stock.product_id.name == self.product.name:
+
+                if 'P0' in str(stock.group_id.name) and 'IN' in str(stock.name).split('/'):
+                    print(stock.product_id.name)
+                    worksheet.write(inv_row, 0, stock.partner_id.name or ' ', for_center)
+                    worksheet.write(inv_row, 1, stock.scheduled_date or ' ', for_center_border_date)
+                    worksheet.write(inv_row, 2, stock.name or ' ', for_center)
+                    worksheet.write(inv_row, 3, stock.date_done or ' ', for_center_border_date)
+                    worksheet.write(inv_row, 4, stock.group_id.name or ' ', for_center)
+
+                    domain = [("invoice_origin", "=", stock.origin)]
+                    move_bill = self.env['account.move'].search(domain)
+                    for bill in move_bill:
+                        worksheet.write(inv_row, 5, bill.name or ' ', for_center)
+                    for line in stock.move_line_nosuggest_ids:
                         worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
                         worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
-                        worksheet.write(inv_row, 8, line.qty_done * line.product_id.standard_price or ' ',
+                        domainp = [("product_id.name", "=", stock.product_id.name), ("reference", "=", stock.name),("quantity", "=", line.qty_done)]
+                        Unit_cost = self.env['stock.valuation.layer'].search(domainp)
+                        worksheet.write(inv_row, 8, line.qty_done * Unit_cost.unit_cost or ' ',
                                         for_right_border_num_format)
                         sum_unit += line.qty_done
-                        sum_price += line.qty_done * line.product_id.standard_price
+                        sum_price += line.qty_done * Unit_cost.unit_cost
+                        inv_row += 1
+                        worksheet.write(inv_row, 0, ' ', for_center)
+                        worksheet.write(inv_row, 1, ' ', for_center_border_date)
+                        worksheet.write(inv_row, 2, ' ', for_center)
+                        worksheet.write(inv_row, 3, ' ', for_center_border_date)
+                        worksheet.write(inv_row, 4, ' ', for_center)
+                        worksheet.write(inv_row, 5, ' ', for_center)
+            if self.product.name == False:
+                print(stock.product_id.name)
+                if 'P0' in str(stock.group_id.name) and 'IN' in str(stock.name).split('/'):
+                    worksheet.write(inv_row, 0, stock.partner_id.name or ' ', for_center)
+                    worksheet.write(inv_row, 1, stock.scheduled_date or ' ', for_center_border_date)
+                    worksheet.write(inv_row, 2, stock.name or ' ', for_center)
+                    worksheet.write(inv_row, 3, stock.date_done or ' ', for_center_border_date)
+                    worksheet.write(inv_row, 4, stock.group_id.name or ' ', for_center)
+
+                    domain = [("invoice_origin", "=", stock.origin)]
+                    move_bill = self.env['account.move'].search(domain)
+                    for bill in move_bill:
+                        worksheet.write(inv_row, 5, bill.name or ' ', for_center)
+                    for line in stock.move_line_nosuggest_ids:
+                        worksheet.write(inv_row, 6, line.lot_id.name or ' ', for_center)
+                        worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
+                        domainp = [("product_id.name", "=", stock.product_id.name), ("reference", "=", stock.name),("quantity", "=", line.qty_done)]
+                        Unit_cost = self.env['stock.valuation.layer'].search(domainp)
+                        worksheet.write(inv_row, 8, line.qty_done * Unit_cost.unit_cost or ' ',
+                                        for_right_border_num_format)
+                        sum_unit += line.qty_done
+                        sum_price += line.qty_done * Unit_cost.unit_cost
                         inv_row += 1
                         worksheet.write(inv_row, 0, ' ', for_center)
                         worksheet.write(inv_row, 1, ' ', for_center_border_date)
