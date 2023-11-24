@@ -87,7 +87,7 @@ class SaleOrder(models.Model):
                 print('objjjjjj6666', obj.move_ids)
                 print('objjjjjj', obj.move_ids.product_virtual_available)
                 print('objjjjjj', obj.move_ids.product_qty_available)
-                if not obj.product_id.bom_ids[0].id:
+                if not obj.product_id.bom_ids[0]:
                     raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
 
                 sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
