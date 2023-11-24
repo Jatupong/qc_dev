@@ -87,7 +87,7 @@ class SaleOrder(models.Model):
                 print('objjjjjj6666', obj.move_ids)
                 print('objjjjjj', obj.move_ids.product_virtual_available)
                 print('objjjjjj', obj.move_ids.product_qty_available)
-                if not obj.product_id.bom_ids.id:
+                if not obj.product_id.bom_ids[0].id:
                     raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
 
                 sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
@@ -101,7 +101,7 @@ class SaleOrder(models.Model):
                         'end_date': obj.create_date,
                         'custom_date_start_wo': obj.create_date,
                         'custom_product_uom_id': obj.product_uom.id,
-                        'custom_bom_id': obj.product_id.bom_ids.id,
+                        'custom_bom_id': obj.product_id.bom_ids[0].id,
                         'sale_order_id': obj.id
                         # 'custom_bom_idh': obj.product_id.variant_bom_ids.id,
 
