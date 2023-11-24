@@ -90,6 +90,7 @@ class SaleOrder(models.Model):
                 if not obj.product_id.bom_ids[0]:
                     raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
 
+
                 sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
                 print('sum_all_reserved', sum_all_reserved)
 
