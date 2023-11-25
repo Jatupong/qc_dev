@@ -6,6 +6,10 @@ from odoo import api, fields, models
 from bahttext import bahttext
 from num2words import num2words
 import locale
+from datetime import datetime, timedelta, date, time
+
+def strToDate(dt):
+    return date(int(dt[0:4]), int(dt[5:7]), int(dt[8:10]))
 
 
 class ResCompany(models.Model):
@@ -54,6 +58,16 @@ class ResCompany(models.Model):
         # print n2w_origianl
         # print n2w_new
         return n2w_new
+
+    def _convert_format_full_month(self, dt):
+        if dt:
+            date = strToDate(str(dt))
+            month = int(date.strftime('%m')) - 1
+            month_list = ['January', 'February', 'March', 'April', 'May', 'June',
+                          'July', 'August', 'September', 'October', 'November', 'December']
+            return date.strftime('%d ') + month_list[month] + date.strftime(' %Y')
+        else:
+            return ''
 
 
 
