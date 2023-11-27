@@ -18,6 +18,7 @@
 
         'security/ir.model.access.csv',
         'wizard/wizard_pp_30_report_view.xml',
+        'report/pp_30_report.xml',
         'report/report_reg.xml',
     ],
     'qweb': [],
