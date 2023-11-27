@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_mrp_bom_order_form_number" model="ir.ui.view">
+            <field name="name">mrp.bom.order.form.number</field>
+            <field name="model">mrp.bom</field>
+            <field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='bom_line_ids']" position="before">
+                    <field name="is_number_line" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='bom_line_ids']/tree/field[@name='product_id']" position="before">
+                    <field name="number" string="No." readonly="1" force_save="1"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

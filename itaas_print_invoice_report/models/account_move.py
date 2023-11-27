@@ -7,6 +7,7 @@ from bahttext import bahttext
 from num2words import num2words
 import locale
 
+
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -75,6 +76,8 @@ class AccountMove(models.Model):
         return n2w_new
 
     def get_line(self, data, max_line):
+        print('data',data)
+        print('max_line',max_line)
         # this function will count number of \n
         line_count = data.count("\n")
         if not line_count:
@@ -101,6 +104,7 @@ class AccountMove(models.Model):
         if line_count > 1:
             ##############if more then one line, it is new line not new row, so hight will be 80%
             line_count = line_count * 0.8
+        # print('line_count',line_count)
         return line_count
 
     def get_break_line(self, max_body_height, new_line_height, row_line_height, max_line_lenght):
@@ -124,6 +128,10 @@ class AccountMove(models.Model):
         return break_page_line
 
     def get_break_line_invoice(self, max_body_height, new_line_height, row_line_height, max_line_lenght):
+        print('max_body_height',max_body_height)
+        print('new_line_height',new_line_height)
+        print('row_line_height',row_line_height)
+        print('max_line_lenght',max_line_lenght)
         break_page_line = []
         count_height = 0
         count = 1
@@ -134,14 +142,19 @@ class AccountMove(models.Model):
             # default_code
 
             # print count
+            print('oooooo',self.get_line(line.name, max_line_lenght))
             line_height = row_line_height + ((self.get_line(line.name, max_line_lenght)) * new_line_height)
+            print('line_height',line_height)
             count_height += line_height
+            print('count_height',count_height)
             if count_height > max_body_height:
                 break_page_line.append(count - 1)
                 count_height = line_height
+                print('count_height',count_height)
             count += 1
         # last page
         break_page_line.append(count - 1)
+        print('break_page_line',break_page_line)
         # print "break_page_line"
         # print break_page_line
         return break_page_line
@@ -150,7 +163,32 @@ class AccountMove(models.Model):
         for move in self:
             line_ids = move.line_ids.filtered(lambda r: r.payment_id)
             if line_ids and line_ids[0].payment_id:
-                return self.env['account.move.line'].search([('payment_id','=',line_ids[0].payment_id.id),('move_id','!=',move.id)])
+                return self.env['account.move.line'].search(
+                    [('payment_id', '=', line_ids[0].payment_id.id), ('move_id', '!=', move.id)])
             else:
                 return False
+    def get_total(self,Data):
+        # Data = self.invoice_line_ids
+        # print(Data)
+        ans = 0.0
+        print(Data)
+        for data in Data:
+            ans += data.quantity * data.price_unit
+        print("Total :",ans)
+        return ans
+
+    def get_discount(self,Data):
+        ans = 0.0
+        if "discount" in Data.fields_get():
+            for data in Data:
+                ans += (data.quantity * data.price_unit)*(data.discount/100)
+        print("Discount :", ans)
+        return ans
+
+    def get_subtotal(self,Data):
+        ans = 0.0
+        ans = self.get_total(Data)-self.get_discount(Data)
+        if ans <= -1:
+            ans = ans*(-1)
+        return ans
 

@@ -31,7 +31,7 @@ class tax_report(models.TransientModel):
 
         return [(last_year, last_year), (current_year, current_year), (next_year, next_year)]
 
-    cuctomer = fields.Char(string='Cuctomer')
+    cuctomer = fields.Many2one(string='Customer',comodel_name='res.partner')
     date_from = fields.Date(string='Date From',required=True)
     date_to = fields.Date(string='Date To',required=True)
     month = fields.Selection([
@@ -108,7 +108,7 @@ class tax_report(models.TransientModel):
 
     def print_report_pdf(self):
         print('xxxxxxxxxxxxxxxxxxxxx')
-        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0}
+        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.cuctomer.name}
         # data['form'] = self.read(['date_from', 'date_to', 'report_type', 'tax_id', 'operating_unit_id','company_id','include_no_vat'])[0]
         # print ('------DATA---')
         # print (data)
@@ -121,7 +121,7 @@ class tax_report(models.TransientModel):
     def print_report_pdf2(self):
         print('xxxxxxxxxxxxxxxxxxxxx')
         self.report_type = 'sale'
-        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0}
+        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.cuctomer.name}
         if data['report_type'] == 'sale':
             return self.env.ref('itaas_print_tax_report.action_sale_tax_report_id2').report_action([], data=data)
         else:
@@ -525,6 +525,7 @@ class tax_report(models.TransientModel):
 
         for_left_bold = workbook.add_format({'align': 'left', 'bold': True, 'border': True})
         for_center_bold = workbook.add_format({'align': 'center', 'bold': True, 'border': True})
+        for_center_bold_bg = workbook.add_format({'align': 'center', 'bold': True, 'border': True,'bg_color': '#E1F5FE'})
         for_right_bold = workbook.add_format({'align': 'right', 'bold': True, 'border': True})
 
         for_left = workbook.add_format({'align': 'left', 'border': True})
@@ -542,14 +543,22 @@ class tax_report(models.TransientModel):
         for_center_date = workbook.add_format({'align': 'center', 'border': True, 'num_format': 'dd/mm/yyyy'})
 
         worksheet.set_column('A:A', 15)
-        worksheet.set_column('B:B', 10)
-        worksheet.set_column('C:C', 10)
+        worksheet.set_column('B:B', 20)
+        worksheet.set_column('C:C', 30)
         worksheet.set_column('D:D', 20)
         worksheet.set_column('E:E', 20)
         worksheet.set_column('F:F', 10)
         worksheet.set_column('G:G', 10)
         worksheet.set_column('H:H', 10)
         worksheet.set_column('I:I', 10)
+        worksheet.set_column('K:K', 15)
+        worksheet.set_column('L:L', 15)
+        worksheet.set_column('M:M', 15)
+        worksheet.set_column('N:N', 15)
+        worksheet.set_column('O:O', 15)
+        worksheet.set_column('P:P', 15)
+        worksheet.set_column('Q:Q', 15)
+        worksheet.set_column('R:R', 15)
 
         month = self.month
         print (month)
@@ -589,18 +598,18 @@ class tax_report(models.TransientModel):
         inv_row = 3
         worksheet.write(inv_row, 0, 'เดือนภาษี', for_left_bold_no_border)
         worksheet.write(inv_row, 1, monthth, for_left_no_border)
-        worksheet.write(inv_row, 4, 'ปี', for_left_bold_no_border)
-        worksheet.write(inv_row, 5, year, for_left_no_border)
+        worksheet.write(inv_row, 3, 'ปี', for_left_bold_no_border)
+        worksheet.write(inv_row, 4, year, for_left_no_border)
 
         inv_row += 1
         worksheet.write(inv_row, 0, 'ชื่อผู้ประกอบการ', for_left_bold_no_border)
         worksheet.write(inv_row, 1, company_id.name, for_left_no_border)
-        worksheet.write(inv_row, 4, 'เลขประจำผู้เสียภาษีอากร', for_left_bold_no_border)
-        worksheet.write(inv_row, 5, company_id.vat, for_left_no_border)
+        worksheet.write(inv_row, 3, 'เลขประจำผู้เสียภาษีอากร', for_left_bold_no_border)
+        worksheet.write(inv_row, 4, company_id.vat, for_left_no_border)
 
         inv_row += 1
         worksheet.write(inv_row, 0, 'ชื่อสถานประกอบการ', for_left_bold_no_border)
-        worksheet.write(inv_row, 1, company_id.name, for_left_no_border)
+        worksheet.write(inv_row, 3, company_id.name, for_left_no_border)
         worksheet.write(inv_row, 4, 'สำนักงานใหญ่ / สาขา', for_left_bold_no_border)
         if company_id.branch_no:
             if company_id.branch_no == '00000':
@@ -608,42 +617,47 @@ class tax_report(models.TransientModel):
             else:
                 branch_no = 'สาขา' + ' ' + company_id.branch_no
             # branch_no = company_id.branch_no if company_id.branch_no == '00000' else 'สำนักงานใหญ่'
-            worksheet.write(inv_row, 5, branch_no, for_left_no_border)
+            worksheet.write(inv_row, 4, branch_no, for_left_no_border)
         else:
-            worksheet.write(inv_row, 5, 'สำนักงานใหญ่', for_left_no_border)
+            worksheet.write(inv_row, 4, 'สำนักงานใหญ่', for_left_no_border)
 
 
         inv_row += 1
         worksheet.write(inv_row, 0, 'สถานประกอบการ', for_left_bold_no_border)
         company_address = company_id.get_company_full_address_text()
-        worksheet.write(inv_row, 1,company_address , for_left_no_border)
+        # worksheet.write(inv_row, 1,company_address , for_left_no_border)
+        worksheet.merge_range('B7:C7', company_address, for_left_no_border)
+
 
 
         inv_row += 3
         inv_row_merge_head = inv_row + 1
-        worksheet.merge_range('A' + str(inv_row) + ':A' + str(inv_row_merge_head), "ลำดับที่", for_center_bold)
-        worksheet.merge_range('B' + str(inv_row) + ':C' + str(inv_row), "ใบกำกับภาษี", for_center_bold)
-        worksheet.write('B' + str(inv_row_merge_head), 'วัน เดือน ปี', for_center_bold)
-        worksheet.write('C' + str(inv_row_merge_head), 'เลขที่', for_center_bold)
-        worksheet.merge_range('D' + str(inv_row) + ':D' + str(inv_row_merge_head), "ชื่อผู้ซื้อสินค้า/ผู้รับบริการ",
-                              for_center_bold)
-        worksheet.merge_range('E' + str(inv_row) + ':E' + str(inv_row_merge_head),
-                              'เลขประจำตัวผู้เสียภาษีอากร\nของผู้ซื้อสินค้า/ผู้รับบริการ', for_center_bold)
-        worksheet.merge_range('F' + str(inv_row) + ':G' + str(inv_row), "สถานประกอบการ", for_center_bold)
-        worksheet.write('F' + str(inv_row_merge_head), 'สำนักงานใหญ่', for_center_bold)
-        worksheet.write('G' + str(inv_row_merge_head), 'สาขาที่', for_center_bold)
-        worksheet.merge_range('H' + str(inv_row) + ':H' + str(inv_row_merge_head), "มูลค่าสินค้าหรือบริการ",
-                              for_center_bold)
-        worksheet.merge_range('I' + str(inv_row) + ':I' + str(inv_row_merge_head), "จำนวนเงินภาษีมูลค่าเพิ่ม",
-                              for_center_bold)
-        worksheet.merge_range('J' + str(inv_row) + ':J' + str(inv_row_merge_head), "รวม",
-                              for_center_bold)
-        worksheet.merge_range('K' + str(inv_row) + ':K' + str(inv_row_merge_head), "หมายเหตุ",
-                              for_center_bold)
+        worksheet.set_row(inv_row-1, 20)
+        worksheet.merge_range('A' + str(inv_row) + ':A' + str(inv_row_merge_head), "วันที่", for_center_bold_bg)
+        worksheet.merge_range('B' + str(inv_row) + ':B' + str(inv_row_merge_head),"เลขที่\nInvoice No", for_center_bold_bg)
+        worksheet.merge_range('C' + str(inv_row) + ':C' + str(inv_row_merge_head), "รายการ\nCustomer", for_center_bold_bg)
+        worksheet.merge_range('D' + str(inv_row) + ':D' + str(inv_row_merge_head), "จำนวนชิ้น", for_center_bold_bg)
+        worksheet.merge_range('E' + str(inv_row) + ':J' + str(inv_row), "ตามส่งจริง", for_center_bold_bg)
+        worksheet.write('E' + str(inv_row_merge_head), 'EUR', for_center_bold_bg)
+        worksheet.write('F' + str(inv_row_merge_head), 'USD', for_center_bold_bg)
+        worksheet.write('G' + str(inv_row_merge_head), 'GBP', for_center_bold_bg)
+        worksheet.write('H' + str(inv_row_merge_head), 'CNY', for_center_bold_bg)
+        worksheet.write('I' + str(inv_row_merge_head), 'THB', for_center_bold_bg)
+        worksheet.write('J' + str(inv_row_merge_head), 'Other', for_center_bold_bg)
+        worksheet.merge_range('K' + str(inv_row) + ':K' + str(inv_row_merge_head), "EXC RATE", for_center_bold_bg)
+        worksheet.merge_range('L' + str(inv_row) + ':L' + str(inv_row_merge_head), "BAHT", for_center_bold_bg)
+        worksheet.merge_range('M' + str(inv_row) + ':M' + str(inv_row_merge_head), "ตามใบขน\nEUR/USD", for_center_bold_bg)
+        worksheet.merge_range('N' + str(inv_row) + ':N' + str(inv_row_merge_head), "EXC RATE", for_center_bold_bg)
+        worksheet.merge_range('O' + str(inv_row) + ':O' + str(inv_row_merge_head), "BAHT", for_center_bold_bg)
+        worksheet.merge_range('P' + str(inv_row) + ':P' + str(inv_row_merge_head), "เลขที่ใบขน", for_center_bold_bg)
+        worksheet.merge_range('Q' + str(inv_row) + ':Q' + str(inv_row_merge_head), "ETD", for_center_bold_bg)
+        worksheet.merge_range('R' + str(inv_row) + ':R' + str(inv_row_merge_head), "ETA", for_center_bold_bg)
+
+
 
         data = {}
         # data = self.read(['date_from', 'date_to', 'month', 'year', 'report_type', 'tax_id', 'company_id'])[0]
-        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0}
+        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.cuctomer.name}
 
         if self.report_type == 'sale':
             report_values = self.env['report.itaas_print_tax_report.sale_tax_report_id2']._get_report_values(self,
@@ -657,11 +671,22 @@ class tax_report(models.TransientModel):
             #     #     'date': invoices
             #     # }
             print('report_values : ', report_values)
+            chack = str(self.date_from).split('-')[0]
+            if chack == '1902':
+                print("Log:", report_values)
+                # raise UserError(str(report_values))
+                mess="Data :\n"
+                for i in report_values['docs']:
+                    mess =mess+str(i)+"\n"
+                mess += "By : ["+str(self.env.user.name)+"] At : ["+str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))+"]"
+                raise UserError(mess)
 
             if self.tax_id.tax_report:
-                worksheet.merge_range('A1:I1', "รายการส่งออกประจำเดือน", for_center_bold_no_border)
+                worksheet.merge_range('A1:I1',company_id.name , for_center_bold_no_border)
+                worksheet.merge_range('A2:I2', "รายการส่งออกประจำเดือน", for_center_bold_no_border)
             else:
-                worksheet.merge_range('A1:I1', "รายการส่งออกประจำเดือน", for_center_bold_no_border)
+                worksheet.merge_range('A1:I1',company_id.name, for_center_bold_no_border)
+                worksheet.merge_range('A2:I2', "รายการส่งออกประจำเดือน", for_center_bold_no_border)
             amount_untaxed = 0
             amount_vat = 0
             amount_total = 0
@@ -670,63 +695,85 @@ class tax_report(models.TransientModel):
                 sl_no = 1
                 untaxed_total = tax_total = 0.0
                 for inv in invoices:
-                    inv_row += 1
-                    worksheet.write(inv_row, 0, sl_no, for_center)
-                    worksheet.write(inv_row, 1, inv['date'] or '', for_center_date)
-                    worksheet.write(inv_row, 2, inv['name'], for_center)
-
-                    worksheet.write(inv_row, 3, inv['partner'], for_left)
-                    worksheet.write(inv_row, 4, inv['vat'], for_left)
-
-                    if inv['branch'] == '00000':
-                        worksheet.write(inv_row, 5, inv['branch'], for_right)
-                        worksheet.write(inv_row, 6, '', for_left)
-                    else:
-                        worksheet.write(inv_row, 5, '', for_left)
-                        worksheet.write(inv_row, 6, inv['branch'], for_right)
-
-                    if inv['state'] != 'cancel':
-                        if inv['type'] == 'out_refund':
-
-                            worksheet.write(inv_row, 7, inv['amount_untaxed'] * (-1), for_right)
-                            amount_untaxed = amount_untaxed + (inv['amount_untaxed'] * (-1))
-                            amount_vat = amount_vat + (inv['amount_tax'] * (-1))
-                            amount_total = amount_total + (inv['amount_total'] * (-1))
-                            worksheet.write(inv_row, 8, inv['amount_tax'] * (-1), for_right)
-                            worksheet.write(inv_row, 9, inv['amount_total'] * (-1), for_right)
-                        else:
-                            # if inv['move_id'].discount_value:
-                            #     print('dd',inv['untaxed_amount_after_discount'])
-                            #     worksheet.write(inv_row, 7, inv['untaxed_amount_after_discount'], for_right)
-                            #     amount_untaxed = amount_untaxed + inv['untaxed_amount_after_discount']
-                            #
-                            # else:
-                            #     print('sssssssssssssss')
-                            #
-                            worksheet.write(inv_row, 7, inv['amount_untaxed'], for_right)
-                            amount_untaxed = amount_untaxed + inv['amount_untaxed']
-                            amount_vat = amount_vat + inv['amount_tax']
-                            amount_total = amount_total + inv['amount_total']
-                            worksheet.write(inv_row, 8, inv['amount_tax'], for_right)
+                    if len(self.cuctomer)>=1:
+                        if self.cuctomer.name == inv['partner']:
+                            inv_row += 1
+                            worksheet.write(inv_row, 0, inv['date'].strftime("%d/%m/%Y") or '', for_center_date)
+                            worksheet.write(inv_row, 1, inv['name'], for_center)
+                            worksheet.write(inv_row, 2, inv['partner'], for_left)
+                            worksheet.write(inv_row, 3, inv['quantity'], for_center)
+                            worksheet.write(inv_row, 4, "", for_center)
+                            worksheet.write(inv_row, 5, "", for_center)
+                            worksheet.write(inv_row, 6, "", for_center)
+                            worksheet.write(inv_row, 7, "", for_center)
+                            worksheet.write(inv_row, 8, "", for_center)
+                            worksheet.write(inv_row, 9, "", for_center)
+                            if inv['amount_type']=='EUR':
+                                worksheet.write(inv_row, 4, inv['amount_total'], for_right)
+                            if inv['amount_type']=='USD':
+                                worksheet.write(inv_row, 5, inv['amount_total'], for_right)
+                            if inv['amount_type']=='GBP':
+                                worksheet.write(inv_row, 6, inv['amount_total'], for_right)
+                            if inv['amount_type']=='CNY':
+                                worksheet.write(inv_row, 7, inv['amount_total'], for_right)
+                            if inv['amount_type']=='THB':
+                                worksheet.write(inv_row, 8, inv['amount_total'], for_right)
+                                worksheet.write(inv_row, 11, inv['amount_total'], for_right)
+                                worksheet.write(inv_row, 10, "", for_center)
+                                worksheet.write(inv_row, 14, inv['amount_total'], for_right)
+                            if inv['amount_type']!='THB' and inv['amount_type'] != 'CNY' and inv['amount_type'] != 'GBP' and inv['amount_type'] != 'USD' and inv['amount_type'] != 'EUR':
+                                worksheet.write(inv_row, 9, inv['amount_total'], for_right)
+                            if inv['amount_type'] != 'THB':
+                                company_rate_to_baht1 = inv['amount_total'] * inv['company_rate']
+                                company_rate_to_baht2 = inv['amount_total'] * inv['excrate']
+                                worksheet.write(inv_row, 11, company_rate_to_baht1, for_right)
+                                worksheet.write(inv_row, 10, inv['company_rate'], for_right)
+                                worksheet.write(inv_row, 14, company_rate_to_baht2, for_right)
+                            worksheet.write(inv_row, 12, inv['amount_total'], for_right)
+                            worksheet.write(inv_row, 13, inv['excrate'], for_right)
+                            worksheet.write(inv_row, 15, inv['export_products_id']or'', for_center)
+                            worksheet.write(inv_row, 16, inv['ETD'] or '', for_center_date)
+                            worksheet.write(inv_row, 17, inv['ETA'] or '', for_center_date)
+                    if len(self.cuctomer) < 1:
+                        inv_row += 1
+                        worksheet.write(inv_row, 0, inv['date'] or '', for_center_date)
+                        worksheet.write(inv_row, 1, inv['name'], for_center)
+                        worksheet.write(inv_row, 2, inv['partner'], for_left)
+                        worksheet.write(inv_row, 3, inv['quantity'], for_center)
+                        worksheet.write(inv_row, 4, "", for_center)
+                        worksheet.write(inv_row, 5, "", for_center)
+                        worksheet.write(inv_row, 6, "", for_center)
+                        worksheet.write(inv_row, 7, "", for_center)
+                        worksheet.write(inv_row, 8, "", for_center)
+                        worksheet.write(inv_row, 9, "", for_center)
+                        if inv['amount_type'] == 'EUR':
+                            worksheet.write(inv_row, 4, inv['amount_total'], for_right)
+                        if inv['amount_type'] == 'USD':
+                            worksheet.write(inv_row, 5, inv['amount_total'], for_right)
+                        if inv['amount_type'] == 'GBP':
+                            worksheet.write(inv_row, 6, inv['amount_total'], for_right)
+                        if inv['amount_type'] == 'CNY':
+                            worksheet.write(inv_row, 7, inv['amount_total'], for_right)
+                        if inv['amount_type'] == 'THB':
+                            worksheet.write(inv_row, 8, inv['amount_total'], for_right)
+                            worksheet.write(inv_row, 11, inv['amount_total'], for_right)
+                            worksheet.write(inv_row, 10, "", for_center)
+                            worksheet.write(inv_row, 14, inv['amount_total'], for_right)
+                        if inv['amount_type'] != 'THB' and inv['amount_type'] != 'CNY' and inv[
+                            'amount_type'] != 'GBP' and inv['amount_type'] != 'USD' and inv['amount_type'] != 'EUR':
                             worksheet.write(inv_row, 9, inv['amount_total'], for_right)
+                        if inv['amount_type'] != 'THB':
+                            company_rate_to_baht1 = inv['amount_total'] * inv['company_rate']
+                            company_rate_to_baht2 = inv['amount_total'] * inv['excrate']
+                            worksheet.write(inv_row, 11, company_rate_to_baht1, for_right)
+                            worksheet.write(inv_row, 10, inv['company_rate'], for_right)
+                            worksheet.write(inv_row, 14, company_rate_to_baht2, for_right)
+                        worksheet.write(inv_row, 12, inv['amount_total'], for_right)
+                        worksheet.write(inv_row, 13, inv['excrate'], for_right)
+                        worksheet.write(inv_row, 15, inv['export_products_id'] or '', for_center)
+                        worksheet.write(inv_row, 16, inv['ETD'] or '', for_center_date)
+                        worksheet.write(inv_row, 17, inv['ETA'] or '', for_center_date)
 
-                    if inv['state'] == 'cancel':
-                        worksheet.write(inv_row, 7, 0, for_right)
-                        worksheet.write(inv_row, 8, 0, for_right)
-                        worksheet.write(inv_row, 9, 0, for_right)
-                        worksheet.write(inv_row, 10, 'ยกเลิก (Cancel)', for_right)
-                    else:
-                        worksheet.write(inv_row, 10, ' ', for_right)
-
-
-
-                    sl_no += 1
-
-                inv_row += 1
-                worksheet.write(inv_row, 6, 'Total', for_center_bold)
-                worksheet.write(inv_row, 7, amount_untaxed, for_right_bold_border_num_format)
-                worksheet.write(inv_row, 8, amount_vat, for_right_bold_border_num_format)
-                worksheet.write(inv_row, 9, amount_total, for_right_bold_border_num_format)
 
         else:
             report_values = self.env['report.itaas_print_tax_report.purchase_tax_report_id2']._get_report_values(self,data=data)
@@ -860,7 +907,7 @@ class tax_report(models.TransientModel):
         buf = fl.getvalue()
         # vals = {'name': namexls, 'report_file': base64.encodestring(buf)}
         vals = {'name': namexls, 'report_file': base64.encodebytes(buf)}
-        self._cr.execute("TRUNCATE tax_excel_export CASCADE")
+        self._cr.execute("TRUNCATE tax_excel_export2 CASCADE")
         wizard_id = self.env['tax.excel.export2'].create(vals)
         return {
             'type': 'ir.actions.act_window',

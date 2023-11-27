@@ -27,7 +27,7 @@ mrp request
     'version': '3.1.2',
     'category' : 'Manufacturing/Manufacturing',
     'depends': [
-                'mrp',
+                'mrp','sale'
                 ],
     'data':[
         'data/manufacturing_order_request_sequence.xml',

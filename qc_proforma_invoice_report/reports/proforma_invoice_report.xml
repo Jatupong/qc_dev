@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="qc_proforma_invoice_report_id" >
+
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+                <div class="header">
+                    <style>
+                        @font-face
+                        {
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
+                        }
+                        .word_wrap{
+                        word-wrap: break-word;
+                        overflow: hidden;
+                        background-color:#cccccc;
+                        }
+                        table.table-nobordered{
+                        margin:0px;
+                        margin-top:0px;
+                        margin-bottom:0px;
+                        width: 100%;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-bordered{
+                        border:1px solid black;
+                        width: 100%;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        .font_size_32{
+                        font-size: 32px;
+                        line-height: 30px;
+                        }
+                        .font_size_28{
+                        font-size: 28px;
+                        line-height: 26px;
+                        }
+                        .font_size_22{
+                        font-size: 22px;
+                        line-height: 20px;
+                        }
+                        .font_size_20{
+                        font-size: 20px;
+                        line-height: 18px;
+                        }
+                        .font_size_18{
+                        font-size: 18px;
+                        line-height: 16px;
+                        }
+                        .font_size_16{
+                        font-size: 16px;
+                        line-height: 14px;
+                        }
+                        .font_size_14{
+                        font-size: 14px;
+                        line-height: 12px;
+                        }
+                        .font_size_10{
+                        font-size: 10px;
+                        line-height: 8px;
+                        }
+                    </style>
+
+                    <div class="font_size_10" style="text-align:right; padding-top:10px; padding-bottom:10px;">
+                        <span t-field="o.company_id.proforma_invoice_no_form"/>
+                        : <span t-esc="o.company_id._convert_format_full_month(context_timestamp(datetime.datetime.now()))"/>
+                        <span>Page </span><span class="page"/> / <span class="topage"/>
+                    </div>
+                    <table width="100%" class="font_fam table table-nobordered font_size_18" style="border-top:2px solid black; border-bottom:2px solid black;">
+                        <tr>
+                            <td width="15%" style="vertical-align: middle;">
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:70px; max-width:70px;" alt="Logo"/>
+                            </td>
+                            <td width="45%" style="vertical-align: middle;">
+                                <div style="width:350px; word-wrap: break-word;">
+                                    <font class="font_size_20">
+                                        <p>
+                                            <B>
+                                                <span t-field="o.company_id.name"/>&amp;nbsp;
+                                            </B>
+                                        </p>
+                                    </font>
+                                    <font class="font_size_14">
+                                        <p>
+                                            <span t-if="o.company_id.english_address"><span t-field="o.company_id.english_address"/></span>
+                                            <span t-if="o.company_id.phone"><br/>Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
+                                            <span t-if="o.company_id.fax">Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;</span>
+                                        </p>
+                                    </font>
+                                </div>
+                            </td>
+                            <td width="40%" style="text-align:center; vertical-align: bottom;">
+                                <div class="font_size_28">
+                                    <strong>PROFORMA INVOICE</strong>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" class="font_fam table table-nobordered font_size_14" style="margin-top:10px;">
+                        <tr>
+                            <td width="50%">
+                                <table width="100%" class="table table-nobordered">
+                                    <tr>
+                                        <td><B>Date</B></td>
+                                        <td colspan="3">
+                                            <B>: </B>
+                                            <span t-field="o.date_order"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><B>To</B></td>
+                                        <td colspan="3">
+                                            <div style="width:300px; word-wrap: break-word;">
+                                                <B>: </B><span t-field="o.partner_id.name"/><br/>
+                                                <address t-field="o.partner_id"
+                                                         t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="20%"><B>Tel</B></td>
+                                        <td width="30%"><B>: </B><span t-field="o.partner_id.phone"/></td>
+                                        <td width="20%"><B>Fax</B></td>
+                                        <td width="30%"><B>: </B><span t-field="o.partner_id.fax"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><B>Attn</B></td>
+                                        <td colspan="3">
+                                            <B>: </B>
+                                            <t t-set="contact_ids" t-value="o.partner_id.child_ids.filtered(lambda x:x.type == 'contact')"/>
+                                            <t t-if="contact_ids">
+                                                <span t-esc="contact_ids[0].name"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><B>CC</B></td>
+                                        <td colspan="3">
+                                            <B>: </B><span t-field="o.partner_id.email"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="50%">
+                                <table width="100%" class="table table-nobordered">
+                                    <tr>
+                                        <td width="30%"><B>P/I No.</B></td>
+                                        <td width="70%">
+                                            <B>: </B><span t-field="o.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><B>Order Sheet No.</B></td>
+                                        <td>
+                                            <B>: </B><span t-field="o.id_po"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><B>Payment Term</B></td>
+                                        <td>
+                                            <B>: </B><span t-field="o.payment_term_id"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><B>Backstamp</B></td>
+                                        <td>
+                                            <B>: </B>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table width="100%" class="table table-nobordered">
+                                    <tr>
+                                        <td width="14%"><B>Delivery To</B></td>
+                                        <td width="20%">
+                                            <B>: </B><span t-field="o.partner_shipping_id.country_id"/>
+                                        </td>
+                                        <td width="13%"><B>Packing</B></td>
+                                        <td width="20%"><B>: </B><span t-field="o.box_type"/></td>
+                                        <td width="13%"><B>Volume</B></td>
+                                        <td width="20%"><B>: </B><span t-field="o.container"/></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="50%">
+                                <table width="100%" class="table table-nobordered">
+                                    <tr>
+                                        <td width="30%"><B>Delivery Week</B></td>
+                                        <td width="70%" colspan="3"><B>: </B><span t-field="o.w_load_product"/></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td width="50%">
+                                <table width="100%" class="table table-nobordered">
+                                    <tr>
+                                        <td width="30%"><B>Shipping Mark</B></td>
+                                        <td width="70%" colspan="3"><B>: </B></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="page">
+                    <style>
+                        @font-face
+                        {
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
+                        }
+                        table.table-bordered{
+                        border:1px solid black;
+                        width: 100%;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-nobordered{
+                        margin:0px;
+                        margin-top:0px;
+                        margin-bottom:0px;
+                        width: 100%;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+
+                        table.table-bordered {
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        vertical-align: middle;
+                        text-align:center;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+
+                        table.table-bordered-b {
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered-b &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        vertical-align: middle;
+                        text-align:center;
+                        padding:3px;
+                        }
+                        table.table-bordered-b &gt; tbody &gt; tr &gt; td{
+                        border:0px solid White;
+                        border-left: 1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered-b &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+
+                        table.table-nobordered-b{
+                        margin:0px;
+                        width: 100%;
+                        }
+                        table.table-nobordered-b &gt; thead &gt; tr &gt; th{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered-b &gt; thead &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered-b &gt; tbody &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered-b &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        .word_wrap{
+                        word-wrap: break-word;
+                        <!--background-color:#cccccc;-->
+                        }
+                        .font_size_32{
+                        font-size: 32px;
+                        line-height: 30px;
+                        }
+                        .font_size_28{
+                        font-size: 28px;
+                        line-height: 26px;
+                        }
+                        .font_size_22{
+                        font-size: 22px;
+                        line-height: 20px;
+                        }
+                        .font_size_20{
+                        font-size: 20px;
+                        line-height: 18px;
+                        }
+                        .font_size_18{
+                        font-size: 18px;
+                        line-height: 16px;
+                        }
+                        .font_size_16{
+                        font-size: 16px;
+                        line-height: 14px;
+                        }
+                        .font_size_14{
+                        font-size: 14px;
+                        line-height: 12px;
+                        }
+                    </style>
+
+                    <t t-set="num" t-value="0"/>
+
+                    <table class="table table-bordered-b font_fam font_size_14">
+                        <thead>
+                            <tr>
+                                <th rowspan="2"><span>NO</span></th>
+                                <th rowspan="2"><span>Customer Code</span></th>
+                                <th rowspan="2"><span>Production Code</span></th>
+                                <th rowspan="2"><span>Description</span></th>
+                                <th colspan="2"><span>Quantity</span></th>
+                                <th rowspan="2">
+                                    <span>Unit Price<br/>
+                                        <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                        <t t-else=""><span t-field="o.currency_id"/></t>
+                                    </span>
+                                </th>
+                                <th rowspan="2"><span>Total Amount<br/>Thailand</span></th>
+                            </tr>
+                            <tr>
+                                <th><span>SET</span></th>
+                                <th><span>PCS</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="product_qty_total" t-value="0.0"/>
+                            <t t-foreach="o.order_line" t-as="line">
+                                <t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>
+                                <tr>
+                                    <td align="center">
+                                        <t t-set="num" t-value="num+1"/>
+                                        <span t-esc="num"/>
+                                    </td>
+                                    <td><span t-field="line.order_id.client_order_ref"/></td>
+                                    <td><span t-field="line.product_id.default_code"/></td>
+                                    <td><span t-field="line.name"/></td>
+                                    <td align="right">
+                                        <t t-if="product_set_ids">
+                                            <span t-field="line.product_uom_qty"/>
+                                        </t>
+                                    </td>
+                                    <td align="right">
+                                        <t t-if="product_set_ids">
+                                            <t t-set="original_set_qty" t-value="product_set_ids.mapped('original_set_qty')"/>
+                                            <span t-esc="'{0:,.2f}'.format(original_set_qty)"/>
+                                            <t t-set="product_qty_total" t-value="product_qty_total + original_set_qty"/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="line.product_uom_qty"/>
+                                            <t t-set="product_qty_total" t-value="product_qty_total + line.product_uom_qty"/>
+                                        </t>
+                                    </td>
+                                    <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_unit)"/></td>
+                                    <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_subtotal)"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>
+                                <td align="right"><span t-esc="'{0:,.2f}'.format(product_qty_total)"/></td>
+                                <td colspan="2" align="2"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" align="center"><B>TOTAL OF AMOUNT</B></td>
+                                <td colspan="2" align="right">
+                                    <span t-esc="'{0:,.2f}'.format(o.amount_total)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="6" align="center"><B>GRAND TOTAL (</B>
+                                    <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                    <t t-else=""><span t-field="o.currency_id"/></t>
+                                    <B>)</B></td>
+                                <td colspan="2" align="right">
+                                    <span t-esc="'{0:,.2f}'.format(o.amount_total)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="8" >
+                                    <span>(</span>
+                                    <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                    <t t-else=""><span t-field="o.currency_id"/></t>  :  <span t-esc="o.company_id.num2_words(o.amount_total)"/><span>)</span>
+
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+                <div class="footer">
+                    <style>
+                        @font-face
+                        {
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
+                        }
+                        table.table-bordered{
+                        border:1px solid black;
+                        width: 100%;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-nobordered{
+                        margin:0px;
+                        margin-top:0px;
+                        margin-bottom:0px;
+                        width: 100%;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; thead &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+
+                        table.table-bordered {
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        vertical-align: middle;
+                        text-align:center;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+
+                        table.table-bordered-b {
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered-b &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        vertical-align: middle;
+                        text-align:center;
+                        padding:3px;
+                        }
+                        table.table-bordered-b &gt; tbody &gt; tr &gt; td{
+                        border:0px solid White;
+                        border-left: 1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered-b &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+
+                        table.table-nobordered-b{
+                        margin:0px;
+                        width: 100%;
+                        }
+                        table.table-nobordered-b &gt; thead &gt; tr &gt; th{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered-b &gt; thead &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered-b &gt; tbody &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        table.table-nobordered-b &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid white;
+                        padding:0px;
+                        }
+                        .word_wrap{
+                        word-wrap: break-word;
+                        <!--background-color:#cccccc;-->
+                        }
+                        .font_size_32{
+                        font-size: 32px;
+                        line-height: 30px;
+                        }
+                        .font_size_28{
+                        font-size: 28px;
+                        line-height: 26px;
+                        }
+                        .font_size_22{
+                        font-size: 22px;
+                        line-height: 20px;
+                        }
+                        .font_size_20{
+                        font-size: 20px;
+                        line-height: 18px;
+                        }
+                        .font_size_18{
+                        font-size: 18px;
+                        line-height: 16px;
+                        }
+                        .font_size_16{
+                        font-size: 16px;
+                        line-height: 14px;
+                        }
+                        .font_size_14{
+                        font-size: 14px;
+                        line-height: 12px;
+                        }
+                    </style>
+
+                    <div class="font_fam font_size_16">
+                        <p>
+                            <span>
+                                KINDLY ARRANGE YOUR PAYMENT THROUGH OUR BANK ACCOUNT:
+                            </span>
+                        </p>
+                        <t t-if="o.partner_bank_id">
+                            <p>
+                                <span t-field="o.partner_bank_id.bank_id.name"/>
+                                <span>ACCOUNT NUMBER: </span><span t-field="o.partner_bank_id.acc_number"/>
+                                <span>CODE: </span><span t-field="o.partner_bank_id.bank_id.bic"/>
+                            </p>
+                            <p class="font_size_14">
+                                <span>Address:</span>
+                                <span t-field="o.partner_bank_id.bank_id.street"/>
+                                <span t-field="o.partner_bank_id.bank_id.street2"/>
+                                <span t-field="o.partner_bank_id.bank_id.city"/>
+                                <span t-field="o.partner_bank_id.bank_id.state"/>
+                                <span t-field="o.partner_bank_id.bank_id.country"/>
+                                <span t-field="o.partner_bank_id.bank_id.zip"/>
+                                <span>TEL:</span><span t-field="o.partner_bank_id.bank_id.bic"/>
+                                <span>FAX:</span><span t-field="o.partner_bank_id.bank_id.fax"/>
+                            </p>
+                        </t>
+                    </div>
+                    <table class="table table-bordered-b font_fam font_size_16">
+                        <tr>
+                            <td width="33%" align="center">
+                                <div style="height:100px;">
+
+                                </div>
+                                <span>Authorized Signature (Buyer)</span>
+                            </td>
+                            <td width="33%" align="center">
+                                <div style="height:100px;">
+
+                                </div>
+                                <span>Quality Ceramic Co.,Ltd</span>
+                            </td>
+                            <td width="34%">
+                                <ul>
+                                    <li>
+                                        <span>
+                                            All bank charge occurred from L/C transferring are for account of applicant
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            Quantity abd amount must be allowed to plus or minus 10%
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            Transhipment must be allowed
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </t>
+        </t>
+
+    </template>
+
+</odoo>

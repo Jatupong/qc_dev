@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- urgent.need : form -->
+
+    <record id="view_want_to_deliver_form" model="ir.ui.view">
+        <field name="name">want.to.deliver.form</field>
+        <field name="model">want.to.deliver</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- loading.type : tree -->
+    <record id="view_want_to_deliver_tree" model="ir.ui.view">
+         <field name="name">want.to.deliver.tree</field>
+        <field name="model">want.to.deliver</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- loading.type : action -->
+    <record id="action_want_to_deliver" model="ir.actions.act_window">
+        <field name="name">Want To Deliver</field>
+        <field name="res_model">want.to.deliver</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_want_to_deliver_tree"/>
+    </record>
+
+    <!-- loading.type : menu -->
+    <menuitem id="menu_want_to_deliver"
+              name="Want To Deliver"
+              parent="sale.menu_sale_config"
+              sequence="104"
+              action="action_want_to_deliver"/>
+</odoo>

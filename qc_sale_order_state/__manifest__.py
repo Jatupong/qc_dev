@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of IT as a Service Co., Ltd.
-# Copyright (C) 2023-today www.itaas.co.th (Dev K.Book)
+# Copyright (C) 2023-today www.itaas.co.th (Dev K.New)
 
 {
     'name': 'QC. Sale Order State',
@@ -11,12 +11,11 @@
                 """,
     'author': 'IT as a Service Co., Ltd.',
     'website': 'www.itaas.co.th',
-    'depends': ['base','sale'],
+    'depends': ['base','sale','manufacturing_production_request'],
     'data': [
 
 
-        # 'security/approve_customer_security.xml',
-        'views/sale_order_state_view.xml',
+        'views/state_view.xml',
 
     ],
     'qweb': [],

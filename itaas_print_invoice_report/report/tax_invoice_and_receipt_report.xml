@@ -793,7 +793,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td t-att-colspan="colspan_foot" rowspan="2">
+                                        <td t-att-colspan="colspan_foot" rowspan="1">
                                             <table width="100%">
                                                 <tr>
                                                 <td width="50%" style="border: 1px solid white">
@@ -811,6 +811,8 @@
                                                 </tr>
                                             </table>
                                         </td>
+
+
                                         <td colspan="2" style="line-height:14px;"><strong><span>ภาษีมูลค่าเพิ่ม</span><br/><span>VAT </span></strong>
 <!--                                            <t t-set="tax_line_ids" t-value="invoice_line_ids.mapped('tax_ids')"/>-->
 <!--                                            <t t-if="tax_line_ids">-->
@@ -828,7 +830,7 @@
 
                                     <t t-if="o.company_id.partner_id.bank_ids">
                                         <tr>
-                                            <td t-att-colspan="colspan_foot">
+                                            <td colspan="4">
                                                 เลขที่บัญชี
                                                 <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>
                                                 <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/><br/>

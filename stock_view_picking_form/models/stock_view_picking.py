@@ -14,5 +14,8 @@ class StockViewPicking(models.Model):
 
     product_ceg_th = fields.Char(string='Product Category TH')
 
+    mode_of_shipment = fields.Many2one(comodel_name="mode.shipment", string="Mode Of Shipment")
+    shipping = fields.Many2one(comodel_name="shipping.id", string="Shipping")
+
 
 

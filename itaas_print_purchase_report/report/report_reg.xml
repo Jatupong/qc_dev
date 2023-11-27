@@ -84,7 +84,7 @@
 
         <report
                 id="purchase_request_report"
-                model="purchase.order"
+                model="purchase.request"
                 menu="True"
                 report_type="qweb-pdf"
                 string="ใบขออนุมัติจัดซื้อจัดจ้าง"

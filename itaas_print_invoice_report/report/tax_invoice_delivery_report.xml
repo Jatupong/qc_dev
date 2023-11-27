@@ -591,10 +591,10 @@
                         <!-- unit is mm --> <!-- max height a4 = 297, deduct margin and bottom 100, 50 and left 147, 30px per line then max = 15 line-->
                         <!--t t-set="max_body_line" t-value="15"-->
                         <!-- header of tbody take 2 new light = 15, then 147 - 15 = 132-->
-                        <t t-set="max_body_height" t-value="105"/>
+                        <t t-set="max_body_height" t-value="150"/>
                         <t t-set="new_line_height" t-value="5"/>
                         <t t-set="row_line_height" t-value="5"/> <!--- 30px = 7.9375 mm -->
-                        <t t-set="max_line_lenght" t-value="40"/>
+                        <t t-set="max_line_lenght" t-value="60"/>
                         <!--#############it may reduce to 30 from invoice as 40, due to it has code column-->
 
                         <t t-set="break_line" t-value="o.get_break_line_invoice(max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
@@ -604,7 +604,7 @@
                         <t t-set="item" t-value="0"/>
 
                         <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                            <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:175mm;">
+                            <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:170mm;">
                                 <thead>
                                     <tr style="height:30px;">
                                         <th width="5%"><span>ลำดับ<br/>No.</span></th>
@@ -717,26 +717,35 @@
                                                 <tr>
 
                                                     <td width="10%">
-                                                        <t t-if="o.currency_id.name == 'THB'">
-                                                            <strong> <span>บาท</span><br/><span>Baht</span></strong>
-                                                        </t>
-                                                        <t t-if="not o.currency_id.name == 'THB'">
-                                                            <strong><span t-field="o.currency_id"/></strong>
+                                                        <t t-if="end ==(break_line[len(break_line)-1])">
+                                                            <t t-if="o.currency_id.name == 'THB'">
+                                                                <strong> <span>บาท/Baht</span> </strong>
+                                                            </t>
+                                                            <t t-if="not o.currency_id.name == 'THB'">
+                                                                <strong><span t-field="o.currency_id"/></strong>
+                                                            </t>
                                                         </t>
                                                     </td>
                                                     <td width="90%" align="center" style="vertical-align: middle;">
                                                         <t t-if="end ==(break_line[len(break_line)-1])">
-                                                            <strong>(<span t-esc="o.baht_text(o.amount_total)"/>)</strong>
+                                                            <t t-if="o.currency_id.name == 'THB'">
+                                                                <strong>(<span t-esc="o.baht_text(o.amount_total)"/> )</strong>
+                                                            </t>
+                                                            <t t-if="not o.currency_id.name == 'THB'">
+                                                                <strong>(<span t-esc="o.num2_words(o.amount_total)"/> )</strong>
+                                                            </t>
                                                         </t>
                                                     </td>
 
                                                 </tr>
                                             </table>
                                         </td>
-                                        <td colspan="2" style="line-height:14px;"><strong><span>รวม</span><br/><span>Total</span></strong></td>
+                                        <td colspan="2" style="line-height:14px;"><strong><span>รวม</span>/
+<!--                                            <br/>-->
+                                            <span>Total</span></strong></td>
                                         <td align="right">
 <!--                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/>-->
-                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
+                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_total(o.invoice_line_ids))"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -757,35 +766,52 @@
                                             </td>
                                         </t>
                                         <td colspan="2" style="line-height:14px;">
-                                            <strong> <span>ส่วนลด</span>
-                                                <br/>
-                                                <span>Discount</span></strong>
+                                            <strong> <span>ส่วนลด/Discount</span>
+<!--                                                <br/>-->
+<!--                                                <span>Discount</span>-->
+                                            </strong>
                                         </td>
                                         <td align="right">
-                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(discounted_amount))"/>
+                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_discount(o.invoice_line_ids))"/>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td t-att-colspan="colspan_foot"  style="vertical-align: top;">
-                                                <strong>สินค้ารายการข้างต้น</strong><br/><strong>แม้จะได้ส่งมอบแก่ผู้ซื้อแล้วก็ยังคงเป็นทรัพย์สินองผู้ขายจนกว่าผู้ซื้อได้รับชำระเงินเสร็จเรียบร้อย</strong>
-
+                                                <strong>สินค้าตามรายการข้างต้น</strong><br/><strong>แม้จะได้ส่งมอบแก่ผู้ซื้อแล้วก็ยังคงเป็นทรัพย์สินของผู้ขายจนกว่าผู้ซื้อได้รับชำระเงินเสร็จเรียบร้อย</strong>
                                         </td>
-                                        <td colspan="2" style="line-height:14px;"><strong><span>คงเหลือ</span><br/><span>Subtotal</span></strong></td>
+                                        <td colspan="2" style="line-height:14px;"><strong><span>คงเหลือ</span>/
+<!--                                            <br/>-->
+                                            <span>Subtotal</span></strong></td>
                                         <td align="right">
+                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_subtotal(o.invoice_line_ids))"/>
 <!--                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(amount_untaxed_after_discounted_amount))"/>-->
                                         </td>
                                     </tr>
                                     <tr>
                                         <td t-att-colspan="colspan_foot" rowspan="2">
                                             <table width="100%">
+<!--                                                <tr>-->
+<!--                                                <td width="50%" style="border: 1px solid white">-->
+<!--                                                <strong>ใบเสร็จรับเงินนี้สมบูรณ์ต่อเมื่อได้</strong>-->
+<!--                                                <br/>-->
+<!--                                                <strong>รับการโอนเงินเข้าบัญชีเช็คได้ผ่าน</strong>-->
+<!--                                                <br/>-->
+<!--                                                <strong>เรียบร้อยแล้ว</strong>-->
+<!--                                                </td>-->
+<!--                                                <td width="50%" style="border: 1px solid white">-->
+<!--                                                <strong>This receipt is valid only transaction</strong>-->
+<!--                                                <br/>-->
+<!--                                                <strong>is honored by the bank</strong>-->
+<!--                                                </td>-->
+<!--                                                </tr>-->
+
                                                 <tr>
                                                 <td width="50%" style="border: 1px solid white">
-                                                <strong>ใบเสร็จรับเงินนี้สมบูรณ์ต่อเมื่อได้</strong>
+                                                <strong>ใบเสร็จรับเงินนี้สมบูรณ์ต่อเมื่อได้รับการโอนเงิน</strong>
                                                 <br/>
-                                                <strong>รับการโอนเงินเข้าบัญชีเช็คได้ผ่าน</strong>
+                                                <strong>เข้าบัญชีเช็คได้ผ่านเรียบร้อยแล้ว</strong>
                                                 <br/>
-                                                <strong>เรียบร้อยแล้ว</strong>
                                                 </td>
                                                 <td width="50%" style="border: 1px solid white">
                                                 <strong>This receipt is valid only transaction</strong>
@@ -795,7 +821,9 @@
                                                 </tr>
                                             </table>
                                         </td>
-                                        <td colspan="2" style="line-height:14px;"><strong><span>ภาษีมูลค่าเพิ่ม</span><br/><span>VAT </span></strong>
+                                        <td colspan="2" style="line-height:14px;"><strong><span>ภาษีมูลค่าเพิ่ม</span>/
+<!--                                            <br/>-->
+                                            <span>VAT </span></strong>
 <!--                                            <t t-set="tax_line_ids" t-value="invoice_line_ids.mapped('tax_ids')"/>-->
 <!--                                            <t t-if="tax_line_ids">-->
                                                 <!--<span t-esc="'%, '.join(map(lambda x: (str(int(x.amount)) or x.name), tax_line_ids))"/>%-->
@@ -805,26 +833,30 @@
 <!--                                            </t>-->
                                         </td>
                                         <td align="right">
-<!--                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>-->
+                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>
                                         </td>
                                     </tr>
 
                                     <t t-if="o.company_id.partner_id.bank_ids">
                                         <tr>
-                                            <td t-att-colspan="colspan_foot">
-                                                เลขที่บัญชี
-                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>
-                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/><br/>
-                                            </td>
-                                            <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span><br/><span>Net Total</span></strong></td>
+<!--                                            <td t-att-colspan="colspan_foot">-->
+<!--                                                เลขที่บัญชี-->
+<!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>-->
+<!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/><br/>-->
+<!--                                            </td>-->
+                                            <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span>/
+<!--                                                <br/>-->
+                                                <span>Net Total</span></strong></td>
                                             <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/></td>
                                         </tr>
                                     </t>
 
                                     <t t-else="">
                                         <tr>
-                                            <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span><br/><span>Net Total</span></strong></td>
-                                            <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/></td>
+                                            <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span>/
+<!--                                                <br/>-->
+                                                <span>Net Total</span></strong></td>
+                                            <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.sum_untaxed))"/></td>
                                         </tr>
                                     </t>
                                 </tfoot>
@@ -955,12 +987,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">100</field>
+        <field name="margin_top">105</field>
         <field name="margin_bottom">42</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">95</field>
+        <field name="header_spacing">100</field>
         <field name="dpi">90</field>
     </record>
 

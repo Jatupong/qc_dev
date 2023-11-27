@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--res.partner : inherit form view-->
+    <record id="view_sale_order_add_field" model="ir.ui.view">
+        <field name="name">sale.order.add.field</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_bank_id" position="after">
+                <field name="fob"/>
+                    <field name="shipping_mark"/>
+                    <field name="delivery_to"/>
+                    <field name="logo"/>
+            </field>
+
+        </field>
+    </record>
+</odoo>

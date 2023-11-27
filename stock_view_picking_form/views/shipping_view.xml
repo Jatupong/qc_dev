@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- customer.type : form -->
+
+    <record id="view_shipping_form" model="ir.ui.view">
+        <field name="name">shipping.id.form</field>
+        <field name="model">shipping.id</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+<!--                        <group>-->
+<!--                            <field name="customer_type"/>-->
+<!--                        </group>-->
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- customer.type : tree -->
+    <record id="view_shipping_tree" model="ir.ui.view">
+        <field name="name">shipping.id.tree</field>
+        <field name="model">shipping.id</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- mode.shipment : action -->
+    <record id="action_shipping" model="ir.actions.act_window">
+        <field name="name">Shipping</field>
+        <field name="res_model">shipping.id</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_shipping_tree"/>
+    </record>
+
+    <!-- mode.shipment : menu -->
+    <menuitem id="menu_shipping"
+              name="Shipping"
+              parent="stock.menu_stock_config_settings"
+              sequence="100"
+              action="action_shipping"/>
+</odoo>

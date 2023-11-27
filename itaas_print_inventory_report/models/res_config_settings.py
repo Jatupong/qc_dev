@@ -13,6 +13,8 @@ class ResCompany(models.Model):
     return_in_form = fields.Char(string='Return In No. Form')
     return_out_form = fields.Char(string='Return Out No. Form')
     product_delivery_note = fields.Char(string='ใบส่งมอบผลิตภัณฑ์')
+    packing_list = fields.Char(string='Packing List')
+    product_delivery_note_number = fields.Char(string='เลขที่แก้ไขใบส่งมอบผลิตภัณฑ์')
 
 
 class ResConfigSettings(models.TransientModel):
@@ -24,3 +26,6 @@ class ResConfigSettings(models.TransientModel):
     return_in_form = fields.Char(related='company_id.return_in_form', string='Return In No. Form', readonly=False)
     return_out_form = fields.Char(related='company_id.return_out_form', string='Return Out No. Form', readonly=False)
     product_delivery_note = fields.Char(related='company_id.product_delivery_note', string='ใบส่งมอบผลิตภัณฑ์', readonly=False)
+    packing_list = fields.Char(related='company_id.packing_list', string='Packing List', readonly=False)
+    product_delivery_note_number = fields.Char(related='company_id.product_delivery_note_number', string='เลขที่แก้ไขใบส่งมอบผลิตภัณฑ์',
+                                        readonly=False)

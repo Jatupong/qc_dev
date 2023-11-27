@@ -17,6 +17,9 @@
     'data': [
 
         'views/stock_view_picking.xml',
+        'views/mode_of_shipment_view.xml',
+        'views/shipping_view.xml',
+        "security/ir.model.access.csv",
 
     ],
     'qweb': [],

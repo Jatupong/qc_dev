@@ -325,7 +325,7 @@
                                 </font>
                                 <font class="font_size_14">
                                     <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/></span>&amp;nbsp;
-                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span><br/>
+                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
                                     <!--                                        <t t-set="company_address" t-value="o.company_id.get_company_full_address()"/>-->
                                     <!--                                        <span t-esc="' '.join([ address for address in company_address ])"/><br/>-->
                                     <!--<span t-if="o.company_id.building">อาคาร<span t-field="o.company_id.building"/>&amp;nbsp;</span>-->
@@ -581,7 +581,8 @@
                         }
                     </style>
 
-                    <t t-set="max_body_height" t-value="170"/>
+<!--                    <t t-set="max_body_height" t-value="170"/>-->
+                    <t t-set="max_body_height" t-value="220"/>
                     <t t-set="new_line_height" t-value="5"/>
                     <t t-set="row_line_height" t-value="5"/>
                     <t t-set="max_line_lenght" t-value="40"/>

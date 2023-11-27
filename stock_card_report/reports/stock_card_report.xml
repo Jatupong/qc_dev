@@ -72,7 +72,13 @@
                         <div class="act_as_cell"/>
                         <div class="act_as_cell"/>
                         <div class="act_as_cell right">
-                            <t t-esc="'{0:,.2f}'.format(initial)"/>
+                            <t t-set="chack" t-value="o._get_type_by_shinobu(initial)"/>
+                            <t t-if="chack == 'int' or chack == 'float'">
+                                <t t-esc="'{0:,.2f}'.format(initial)"/>
+                            </t>
+                            <t t-if="chack != 'int' and chack != 'float'">
+                                initial type [<t t-esc="chack"/>]
+                            </t>
                         </div>
                     </div>
                     <!-- Display each lines -->
@@ -116,6 +122,7 @@
                 <div class="act_as_cell">Lot</div>
                 <div class="act_as_cell">From</div>
                 <div class="act_as_cell">To</div>
+                <div class="act_as_cell">Unit Cost</div>
                 <div class="act_as_cell">Input</div>
                 <div class="act_as_cell">Output</div>
                 <div class="act_as_cell">Balance</div>
@@ -133,7 +140,7 @@
             </div>
             <div class="act_as_cell left">
                 <t t-if ="product_line.lot_id">
-                    <t t-esc="product_line.lot_id"/>
+                    <t t-esc="product_line.lot_id.name"/>
                 </t>
                 <span> </span>
             </div>
@@ -142,6 +149,9 @@
             </div>
             <div class="act_as_cell left">
                 <t t-esc="product_line.location_dest_id.display_name"/>
+            </div>
+            <div class="act_as_cell left">
+                <t t-esc="'{0:,.2f}'.format(product_line.unit_cost)"/>
             </div>
             <div class="act_as_cell right">
                 <t t-esc="'{0:,.2f}'.format(product_line.product_in)"/>

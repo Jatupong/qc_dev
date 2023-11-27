@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_picking_form_number" model="ir.ui.view">
+            <field name="name">stock.picking.form.number</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='move_ids_without_package']" position="before">
+                    <field name="is_number_line" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='move_ids_without_package']/tree/field[1]" position="after">
+                    <field name="number" string="No." optional="show" readonly="1" force_save="1"/>
+                </xpath>
+
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="is_consignee"  options="{&quot;always_reload&quot;: True}"/>
+                    <field name="shipping_mark"  options="{&quot;always_reload&quot;: True}"/>
+                </xpath>
+
+
+            </field>
+        </record>
+
+        <record id="view_stock_move_line_detailed_operation_tree_number" model="ir.ui.view">
+            <field name="name">stock.move.line.tree.number</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//tree/field[1]" position="before">
+                    <field name="number" string="No." optional="show" readonly="1" force_save="1"/>
+                </xpath>
+
+<!--                <xpath expr="//tree/field[2]" position="after">-->
+<!--                    <field name="description_picking"/>-->
+<!--                </xpath>-->
+
+            </field>
+        </record>
+
+<!--        <record id="view_stock_picking_form_line" model="ir.ui.view">-->
+<!--            <field name="name">stock.picking.form.line</field>-->
+<!--            <field name="model">stock.picking</field>-->
+<!--            <field name="inherit_id" ref="stock.stock.view_picking_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='description_picking']" position="attributes">-->
+<!--                    <attribute name="readonly">0</attribute>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>
+
+
+
+
+
+
+
+
+
+
+

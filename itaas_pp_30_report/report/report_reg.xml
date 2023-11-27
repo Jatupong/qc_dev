@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="pp_30_report_xls"
+                model="wizard.pp.30.report"
+                string="สรุปแบบ ภพ. 30"
+                report_type="xlsx"
+                name="itaas_pp_30_report.pp_30_report_xls"
+                file="itaas_pp_30_report.pp_30_report_xls"
+                menu="False"
+                attachment_use="False"/>
+
+        <record id="paperformat_A4_Five_Margin_pp_30" model="report.paperformat">
+            <field name="name">A4_Five_Margin_pp_30</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">20</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">3</field>
+            <field name="margin_right">3</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">15</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="pp_30_report"
+                model="wizard.pp.30.report"
+                string="สรุปแบบ ภพ. 30"
+                report_type="qweb-html"
+                paperformat="paperformat_A4_Five_Margin_pp_30"
+                name="qc_account_aging_report.pp_30_report_id"
+                file="qc_account_aging_report.pp_30_report_id"
+                menu="False"
+                attachment_use="False"/>
+
+    </data>
+</odoo>

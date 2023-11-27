@@ -17,14 +17,15 @@ class account_ap_aging_report(models.AbstractModel):
         model = self.env.context.get('active_model')
         docs = self.env[model].browse(self.env.context.get('active_ids', []))
 
-        invoice_ids = docs._get_in_invoice()
-        if not invoice_ids:
-            raise UserError(_("Document is empty."))
+        # invoice_ids = docs._get_in_invoice()
+        # if not invoice_ids:
+        #     raise UserError(_("Document is empty."))
+        invoice_list = docs._get_result_ap_aging()
 
         docargs = {
             'doc_ids': docids,
             'data': data['form'],
             'docs': docs,
-            'invoice_ids': invoice_ids,
+            'invoice_list': invoice_list,
         }
         return docargs

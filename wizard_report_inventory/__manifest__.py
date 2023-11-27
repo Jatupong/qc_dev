@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+#############################################################################
+
+{
+    'name': "Product Purchase Report",
+    'version': '16.0.1.1',
+    'description': """""",
+    'author': "ITAAS",
+    'company': 'ITAAS',
+    'website': "https://www.itaas.co.th",
+    'category': 'Accounting',
+    'depends': ['base','account','stock','purchase_stock',],
+    'data':
+        [
+            #security
+            'security/ir.model.access.csv',
+
+            #views
+            'views/product_purchase_report_view.xml',
+            
+            
+
+
+        ],
+
+    'license': 'AGPL-3',
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+}
