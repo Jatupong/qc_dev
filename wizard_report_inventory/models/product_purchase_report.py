@@ -347,6 +347,8 @@ class product_purchase_report(models.TransientModel):
                         worksheet.write(inv_row, 7, line.qty_done or ' ', for_right_border_num_format)
                         domainp = [("product_id.name", "=", stock.product_id.name), ("reference", "=", stock.name),("quantity", "=", line.qty_done)]
                         Unit_cost = self.env['stock.valuation.layer'].search(domainp)
+                        if len(Unit_cost)>=2:
+                            Unit_cost = Unit_cost[0]
                         worksheet.write(inv_row, 8, line.qty_done * Unit_cost.unit_cost or ' ',
                                         for_right_border_num_format)
                         sum_unit += line.qty_done
