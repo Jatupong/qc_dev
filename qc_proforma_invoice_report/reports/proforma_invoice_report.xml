@@ -8,17 +8,17 @@
                     <style>
                         @font-face
                         {
-                        font-family: Sarabun-Regular;
-                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
                         }
                         .font_fam{
-                        font-family: Sarabun-Regular;
-                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
                         }
                         .word_wrap{
                         word-wrap: break-word;
                         overflow: hidden;
-                        <!--background-color:#cccccc;-->
+                        background-color:#cccccc;
                         }
                         table.table-nobordered{
                         margin:0px;
@@ -94,14 +94,11 @@
                         font-size: 10px;
                         line-height: 8px;
                         }
-                        span{
-                        line-height: inherit;
-                        }
                     </style>
 
-                    <div class="font_size_10" style="text-align:right; padding-bottom:10px;">
+                    <div class="font_size_10" style="text-align:right; padding-top:10px; padding-bottom:10px;">
                         <span t-field="o.company_id.proforma_invoice_no_form"/>
-                        : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                        : <span t-esc="o.company_id._convert_format_full_month(context_timestamp(datetime.datetime.now()))"/>
                         <span>Page </span><span class="page"/> / <span class="topage"/>
                     </div>
                     <table width="100%" class="font_fam table table-nobordered font_size_18" style="border-top:2px solid black; border-bottom:2px solid black;">
@@ -109,8 +106,8 @@
                             <td width="15%" style="vertical-align: middle;">
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:70px; max-width:70px;" alt="Logo"/>
                             </td>
-                            <td width="50%" style="vertical-align: middle;">
-                                <div style="width:500px; word-wrap: break-word;">
+                            <td width="45%" style="vertical-align: middle;">
+                                <div style="width:350px; word-wrap: break-word;">
                                     <font class="font_size_20">
                                         <p>
                                             <B>
@@ -118,7 +115,7 @@
                                             </B>
                                         </p>
                                     </font>
-                                    <font class="font_size_16">
+                                    <font class="font_size_14">
                                         <p>
                                             <span t-if="o.company_id.english_address"><span t-field="o.company_id.english_address"/></span>
                                             <span t-if="o.company_id.phone"><br/>Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
@@ -127,7 +124,7 @@
                                     </font>
                                 </div>
                             </td>
-                            <td width="35%" style="text-align:center; vertical-align: bottom;">
+                            <td width="40%" style="text-align:center; vertical-align: bottom;">
                                 <div class="font_size_28">
                                     <strong>PROFORMA INVOICE</strong>
                                 </div>
@@ -135,33 +132,36 @@
                         </tr>
                     </table>
 
-                    <table width="100%" class="font_fam table table-nobordered font_size_16" style="margin-top:10px;">
+                    <table width="100%" class="font_fam table table-nobordered font_size_14" style="margin-top:10px;">
                         <tr>
                             <td width="50%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
                                         <td><B>Date</B></td>
-                                        <td colspan="3">:<span t-field="o.date_order"/></td>
+                                        <td colspan="3">
+                                            <B>: </B>
+                                            <span t-field="o.date_order"/></td>
                                     </tr>
                                     <tr>
                                         <td><B>To</B></td>
                                         <td colspan="3">
-                                            <div style="width:500px; word-wrap: break-word;">
-                                                :<span t-field="o.partner_id.name"/><br/>
+                                            <div style="width:300px; word-wrap: break-word;">
+                                                <B>: </B><span t-field="o.partner_id.name"/><br/>
                                                 <address t-field="o.partner_id"
                                                          t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><B>Tel</B></td>
-                                        <td><span t-field="o.partner_id.phone"/></td>
-                                        <td><B>Fax</B></td>
-                                        <td><span t-field="o.partner_id.fax"/></td>
+                                        <td width="20%"><B>Tel</B></td>
+                                        <td width="30%"><B>: </B><span t-field="o.partner_id.phone"/></td>
+                                        <td width="20%"><B>Fax</B></td>
+                                        <td width="30%"><B>: </B><span t-field="o.partner_id.fax"/></td>
                                     </tr>
                                     <tr>
                                         <td><B>Attn</B></td>
                                         <td colspan="3">
+                                            <B>: </B>
                                             <t t-set="contact_ids" t-value="o.partner_id.child_ids.filtered(lambda x:x.type == 'contact')"/>
                                             <t t-if="contact_ids">
                                                 <span t-esc="contact_ids[0].name"/>
@@ -171,7 +171,7 @@
                                     <tr>
                                         <td><B>CC</B></td>
                                         <td colspan="3">
-                                            <span t-field="o.partner_id.email"/>
+                                            <B>: </B><span t-field="o.partner_id.email"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -179,26 +179,28 @@
                             <td width="50%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
-                                        <td><B>P/I No.</B></td>
-                                        <td colspan="3">
-                                            <span t-field="o.name"/>
+                                        <td width="30%"><B>P/I No.</B></td>
+                                        <td width="70%">
+                                            <B>: </B><span t-field="o.name"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><B>Order Sheet No.</B></td>
-                                        <td colspan="3">
-                                            <span t-field="o.id_po"/>
+                                        <td>
+                                            <B>: </B><span t-field="o.id_po"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><B>Payment Term</B></td>
-                                        <td colspan="3">
-                                            <span t-field="o.payment_term_id"/>
+                                        <td>
+                                            <B>: </B><span t-field="o.payment_term_id"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><B>Backstamp</B></td>
-                                        <td colspan="3"></td>
+                                        <td>
+                                            <B>: </B>
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
@@ -207,14 +209,14 @@
                             <td colspan="2">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
-                                        <td style="14%"><B>Delivery To</B></td>
-                                        <td style="20%">
-                                            <span t-field="o.partner_shipping_id.country_id"/>
+                                        <td width="14%"><B>Delivery To</B></td>
+                                        <td width="20%">
+                                            <B>: </B><span t-field="o.partner_shipping_id.country_id"/>
                                         </td>
-                                        <td style="13%"><B>Packing</B></td>
-                                        <td style="20%"></td>
-                                        <td style="13%"><B>Volume</B></td>
-                                        <td style="20%"><span t-field="o.container"/></td>
+                                        <td width="13%"><B>Packing</B></td>
+                                        <td width="20%"><B>: </B><span t-field="o.box_type"/></td>
+                                        <td width="13%"><B>Volume</B></td>
+                                        <td width="20%"><B>: </B><span t-field="o.container"/></td>
                                     </tr>
                                 </table>
                             </td>
@@ -223,16 +225,16 @@
                             <td width="50%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
-                                        <td><B>Delivery Week</B></td>
-                                        <td colspan="3"><span t-field="o.w_load_product"/></td>
+                                        <td width="30%"><B>Delivery Week</B></td>
+                                        <td width="70%" colspan="3"><B>: </B><span t-field="o.w_load_product"/></td>
                                     </tr>
                                 </table>
                             </td>
                             <td width="50%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
-                                        <td><B>Shipping Mark</B></td>
-                                        <td colspan="3"><span t-field="o.box_type"/></td>
+                                        <td width="30%"><B>Shipping Mark</B></td>
+                                        <td width="70%" colspan="3"><B>: </B></td>
                                     </tr>
                                 </table>
                             </td>
@@ -244,12 +246,12 @@
                     <style>
                         @font-face
                         {
-                        font-family: Sarabun-Regular;
-                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
                         }
                         .font_fam{
-                        font-family: Sarabun-Regular;
-                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
@@ -397,7 +399,12 @@
                                 <th rowspan="2"><span>Production Code</span></th>
                                 <th rowspan="2"><span>Description</span></th>
                                 <th colspan="2"><span>Quantity</span></th>
-                                <th rowspan="2"><span>Unit Price<br/><span t-field="o.currency_id"/></span></th>
+                                <th rowspan="2">
+                                    <span>Unit Price<br/>
+                                        <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                        <t t-else=""><span t-field="o.currency_id"/></t>
+                                    </span>
+                                </th>
                                 <th rowspan="2"><span>Total Amount<br/>Thailand</span></th>
                             </tr>
                             <tr>
@@ -406,26 +413,31 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <t t-set="product_qty_total" t-value="0.0"/>
                             <t t-foreach="o.order_line" t-as="line">
+                                <t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>
                                 <tr>
                                     <td align="center">
                                         <t t-set="num" t-value="num+1"/>
                                         <span t-esc="num"/>
                                     </td>
-                                    <td></td>
+                                    <td><span t-field="line.order_id.client_order_ref"/></td>
                                     <td><span t-field="line.product_id.default_code"/></td>
                                     <td><span t-field="line.name"/></td>
                                     <td align="right">
-                                        <t t-if="line.product_packaging_id">
-                                            <span t-field="line.product_packaging_qty"/>
+                                        <t t-if="product_set_ids">
+                                            <span t-field="line.product_uom_qty"/>
                                         </t>
                                     </td>
                                     <td align="right">
-                                        <t t-if="line.product_packaging_id">
-                                            <span t-field="line.product_packaging_id.qty"/>
+                                        <t t-if="product_set_ids">
+                                            <t t-set="original_set_qty" t-value="product_set_ids.mapped('original_set_qty')"/>
+                                            <span t-esc="'{0:,.2f}'.format(original_set_qty)"/>
+                                            <t t-set="product_qty_total" t-value="product_qty_total + original_set_qty"/>
                                         </t>
                                         <t t-else="">
                                             <span t-field="line.product_uom_qty"/>
+                                            <t t-set="product_qty_total" t-value="product_qty_total + line.product_uom_qty"/>
                                         </t>
                                     </td>
                                     <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_unit)"/></td>
@@ -436,7 +448,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>
-                                <td align="right"><span t-esc="'{0:,.2f}'.format(sum(o.order_line.mapped('product_uom_qty')))"/></td>
+                                <td align="right"><span t-esc="'{0:,.2f}'.format(product_qty_total)"/></td>
                                 <td colspan="2" align="2"></td>
                             </tr>
                             <tr>
@@ -446,14 +458,19 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="6" align="center"><B>GRAND TOTAL (</B><span t-field="o.currency_id"/><B>)</B></td>
+                                <td colspan="6" align="center"><B>GRAND TOTAL (</B>
+                                    <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                    <t t-else=""><span t-field="o.currency_id"/></t>
+                                    <B>)</B></td>
                                 <td colspan="2" align="right">
                                     <span t-esc="'{0:,.2f}'.format(o.amount_total)"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="8" >
-                                    <span>(</span><span t-field="o.currency_id"/> :  <span t-esc="o.company_id.num2_words(o.amount_total)"/><span>)</span>
+                                    <span>(</span>
+                                    <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                    <t t-else=""><span t-field="o.currency_id"/></t>  :  <span t-esc="o.company_id.num2_words(o.amount_total)"/><span>)</span>
 
                                 </td>
                             </tr>
@@ -466,12 +483,12 @@
                     <style>
                         @font-face
                         {
-                        font-family: Sarabun-Regular;
-                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
                         }
                         .font_fam{
-                        font-family: Sarabun-Regular;
-                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        font-family: Sarabun-Light;
+                        src: local('United'), url("/qc_proforma_invoice_report/static/font/Sarabun-Light.ttf") format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
