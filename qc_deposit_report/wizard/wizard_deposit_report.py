@@ -230,8 +230,9 @@ class WizardDepositReportXls(models.AbstractModel):
                         label = []
                         for i in inv.invoice_line_ids:
                             payment_name.append(i.product_id.name)
-                            payment_name.append(i.name)
+                            label.append(i.name)
                         print(inv.name)
+
 
 
 
@@ -261,8 +262,13 @@ class WizardDepositReportXls(models.AbstractModel):
                                     currency_id_name = inv.currency_id.name
                                     inv_amount_total = sum_inv_amount_total
                                     currency_rate = inv.currency_id.rate_ids[0].inverse_company_rate or 1.0
-                                    # currency_rate = inv.company_currency_id._get_rates(inv.company_id, inv.invoice_date).get(
-                                    #     inv.company_currency_id.id)
+                                    inv_amount_total_THB = sale_amount_total * currency_rate
+                                    fee_amount = 0.0
+                                    inv_amount_total_out = sum_inv_amount_total_out
+                                if inv.company_id.currency_id == inv.currency_id:
+                                    currency_id_name = inv.currency_id.name
+                                    inv_amount_total = sum_inv_amount_total
+                                    currency_rate = 1.0
                                     inv_amount_total_THB = sale_amount_total * currency_rate
                                     fee_amount = 0.0
                                     inv_amount_total_out = sum_inv_amount_total_out
@@ -304,8 +310,10 @@ class WizardDepositReportXls(models.AbstractModel):
                             sum1 = sum1 + inv.amount_total
                             worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
                             i_col += 1
-                            sum2 = (sum2 + inv.amount_total) * currency_rate
-                            worksheet.write(i_row, i_col, sum2, for_right_border_num_format)
+                            sum2 = sum1 * (currency_rate or 1)
+                            worksheet.write(i_row, i_col, sum2,
+                                            for_right_border_num_format)
+                            # worksheet.write(i_row, i_col, "{} x {} = {}".format(sum1,currency_rate,sum2), for_right_border_num_format)
                             i_col += 1
                             if inv.narration != False:
                                 note = str(inv.narration).split("<p>")
@@ -348,6 +356,15 @@ class WizardDepositReportXls(models.AbstractModel):
                                     inv_amount_total_THB = sale_amount_total * currency_rate
                                     fee_amount = 0.0
                                     inv_amount_total_out = sum_inv_amount_total_out
+                                if inv.company_id.currency_id == inv.currency_id:
+                                    currency_id_name = inv.currency_id.name
+                                    inv_amount_total = sum_inv_amount_total
+                                    currency_rate = 1.0
+                                    # currency_rate = inv.company_currency_id._get_rates(inv.company_id, inv.invoice_date).get(
+                                    #     inv.company_currency_id.id)
+                                    inv_amount_total_THB = sale_amount_total * currency_rate
+                                    fee_amount = 0.0
+                                    inv_amount_total_out = sum_inv_amount_total_out
                                 chack_sale_name = []
 
                             i_col += 1
@@ -369,12 +386,9 @@ class WizardDepositReportXls(models.AbstractModel):
                             # ค่าธรรมเนียม
                             i_col += 1
                             worksheet.write(i_row, i_col, fee_amount or '', for_right_border_num_format)
-                            # # รับจริง
-                            # i_col += 1
-                            # worksheet.write(i_row, i_col, inv_amount_total_out or '', for_right_border_num_format)
-
+                            # รับจริง
                             i_col += 1
-                            worksheet.write(i_row, i_col,0, for_right_border_num_format)
+                            worksheet.write(i_row, i_col, 0, for_right_border_num_format)
                             i_col += 1
                             worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
                             i_col += 1
@@ -398,6 +412,8 @@ class WizardDepositReportXls(models.AbstractModel):
                             if inv.narration == False:
                                 print(inv.narration)
                                 worksheet.write(i_row, i_col, inv.narration or '', for_left_border)
+                                # print(inv.narration)
+                                # worksheet.write(i_row, i_col, "ยกยอด", for_left_border)
 
                             chack_sale_name.append(sale.name)
 
