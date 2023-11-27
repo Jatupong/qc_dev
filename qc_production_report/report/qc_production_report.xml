@@ -198,7 +198,7 @@
                                                 <tr>
                                                         <td>P/O No.</td>
                                                         <td>:
-                                                                <span t-field="o.client_order_ref"/>
+                                                                <span t-field="o.id_po"/>
                                                         </td>
                                                         <td>P/I No.</td>
                                                         <td>:
@@ -208,7 +208,7 @@
                                                 <tr>
                                                         <td>Shipping Mark</td>
                                                         <td>:
-                                                                <!--<span t-field="o.shipping_mark"/>-->
+                                                                <span t-field="o.shipping_mark"/>
                                                         </td>
                                                         <td>Packing</td>
                                                         <td>:
@@ -218,7 +218,7 @@
                                                 <tr>
                                                         <td>Backstamp</td>
                                                         <td>:
-                                                                <!--<span t-field="o.logo"/>-->
+                                                                <span t-field="o.logo"/>
                                                         </td>
                                                         <td></td>
                                                         <td></td>
@@ -422,10 +422,10 @@
                                                                                 <span t-field="line.product_id.name"/>
                                                                         </td>
                                                                         <td align="center">
-                                                                                <span t-field="line.product_id.logo"/>
+                                                                                <!--<span t-field="line.product_id.logo"/>-->
                                                                         </td>
                                                                         <td>
-                                                                                <span t-field="line.product_id.decorate"/>
+                                                                                <!--<span t-field="line.product_id.decorate"/>-->
                                                                         </td>
                                                                         <td align="right">
                                                                                 <span t-field="line.product_uom_qty"/>
@@ -457,6 +457,154 @@
                                                 <span>หมายเหตุ</span>
                                                 <span t-esc="o.note"/>
                                         </div>
+
+                                </div>
+                                <div class="footer">
+                                        <style>
+                                                @font-face
+                                                {
+                                                font-family: Sarabun-Regular;
+                                                src: local('United'), url("/qc_production_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                                                }
+                                                .font_fam{
+                                                font-family: Sarabun-Regular;
+                                                src: local('United'), url("/qc_production_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                                                }
+                                                table.table-bordered{
+                                                border:1px solid black;
+                                                width: 100%;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-nobordered{
+                                                margin:0px;
+                                                margin-top:0px;
+                                                margin-bottom:0px;
+                                                width: 100%;
+                                                }
+                                                table.table-nobordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; thead &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+
+                                                table.table-bordered {
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                vertical-align: middle;
+                                                text-align:center;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+
+                                                table.table-bordered-b {
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; thead &gt; tr &gt; th{
+                                                border:1px solid black;
+                                                vertical-align: middle;
+                                                text-align:center;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; tbody &gt; tr &gt; td{
+                                                border:0px solid White;
+                                                border-left: 1px solid black;
+                                                padding:3px;
+                                                }
+                                                table.table-bordered-b &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid black;
+                                                padding:3px;
+                                                }
+
+                                                table.table-nobordered-b{
+                                                margin:0px;
+                                                width: 100%;
+                                                }
+                                                table.table-nobordered-b &gt; thead &gt; tr &gt; th{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; thead &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; tbody &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                table.table-nobordered-b &gt; tfoot &gt; tr &gt; td{
+                                                border:1px solid white;
+                                                padding:0px;
+                                                }
+                                                .word_wrap{
+                                                word-wrap: break-word;
+                                                <!--background-color:#cccccc;-->
+                                                }
+                                                .font_size_32{
+                                                font-size: 32px;
+                                                line-height: 30px;
+                                                }
+                                                .font_size_28{
+                                                font-size: 28px;
+                                                line-height: 26px;
+                                                }
+                                                .font_size_22{
+                                                font-size: 22px;
+                                                line-height: 20px;
+                                                }
+                                                .font_size_20{
+                                                font-size: 20px;
+                                                line-height: 18px;
+                                                }
+                                                .font_size_18{
+                                                font-size: 18px;
+                                                line-height: 16px;
+                                                }
+                                                .font_size_16{
+                                                font-size: 16px;
+                                                line-height: 14px;
+                                                }
+                                                .font_size_14{
+                                                font-size: 14px;
+                                                line-height: 12px;
+                                                }
+                                        </style>
 
                                         <table width="100%" class="font_fam table table-nobordered font_size_14" style="text-align:center;">
                                                 <tr>
