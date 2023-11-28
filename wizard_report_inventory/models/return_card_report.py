@@ -279,7 +279,8 @@ class return_card_report(models.TransientModel):
                     worksheet.write('G' + str(inv_row), move.product_uom_id.name or "", for_center)
                     worksheet.write('H' + str(inv_row), move.qty_done or "", for_center)
                     worksheet.write('I' + str(inv_row), " ", for_center)
-                    worksheet.write('J' + str(inv_row), (move.qty_done*valuation.unit_cost) or "", for_center)
+                    worksheet.write('J' + str(inv_row), '{} x {} = {}'.format(move.qty_done,valuation.unit_cost,(move.qty_done*valuation.unit_cost)), for_center)
+                    # worksheet.write('J' + str(inv_row), (move.qty_done*valuation.unit_cost) or "", for_center)
 
                     count += 1
 
