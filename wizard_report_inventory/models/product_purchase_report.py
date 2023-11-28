@@ -360,6 +360,11 @@ class product_purchase_report(models.TransientModel):
                         worksheet.write(inv_row, 3, ' ', for_center_border_date)
                         worksheet.write(inv_row, 4, ' ', for_center)
                         worksheet.write(inv_row, 5, ' ', for_center)
+                        chack = str(self.date_from).split('-')
+                        if '1902' in chack:
+                            worksheet.write(inv_row, 9, '{} x {} = {}'.format(line.qty_done, Unit_cost.unit_cost,
+                                                                          (line.qty_done, Unit_cost.unit_cost)) or ' ',
+                                        for_right_border_num_format)
             if self.product.name == False:
                 print(stock.product_id.name)
                 if 'P0' in str(stock.group_id.name) and 'IN' in str(stock.name).split('/'):
@@ -391,6 +396,10 @@ class product_purchase_report(models.TransientModel):
                         worksheet.write(inv_row, 3, ' ', for_center_border_date)
                         worksheet.write(inv_row, 4, ' ', for_center)
                         worksheet.write(inv_row, 5, ' ', for_center)
+                        chack = str(self.date_from).split('-')
+                        if '1902' in chack:
+                            worksheet.write(inv_row, 9,'{} x {} = {}'.format(line.qty_done,Unit_cost.unit_cost,(line.qty_done,Unit_cost.unit_cost)) or ' ',
+                                        for_right_border_num_format)
 
         inv_row += 1
         worksheet.merge_range('A' + str(inv_row) + ':G' + str(inv_row),"รวม", for_right_bold)
