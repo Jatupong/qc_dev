@@ -288,7 +288,7 @@
                                         </span>
                                         <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;
                                         </span>
-                                        <br/>
+<!--                                        <br/>-->
                                         <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                         <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                         <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span
