@@ -227,12 +227,11 @@ class WizardDepositReportXls(models.AbstractModel):
                 for inv in sale.invoice_ids.filtered(lambda x: x.name).sorted().sorted(key=lambda a: a.name):
                     if inv.state == 'posted':
                         payment_name = True
-                        label = True
+                        label = []
                         for i in inv.invoice_line_ids:
                             if 'Down payment' != i.product_id.name:
                                 payment_name = False
-                            if 'Down payment' != i.name:
-                                label = False
+                            label.append(i.name)
 
                         print(inv.name)
 
@@ -336,7 +335,7 @@ class WizardDepositReportXls(models.AbstractModel):
                                 i_col += 1
                                 worksheet.write(i_row, i_col, "{} x {} = {}{}".format(sum1,rate,sum2,inv.currency_id.symbol), for_left_border)
 
-                        if label:
+                        if 'Down payment' in label:
                             i_row += 1
                             i_col = 0
                             worksheet.write(i_row, i_col, inv.invoice_date, for_center_date)
