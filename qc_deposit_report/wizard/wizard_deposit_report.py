@@ -310,20 +310,28 @@ class WizardDepositReportXls(models.AbstractModel):
                             sum1 = sum1 + inv.amount_total
                             worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
                             i_col += 1
-                            sum2 = sum1 * (currency_rate or 1)
+                            if len(inv.currency_id.rate_ids)>=1:
+                                rate = inv.currency_id.rate_ids[0].inverse_company_rate
+                            if len(inv.currency_id.rate_ids)==0:
+                                rate = inv.currency_id.rate_ids.inverse_company_rate
+                            sum2 = sum1 * (rate or 1)
                             worksheet.write(i_row, i_col, sum2,
                                             for_right_border_num_format)
                             # worksheet.write(i_row, i_col, "{} x {} = {}".format(sum1,currency_rate,sum2), for_right_border_num_format)
                             i_col += 1
                             if inv.narration != False:
                                 note = str(inv.narration).split("<p>")
-                                note = str(note[1]).split("</p>")
-                                worksheet.write(i_row, i_col, note[1], for_left_border)
+                                note = str(note[-1]).split("</p>")
+                                worksheet.write(i_row, i_col, note[0], for_left_border)
                             if inv.narration == False:
                                 print(inv.narration)
                                 worksheet.write(i_row, i_col, inv.narration or '', for_left_border)
 
                             chack_sale_name.append(sale.name)
+                            chack = str(date_from).split('-')
+                            if '1902' in chack:
+                                i_col += 1
+                                worksheet.write(i_row, i_col, "{} x {} = {}{}".format(sum1,rate,sum2,inv.currency_id.symbol), for_left_border)
 
                         if 'Down payment' in label:
                             i_row += 1
@@ -407,8 +415,8 @@ class WizardDepositReportXls(models.AbstractModel):
                             i_col += 1
                             if inv.narration !=False:
                                 note = str(inv.narration).split("<p>")
-                                note = str(note[1]).split("</p>")
-                                worksheet.write(i_row, i_col, note[1], for_left_border)
+                                note = str(note[-1]).split("</p>")
+                                worksheet.write(i_row, i_col, note[0], for_left_border)
                             if inv.narration == False:
                                 print(inv.narration)
                                 worksheet.write(i_row, i_col, inv.narration or '', for_left_border)
@@ -416,5 +424,6 @@ class WizardDepositReportXls(models.AbstractModel):
                                 # worksheet.write(i_row, i_col, "ยกยอด", for_left_border)
 
                             chack_sale_name.append(sale.name)
+
 
         workbook.close()
