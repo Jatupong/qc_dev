@@ -157,7 +157,7 @@
 
 
 
-                    <div class="header">
+                     <div class="header">
                         <style>
                             @font-face
                             {
@@ -594,7 +594,7 @@
                         <t t-set="max_body_height" t-value="150"/>
                         <t t-set="new_line_height" t-value="5"/>
                         <t t-set="row_line_height" t-value="5"/> <!--- 30px = 7.9375 mm -->
-                        <t t-set="max_line_lenght" t-value="60"/>
+                        <t t-set="max_line_lenght" t-value="55"/>
                         <!--#############it may reduce to 30 from invoice as 40, due to it has code column-->
 
                         <t t-set="break_line" t-value="o.get_break_line_invoice(max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
@@ -604,7 +604,7 @@
                         <t t-set="item" t-value="0"/>
 
                         <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                            <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:170mm;">
+                            <table width="100%" class="font_fam table-bordered-b font_size_14" style="height:150mm;">
                                 <thead>
                                     <tr style="height:30px;">
                                         <th width="5%"><span>ลำดับ<br/>No.</span></th>
@@ -615,7 +615,7 @@
                                         <th width="15%"><span>จำนวนเงิน<br/>Amount</span></th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                               <tbody>
                                     <t t-foreach="range(start,break_line[x],1)" t-as="y">
                                         <t t-if="(y+1)!=(break_line[x])">
                                             <tr style="height:30px;">
@@ -710,47 +710,11 @@
                                         </t>
                                     </t>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td t-att-colspan="colspan_foot">
-                                            <table width="100%" class="table table-nobordered">
-                                                <tr>
+                                    <tfoot>
 
-                                                    <td width="10%">
-                                                        <t t-if="end ==(break_line[len(break_line)-1])">
-                                                            <t t-if="o.currency_id.name == 'THB'">
-                                                                <strong> <span>บาท/Baht</span> </strong>
-                                                            </t>
-                                                            <t t-if="not o.currency_id.name == 'THB'">
-                                                                <strong><span t-field="o.currency_id"/></strong>
-                                                            </t>
-                                                        </t>
-                                                    </td>
-                                                    <td width="90%" align="center" style="vertical-align: middle;">
-                                                        <t t-if="end ==(break_line[len(break_line)-1])">
-                                                            <t t-if="o.currency_id.name == 'THB'">
-                                                                <strong>(<span t-esc="o.baht_text(o.amount_total)"/> )</strong>
-                                                            </t>
-                                                            <t t-if="not o.currency_id.name == 'THB'">
-                                                                <strong>(<span t-esc="o.num2_words(o.amount_total)"/> )</strong>
-                                                            </t>
-                                                        </t>
-                                                    </td>
-
-                                                </tr>
-                                            </table>
-                                        </td>
-                                        <td colspan="2" style="line-height:14px;"><strong><span>รวม</span>/
-<!--                                            <br/>-->
-                                            <span>Total</span></strong></td>
-                                        <td align="right">
-<!--                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/>-->
-                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_total(o.invoice_line_ids))"/>
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <t t-if="o.company_id.partner_id.bank_ids">
-                                            <td t-att-colspan="colspan_foot"  style="vertical-align: top;">
+                                            <td t-att-colspan="colspan_foot" rowspan="4" style="vertical-align: top;">
                                                 <strong>หมายเหตุ/Remark</strong><br/>
                                                 <t t-if="end==(break_line[len(break_line)-1])">
                                                     <span t-field="o.narration"/>
@@ -758,107 +722,91 @@
                                             </td>
                                         </t>
                                         <t t-else="">
-                                            <td t-att-colspan="colspan_foot"  style="vertical-align: top;">
+                                            <td t-att-colspan="colspan_foot" rowspan="5" style="vertical-align: top;">
                                                 <strong>หมายเหตุ/Remark</strong><br/>
                                                 <t t-if="end==(break_line[len(break_line)-1])">
                                                     <span t-field="o.narration"/>
                                                 </t>
                                             </td>
                                         </t>
-                                        <td colspan="2" style="line-height:14px;">
-                                            <strong> <span>ส่วนลด/Discount</span>
-<!--                                                <br/>-->
-<!--                                                <span>Discount</span>-->
-                                            </strong>
-                                        </td>
+                                         <td colspan="2" style="line-height:14px;"><strong><span>รวม</span><br/><span>Total</span></strong></td>
                                         <td align="right">
-                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_discount(o.invoice_line_ids))"/>
+                                            <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
                                         </td>
-                                    </tr>
 
-                                    <tr>
-                                        <td t-att-colspan="colspan_foot"  style="vertical-align: top;">
-                                                <strong>สินค้าตามรายการข้างต้น</strong><br/><strong>แม้จะได้ส่งมอบแก่ผู้ซื้อแล้วก็ยังคงเป็นทรัพย์สินของผู้ขายจนกว่าผู้ซื้อได้รับชำระเงินเสร็จเรียบร้อย</strong>
+                                    </tr>
+                                     <tr>
+                                    <td colspan="2" style="line-height:14px;">
+                                            <strong> <span>ส่วนลด</span>
+                                                <br/>
+                                                <span>Discount</span></strong>
                                         </td>
-                                        <td colspan="2" style="line-height:14px;"><strong><span>คงเหลือ</span>/
-<!--                                            <br/>-->
-                                            <span>Subtotal</span></strong></td>
                                         <td align="right">
-                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(o.get_subtotal(o.invoice_line_ids))"/>
-<!--                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(amount_untaxed_after_discounted_amount))"/>-->
+                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(discounted_amount))"/>
+                                        </td>
+                                         </tr>
+                                    <tr>
+                                        <td colspan="2" style="line-height:14px;"><strong><span>คงเหลือ</span><br/><span>Subtotal</span></strong></td>
+                                        <td align="right">
+                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(amount_untaxed_after_discounted_amount))"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td t-att-colspan="colspan_foot" rowspan="2">
-                                            <table width="100%">
-<!--                                                <tr>-->
-<!--                                                <td width="50%" style="border: 1px solid white">-->
-<!--                                                <strong>ใบเสร็จรับเงินนี้สมบูรณ์ต่อเมื่อได้</strong>-->
-<!--                                                <br/>-->
-<!--                                                <strong>รับการโอนเงินเข้าบัญชีเช็คได้ผ่าน</strong>-->
-<!--                                                <br/>-->
-<!--                                                <strong>เรียบร้อยแล้ว</strong>-->
-<!--                                                </td>-->
-<!--                                                <td width="50%" style="border: 1px solid white">-->
-<!--                                                <strong>This receipt is valid only transaction</strong>-->
-<!--                                                <br/>-->
-<!--                                                <strong>is honored by the bank</strong>-->
-<!--                                                </td>-->
-<!--                                                </tr>-->
+                                        <td colspan="2" style="line-height:14px;"><strong><span>ภาษีมูลค่าเพิ่ม</span><br/><span>VAT </span></strong>
+                                            <t t-set="tax_line_ids" t-value="invoice_line_ids.mapped('tax_ids')"/>
+                                            <t t-if="tax_line_ids">
+                                            </t>
+                                            <t t-if="not tax_line_ids">
+                                                <span t-field="o.company_id.standard_tax"/>%
+                                            </t>
+                                        </td>
+                                        <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/></td>
+                                    </tr>
 
                                                 <tr>
-                                                <td width="50%" style="border: 1px solid white">
-                                                <strong>ใบเสร็จรับเงินนี้สมบูรณ์ต่อเมื่อได้รับการโอนเงิน</strong>
-                                                <br/>
-                                                <strong>เข้าบัญชีเช็คได้ผ่านเรียบร้อยแล้ว</strong>
-                                                <br/>
-                                                </td>
-                                                <td width="50%" style="border: 1px solid white">
-                                                <strong>This receipt is valid only transaction</strong>
-                                                <br/>
-                                                <strong>is honored by the bank</strong>
-                                                </td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                        <td colspan="2" style="line-height:14px;"><strong><span>ภาษีมูลค่าเพิ่ม</span>/
-<!--                                            <br/>-->
-                                            <span>VAT </span></strong>
-<!--                                            <t t-set="tax_line_ids" t-value="invoice_line_ids.mapped('tax_ids')"/>-->
-<!--                                            <t t-if="tax_line_ids">-->
-                                                <!--<span t-esc="'%, '.join(map(lambda x: (str(int(x.amount)) or x.name), tax_line_ids))"/>%-->
-<!--                                            </t>-->
-<!--                                            <t t-if="not tax_line_ids">-->
-<!--                                                <span t-field="o.company_id.standard_tax"/>%-->
-<!--                                            </t>-->
-                                        </td>
-                                        <td align="right">
-                                            <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>
-                                        </td>
-                                    </tr>
+                                                  <td t-att-colspan="colspan_foot">
+                                            <table width="100%" class="table table-nobordered">
 
-                                    <t t-if="o.company_id.partner_id.bank_ids">
-                                        <tr>
-<!--                                            <td t-att-colspan="colspan_foot">-->
-<!--                                                เลขที่บัญชี-->
-<!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].bank_id.name"/>-->
-<!--                                                <span t-field="o.company_id.partner_id.bank_ids[0].acc_number"/><br/>-->
-<!--                                            </td>-->
-                                            <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span>/
-<!--                                                <br/>-->
-                                                <span>Net Total</span></strong></td>
+                                                    <td>
+                                                        <t t-if="o.currency_id.name == 'THB'">
+                                                            <strong> <span>บาท</span><br/><span>Baht</span></strong>
+                                                        </t>
+                                                        <t t-if="not o.currency_id.name == 'THB'">
+                                                            <strong><span t-field="o.currency_id"/></strong>
+                                                        </t>
+                                                    </td>
+                                                    <td colspan="3" align="center" style="vertical-align: middle;">
+                                                        <t t-if="end ==(break_line[len(break_line)-1])">
+                                                            <strong>(<span t-esc="o.baht_text(o.amount_total)"/>)</strong>
+                                                        </t>
+                                                    </td>
+                                                         </table>
+                                        </td>
+                                            <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span><br/><span>Net Total</span></strong></td>
                                             <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/></td>
-                                        </tr>
-                                    </t>
+                                                </tr>
 
-                                    <t t-else="">
                                         <tr>
-                                            <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span>/
-<!--                                                <br/>-->
-                                                <span>Net Total</span></strong></td>
-                                            <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.sum_untaxed))"/></td>
+                                            <td t-att-colspan="colspan_foot" style="line-height:20px;">
+                                                หากตรวจสอบความถูกต้องของออเดอร์แล้ว กรุณาโอนเงินเข้าบัญชี <br/>
+                                                ธนาคารกรุงเทพ สาขา สบตุ๋ย เลขที่บัญชี 255-307-327-7<br/>
+                                                ชื่อบัญชี บริษัท ควอลิตี้เซรามิก จำกัด
+                                            </td>
+                                            <td colspan="3" style="line-height:14px; font-zise:5px;">
+                                              <span style="font-size: 12px;">สินค้าตามรายการข้างต้น แม้จะได้ส่งมอบแก่ผู้ซื้อแล้วก็ยังคง <br/>
+                                              เป็นทรัพย์สินของผู้ขายจนกว่าผู้ซื้อจะได้ชำระเงินเสร็จเรียบร้อย</span></td>
+
                                         </tr>
-                                    </t>
+                                        <tr> <td colspan="7" align="center">
+                                          <B> This receipt valid transaction is honored by the bank </B></td></tr>
+                                    <!--</t>-->
+                                    <!--<t t-else="">-->
+                                    <!--    <tr>-->
+                                    <!--        <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span><br/><span>Net Total</span></strong></td>-->
+                                    <!--        <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/></td>-->
+                                    <!--    </tr>-->
+                                    <!--</t>-->
+
                                 </tfoot>
                                 <t t-set="start" t-value="break_line[x]"/>
                                 <p style="page-break-after:always;"/>
