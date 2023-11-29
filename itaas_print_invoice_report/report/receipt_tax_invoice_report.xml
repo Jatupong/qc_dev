@@ -593,7 +593,7 @@
                         <!-- unit is mm --> <!-- max height a4 = 297, deduct margin and bottom 100, 50 and left 147, 30px per line then max = 15 line-->
                         <!--t t-set="max_body_line" t-value="15"-->
                         <!-- header of tbody take 2 new light = 15, then 147 - 15 = 132-->
-                        <t t-set="max_body_height" t-value="130"/>
+                        <t t-set="max_body_height" t-value="127"/>
                         <t t-set="new_line_height" t-value="5"/>
                         <t t-set="row_line_height" t-value="5"/> <!--- 30px = 7.9375 mm -->
                         <t t-set="max_line_lenght" t-value="40"/>
@@ -606,7 +606,7 @@
                         <t t-set="item" t-value="0"/>
 
                         <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                            <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:180mm;">
+                            <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:177mm;">
                                 <thead>
                                     <tr style="height:30px;">
                                         <th width="5%"><span>ลำดับ<br/>No.</span></th>
@@ -927,12 +927,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">100</field>
+        <field name="margin_top">102</field>
         <field name="margin_bottom">42</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">95</field>
+        <field name="header_spacing">97</field>
         <field name="dpi">90</field>
     </record>
 
