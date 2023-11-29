@@ -369,7 +369,7 @@
                                 <t t-if="o.state != 'draft'">
                                   <font style="font-size: 14px;">
                                     <span t-field="o.company_id.purchase_order_no_form"/><br/>
-                                      <span>แก้ไขครั้งที่ 01 : 1 มกราคม 2567</span>
+                                      <span t-field="o.company_id.document_id3"/>
                                     </font>
                                     <br/>
                                     <br/>
