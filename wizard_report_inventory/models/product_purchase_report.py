@@ -349,7 +349,7 @@ class product_purchase_report(models.TransientModel):
                         Unit_cost = self.env['stock.valuation.layer'].search(domainp)
                         if len(Unit_cost)>=2:
                             Unit_cost = Unit_cost[0]
-                        worksheet.write(inv_row, 8, line.qty_done * Unit_cost.unit_cost or 1,
+                        worksheet.write(inv_row, 8, (line.qty_done * Unit_cost.unit_cost) or 0,
                                         for_right_border_num_format)
                         chack = str(self.date_from).split('-')
                         if '1902' in chack:
@@ -386,7 +386,7 @@ class product_purchase_report(models.TransientModel):
                         Unit_cost = self.env['stock.valuation.layer'].search(domainp)
                         if len(Unit_cost)>=2:
                             Unit_cost = Unit_cost[0]
-                        worksheet.write(inv_row, 8, line.qty_done * Unit_cost.unit_cost or 1,
+                        worksheet.write(inv_row, 8, (line.qty_done * Unit_cost.unit_cost) or 0,
                                         for_right_border_num_format)
                         chack = str(self.date_from).split('-')
                         if '1902' in chack:
