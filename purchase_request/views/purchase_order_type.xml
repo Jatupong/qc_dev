@@ -1,0 +1,17 @@
+<odoo>
+    <record id="purchase_order_type_form2" model="ir.ui.view">
+        <field name="name">purchase.order.type.form2</field>
+        <field name="model">purchase.order.type</field>
+        <field name="inherit_id" ref="purchase_order_type.view_purchase_order_type_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="requests_order_type"/>
+<!--                <field name="tax_type_purchase"/>-->
+
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>
