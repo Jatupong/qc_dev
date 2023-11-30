@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+
     <template id="tax_invoice_delivery_report_id" >
 
         <t t-set="num_page" t-value="2"/>
@@ -746,7 +747,7 @@
                                         </td>
                                          </tr>
                                     <tr>
-                                        <td colspan="2" style="line-height:14px;"><strong><span>คงเหลือ</span><br/><span>Subtotal</span></strong></td>
+                                        <td colspan="2" style="line-height:14px;"><strong><span>มูลค่าก่อนภาษีมูลค่าเพิ่ม</span><br/><span>Subtotal</span></strong></td>
                                         <td align="right">
                                             <span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(amount_untaxed_after_discounted_amount))"/>
                                         </td>
@@ -782,7 +783,7 @@
                                                     </td>
                                                          </table>
                                         </td>
-                                            <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ</span><br/><span>Net Total</span></strong></td>
+                                            <td colspan="2" style="line-height:14px;"><strong><span>มูลค่ารวมภาษีมูลค่าเพิ่ม</span><br/><span>Net Total</span></strong></td>
                                             <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/></td>
                                                 </tr>
 
