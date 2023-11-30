@@ -117,10 +117,17 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         return res
 
     @api.model
-    def _prepare_purchase_order(self, picking_type, group_id, company, origin):
+    def _prepare_purchase_order(self, picking_type, group_id, company, origin,item=False):
+        print('itemmmmmmmmmmmmmmmmmmmmmmmmmm:',item)
+        print('itemmmmmmmmmmmmmmmmmmmmmmmmmm:',item.request_id)
+
+        sequence = item.request_id.purchase_request_type.po_type.sequence_id
+        name_seq = sequence.with_context(ir_sequence_date=item.request_id.date_start).next_by_id() or '/'
+
         if not self.supplier_id:
             raise UserError(_("Enter a supplier."))
         supplier = self.supplier_id
+
         data = {
             "origin": origin,
             "partner_id": self.supplier_id.id,
@@ -130,6 +137,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "picking_type_id": picking_type.id,
             "company_id": company.id,
             "group_id": group_id.id,
+            "name": name_seq,
         }
         return data
 
@@ -239,6 +247,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         purchase = False
 
         for item in self.item_ids:
+            print('item',item.request_id)
             line = item.line_id
             if item.product_qty <= 0.0:
                 raise UserError(_("Enter a positive quantity."))
@@ -250,12 +259,18 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     line.request_id.group_id,
                     line.company_id,
                     line.origin,
+                    item,
                 )
                 purchase = purchase_obj.create(po_data)
 
             # Look for any other PO line in the selected PO with same
             # product and UoM to sum quantities instead of creating a new
             # po line
+            purchase.update({
+                # 'requests_order_type':item.request_id.order_type,
+                'purchase_request_type': item.request_id.purchase_request_type,
+                'purchasing_type': item.request_id.purchasing_type,
+            })
             domain = self._get_order_line_search_domain(purchase, item)
             available_po_lines = po_line_obj.search(domain)
             new_pr_line = True

@@ -13,6 +13,9 @@
                     <field name="delivery_to"/>
                     <field name="logo"/>
             </field>
+            <xpath expr="//field[@name='validity_date']" position="after">
+                <field name="delivery_week"/>
+            </xpath>
 
         </field>
     </record>
