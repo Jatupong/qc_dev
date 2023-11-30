@@ -154,6 +154,7 @@ class SaleOrder(models.Model):
 
 
 
+
     def action_set_check_delivery(self):
         for obj in self:
             obj.write({'state': 'check_delivery'})
