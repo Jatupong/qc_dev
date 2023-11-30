@@ -787,6 +787,7 @@
                                             <td align="right"><span t-if="end==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/></td>
                                                 </tr>
 
+
                                         <tr>
                                             <td t-att-colspan="colspan_foot" style="line-height:20px;">
                                                 หากตรวจสอบความถูกต้องของออเดอร์แล้ว กรุณาโอนเงินเข้าบัญชี <br/>
