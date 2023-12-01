@@ -27,8 +27,14 @@ class SaleOrder(models.Model):
         default='draft')
 
     mr_order_count_one = fields.Integer(string='Order Mr',
-                                        # compute='get_sale_count_one'
+                                        compute='get_sale_count_one'
                                         )
+
+    mr_order_sale_ids = fields.Many2many(
+        comodel_name='sale.order.line',
+        string="Sale",
+        compute='get_sale_count_one',
+        copy=False)
 
     attn_id = fields.Many2one('res.partner', string="Attn")
     cc_id = fields.Many2one('res.partner', string="CC")
@@ -36,6 +42,25 @@ class SaleOrder(models.Model):
     delivery_exp_date = fields.Date(string="วันหมดอายุส่งมอบ")
 
     delivery_date = fields.Datetime(string="Delivery Date" ,readonly=True ,compute='_compute_deliverydate')
+
+    @api.depends('order_line.invoice_lines')
+    def get_sale_count_one(self):
+        # The invoice_ids are obtained thanks to the invoice lines of the SO
+        # lines, and we also search for possible refunds created directly from
+        # existing invoices. This is necessary since such a refund is not
+        # directly linked to the SO.
+        for order in self:
+            mr = order.order_line.manufacturing_request_ids.sale_order_id.filtered(
+                lambda r: r.order_id.id == self.id)
+            print('invoices_mr', mr)
+            order.mr_order_sale_ids = mr
+            order.mr_order_count_one = len(mr)
+            print('order_mr',len(mr))
+
+
+
+
+
 
     def _compute_deliverydate(self):
         for data in self:
@@ -96,7 +121,7 @@ class SaleOrder(models.Model):
 
                 if sum_all_reserved > 0:
 
-                    mr_id = self.env['manufacturing.request.custom'].search([('sale_order_id.order_id','=',self.name)],limit=1)
+                    mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id','=',obj.name)])
                     print('mr_id',mr_id)
                     if mr_id:
                         continue
@@ -113,7 +138,7 @@ class SaleOrder(models.Model):
 
                     }
                     print('so_val', so_val)
-                    self.env['manufacturing.request.custom'].create(so_val)
+                    obj.env['manufacturing.request.custom'].create(so_val)
 
     def action_delivery_confirm(self):
         for obj in self:
@@ -233,4 +258,37 @@ class SaleOrder(models.Model):
 
     def action_view_mr_order(self):
         print('oooooo')
+        manufacturing_request = self.mapped('mr_order_sale_ids')
+        action = self.env['ir.actions.actions']._for_xml_id('manufacturing_production_request.manufacturing_production_request_action')
+        if len(manufacturing_request) >= 1:
+            print('ffffffffffff')
+            print(manufacturing_request.ids)
+            action['domain'] = [('sale_order_id', '=', manufacturing_request.ids)]
+
+        else:
+            action = {'type': 'ir.actions.act_window_close'}
+
+
+        return action
+
+    # def action_view_mr_order(self):
+    #     purchase_request_ids = self.mapped('mr_order_sale_ids')
+    #     # action = self.env.ref('manufacturing_production_request.manufacturing_production_request_action').read()[0]
+    #     action = self.env['ir.actions.actions']._for_xml_id(
+    #         'manufacturing_production_request.manufacturing_production_request_action')
+    #     if len(purchase_request_ids) > 1:
+    #         print('purchase_request_ids',purchase_request_ids)
+    #         action['domain'] = [('sale_order_id', 'in', purchase_request_ids.ids)]
+    #     elif len(purchase_request_ids) == 1:
+    #         form_view = [(self.env.ref('manufacturing_production_request.manufacturing_production_request_form').sale_order_id, 'form')]
+    #         if 'views' in action:
+    #             action['views'] = form_view + [(state, view) for state, view in action['views'] if view != 'form']
+    #         else:
+    #             action['views'] = form_view
+    #         action['res_id'] = purchase_request_ids.id
+    #     else:
+    #         action = {'type': 'ir.actions.act_window_close'}
+    #
+    #
+    #     return action
 
