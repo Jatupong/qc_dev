@@ -483,52 +483,52 @@
                                 </table>
                             </td>
                             <td width="35%">
-                                <table width="100%" class="table table-nobordered" style="font-size: 14px;">
+                                <table width="100%" class="table table-nobordered" style="font-size: 13px;">
                                     <tr>
-                                        <td>
+                                        <td width="60%">
                                             <B><span>วันที่/Date</span></B>
                                         </td>
-                                        <td>
+                                        <td width="40%">
                                             <span t-field="o.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <B><span>เลขที่ใบสั่งซื้อ/Purchase Order No.</span></B>
+                                        <td width="60%">
+                                            <B><span>เลขที่ใบสั่งซื้อ<br/>/Purchase Order No.</span></B>
                                         </td>
-                                        <td>
+                                        <td width="40%">
                                             <span t-field="o.name"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <B><span>ผู้ขอซื้อ/Purchase Request</span></B>
+                                        <td width="60%">
+                                            <B><span>ผู้ขอซื้อ<br/>/Purchase Request</span></B>
                                         </td>
-                                        <td>
+                                        <td width="40%">
                                             <span t-field="o.user_id"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <B><span>เงื่อนไขการชำระ/Term of Payment</span></B>
+                                        <td width="60%">
+                                            <B><span>เงื่อนไขการชำระ<br/>/Term of Payment</span></B>
                                         </td>
-                                        <td>
+                                        <td width="40%">
                                             <span t-field="o.payment_term_id"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
-                                            <B><span>กำหนดส่ง/Delivery Plan</span></B>
+                                        <td width="60%">
+                                            <B><span>กำหนดส่ง<br/>/Delivery Plan</span></B>
                                         </td>
-                                        <td>
+                                        <td width="40%">
                                             <span t-field="o.date_planned" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td width="60%">
                                             <B><span>เลขที่อ้างอิง/Reference No.</span></B>
                                         </td>
-                                        <td>
+                                        <td width="40%">
                                             <span t-field="o.partner_ref"/>
                                         </td>
                                     </tr>
