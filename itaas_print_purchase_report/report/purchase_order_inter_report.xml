@@ -476,7 +476,7 @@
                                 </table>
                             </td>
                             <td width="40%">
-                                <table width="100%" class="table table-nobordered">
+                                <table width="100%" class="table table-nobordered" style="font-size: 14px;">
                                     <tr>
                                         <td>
                                             <B><span>Date</span></B>
