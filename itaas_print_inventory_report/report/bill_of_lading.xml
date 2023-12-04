@@ -173,17 +173,15 @@
                         </tr>
                     </table>
 
-                    <table width="100%" class="table table-bordered" style="position:absolute; top:330px; height:138mm; font-size:20px;font-size:18px; line-height:20px; margin-top:-30px;font-family:TH SarabunPSK">
+                    <table width="100%" class="table table-bordered" style="position:absolute; top:330px; height:145mm; font-size:20px; line-height:20px; margin-top:-30px;font-family:TH SarabunPSK">
                         <thead>
-                            <tr >
-                                <b>
+                            <tr>
                                 <th width="5%">ลำดับ<br/>No.</th>
                                 <th width="40%">รายการ<br/>Descritption</th>
                                 <th width="15%">จำนวน<br/>Quantity</th>
                                 <th width="15%">ราคา<br/>Unit Price</th>
                                 <th width="10%">ส่วนลด<br/>Discount</th>
                                 <th width="15%">จำนวนเงิน<br/>Amount</th>
-                            </b>
                             </tr>
                         </thead>
                         <tbody class="sale_tbody">
@@ -235,34 +233,35 @@
                         padding:2px;
                         }
                     </style>
-                    <table class="table-bordered" style="font-size: 16px;">
+                    <table class="table-bordered" style="font-size: 12px;">
                         <thead>
                         </thead>
-                        <tbody class="sale_tbody" >
+                        <tbody class="sale_tbody">
                             <t t-set="num" t-value="0"/>
                                   <t t-set="dis" t-value="0"/>
                                   <t t-foreach="o.purchase_id.order_line" t-as="line">
-                                      <tr >
+                                      <tr>
                                           <t t-set="num" t-value="num+1"/>
                                           <th width="5%">
-                                              <span t-esc="num" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>
+                                              <span t-esc="num" style="font-size: 20px;font-weight: normal; font-family:TH SarabunPSK"/>
                                           </th>
                                           <th width="40%">
-                                              <span t-field="line.name" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>
+                                              <span t-field="line.name" style="font-size: 20px;font-weight: normal; font-family:TH SarabunPSK"/>
                                           </th>
                                           <th width="15%">
-                                              <span t-field="line.product_uom_qty" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>
+                                              <span t-field="line.product_uom_qty" style="font-size: 20px;font-weight: normal; font-family:TH SarabunPSK"/>
 <!---->
                                           </th>
                                           <th width="15%">
-                                              <span t-field="line.price_unit" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>
+                                              <span t-field="line.price_unit" style="font-size: 20px;font-weight: normal; font-family:TH SarabunPSK"/>
                                           </th>
-                                          <th width="10%"><span t-esc="'%.2f'% (line.discount)" style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"/>%</th>
-                                          <t t-if="line.discount >=1">
-                                              <th width="15%"><span style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"><t t-esc="'%.2f'% (line.price_subtotal-(line.price_subtotal*(line.discount/100)))" /></span></th>
+                                          <th width="10%"><span t-esc="'%.2f'% (line.discount)" style="font-size: 20px;font-weight: normal; font-family:TH SarabunPSK"/>
+                                          <span style="color:#373739;">%</span></th>
+                                          <t t-if="line.discount &gt;=1">
+                                              <th width="15%"><span style="font-size: 20px;font-weight: normal; font-family:TH SarabunPSK"><t t-esc="'%.2f'% (line.price_subtotal-(line.price_subtotal*(line.discount/100)))"/></span></th>
                                           </t>
                                            <t t-if="line.discount ==0">
-                                               <th width="15%"> <span style="font-size: 14px;font-weight: normal; font-family:TH SarabunPSK"><t t-esc="'%.2f'% (line.price_subtotal)"/></span></th>
+                                               <th width="15%"> <span style="font-size: 20px;font-weight: normal; font-family:TH SarabunPSK"><t t-esc="'%.2f'% (line.price_subtotal)"/></span></th>
                                           </t>
 
                                       </tr>
