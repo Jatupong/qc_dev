@@ -7,11 +7,26 @@ from odoo.exceptions import UserError
 from num2words import num2words
 import locale
 
+class stock_move_line(models.Model):
+    _inherit = "stock.move.line"
+
+    def get_field_json(self,field):
+        ans =[]
+        for i in field.fields_get():
+            my_code = "field.{}".format(i)
+            value = eval(my_code)
+            print("field : {} var = {}".format(i,value))
+            if str(i) == 'display_name':
+                ans.append("{}".format(value))
+
+        return ans
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     buyer_confirm = fields.Many2one('res.users', string="Buyer Confirm")
+
+
     def sale_order(self,data,field):
         domain = [('name', '=', data)]
         order =self.env['sale.order'].search(domain)
