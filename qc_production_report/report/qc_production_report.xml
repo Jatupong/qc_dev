@@ -437,7 +437,7 @@
                                                                         <td align="right">
                                                                                 <t t-set="product_set_qty" t-value="1.0"/>
                                                                                 <t t-if="product_set_ids">
-                                                                                        <t t-set="product_set_qty" t-value="product_set_ids.mapped('original_set_qty')"/>
+                                                                                        <t t-set="product_set_qty" t-value="sum(product_set_ids.mapped('original_set_qty'))"/>
                                                                                         <span t-esc="'{0:,.2f}'.format(product_set_qty)"/>
                                                                                 </t>
                                                                         </td>
