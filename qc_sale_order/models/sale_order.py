@@ -39,7 +39,6 @@ class SaleOrderLine(models.Model):
     G_W_KGS = fields.Float(string='G.W. KGS.')
     N_W_KGS = fields.Float(string='N.W. KGS.')
 
-
 class SaleOrderSetLine(models.Model):
     _name = 'sale.order.set.line'
 
