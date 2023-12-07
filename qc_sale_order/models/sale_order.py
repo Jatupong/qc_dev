@@ -36,6 +36,8 @@ class SaleOrderLine(models.Model):
     cost_1 = fields.Float(string='ราคา1')
     cost_2 = fields.Float(string='ราคา2')
     cost_3 = fields.Float(string='ราคา3')
+    G_W_KGS = fields.Float(string='G.W. KGS.')
+    N_W_KGS = fields.Float(string='N.W. KGS.')
 
 
 class SaleOrderSetLine(models.Model):
@@ -55,3 +57,5 @@ class SaleOrderSetLine(models.Model):
     cost_1 = fields.Float(string='ราคา1')
     cost_2 = fields.Float(string='ราคา2')
     cost_3 = fields.Float(string='ราคา3')
+    # G_W_KGS = fields.Float(string='G.W. KGS.')
+    # N_W_KGS = fields.Float(string='N.W. KGS.')

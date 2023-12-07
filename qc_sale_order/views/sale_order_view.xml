@@ -12,6 +12,8 @@
             </button>
 
             <xpath expr="//field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                <field name="G_W_KGS"/>
+                <field name="N_W_KGS"/>
                 <field name="product_cost"/>
                 <field name="commission_cost"/>
                 <field name="box_cost"/>
