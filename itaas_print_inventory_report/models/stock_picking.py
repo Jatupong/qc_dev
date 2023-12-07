@@ -12,11 +12,17 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     buyer_confirm = fields.Many2one('res.users', string="Buyer Confirm")
-    def sale_order(self,data):
+    def sale_order(self,data,field):
         domain = [('name', '=', data)]
         order =self.env['sale.order'].search(domain)
-        print(order.origin)
-        return order.origin
+        if len(order) == 1:
+            my_code = "order.{}".format(field)
+            value = eval(my_code)
+
+            print("Have field[{}]".format(value))
+            return value
+        else:
+            return ""
     def get_lines(self, data, max_line):
         line_count = 0
         if data:
