@@ -60,13 +60,13 @@
                                         <font style="font-size: 18px;">
                                             <span t-field="o.company_id.name"/>&amp;nbsp;
                                             <t t-if="o.company_id.branch_no == '00000'">
-                                                <span>(สำนักงานใหญ่)</span>
+                                               <span>(สำนักงานใหญ่)</span>
                                             </t>
                                             <t t-if="o.company_id.branch_no != '00000'">
                                                 (<span t-field="o.company_id.branch_no"/>)
                                             </t>
                                         </font><br/>
-                                        <span t-if="o.company_id.building" ><span t-field="o.company_id.building"/>&amp;nbsp;</span>
+                                        <span t-if="o.company_id.building"><span t-field="o.company_id.building"/>&amp;nbsp;</span>
 <!--                                        <span t-if="o.company_id.roomnumber">ห้องที่&amp;nbsp;<span t-field="o.company_id.roomnumber"/>&amp;nbsp;</span>-->
 <!--                                        <span t-if="o.company_id.floornumber">ชั้นที่&amp;nbsp;<span t-field="o.company_id.floornumber"/>&amp;nbsp;</span>-->
                                         <span t-if="o.company_id.village">หมู่บ้าน&amp;nbsp;<span t-field="o.company_id.village"/>&amp;nbsp;</span>
@@ -181,34 +181,28 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf") format('opentype');
                         }
-                        table.table-bordered{
-                        border:1px solid black;
-                        width: 100%;
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        table.table-bordered {
+                        border:0px solid white;
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
-                        padding:3px;
-                        }
-                        table.table-bordered &gt; thead &gt; tr &gt; td{
-                        border:1px solid black;
-                        padding:3px;
+                        word-wrap: break-word;
                         }
                         table.table-bordered &gt; tbody &gt; tr &gt; td{
                         border:1px solid black;
-                        padding:3px;
-                        height:35px;
+                        border-collapse: collapse;
+                        word-wrap: break-word;
                         }
                         table.table-bordered &gt; tfoot &gt; tr &gt; td{
                         border:1px solid black;
-                        padding:3px;
+                        border-collapse: collapse;
+                        word-wrap: break-word;
                         }
                         table.table-nobordered{
                         margin:0px;
@@ -322,10 +316,10 @@
                         padding:0px;
                         }
                     </style>
-                    <t t-set="max_body_height" t-value="150"/>
+                    <t t-set="max_body_height" t-value="135"/>
                     <t t-set="new_line_height" t-value="5"/>
                     <t t-set="row_line_height" t-value="5"/>
-                    <t t-set="max_line_lenght" t-value="40"/>
+                    <t t-set="max_line_lenght" t-value="50"/>
 
                     <t t-if="o.move_line_nosuggest_ids">
                         <t t-set="move_line" t-value="o.move_line_nosuggest_ids"/>
@@ -338,7 +332,7 @@
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                        <table class="table-bordered-b font_fam" style="height:130mm; font-size:14px; line-height:29px;">
+                        <table class="table-bordered-b font_fam" style="height:125mm; font-size:19px; line-height:29px;">
                             <thead>
                                 <tr>
                                     <th width="3%">ลำดับ<br/>No.</th>
@@ -353,7 +347,7 @@
                                 <t t-if="move_line">
                                     <t t-foreach="range(start,break_line[x],1)" t-as="y">
                                         <t t-if="(y+1)!=(break_line[x])">
-                                            <tr style="height:10mm;">
+                                            <tr style="height:10mm; ">
                                                 <td align="center">
                                                     <div class="word_wrap">
                                                         <span t-esc="y+1"/>
@@ -454,8 +448,8 @@
                                         <td/>
                                         <td/>
                                         <td/>
-                                        <td/>
-                                        <td/>
+                                        <!--<td/>-->
+                                        <!--<td/>-->
                                     </tr>
                                 </t>
                             </tbody>
