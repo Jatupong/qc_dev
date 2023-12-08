@@ -91,16 +91,16 @@
                     <!--                        </font>-->
                     <!--                    </div>-->
 
-                    <table width="100%" style="font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:16px; line-height:25px; margin-top:20px;border:0px solid white">
-                        <tr >
-                            <td width="55%" >
-                                <table width="100%" style='border:0px solid white' >
-                                    <tr style="height:30px;" >
+                     <table width="100%" style="font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:14px; line-height:25px; margin-top:20px;border:0px solid white">
+                        <tr>
+                            <td width="60%">
+                                <table width="100%" style="border:1px solid white;">
+                                    <tr style="height:30px;">
                                         <td style="line-height:15px;" width="15%">
                                             <div/>
                                         </td>
                                     </tr>
-                                    <tr style="height:30px;">
+                                    <tr>
                                         <td width="35%" style="line-height:10px;">
                                             <div>CUSTOMER</div>
                                         </td>
@@ -111,12 +111,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td width="50%" style="line-height:10px;">
+                                        <td width="35%" style="line-height:10px;">
                                             <div>TERM OF PAYMENT</div>
                                         </td>
-                                        <td width="50%" colspan="5">
+                                        <td width="65%" colspan="5">
                                             <t t-set="term_of_payment" t-value="o.sale_order(o.origin,'payment_term_id.name')"/>
-                                            <div class="word-wrap" style="width:300px;">
+                                            <div class="word-wrap" style="width:300px">
                                                 : <span t-esc="term_of_payment"/>
                                             </div>
                                         </td>
