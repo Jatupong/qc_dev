@@ -178,7 +178,7 @@ class WizardAccountAgingReport(models.TransientModel):
                         currency_name = order.currency_id.name
                         down_payment_amount_other_currency = 0.0
                         currency_rate = order.currency_id._get_rates(order.company_id,
-                                                                     move_lines_is_not_deposit[0].date).get(order.currency_id.id)
+                                                                     move_lines_is_deposit[0].date).get(order.currency_id.id)
                         down_payment_amount = 0.0
                         for line in move_lines_is_deposit:
                             price_total = line.price_total
