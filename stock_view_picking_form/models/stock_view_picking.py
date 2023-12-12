@@ -19,3 +19,8 @@ class StockViewPicking(models.Model):
 
 
 
+class StockMove(models.Model):
+    _inherit = "stock.move"
+
+    g_w_kgs_inven = fields.Char(string='G.W. KGS.')
+    n_w_kgs_inven = fields.Char(string='N.W. KGS.')
