@@ -9,6 +9,7 @@
             <field name="orientation">Portrait</field>
 <!--            <field name="margin_top">80</field>-->
             <field name="margin_top">90</field>
+<!--            <field name="margin_bottom">45</field>-->
             <field name="margin_bottom">75</field>
             <field name="margin_left">5</field>
             <field name="margin_right">5</field>
