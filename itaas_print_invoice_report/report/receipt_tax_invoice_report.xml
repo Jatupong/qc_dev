@@ -594,10 +594,10 @@
                         <!-- unit is mm --> <!-- max height a4 = 297, deduct margin and bottom 100, 50 and left 147, 30px per line then max = 15 line-->
                         <!--t t-set="max_body_line" t-value="15"-->
                         <!-- header of tbody take 2 new light = 15, then 147 - 15 = 132-->
-                        <t t-set="max_body_height" t-value="227"/>
+                        <t t-set="max_body_height" t-value="100"/>
                         <t t-set="new_line_height" t-value="5"/>
                         <t t-set="row_line_height" t-value="5"/> <!--- 30px = 7.9375 mm -->
-                        <t t-set="max_line_lenght" t-value="40"/>
+                        <t t-set="max_line_lenght" t-value="50"/>
                         <!--#############it may reduce to 30 from invoice as 40, due to it has code column-->
 
                         <t t-set="break_line" t-value="o.get_break_line_invoice(max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
@@ -607,7 +607,7 @@
                         <t t-set="item" t-value="0"/>
 
                         <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                            <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:177mm;">
+                            <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:170mm;">
                                 <thead>
                                     <tr style="height:30px;">
                                         <th width="5%"><span>ลำดับ<br/>No.</span></th>
