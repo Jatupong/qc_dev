@@ -147,8 +147,7 @@
                                         <td colspan="3">
                                             <div style="width:300px; word-wrap: break-word;">
                                                 <B>: </B><span t-field="o.partner_id.name"/><br/>
-                                                <address t-field="o.partner_id"
-                                                         t-options='{"widget": "contact", "fields": ["address"], "no_marker": True}'/>
+                                                <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;], &quot;no_marker&quot;: True}"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -391,7 +390,7 @@
 
                     <t t-set="num" t-value="0"/>
 
-                    <table class="table table-bordered-b font_fam font_size_14">
+                    <table class="table table-bordered-b font_fam font_size_14" style="height:200mm; ">
                         <thead>
                             <tr>
                                 <th rowspan="2"><span>NO</span></th>
@@ -449,7 +448,7 @@
                             <tr>
                                 <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>
                                 <td align="right"><span t-esc="'{0:,.2f}'.format(product_qty_total)"/></td>
-                                <td colspan="2" align="2"></td>
+                                <td colspan="2" align="2"/>
                             </tr>
                             <tr>
                                 <td colspan="6" align="center"><B>TOTAL OF AMOUNT</B></td>
@@ -467,7 +466,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="8" >
+                                <td colspan="8">
                                     <span>(</span>
                                     <t t-if="o.currency"><span t-field="o.currency"/></t>
                                     <t t-else=""><span t-field="o.currency_id"/></t>  :  <span t-esc="o.company_id.num2_words(o.amount_total)"/><span>)</span>
@@ -654,13 +653,13 @@
                     <table class="table table-bordered-b font_fam font_size_16">
                         <tr>
                             <td width="33%" align="center">
-                                <div style="height:100px;">
+                                <div style="height:40px;">
 
                                 </div>
                                 <span>Authorized Signature (Buyer)</span>
                             </td>
                             <td width="33%" align="center">
-                                <div style="height:100px;">
+                                <div style="height:40px;">
 
                                 </div>
                                 <span>Quality Ceramic Co.,Ltd</span>
