@@ -79,7 +79,7 @@ class WizardPP30Report(models.TransientModel):
     def print_report_pdf(self):
         [data] = self.read()
         data = {'form': data}
-        return self.env.ref('itaas_pp_30_report.pp_30_report_id').report_action([], data=data, config=False)
+        return self.env.ref('itaas_pp_30_report.pp_30_report').report_action([], data=data, config=False)
 
     def print_report_excel(self):
         [data] = self.read()
@@ -168,11 +168,14 @@ class WizardPP30Report(models.TransientModel):
                         SELECT 
                         EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
                         EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
-                        sum(aml.credit) + sum(aml.debit) AS price_subtotal
+                        case when aml.display_type = 'product' 
+                             then sum(aml.credit) + sum(aml.debit) end as price_subtotal,
+                        case when aml.display_type = 'tax' 
+                                     then sum(aml.credit) + sum(aml.debit) end as amount_tax
                         FROM account_move_line aml
                         JOIN account_move am ON aml.move_id = am.id
                         WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice' AND am.state = 'posted'
-                        GROUP BY aml_month, aml_year;""", (
+                        GROUP BY aml_month, aml_year, aml.display_type;""", (
             date_from, date_to))
         results_sale_taxes = self._cr.dictfetchall()
 
