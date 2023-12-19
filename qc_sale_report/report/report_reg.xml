@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+                id="sale_report_xls"
+                model="wizard.sale.report"
+                string="sale report"
+                report_type="xlsx"
+                name="qc_sale_report.sale_report_xls"
+                file="qc_sale_report.sale_report_xls"
+                menu="False"
+                attachment_use="False"/>
+
+    </data>
+</odoo>
