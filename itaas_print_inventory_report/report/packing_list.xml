@@ -480,12 +480,12 @@
 
                                     </td>
                                     <td style="border: 1px solid black;">
-                                        <t t-set="sum_G_W_KGS" t-value="sum_G_W_KGS+line.G_W_KGS"/>
-                                        <span t-field="line.G_W_KGS"/>
+                                        <t t-set="sum_G_W_KGS" t-value="sum_G_W_KGS+line.g_w_kgs"/>
+                                        <span t-field="line.g_w_kgs"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-                                        <t t-set="sum_N_W_KGS" t-value="sum_N_W_KGS+line.N_W_KGS"/>
-                                        <span t-field="line.N_W_KGS"/>
+                                        <t t-set="sum_N_W_KGS" t-value="sum_N_W_KGS+line.n_w_kgs"/>
+                                        <span t-field="line.n_w_kgs"/>
                                     </td>
                                     <td style="border: 1px solid black;">
 
