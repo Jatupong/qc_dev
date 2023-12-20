@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_session_document">
+            <t t-call="tis_pos_z_report.small_external_layout">
+                <t t-set="o" t-value="o.with_context(lang=lang)"/>
+
+                <div class="page"
+                     style="font-family: Arvo; margin-top:10px;text-align: left;width: 400px;background-color: white;font-size: 14px !important ;display: solid 1px rgb(220,220,220);">
+
+
+                    <!--                    <style type="text/css">-->
+                    <!--                        <![CDATA[-->
+                    <!--                    /* Arvo */-->
+                    <!--                    @font-face {-->
+                    <!--                      font-family: 'Arvo';-->
+                    <!--                      font-style: normal;-->
+                    <!--                      font-weight: 500;-->
+                    <!--                      src: local('Arvo'), url(https://fonts.gstatic.com/s/arvo/v8/MViwy4K6e56oHcyeMzjbCQ.ttf) format('truetype');-->
+                    <!--                    }-->
+                    <!--                    ]]>-->
+                    <!--                    </style>-->
+
+                    <t t-if="not o and doc">
+                        <t t-set="o" t-value="doc"/>
+                    </t>
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id.sudo()"/>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"/>
+                    </t>
+                    <t t-if="company.logo">
+                        <center>
+                            <div style="margin:auto; display:block;">
+                                <img t-att-src="image_data_uri(company.logo)" style="max-height: 100px;" alt="Logo"/>
+                            </div>
+                        </center>
+                    </t>
+
+                    <div style="border-bottom:1pt dashed black;text-align:center">
+
+                        <div style="font-size:20px !important; line-height: 1.9; font-weight:bold">
+
+                            <t t-esc="company.name"/>
+                            <br/>
+                            <!--                            <t t-if="company.name_arabic">-->
+                            <!--                                <t t-esc="company.name_arabic"/>-->
+                            <!--                            </t>-->
+                        </div>
+                        <!--                        <t t-if="o.branch_id" t-foreach="o.branch_id" t-as="branch">-->
+                        <!--                            <t t-esc="branch.address"/>-->
+                        <!--                        </t>-->
+
+<!--                        <t t-set="branch_partner_id" t-value="o.config_id.sudo().operating_unit_id.partner_id"/>-->
+
+<!--                        <t t-if="branch_partner_id.street"><span t-esc="branch_partner_id.street"/>,-->
+<!--                        </t>-->
+<!--                        <t t-if="branch_partner_id.street2"><span t-esc="branch_partner_id.street2"/>,-->
+<!--                        </t>-->
+<!--                        <t t-if="branch_partner_id.city"><span t-esc="branch_partner_id.city"/>,-->
+<!--                        </t>-->
+<!--                        <t t-if="branch_partner_id.sub_district_id">-->
+<!--                            <t t-if="branch_partner_id.state_id.code == 'BKK'">-->
+<!--                            แขวง <span t-esc="branch_partner_id.sub_district_id.name"/>,-->
+<!--                            </t>-->
+<!--                            <t t-if="branch_partner_id.state_id.code != 'BKK'">-->
+<!--                            ตำบล <span t-esc="branch_partner_id.sub_district_id.name"/>,-->
+<!--                            </t>-->
+<!--                        </t>-->
+<!--                        <t t-if="branch_partner_id.district_id">-->
+<!--                            <t t-if="branch_partner_id.state_id.code == 'BKK'">-->
+<!--                            แขต <span t-esc="branch_partner_id.district_id.name"/>,-->
+<!--                            </t>-->
+<!--                            <t t-if="branch_partner_id.state_id.code != 'BKK'">-->
+<!--                            อำเภอ <span t-esc="branch_partner_id.district_id.name"/>,-->
+<!--                            </t>-->
+
+
+<!--                        </t>-->
+<!--                        <t t-if="branch_partner_id.state_id">-->
+<!--                            <t t-if="branch_partner_id.state_id.code == 'BKK'">-->
+<!--                                <span t-esc="branch_partner_id.state_id.name"/>-->
+<!--                            </t>-->
+<!--                            <t t-if="branch_partner_id.state_id.code != 'BKK'">-->
+<!--                            จังหวัด <span t-esc="branch_partner_id.state_id.name"/>-->
+<!--                            </t>-->
+
+<!--                        </t>-->
+
+<!--                        <t t-if="branch_partner_id.phone">-->
+<!--                            <br/>-->
+<!--                            Tel :-->
+<!--                            <span t-esc="branch_partner_id.phone"/>-->
+
+<!--                        </t>-->
+<!--                        <t t-if="branch_partner_id.email">-->
+<!--                            <br/>-->
+<!--                            Email :-->
+<!--                            <span t-esc="branch_partner_id.email"/>-->
+
+<!--                        </t>-->
+
+<!--                        <t t-if="branch_partner_id.website">-->
+<!--                            <br/>-->
+<!--                            Website :-->
+<!--                            <span t-esc="branch_partner_id.website"/>-->
+
+<!--                        </t>-->
+
+                        <br/>
+
+                        <!--                        <h4 style="font-weight:bold">Simplified Tax Invoice</h4>-->
+                        <!--                        <table style="margin-top:5pt;padding:5pt;">-->
+                        <!--                            <tr t-if="company.vat">-->
+                        <!--                                <td style="width:40%;text-align:left;">VAT Reg.No :</td>-->
+                        <!--                                <td style="width:20%;text-align:left;">-->
+                        <!--                                    <t t-esc="company.vat" t-att-style="position: absolute;right: 235px;"/>-->
+                        <!--                                </td>-->
+                        <!--                                &lt;!&ndash;                                <td style="width:50%;text-align:right;">:رقم الضريبي</td>&ndash;&gt;-->
+                        <!--                            </tr>-->
+                        <!--                        </table>-->
+                    </div>
+                    <div style="font-size:20px;margin-top:10px;text-align:center;font-weight:bold;">
+                        <span>Session Summary Details</span>
+                    </div>
+
+                    <div style="border-bottom:1pt dashed black;text-align:center">
+                        <table style="margin-top:5pt;padding:5pt;">
+                            <!--                            <t t-set="order" t-value="o.get_order_details()"/>-->
+                            <!--                                <t t-set="user" t-value="[order.user_id.name for order in o.order_ids]"/>-->
+                            <tr>
+                                <td style="width:20%;text-align:left;">Point Of Sale :</td>
+                                <td style="width:40%;text-align:left;">
+<!--                                    <t t-esc="o.config_id.name"/>-->
+                                </td>
+                                <!--                                <td style="width:50%;text-align:right;">:رقم الضريبي</td>-->
+                            </tr>
+                            <tr>
+                                <td style="width:20%;text-align:left;">Session :</td>
+                                <td style="width:40%;text-align:left;">
+<!--                                    <t t-esc="o.name"/>-->
+                                </td>
+                                <!--                                <td style="width:50%;text-align:right;">:رقم الضريبي</td>-->
+                            </tr>
+                            <tr>
+                                <td style="width:20%;text-align:left;">Opening Date :</td>
+                                <td style="width:40%;text-align:left;">
+<!--                                    <t t-foreach="o.get_sale_details()" t-as="pl">-->
+<!--                                        <t t-set="st" t-value="pl.get('start_at')" />-->
+<!--                                    </t>-->
+<!--                                    <t t-esc="st"></t>-->
+                                </td>
+                                <!--                                <td style="width:50%;text-align:right;">:رقم الضريبي</td>-->
+                            </tr>
+                            <tr>
+                                <td style="width:20%;text-align:left;">Closing Date :</td>
+                                <td style="width:40%;text-align:left;">
+<!--                                    <t t-foreach="o.get_sale_details()" t-as="pl">-->
+<!--                                        <t t-set="st" t-value="pl.get('stop_at')" />-->
+<!--                                    </t>-->
+<!--                                    <t t-esc="st"></t>-->
+                                </td>
+                                <!--                                <td style="width:50%;text-align:right;">:رقم الضريبي</td>-->
+                            </tr>
+                            <!--                            <tr>-->
+                            <!--                                <td style="width:20%;text-align:left;">Initial Order :</td>-->
+                            <!--                                <td style="width:40%;text-align:left;">-->
+                            <!--                                    <t t-esc="order[-1]"/>-->
+                            <!--                                </td>-->
+                            <!--                                &lt;!&ndash;                                <td style="width:50%;text-align:right;">:رقم الضريبي</td>&ndash;&gt;-->
+                            <!--                            </tr>-->
+                            <!--                            <tr>-->
+                            <!--                                <td style="width:20%;text-align:left;">Final Order :</td>-->
+                            <!--                                <td style="width:40%;text-align:left;">-->
+                            <!--                                    <t t-esc="order[0]"/>-->
+                            <!--                                </td>-->
+                            <!--                                &lt;!&ndash;                                <td style="width:50%;text-align:right;">:رقم الضريبي</td>&ndash;&gt;-->
+                            <!--                            </tr>-->
+                            <tr>
+                                <td style="width:20%;text-align:left;">Cashier Name :</td>
+                                <td style="width:40%;text-align:left;">
+<!--                                    <t t-esc="o.user_id.name"/>-->
+                                </td>
+                                <!--                                <td style="width:50%;text-align:right;">:رقم الضريبي</td>-->
+                            </tr>
+                        </table>
+                        <br/>
+                    </div>
+                    <div style="margin-top:15px;font-size:20px;text-align:center;font-weight:bold;">
+                        <span>Payment Details Summary</span>
+                    </div>
+                    <table style="margin-top:5pt;padding:5pt;">
+
+<!--                        <t t-set="payment_list" t-value="o.get_payment_method_amounts()"/>-->
+<!--                        <t t-foreach="payment_list" t-as="payment">-->
+<!--                            <tr>-->
+<!--                                <td style="width:20%;text-align:left;">-->
+<!--                                    <t t-esc="payment"/>-->
+<!--                                </td>-->
+<!--                                <td style="width:1%;text-align:right;">-->
+<!--                                    <t t-esc="company.currency_id.symbol"/>-->
+<!--                                </td>-->
+<!--                                <td style="width:10%;text-align:right;">-->
+<!--                                    <t t-esc="'{:.2f}'.format(round(payment_list[payment], 2))"/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </t>-->
+                        <tr>
+                            <td style="font-weight:bold;width:20%;text-align:left;">
+                                <span>Total</span>
+                            </td>
+                            <td style="width:1%;border-bottom:1pt dashed black;width:1%;border-top:1pt dashed black;text-align:right;">
+<!--                                <t t-esc="company.currency_id.symbol"/>-->
+                            </td>
+                            <td style="width:10%;border-bottom:1pt dashed black;border-top:1pt dashed black;text-align:right;">
+<!--                                <t t-esc="'{:.2f}'.format(round(o.total_payments_amount, 2))"/>-->
+                            </td>
+                        </tr>
+
+                    </table>
+                    <div style="margin-top:15px;font-size:20px;text-align:center;font-weight:bold;">
+                        <span>Cash Register Summary</span>
+                    </div>
+                    <table style="margin-top:5pt;padding:5pt;">
+                        <tr>
+                            <td style="width:7%;text-align:left;">
+                                Starting Balance
+                            </td>
+                            <td style="width:1%;text-align:right;">
+<!--                                <t t-esc="company.currency_id.symbol"/>-->
+                            </td>
+                            <td style="width:10%;text-align:right;">
+<!--                                <t t-esc="'{:.2f}'.format(round(o.cash_register_id.balance_start, 2))"/>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:7%;text-align:left;">
+                                Transaction
+                            </td>
+                            <td style="width:1%;text-align:right;">
+<!--                                <t t-esc="company.currency_id.symbol"/>-->
+                            </td>
+                            <td style="width:10%;text-align:right;">
+<!--                                <t t-esc="'{:.2f}'.format(round(o.cash_register_txn_amount(), 2))"/>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width:7%;text-align:left;">
+                                Closing Balance
+                            </td>
+                            <td style="width:1%;text-align:right;">
+<!--                                <t t-esc="company.currency_id.symbol"/>-->
+                            </td>
+                            <td style="width:10%;text-align:right;">
+<!--                                <t t-esc="'{:.2f}'.format(round(o.cash_register_id.balance_end_real, 2))"/>-->
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="margin-top:15px;font-size:20px;text-align:center;font-weight:bold;">
+                        <span>Product Sales Summary</span>
+                    </div>
+                    <table style="width:100%;">
+
+                        <tr style="border-bottom: 1px dashed black;">
+                            <td width="60%" class="text-left">
+                                <strong>Name</strong>
+                            </td>
+                            <td width="10%" class="text-center">
+                                <strong>Quantity</strong>
+                            </td>
+                            <td width="30%" class="text-right">
+                                <strong>Amount</strong>
+                            </td>
+                        </tr>
+<!--                        <t t-foreach="o.get_sale_details()" t-as="pl">-->
+<!--                            <tr>-->
+<!--                                <td width="60%" class="text-left">-->
+<!--                                    <span t-esc="pl.get('name')"/>-->
+<!--                                </td>-->
+<!--                                <td width="10%" class="text-center">-->
+<!--                                    <span t-esc="int(pl.get('qty'))"/>&amp;nbsp;-->
+<!--                                    <span t-esc="pl.get('uom')"/>-->
+<!--                                </td>-->
+<!--                                <td width="30%" class="text-right">-->
+<!--                                    <span t-esc="pl.get('amount')"-->
+<!--                                          t-options='{"widget": "monetary", "display_currency": res_company.currency_id}'/>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </t>-->
+                        <br/>
+                    </table>
+                    <table style="width:100%;">
+
+                        <tr style="border-bottom: 1px dashed black;">
+                            <td width="60%" class="text-left">
+                                <strong>TOTAL</strong>:
+                            </td>
+                            <td width="10%" class="text-center">
+                            </td>
+                            <td width="30%" class="text-right">
+                                <strong>
+<!--                                    <t t-esc="'{:.2f}'.format(round(o.total_payments_amount, 2))"/>-->
+                                </strong>
+                            </td>
+                        </tr>
+                        <br/>
+                    </table>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="text-align:right;" width="50%">
+                                <strong>Generated By</strong>:
+                            </td>
+                            <td style="text-align:left;" width="50%">
+                                <strong>
+<!--                                    <t t-esc="o.user_id.name"/>-->
+                                </strong>
+                            </td>
+                        </tr>
+                        <br/>
+                    </table>
+                    <table style="width:100%;">
+                        <tr style="border-bottom: 1px dashed black;">
+                            <center>
+                                <strong>
+<!--                                    <t t-foreach="o.get_sale_details()" t-as="pl">-->
+<!--                                        <t t-set="st" t-value="pl.get('cur')" />-->
+<!--                                    </t>-->
+<!--                                    <t t-esc="st"></t>-->
+                                </strong>
+                            </center>
+                        </tr>
+                    </table>
+                </div>
+                <div style="border-bottom:1pt dashed black;text-align:center"/>
+            </t>
+        </template>
+
+        <template id="report_small_invoice">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="tis_pos_z_report.report_session_document" t-lang="o.user_id.lang"/>
+                </t>
+
+            </t>
+
+        </template>
+
+    </data>
+</odoo>

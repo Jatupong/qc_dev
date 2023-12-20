@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- QWeb Reports -->
+
+        <report
+                id="pos_session_report_thermal"
+                model="pos.session"
+                string="Session Summary Report"
+                report_type="qweb-pdf"
+                name="tis_pos_z_report.report_small_invoice"
+                file="tis_pos_z_report.report_small_invoice"
+                attachment="(object.state in ('draft','paid')) and ('POS'+(object.session_id.name or '').replace('/','')+'.pdf')"
+                paperformat='tis_pos_z_report.paper_format_small'
+                print_report_name="'Small %s' %(object.name)"
+        />
+    </data>
+</odoo>
+
