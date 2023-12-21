@@ -113,7 +113,6 @@ class WizardAccountAgingReport(models.TransientModel):
             raise UserError(_("Document is empty."))
 
         partner_ids = purchase_ids.mapped('partner_id')
-
         for partner in partner_ids:
             balance_amount_other_currency = 0.0
             balance_amount = 0.0
@@ -127,7 +126,8 @@ class WizardAccountAgingReport(models.TransientModel):
                 po_no = order.name or ''
                 po_amount_total = order.amount_total
 
-                invoice_by_purchase = order.invoice_ids.filtered(lambda x: x.state in ['posted'])
+                invoice_by_purchase = order.invoice_ids.filtered(lambda x: x.state in ['posted'] and
+                                                                           x.payment_state not in ['in_payment', 'paid'])
                 invoice_line_ids = invoice_by_purchase.mapped('invoice_line_ids')
                 bill_no = ''
                 if not invoice_line_ids:
@@ -141,7 +141,7 @@ class WizardAccountAgingReport(models.TransientModel):
                         amount_currency += po_amount_total
                     unpaid_amount += amount_currency
                 else:
-                    bill_no = invoice_line_ids[0].name
+                    bill_no = invoice_line_ids[0].move_id.name
 
                 move_lines_is_not_deposit = invoice_line_ids.filtered(lambda x: not x.purchase_line_id.is_deposit)
                 if move_lines_is_not_deposit:
@@ -181,7 +181,7 @@ class WizardAccountAgingReport(models.TransientModel):
                                                                      move_lines_is_deposit[0].date).get(order.currency_id.id)
                         down_payment_amount = 0.0
                         for line in move_lines_is_deposit:
-                            price_total = line.price_total
+                            price_total = abs(line.price_total)
                             down_payment_amount_other_currency += price_total
                             down_payment_amount += order.currency_id._convert(price_total,
                                                                               order.company_id.currency_id,
@@ -299,125 +299,6 @@ class WizardAccountAgingReport(models.TransientModel):
             }
             record.append(value)
 
-        # invoice_ids = self._get_in_invoice()
-        # if not invoice_ids:
-        #     raise UserError(_("Document is empty."))
-        #
-        # balance_amount_other_currency = 0.0
-        # balance_amount = 0.0
-        # for move in invoice_ids:
-        #     purchase_id = move.invoice_line_ids.purchase_line_id.order_id
-        #     if purchase_id:
-        #         po_no = purchase_id.name or ''
-        #         po_amount_total = '{0:,.2f}'.format(purchase_id.amount_total)
-        #     else:
-        #         po_no = ''
-        #         po_amount_total = ''
-        #
-        #     credit_limit_amount = 0.0
-        #
-        #     invoice_line_ids = move.invoice_line_ids.filtered(lambda x: not x.purchase_line_id.is_deposit)
-        #     if invoice_line_ids:
-        #         if move.currency_id != move.company_currency_id:
-        #             currency_name = move.currency_id.name
-        #             price_total = sum(invoice_line_ids.mapped('price_total'))
-        #             amount_other_currency = price_total
-        #             currency_rate = move.currency_id._get_rates(move.company_id, move.date).get(move.currency_id.id)
-        #             amount_currency = move.currency_id._convert(price_total,
-        #                                                         move.company_currency_id,
-        #                                                         move.company_id,
-        #                                                         move.invoice_date or move.date)
-        #         else:
-        #             amount_other_currency = 0.0
-        #             currency_rate = ''
-        #             currency_name = ''
-        #             amount_currency = sum(invoice_line_ids.mapped('price_total'))
-        #     else:
-        #         amount_other_currency = 0.0
-        #         currency_rate = ''
-        #         currency_name = ''
-        #         amount_currency = 0.0
-        #
-        #     move_lines_is_deposit = move.invoice_line_ids.filtered(lambda x: x.purchase_line_id.is_deposit)
-        #     if move_lines_is_deposit:
-        #         down_payment_date = move.invoice_date
-        #         if move.currency_id != move.company_currency_id:
-        #             price_total = abs(sum(move_lines_is_deposit.mapped('price_total')))
-        #             down_payment_amount_other_currency = move.currency_id._convert(price_total,
-        #                                                                            move.company_currency_id,
-        #                                                                            move.company_id,
-        #                                                                            move.invoice_date or move.date)
-        #             down_payment_amount = abs(sum(move_lines_is_deposit.mapped('price_total')))
-        #         else:
-        #             down_payment_amount_other_currency = 0.0
-        #             down_payment_amount = abs(sum(move_lines_is_deposit.mapped('price_total')))
-        #     else:
-        #         down_payment_amount_other_currency = 0.0
-        #         down_payment_date = ''
-        #         down_payment_amount = 0.0
-        #
-        #     credit_note_ids = self.env['account.move'].search([('reversed_entry_id', '=', move.id),
-        #                                                        ('state', 'in', ['posted'])])
-        #     if credit_note_ids:
-        #         credit_note_id = credit_note_ids[0]
-        #         cn_date = credit_note_id.invoice_date
-        #         cn_no = credit_note_id.name
-        #         if credit_note_id.currency_id != credit_note_id.company_currency_id:
-        #             cn_amount_other_currency = credit_note_id.amount_total
-        #             cn_amount = credit_note_id.currency_id._convert(credit_note_id.amount_total,
-        #                                                             credit_note_id.company_currency_id,
-        #                                                             credit_note_id.company_id,
-        #                                                             credit_note_id.invoice_date or move.date)
-        #         else:
-        #             cn_amount_other_currency = 0.0
-        #             cn_amount = credit_note_id.amount_total
-        #     else:
-        #         cn_date = ''
-        #         cn_no = ''
-        #         cn_amount_other_currency = 0.0
-        #         cn_amount = 0.0
-        #
-        #     inv_amount_other_currency = amount_other_currency - (
-        #             down_payment_amount_other_currency + cn_amount_other_currency)
-        #     inv_amount = amount_currency - (down_payment_amount + cn_amount)
-        #
-        #     balance_amount_other_currency += inv_amount_other_currency
-        #     balance_amount += inv_amount
-        #
-        #     credit_limit_note = ''
-        #     payment_term = move.invoice_payment_term_id.name or ''
-        #     length_payment_term = move.invoice_payment_term_id.line_ids and move.invoice_payment_term_id.line_ids[0].days or ''
-        #
-        #     value = {
-        #         'invoice_date': move.invoice_date or '',
-        #         'partner_name': move.partner_id.name or '',
-        #         'pi_no': po_no,
-        #         'po_amount_total': po_amount_total,
-        #         'bill_no': move.name or '',
-        #         'payment_term': payment_term or '',
-        #         'length_payment_term': length_payment_term,
-        #         'credit_limit': move.partner_id.credit_limit or '',
-        #         'due_date': move.invoice_date_due.strftime('%d/%m/%Y'),
-        #         'creditor_age': move.invoice_date - fields.Date.today(),
-        #         'currency_name': currency_name,
-        #         'currency_rate': currency_rate,
-        #         'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
-        #         'amount': '{0:,.2f}'.format(amount_currency),
-        #         'dp_date': down_payment_date,
-        #         'dp_amount_other_currency': '{0:,.2f}'.format(down_payment_amount_other_currency),
-        #         'dp_amount': '{0:,.2f}'.format(down_payment_amount),
-        #         'cn_date': cn_date,
-        #         'cn_no': cn_no,
-        #         'cn_amount_other_currency': '{0:,.2f}'.format(cn_amount_other_currency),
-        #         'cn_amount': '{0:,.2f}'.format(cn_amount),
-        #         'inv_amount_other_currency': '{0:,.2f}'.format(inv_amount_other_currency),
-        #         'inv_amount': '{0:,.2f}'.format(inv_amount),
-        #         'balance_amount_other_currency': balance_amount_other_currency,
-        #         'balance_amount': balance_amount,
-        #         'credit_limit_note': credit_limit_note,
-        #     }
-        #     record.append(value)
-
         return record
 
     def _get_result_ar_aging(self):
@@ -441,7 +322,8 @@ class WizardAccountAgingReport(models.TransientModel):
                 so_no = order.name or ''
                 so_amount_total = order.amount_total
 
-                invoice_by_sale = order.invoice_ids.filtered(lambda x: x.state in ['posted'])
+                invoice_by_sale = order.invoice_ids.filtered(lambda x: x.state in ['posted'] and
+                                                                       x.payment_state not in ['in_payment', 'paid'])
                 invoice_line_ids = invoice_by_sale.mapped('invoice_line_ids')
                 move_name = ''
                 if not invoice_line_ids:
@@ -455,7 +337,7 @@ class WizardAccountAgingReport(models.TransientModel):
                         amount_currency += so_amount_total
                     unpaid_amount += amount_currency
                 else:
-                    move_name = invoice_line_ids[0].name
+                    move_name = invoice_line_ids[0].move_id.name
 
                 move_lines_is_not_downpayment = invoice_line_ids.filtered(lambda x: not x.is_downpayment)
                 if move_lines_is_not_downpayment:
@@ -513,9 +395,8 @@ class WizardAccountAgingReport(models.TransientModel):
                     down_payment_date = ''
                     down_payment_amount = 0.0
 
-                credit_note_ids = self.env['account.move'].search(
-                    [('reversed_entry_id.id', 'in', invoice_by_sale.ids),
-                     ('state', 'in', ['posted'])])
+                credit_note_ids = self.env['account.move'].search([('reversed_entry_id.id', 'in', invoice_by_sale.ids),
+                                                                   ('state', 'in', ['posted'])])
                 if credit_note_ids:
                     credit_note_id = credit_note_ids[0]
                     cn_date = credit_note_id.invoice_date
@@ -541,7 +422,7 @@ class WizardAccountAgingReport(models.TransientModel):
                     cn_amount = 0.0
 
                 inv_amount_other_currency = amount_other_currency - (
-                            down_payment_amount_other_currency + cn_amount_other_currency)
+                        down_payment_amount_other_currency + cn_amount_other_currency)
                 inv_amount = amount_currency - (down_payment_amount + cn_amount)
 
                 balance_amount_other_currency += inv_amount_other_currency
