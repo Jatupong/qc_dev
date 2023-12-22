@@ -349,8 +349,13 @@ class product_purchase_report(models.TransientModel):
                         Unit_cost = self.env['stock.valuation.layer'].search(domainp)
                         if len(Unit_cost)>=2:
                             Unit_cost = Unit_cost[0]
-                        worksheet.write(inv_row, 8, line.qty_done * Unit_cost.unit_cost or ' ',
+                        worksheet.write(inv_row, 8, (line.qty_done * Unit_cost.unit_cost) or 0,
                                         for_right_border_num_format)
+                        chack = str(self.date_from).split('-')
+                        if '1902' in chack:
+                            worksheet.write(inv_row, 9, '{} x {} = {}'.format(line.qty_done, Unit_cost.unit_cost, (
+                            line.qty_done, Unit_cost.unit_cost)) or 1,
+                                            for_right_border_num_format)
                         sum_unit += line.qty_done
                         sum_price += line.qty_done * Unit_cost.unit_cost
                         inv_row += 1
@@ -360,6 +365,7 @@ class product_purchase_report(models.TransientModel):
                         worksheet.write(inv_row, 3, ' ', for_center_border_date)
                         worksheet.write(inv_row, 4, ' ', for_center)
                         worksheet.write(inv_row, 5, ' ', for_center)
+
             if self.product.name == False:
                 print(stock.product_id.name)
                 if 'P0' in str(stock.group_id.name) and 'IN' in str(stock.name).split('/'):
@@ -380,8 +386,13 @@ class product_purchase_report(models.TransientModel):
                         Unit_cost = self.env['stock.valuation.layer'].search(domainp)
                         if len(Unit_cost)>=2:
                             Unit_cost = Unit_cost[0]
-                        worksheet.write(inv_row, 8, line.qty_done * Unit_cost.unit_cost or ' ',
+                        worksheet.write(inv_row, 8, (line.qty_done * Unit_cost.unit_cost) or 0,
                                         for_right_border_num_format)
+                        chack = str(self.date_from).split('-')
+                        if '1902' in chack:
+                            worksheet.write(inv_row, 9, '{} x {} = {}'.format(line.qty_done, Unit_cost.unit_cost, (
+                            line.qty_done, Unit_cost.unit_cost)) or ' ',
+                                            for_right_border_num_format)
                         sum_unit += line.qty_done
                         sum_price += line.qty_done * Unit_cost.unit_cost
                         inv_row += 1
@@ -391,6 +402,7 @@ class product_purchase_report(models.TransientModel):
                         worksheet.write(inv_row, 3, ' ', for_center_border_date)
                         worksheet.write(inv_row, 4, ' ', for_center)
                         worksheet.write(inv_row, 5, ' ', for_center)
+
 
         inv_row += 1
         worksheet.merge_range('A' + str(inv_row) + ':G' + str(inv_row),"รวม", for_right_bold)

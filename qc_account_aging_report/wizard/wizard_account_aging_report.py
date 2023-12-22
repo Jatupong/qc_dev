@@ -79,6 +79,24 @@ class WizardAccountAgingReport(models.TransientModel):
 
         return self.env['account.move'].search(domain, order='invoice_date')
 
+    def _get_purchase(self):
+        domain = [
+            ('date_order', '>=', self.date_from),
+            ('date_order', '<=', self.date_to),
+            ('state', 'in', ['purchase', 'done']),
+        ]
+
+        return self.env['purchase.order'].search(domain, order='date_order')
+
+    def _get_sale(self):
+        domain = [
+            ('date_order', '>=', self.date_from),
+            ('date_order', '<=', self.date_to),
+            ('state', 'in', ['sale', 'done']),
+        ]
+
+        return self.env['sale.order'].search(domain, order='date_order')
+
     def convert_usertz_to_utc(self, date_time):
         user_tz = pytz.timezone(self.env.context.get('tz') or self.env.user.tz or 'UTC')
         # print('user_tz : ',user_tz)
@@ -90,122 +108,194 @@ class WizardAccountAgingReport(models.TransientModel):
 
     def _get_result_ap_aging(self):
         record = []
-        invoice_ids = self._get_in_invoice()
-        if not invoice_ids:
+        purchase_ids = self._get_purchase()
+        if not purchase_ids:
             raise UserError(_("Document is empty."))
 
-        balance_amount_other_currency = 0.0
-        balance_amount = 0.0
-        for move in invoice_ids:
-            purchase_id = move.invoice_line_ids.purchase_line_id.order_id
-            if purchase_id:
-                po_no = purchase_id.name or ''
-                po_amount_total = '{0:,.2f}'.format(purchase_id.amount_total)
-            else:
-                po_no = ''
-                po_amount_total = ''
+        partner_ids = purchase_ids.mapped('partner_id')
+        for partner in partner_ids:
+            balance_amount_other_currency = 0.0
+            balance_amount = 0.0
 
-            credit_limit_amount = 0.0
+            credit_limit_amount = partner.credit_limit
+            credit_limit = credit_limit_amount
 
-            invoice_line_ids = move.invoice_line_ids.filtered(lambda x: not x.purchase_line_id.is_deposit)
-            if invoice_line_ids:
-                if move.currency_id != move.company_currency_id:
-                    currency_name = move.currency_id.name
-                    price_total = sum(invoice_line_ids.mapped('price_total'))
-                    amount_other_currency = price_total
-                    currency_rate = move.currency_id._get_rates(move.company_id, move.date).get(move.currency_id.id)
-                    amount_currency = move.currency_id._convert(price_total,
-                                                                move.company_currency_id,
-                                                                move.company_id,
-                                                                move.invoice_date or move.date)
+            purchase_by_partner = purchase_ids.filtered(lambda x: x.partner_id == partner)
+            unpaid_amount = 0.0
+            for order in purchase_by_partner:
+                po_no = order.name or ''
+                po_amount_total = order.amount_total
+
+                invoice_by_purchase = order.invoice_ids.filtered(lambda x: x.state in ['posted'] and
+                                                                           x.payment_state not in ['in_payment', 'paid'])
+                invoice_line_ids = invoice_by_purchase.mapped('invoice_line_ids')
+                bill_no = ''
+                if not invoice_line_ids:
+                    amount_currency = 0.0
+                    if order.currency_id != order.company_id.currency_id:
+                        amount_currency += order.currency_id._convert(po_amount_total,
+                                                                      order.company_id.currency_id,
+                                                                      order.company_id,
+                                                                      order.date_order)
+                    else:
+                        amount_currency += po_amount_total
+                    unpaid_amount += amount_currency
+                else:
+                    bill_no = invoice_line_ids[0].move_id.name
+
+                move_lines_is_not_deposit = invoice_line_ids.filtered(lambda x: not x.purchase_line_id.is_deposit)
+                if move_lines_is_not_deposit:
+                    if order.currency_id != order.company_id.currency_id:
+                        currency_name = order.currency_id.name
+                        amount_other_currency = 0.0
+                        currency_rate = order.currency_id._get_rates(order.company_id,
+                                                                     move_lines_is_not_deposit[0].date).get(order.currency_id.id)
+                        amount_currency = 0.0
+                        for line in move_lines_is_not_deposit:
+                            price_total = line.price_total
+                            amount_other_currency += price_total
+                            amount_currency += order.currency_id._convert(price_total,
+                                                                          order.company_id.currency_id,
+                                                                          order.company_id,
+                                                                          line.date)
+                            if line.move_id.payment_state == 'paid':
+                                unpaid_amount += amount_currency
+                    else:
+                        amount_other_currency = 0.0
+                        currency_rate = ''
+                        currency_name = ''
+                        amount_currency = sum(move_lines_is_not_deposit.mapped('price_total'))
                 else:
                     amount_other_currency = 0.0
                     currency_rate = ''
                     currency_name = ''
-                    amount_currency = sum(invoice_line_ids.mapped('price_total'))
-            else:
-                amount_other_currency = 0.0
-                currency_rate = ''
-                currency_name = ''
-                amount_currency = 0.0
+                    amount_currency = 0.0
 
-            move_lines_is_deposit = move.invoice_line_ids.filtered(lambda x: x.purchase_line_id.is_deposit)
-            if move_lines_is_deposit:
-                down_payment_date = move.invoice_date
-                if move.currency_id != move.company_currency_id:
-                    price_total = abs(sum(move_lines_is_deposit.mapped('price_total')))
-                    down_payment_amount_other_currency = move.currency_id._convert(price_total,
-                                                                                   move.company_currency_id,
-                                                                                   move.company_id,
-                                                                                   move.invoice_date or move.date)
-                    down_payment_amount = abs(sum(move_lines_is_deposit.mapped('price_total')))
+                move_lines_is_deposit = invoice_line_ids.filtered(lambda x: x.purchase_line_id.is_deposit)
+                if move_lines_is_deposit:
+                    down_payment_date = move_lines_is_deposit[0].invoice_date
+                    if order.currency_id != order.company_id.currency_id:
+                        currency_name = order.currency_id.name
+                        down_payment_amount_other_currency = 0.0
+                        currency_rate = order.currency_id._get_rates(order.company_id,
+                                                                     move_lines_is_deposit[0].date).get(order.currency_id.id)
+                        down_payment_amount = 0.0
+                        for line in move_lines_is_deposit:
+                            price_total = abs(line.price_total)
+                            down_payment_amount_other_currency += price_total
+                            down_payment_amount += order.currency_id._convert(price_total,
+                                                                              order.company_id.currency_id,
+                                                                              order.company_id,
+                                                                              line.date)
+                            if line.move_id.payment_state == 'paid':
+                                unpaid_amount += down_payment_amount
+                    else:
+                        down_payment_amount_other_currency = 0.0
+                        down_payment_amount = abs(sum(move_lines_is_deposit.mapped('price_total')))
                 else:
                     down_payment_amount_other_currency = 0.0
-                    down_payment_amount = abs(sum(move_lines_is_deposit.mapped('price_total')))
-            else:
-                down_payment_amount_other_currency = 0.0
-                down_payment_date = ''
-                down_payment_amount = 0.0
+                    down_payment_date = ''
+                    down_payment_amount = 0.0
 
-            credit_note_ids = self.env['account.move'].search([('reversed_entry_id', '=', move.id),
-                                                               ('state', 'in', ['posted'])])
-            if credit_note_ids:
-                credit_note_id = credit_note_ids[0]
-                cn_date = credit_note_id.invoice_date
-                cn_no = credit_note_id.name
-                if credit_note_id.currency_id != credit_note_id.company_currency_id:
-                    cn_amount_other_currency = credit_note_id.amount_total
-                    cn_amount = credit_note_id.currency_id._convert(credit_note_id.amount_total,
-                                                                    credit_note_id.company_currency_id,
-                                                                    credit_note_id.company_id,
-                                                                    credit_note_id.invoice_date or move.date)
+                credit_note_ids = self.env['account.move'].search([('reversed_entry_id.id', 'in', invoice_by_purchase.ids),
+                                                                   ('state', 'in', ['posted'])])
+                if credit_note_ids:
+                    credit_note_id = credit_note_ids[0]
+                    cn_date = credit_note_id.invoice_date
+                    cn_no = credit_note_id.name
+                    if credit_note_id.currency_id != credit_note_id.company_currency_id:
+                        cn_amount_other_currency = 0.0
+                        cn_amount = 0.0
+                        for cd in credit_note_ids:
+                            cn_amount_other_currency += cd.amount_total
+                            cn_amount += cd.currency_id._convert(cd.amount_total,
+                                                                 cd.company_currency_id,
+                                                                 cd.company_id,
+                                                                 cd.invoice_date)
+                            if cd.payment_state != 'paid':
+                                unpaid_amount += down_payment_amount
+                    else:
+                        cn_amount_other_currency = 0.0
+                        cn_amount = credit_note_id.amount_total
                 else:
+                    cn_date = ''
+                    cn_no = ''
                     cn_amount_other_currency = 0.0
-                    cn_amount = credit_note_id.amount_total
-            else:
-                cn_date = ''
-                cn_no = ''
-                cn_amount_other_currency = 0.0
-                cn_amount = 0.0
+                    cn_amount = 0.0
 
-            inv_amount_other_currency = amount_other_currency - (
-                    down_payment_amount_other_currency + cn_amount_other_currency)
-            inv_amount = amount_currency - (down_payment_amount + cn_amount)
+                inv_amount_other_currency = amount_other_currency - (
+                        down_payment_amount_other_currency + cn_amount_other_currency)
+                inv_amount = amount_currency - (down_payment_amount + cn_amount)
 
-            balance_amount_other_currency += inv_amount_other_currency
-            balance_amount += inv_amount
+                balance_amount_other_currency += inv_amount_other_currency
+                balance_amount += inv_amount
 
-            credit_limit_note = ''
-            payment_term = move.invoice_payment_term_id.name or ''
-            length_payment_term = move.invoice_payment_term_id.line_ids and move.invoice_payment_term_id.line_ids[0].days or ''
+                invoice_date = invoice_line_ids and min(invoice_line_ids.mapped('move_id').mapped('invoice_date')) or ''
+                creditor_age = invoice_date and invoice_date - fields.Date.today() or ''
+                invoice_date_due = invoice_line_ids and min(invoice_line_ids.mapped('move_id').mapped('invoice_date_due')) or ''
+                credit_limit_note = credit_limit_amount and credit_limit_amount - unpaid_amount
+                payment_term = order.payment_term_id.name or ''
+                length_payment_term = order.payment_term_id.line_ids and order.payment_term_id.line_ids[0].days or ''
+
+                value = {
+                    'invoice_date': order.date_order.strftime('%d/%m/%Y') or '',
+                    'partner_name': partner.name or '',
+                    'pi_no': po_no,
+                    'po_amount_total': '{0:,.2f}'.format(po_amount_total),
+                    'bill_no': bill_no or '',
+                    'payment_term': payment_term or '',
+                    'length_payment_term': length_payment_term,
+                    'credit_limit': credit_limit and '{0:,.2f}'.format(credit_limit) or '',
+                    'due_date': invoice_date_due and invoice_date_due.strftime('%d/%m/%Y') or '',
+                    'creditor_age': creditor_age,
+                    'currency_name': currency_name,
+                    'currency_rate': currency_rate and '{0:,.2f}'.format(currency_rate) or '',
+                    'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
+                    'amount': '{0:,.2f}'.format(amount_currency),
+                    'dp_date': down_payment_date,
+                    'dp_amount_other_currency': '{0:,.2f}'.format(down_payment_amount_other_currency),
+                    'dp_amount': '{0:,.2f}'.format(down_payment_amount),
+                    'cn_date': cn_date,
+                    'cn_no': cn_no,
+                    'cn_amount_other_currency': '{0:,.2f}'.format(cn_amount_other_currency),
+                    'cn_amount': '{0:,.2f}'.format(cn_amount),
+                    'inv_amount_other_currency': '{0:,.2f}'.format(inv_amount_other_currency),
+                    'inv_amount': '{0:,.2f}'.format(inv_amount),
+                    'balance_amount_other_currency': '{0:,.2f}'.format(balance_amount_other_currency),
+                    'balance_amount': '{0:,.2f}'.format(balance_amount),
+                    'credit_limit_note': '{0:,.2f}'.format(credit_limit_note),
+                }
+                record.append(value)
+
+                credit_limit = 0.0
 
             value = {
-                'invoice_date': move.invoice_date or '',
-                'partner_name': move.partner_id.name or '',
-                'pi_no': po_no,
-                'po_amount_total': po_amount_total,
-                'bill_no': move.name or '',
-                'payment_term': payment_term or '',
-                'length_payment_term': length_payment_term,
-                'credit_limit': move.partner_id.credit_limit or '',
-                'due_date': move.invoice_date_due.strftime('%d/%m/%Y'),
-                'creditor_age': move.invoice_date - fields.Date.today(),
-                'currency_name': currency_name,
-                'currency_rate': currency_rate,
-                'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
-                'amount': '{0:,.2f}'.format(amount_currency),
-                'dp_date': down_payment_date,
-                'dp_amount_other_currency': '{0:,.2f}'.format(down_payment_amount_other_currency),
-                'dp_amount': '{0:,.2f}'.format(down_payment_amount),
-                'cn_date': cn_date,
-                'cn_no': cn_no,
-                'cn_amount_other_currency': '{0:,.2f}'.format(cn_amount_other_currency),
-                'cn_amount': '{0:,.2f}'.format(cn_amount),
-                'inv_amount_other_currency': '{0:,.2f}'.format(inv_amount_other_currency),
-                'inv_amount': '{0:,.2f}'.format(inv_amount),
-                'balance_amount_other_currency': balance_amount_other_currency,
-                'balance_amount': balance_amount,
-                'credit_limit_note': credit_limit_note,
+                'invoice_date': '',
+                'partner_name': '',
+                'pi_no': '',
+                'po_amount_total': '',
+                'bill_no': '',
+                'payment_term': '',
+                'length_payment_term': '',
+                'credit_limit': '',
+                'due_date': '',
+                'creditor_age': '',
+                'currency_name': '',
+                'currency_rate': '',
+                'amount_other_currency': '',
+                'amount': '',
+                'dp_date': '',
+                'dp_amount_other_currency': '',
+                'dp_amount': '',
+                'cn_date': '',
+                'cn_no': '',
+                'cn_amount_other_currency': '',
+                'cn_amount': '',
+                'inv_amount_other_currency': '',
+                'inv_amount': '',
+                'balance_amount_other_currency': '',
+                'balance_amount': '',
+                'credit_limit_note': '',
             }
             record.append(value)
 
@@ -213,117 +303,200 @@ class WizardAccountAgingReport(models.TransientModel):
 
     def _get_result_ar_aging(self):
         record = []
-        invoice_ids = self._get_out_invoice()
-        if not invoice_ids:
+        sale_ids = self._get_sale()
+        if not sale_ids:
             raise UserError(_("Document is empty."))
 
-        balance_amount_other_currency = 0.0
-        balance_amount = 0.0
-        for move in invoice_ids:
-            if move.invoice_line_ids.sale_line_ids:
-                sale_id = move.invoice_line_ids.sale_line_ids[0].order_id
-                so_no = sale_id.name
-                so_amount_total = '{0:,.2f}'.format(sale_id.amount_total)
-            else:
-                so_no = ''
-                so_amount_total = ''
+        partner_ids = sale_ids.mapped('partner_id')
+        for partner in partner_ids:
+            balance_amount_other_currency = 0.0
+            balance_amount = 0.0
 
-            credit_limit_amount = move.partner_id.credit_limit or ''
-            currency_name = ''
-            invoice_line_ids = move.invoice_line_ids.filtered(lambda x: not x.is_downpayment)
-            if move.currency_id != move.company_currency_id:
-                currency_name = move.currency_id.name
-                price_total = sum(invoice_line_ids.filtered(lambda x: not x.is_downpayment).mapped('price_total'))
-                currency_rate = move.currency_id._get_rates(move.company_id, move.date).get(move.currency_id.id)
-                amount_other_currency = price_total
-                amount_currency = move.currency_id._convert(price_total,
-                                                            move.company_currency_id,
-                                                            move.company_id,
-                                                            move.invoice_date or move.date)
-            else:
-                currency_rate = ''
-                amount_other_currency = 0.0
-                amount_currency = sum(invoice_line_ids.mapped('price_total'))
+            credit_limit_amount = partner.credit_limit
+            credit_limit = credit_limit_amount
 
-            invoice_line_is_downpayment = move.invoice_line_ids.filtered(lambda x:x.is_downpayment)
-            if invoice_line_is_downpayment:
-                down_payment_date = move.invoice_date
-                if move.currency_id != move.company_currency_id:
-                    price_total = abs(sum(invoice_line_is_downpayment.mapped('price_total')))
-                    down_payment_amount_other_currency = move.currency_id._convert(price_total,
-                                                                                   move.company_currency_id,
-                                                                                   move.company_id,
-                                                                                   move.invoice_date or move.date)
-                    down_payment_amount = abs(sum(invoice_line_is_downpayment.mapped('price_total')))
+            sale_by_partner = sale_ids.filtered(lambda x: x.partner_id == partner)
+            unpaid_amount = 0.0
+
+            for order in sale_by_partner:
+                so_no = order.name or ''
+                so_amount_total = order.amount_total
+
+                invoice_by_sale = order.invoice_ids.filtered(lambda x: x.state in ['posted'] and
+                                                                       x.payment_state not in ['in_payment', 'paid'])
+                invoice_line_ids = invoice_by_sale.mapped('invoice_line_ids')
+                move_name = ''
+                if not invoice_line_ids:
+                    amount_currency = 0.0
+                    if order.currency_id != order.company_id.currency_id:
+                        amount_currency += order.currency_id._convert(so_amount_total,
+                                                                      order.company_id.currency_id,
+                                                                      order.company_id,
+                                                                      order.date_order)
+                    else:
+                        amount_currency += so_amount_total
+                    unpaid_amount += amount_currency
+                else:
+                    move_name = invoice_line_ids[0].move_id.name
+
+                move_lines_is_not_downpayment = invoice_line_ids.filtered(lambda x: not x.is_downpayment)
+                if move_lines_is_not_downpayment:
+                    if order.currency_id != order.company_id.currency_id:
+                        currency_name = order.currency_id.name
+                        amount_other_currency = 0.0
+                        currency_rate = order.currency_id._get_rates(order.company_id,
+                                                                     move_lines_is_not_downpayment[0].date).get(
+                            order.currency_id.id)
+                        amount_currency = 0.0
+                        for line in move_lines_is_not_downpayment:
+                            price_total = line.price_total
+                            amount_other_currency += price_total
+                            amount_currency += order.currency_id._convert(price_total,
+                                                                          order.company_id.currency_id,
+                                                                          order.company_id,
+                                                                          line.date)
+                            if line.move_id.payment_state == 'paid':
+                                unpaid_amount += amount_currency
+                    else:
+                        amount_other_currency = 0.0
+                        currency_rate = ''
+                        currency_name = ''
+                        amount_currency = sum(move_lines_is_not_downpayment.mapped('price_total'))
+                else:
+                    amount_other_currency = 0.0
+                    currency_rate = ''
+                    currency_name = ''
+                    amount_currency = 0.0
+
+                move_lines_is_downpayment = invoice_line_ids.filtered(lambda x: x.purchase_line_id.is_deposit)
+                if move_lines_is_downpayment:
+                    down_payment_date = move_lines_is_downpayment[0].invoice_date
+                    if order.currency_id != order.company_id.currency_id:
+                        currency_name = order.currency_id.name
+                        down_payment_amount_other_currency = 0.0
+                        currency_rate = order.currency_id._get_rates(order.company_id,
+                                                                     move_lines_is_downpayment[0].date).get(
+                            order.currency_id.id)
+                        down_payment_amount = 0.0
+                        for line in move_lines_is_downpayment:
+                            price_total = line.price_total
+                            down_payment_amount_other_currency += price_total
+                            down_payment_amount += order.currency_id._convert(price_total,
+                                                                              order.company_id.currency_id,
+                                                                              order.company_id,
+                                                                              line.date)
+                            if line.move_id.payment_state == 'paid':
+                                unpaid_amount += down_payment_amount
+                    else:
+                        down_payment_amount_other_currency = 0.0
+                        down_payment_amount = abs(sum(move_lines_is_downpayment.mapped('price_total')))
                 else:
                     down_payment_amount_other_currency = 0.0
-                    down_payment_amount = abs(sum(invoice_line_is_downpayment.mapped('price_total')))
-            else:
-                down_payment_amount_other_currency = 0.0
-                down_payment_date = ''
-                down_payment_amount = 0.0
+                    down_payment_date = ''
+                    down_payment_amount = 0.0
 
-            credit_note_ids = self.env['account.move'].search([('reversed_entry_id', '=', move.id),
-                                                               ('state', 'in', ['posted'])])
-            if credit_note_ids:
-                credit_note_id = credit_note_ids[0]
-                cn_date = credit_note_id.invoice_date
-                cn_no = credit_note_id.name
-                if credit_note_id.currency_id != credit_note_id.company_currency_id:
-                    cn_amount_other_currency = credit_note_id.amount_total
-                    cn_amount = credit_note_id.currency_id._convert(credit_note_id.amount_total,
-                                                                    credit_note_id.company_currency_id,
-                                                                    credit_note_id.company_id,
-                                                                    credit_note_id.invoice_date or move.date)
+                credit_note_ids = self.env['account.move'].search([('reversed_entry_id.id', 'in', invoice_by_sale.ids),
+                                                                   ('state', 'in', ['posted'])])
+                if credit_note_ids:
+                    credit_note_id = credit_note_ids[0]
+                    cn_date = credit_note_id.invoice_date
+                    cn_no = credit_note_id.name
+                    if credit_note_id.currency_id != credit_note_id.company_currency_id:
+                        cn_amount_other_currency = 0.0
+                        cn_amount = 0.0
+                        for cd in credit_note_ids:
+                            cn_amount_other_currency += cd.amount_total
+                            cn_amount += cd.currency_id._convert(cd.amount_total,
+                                                                 cd.company_currency_id,
+                                                                 cd.company_id,
+                                                                 cd.invoice_date)
+                            if cd.payment_state != 'paid':
+                                unpaid_amount += down_payment_amount
+                    else:
+                        cn_amount_other_currency = 0.0
+                        cn_amount = credit_note_id.amount_total
                 else:
+                    cn_date = ''
+                    cn_no = ''
                     cn_amount_other_currency = 0.0
-                    cn_amount = credit_note_id.amount_total
-            else:
-                cn_date = ''
-                cn_no = ''
-                cn_amount_other_currency = 0.0
-                cn_amount = 0.0
+                    cn_amount = 0.0
 
-            inv_amount_other_currency = amount_other_currency - (down_payment_amount_other_currency + cn_amount_other_currency)
-            inv_amount = amount_currency - (down_payment_amount + cn_amount)
+                inv_amount_other_currency = amount_other_currency - (
+                        down_payment_amount_other_currency + cn_amount_other_currency)
+                inv_amount = amount_currency - (down_payment_amount + cn_amount)
 
-            balance_amount_other_currency += inv_amount_other_currency
-            balance_amount += inv_amount
+                balance_amount_other_currency += inv_amount_other_currency
+                balance_amount += inv_amount
 
-            credit_limit_note = ''
+                invoice_date = invoice_line_ids and min(invoice_line_ids.mapped('move_id').mapped('invoice_date')) or ''
+                creditor_age = invoice_date and invoice_date - fields.Date.today() or ''
+                invoice_date_due = invoice_line_ids and min(
+                    invoice_line_ids.mapped('move_id').mapped('invoice_date_due')) or ''
+                credit_limit_note = credit_limit_amount and credit_limit_amount - unpaid_amount
+                payment_term = order.payment_term_id.name or ''
+                length_payment_term = order.payment_term_id.line_ids and order.payment_term_id.line_ids[0].days or ''
 
-            payment_term = move.invoice_payment_term_id.name or ''
-            length_payment_term = move.invoice_payment_term_id.line_ids and move.invoice_payment_term_id.line_ids[0].days or ''
-            creditor_age = move.invoice_date - fields.Date.today()
+                value = {
+                    'team_name': order.team_id.name or '',
+                    'invoice_date': order.date_order.strftime('%d/%m/%Y') or '',
+                    'partner_name': partner.name or '',
+                    'so_no': so_no,
+                    'so_amount_total': so_amount_total,
+                    'move_name': move_name or '',
+                    'payment_term': payment_term,
+                    'length_payment_term': length_payment_term,
+                    'credit_limit_amount': '{0:,.2f}'.format(credit_limit) or '',
+                    'due_date': invoice_date_due and invoice_date_due.strftime('%d/%m/%Y') or '',
+                    'creditor_age': creditor_age or '',
+                    'currency_name': currency_name,
+                    'currency_rate': currency_rate,
+                    'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
+                    'amount': '{0:,.2f}'.format(amount_currency),
+                    'dp_date': down_payment_date,
+                    'dp_amount_other_currency': '{0:,.2f}'.format(down_payment_amount_other_currency),
+                    'dp_amount': '{0:,.2f}'.format(down_payment_amount),
+                    'cn_date': cn_date,
+                    'cn_no': cn_no,
+                    'cn_amount_other_currency': '{0:,.2f}'.format(cn_amount_other_currency),
+                    'cn_amount': '{0:,.2f}'.format(cn_amount),
+                    'inv_amount_other_currency': '{0:,.2f}'.format(inv_amount_other_currency),
+                    'inv_amount': '{0:,.2f}'.format(inv_amount),
+                    'balance_amount_other_currency': '{0:,.2f}'.format(balance_amount_other_currency),
+                    'balance_amount': '{0:,.2f}'.format(balance_amount),
+                    'credit_limit_note': '{0:,.2f}'.format(credit_limit_note),
+                }
+                record.append(value)
+
+                credit_limit = 0.0
 
             value = {
-                'team_name': move.team_id.name or '',
-                'invoice_date': move.invoice_date.strftime('%d/%m/%Y') or '',
-                'partner_name': move.partner_id.name or '',
-                'so_no': so_no,
-                'so_amount_total': so_amount_total,
-                'move_name': move.name or '',
-                'payment_term': payment_term,
-                'length_payment_term': length_payment_term,
-                'credit_limit_amount': credit_limit_amount,
-                'due_date': move.invoice_date_due.strftime('%d/%m/%Y'),
-                'creditor_age': creditor_age or '',
-                'currency_name': currency_name,
-                'currency_rate': currency_rate,
-                'amount_other_currency': '{0:,.2f}'.format(amount_other_currency),
-                'amount': '{0:,.2f}'.format(amount_currency),
-                'dp_date': down_payment_date,
-                'dp_amount_other_currency': '{0:,.2f}'.format(down_payment_amount_other_currency),
-                'dp_amount': '{0:,.2f}'.format(down_payment_amount),
-                'cn_date': cn_date,
-                'cn_no': cn_no,
-                'cn_amount_other_currency': '{0:,.2f}'.format(cn_amount_other_currency),
-                'cn_amount': '{0:,.2f}'.format(cn_amount),
-                'inv_amount_other_currency': '{0:,.2f}'.format(inv_amount_other_currency),
-                'inv_amount': '{0:,.2f}'.format(inv_amount),
-                'balance_amount_other_currency': '{0:,.2f}'.format(balance_amount_other_currency),
-                'balance_amount': '{0:,.2f}'.format(balance_amount),
-                'credit_limit_note': credit_limit_note,
+                'team_name': '',
+                'invoice_date': '',
+                'partner_name': '',
+                'so_no': '',
+                'so_amount_total': '',
+                'move_name': '',
+                'payment_term': '',
+                'length_payment_term': '',
+                'credit_limit_amount': '',
+                'due_date': '',
+                'creditor_age': '',
+                'currency_name': '',
+                'currency_rate': '',
+                'amount_other_currency': '',
+                'amount': '',
+                'dp_date': '',
+                'dp_amount_other_currency': '',
+                'dp_amount': '',
+                'cn_date': '',
+                'cn_no': '',
+                'cn_amount_other_currency': '',
+                'cn_amount': '',
+                'inv_amount_other_currency': '',
+                'inv_amount': '',
+                'balance_amount_other_currency': '',
+                'balance_amount': '',
+                'credit_limit_note': '',
             }
             record.append(value)
 
@@ -426,7 +599,7 @@ class WizardAccountApAgingReportXls(models.AbstractModel):
         i_col += 1
         worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน\n(ต่างประเทศ)', for_center_bold_border)
         i_col += 1
-        worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'อัตราแลกเปลี่ยน\nแลกเปลี่ยน', for_center_bold_border)
+        worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'อัตราแลกเปลี่ยน', for_center_bold_border)
         i_col += 1
         worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน\n(บาท)', for_center_bold_border)
         i_col += 1
@@ -470,7 +643,7 @@ class WizardAccountApAgingReportXls(models.AbstractModel):
             i_col += 1
             worksheet.write(i_row, i_col, move['length_payment_term'], for_right_border)
             i_col += 1
-            worksheet.write(i_row, i_col, move['credit_limit'], for_left_border)
+            worksheet.write(i_row, i_col, move['credit_limit'], for_right_border_num_format)
             i_col += 1
             worksheet.write(i_row, i_col, move['due_date'], for_center_date)
             i_col += 1
@@ -506,7 +679,7 @@ class WizardAccountApAgingReportXls(models.AbstractModel):
             i_col += 1
             worksheet.write(i_row, i_col, move['balance_amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, move['credit_limit_note'], for_left_border)
+            worksheet.write(i_row, i_col, move['credit_limit_note'], for_right_border_num_format)
 
         workbook.close()
 
@@ -612,7 +785,7 @@ class WizardAccountArAgingReportXls(models.AbstractModel):
         i_col += 1
         worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน\n(ต่างประเทศ)', for_center_bold_border)
         i_col += 1
-        worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'อัตราแลกเปลี่ยน\nแลกเปลี่ยน', for_center_bold_border)
+        worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'อัตราแลกเปลี่ยน', for_center_bold_border)
         i_col += 1
         worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน\n(บาท)', for_center_bold_border)
         i_col += 1
@@ -695,6 +868,6 @@ class WizardAccountArAgingReportXls(models.AbstractModel):
             i_col += 1
             worksheet.write(i_row, i_col, move['balance_amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, move['credit_limit_note'], for_left_border)
+            worksheet.write(i_row, i_col, move['credit_limit_note'], for_right_border_num_format)
 
         workbook.close()

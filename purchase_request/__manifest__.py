@@ -1,16 +1,17 @@
 # Copyright 2018-2019 ForgeFlow, S.L.
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0).
 # 16.0.1.1 - fix onchange qty and supplierinfo table mapping
+# 16.0.1.3 - fix compute total estimate cost
 {
     "name": "Purchase Request",
     "author": "ForgeFlow, Odoo Community Association (OCA)",
-    "version": "16.0.1.1",
+    "version": "16.0.1.3",
     "summary": "Use this module to have notification of requirements of "
     "materials and/or external services and keep track of such "
     "requirements.",
     "website": "https://github.com/OCA/purchase-workflow",
     "category": "Purchase Management",
-    "depends": ["purchase", "product", "purchase_stock"],
+    "depends": ["purchase", "product", "purchase_stock","purchase_order_type"],
     "data": [
         "security/purchase_request.xml",
         "security/ir.model.access.csv",
@@ -25,6 +26,10 @@
         "views/purchase_order_view.xml",
         "views/stock_move_views.xml",
         "views/stock_picking_views.xml",
+        'views/view_purchase_request_type.xml',
+        # 'views/puschasing_type.xml',
+        'views/order_type.xml',
+        'views/purchase_order_type.xml',
     ],
     "demo": ["demo/purchase_request_demo.xml"],
     "license": "LGPL-3",

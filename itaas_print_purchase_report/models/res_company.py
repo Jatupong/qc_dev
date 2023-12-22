@@ -14,4 +14,4 @@ class res_company(models.Model):
 
     document_id = fields.Char(string='ฟอร์มเคลมสินค้าใบส่งสินค้า')
     document_id2 = fields.Char(string='ฟอร์มเคลมสินค้าใบเบิกพัสดุ')
-
+    document_id3 = fields.Char()

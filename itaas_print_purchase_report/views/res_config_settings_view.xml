@@ -35,9 +35,12 @@
                             <span class="o_form_label">Purchase No. Form</span>
                             <div class="text-muted">
                                 <field name="purchase_order_no_form"/>
+                                <br/>
+                                <field name="document_id3"/>
                             </div>
                         </div>
                     </div>
+
 <!--                    <div class="col-12 col-lg-6 o_setting_box" id="show_product_code_on_purchase">-->
 <!--                        <div class="o_setting_left_pane">-->
 <!--                            <field name="show_product_code_on_purchase" widget="upgrade_boolean"/>-->
