@@ -8,18 +8,18 @@ class SaleQuotation(models.Model):
     _inherit = 'sale.order'
 
     department = fields.Many2one(comodel_name='department.id', string='แผนก')
-    id_pp = fields.Char(string='รหัส PP')
-    id_po = fields.Char(string='รหัสPO')
-    w_load_product = fields.Char(string='Wโหลดสินค้า')
-    box_type = fields.Many2one(comodel_name='box.type' ,string='Box Type')
-    download_with = fields.Char(string='Download With')
+    id_pp = fields.Char(string='PP No.')
+    id_po = fields.Char(string='PO No.')
+    w_load_product = fields.Char(string='Requested Week')
+    box_type = fields.Many2one(comodel_name='box.type' ,string='Packaging')
+    download_with = fields.Char(string='Consolidate With')
 
 
-    correction = fields.Char(string='Correction')
+    correction = fields.Char(string='Revision')
     currency = fields.Char(string='Currency')
-    container = fields.Char(string='Container')
+    container = fields.Char(string='Container Size')
     loading_type = fields.Many2one(comodel_name='loading.type', string='Loading Type')
-    bar_code = fields.Char(string='Bar Code')
+    bar_code = fields.Char(string='BarCode')
 
 
     urgent_need = fields.Many2one(comodel_name='urgent.need', string='Urgent Need')
@@ -28,7 +28,7 @@ class SaleQuotation(models.Model):
     important_note = fields.Text(string='Important Note')
 
     special_need = fields.One2many('sale.quotation.lines', 'sale_quotation_id', string='ความต้องการพิเศษ')
-    partner_bank_id = fields.Many2one('res.partner.bank', string='Bank')
+    partner_bank_id = fields.Many2one('res.partner.bank', string='Bank Detail')
 
 
 class SaleQuotationLines(models.Model):

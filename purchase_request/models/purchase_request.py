@@ -9,7 +9,7 @@ _STATES = [
     ("to_approve", "To be approved"),
     ("approved", "Approved"),
     ("rejected", "Rejected"),
-    ("done", "Done"),
+    # ("done", "Done"),
 ]
 
 
@@ -20,6 +20,7 @@ class PurchaseRequest(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "id desc"
 
+    active = fields.Boolean(default=True)
     @api.model
     def _company_get(self):
         return self.env["res.company"].browse(self.env.company.id)
@@ -31,6 +32,9 @@ class PurchaseRequest(models.Model):
     @api.model
     def _get_default_name(self):
         return self.env["ir.sequence"].next_by_code("purchase.request")
+
+
+
 
     @api.model
     def _default_picking_type(self):
@@ -152,10 +156,25 @@ class PurchaseRequest(models.Model):
         store=True,
     )
 
+    cost_center = fields.Many2one(
+        comodel_name="account.analytic.account",
+        string="Cost Center"
+    )
+
+    purchase_request_type = fields.Many2one('purchase.request.type', string="Purchase Request Types" ,required=True)
+    purchasing_type = fields.Many2one('purchasing.type', string="Purchasing Types")
+    order_type = fields.Many2one('order.type', string="Order Type")
+    requests_order_type = fields.Many2one('order.type', string="Order Type")
+
+
+
     @api.depends("line_ids", "line_ids.estimated_cost")
     def _compute_estimated_cost(self):
         for rec in self:
-            rec.estimated_cost = sum(rec.line_ids.mapped("estimated_cost"))
+            total_estimate_cost = 0
+            for line in rec.line_ids:
+                total_estimate_cost += line.estimated_cost * line.product_qty
+            rec.estimated_cost = total_estimate_cost
 
     @api.depends("line_ids")
     def _compute_purchase_count(self):

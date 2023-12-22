@@ -14,6 +14,7 @@ class ResCompany(models.Model):
 
     document_id = fields.Char(string='ฟอร์มเคลมสินค้าใบส่งสินค้า')
     document_id2 = fields.Char(string='ฟอร์มเคลมสินค้าใบเบิกพัสดุ')
+    document_id3 = fields.Char()
 
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
@@ -25,3 +26,4 @@ class ResConfigSettings(models.TransientModel):
 
     document_id = fields.Char(related='company_id.document_id',string='ฟอร์มเคลมสินค้าใบส่งสินค้า', readonly=False)
     document_id2 = fields.Char(related='company_id.document_id2', string='ฟอร์มเคลมสินค้าใบเบิกพัสดุ', readonly=False)
+    document_id3 = fields.Char(related='company_id.document_id3', string='sss_2', readonly=False)

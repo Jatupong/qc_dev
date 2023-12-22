@@ -19,3 +19,10 @@ class StockViewPicking(models.Model):
 
 
 
+class StockMove(models.Model):
+    _inherit = "stock.move"
+
+    g_w_kgs_inven = fields.Float(string='G.W. KGS.', related="sale_line_id.g_w_kgs")
+    n_w_kgs_inven = fields.Float(string='N.W. KGS.', related="sale_line_id.n_w_kgs")
+
+

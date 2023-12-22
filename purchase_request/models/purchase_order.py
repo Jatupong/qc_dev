@@ -7,6 +7,33 @@ from odoo import _, api, exceptions, fields, models
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
+    active = fields.Boolean(default=True)
+    incoterm_date = fields.Datetime(sting="Incoterm date")
+    purchase_request_type = fields.Many2one('purchase.request.type', string="Purchase Request Types")
+    purchasing_type = fields.Many2one('purchasing.type', string="Purchasing Types")
+    # requests_order_type = fields.Many2one('order.type', string="Order Type")
+    # tax_type_purchase = fields.Many2one('purchase.tax.type', string="Tax Type")
+
+
+    currency_thb = fields.Float(string="Currency THB", )
+    
+    # def _get_currency_thbcurrency_thb(self,amount_total):
+    #     print('_get_currency_thbcurrency_thb')
+
+
+    #แปลงสกุลเงิน โดนใช้ฟิล currency_thb รับ ค่าที่แปลง
+    @api.onchange('order_line')
+    def onchange_order_type(self):
+        print('kkkkkkk')
+        # self.currency_thb = self.currency_id.rate_ids.inverse_company_rate(line.product_qty, line.product_id, order.company_id)
+        self.currency_thb = self.currency_id._convert(
+            self.amount_total,
+            self.company_id.currency_id,
+            self.company_id,
+            self.date_order
+        )
+
+
     def _purchase_request_confirm_message_content(self, request, request_dict=None):
         self.ensure_one()
         if not request_dict:
@@ -93,6 +120,15 @@ class PurchaseOrder(models.Model):
         res = super().unlink()
         alloc_to_unlink.unlink()
         return res
+
+    @api.model
+    def _default_purchase_request_type(self):
+        pr_type_obj = self.env["purchase.request.type"]
+        types = pr_type_obj.search(
+            [(self.purchasing_type, "=", self.order_line.purchase_request_lines.request_id.purchasing_type),
+             (self.order_type, "=", self.order_line.purchase_request_lines.request_id.po_type)]
+        )
+        return types[:1]
 
 
 class PurchaseOrderLine(models.Model):

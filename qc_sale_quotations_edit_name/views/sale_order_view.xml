@@ -26,9 +26,9 @@
             <xpath expr="//field[@name='download_with']" position="attributes">
                 <attribute name="string">Consolidate With</attribute>
             </xpath>
-            <xpath expr="//field[@name='validity_date']" position="attributes">
-                <attribute name="string">Delivery Week</attribute>
-            </xpath>
+<!--            <xpath expr="//field[@name='validity_date']" position="attributes">-->
+<!--                <attribute name="string">Delivery Week</attribute>-->
+<!--            </xpath>-->
             <xpath expr="//field[@name='date_order']" position="attributes">
                 <attribute name="string">Issued Date</attribute>
             </xpath>

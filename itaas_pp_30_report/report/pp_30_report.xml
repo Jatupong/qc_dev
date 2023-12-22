@@ -235,23 +235,26 @@
                     </style>
 
                     <table width="100%" class="font_fam table table-bordered font_size_14">
-                        <tr>
-                            <th rowspan="2"><span>เดือน</span></th>
-                            <th rowspan="2"><span>ยอดส่งออก</span></th>
-                            <th rowspan="2"><span>ขายในประเทศ</span></th>
-                            <th colspan="2"><span>ร้านค้าสวัสดิการ</span></th>
-                            <th rowspan="2"><span>รวมรายได้</span></th>
-                            <th rowspan="2"><span>ภาษีขาย</span></th>
-                            <th rowspan="2"><span>รวมขายทั้งหมด</span></th>
-                            <th rowspan="2"><span>ยอดซื้อ</span></th>
-                            <th rowspan="2"><span>ภาษีซื้อ</span></th>
-                            <th rowspan="2"><span>ยอดรับคืนภาษี</span></th>
-                        </tr>
-                        <tr>
-                            <th><span>Vat</span></th>
-                            <th><span>No Vat</span></th>
-                        </tr>
-                        <t t-foreach="data_results" t-as="data">
+                        <thead>
+                            <tr>
+                                <th rowspan="2"><span>เดือน</span></th>
+                                <th rowspan="2"><span>ยอดส่งออก</span></th>
+                                <th rowspan="2"><span>ขายในประเทศ</span></th>
+                                <th colspan="2"><span>ร้านค้าสวัสดิการ</span></th>
+                                <th rowspan="2"><span>รวมรายได้</span></th>
+                                <th rowspan="2"><span>ภาษีขาย</span></th>
+                                <th rowspan="2"><span>รวมขายทั้งหมด</span></th>
+                                <th rowspan="2"><span>ยอดซื้อ</span></th>
+                                <th rowspan="2"><span>ภาษีซื้อ</span></th>
+                                <th rowspan="2"><span>ยอดรับคืนภาษี</span></th>
+                            </tr>
+                            <tr>
+                                <th><span>Vat</span></th>
+                                <th><span>No Vat</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="data_results" t-as="data">
                             <tr>
                                 <td>
                                     <span t-esc="data['month_th']"/>
@@ -288,6 +291,7 @@
                                 </td>
                             </tr>
                         </t>
+                        </tbody>
                     </table>
 
                 </div>

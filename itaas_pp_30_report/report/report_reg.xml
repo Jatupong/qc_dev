@@ -30,10 +30,10 @@
                 id="pp_30_report"
                 model="wizard.pp.30.report"
                 string="สรุปแบบ ภพ. 30"
-                report_type="qweb-html"
+                report_type="qweb-pdf"
                 paperformat="paperformat_A4_Five_Margin_pp_30"
-                name="qc_account_aging_report.pp_30_report_id"
-                file="qc_account_aging_report.pp_30_report_id"
+                name="itaas_pp_30_report.pp_30_report_id"
+                file="itaas_pp_30_report.pp_30_report_id"
                 menu="False"
                 attachment_use="False"/>
 

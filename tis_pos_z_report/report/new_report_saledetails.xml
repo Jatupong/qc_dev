@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template
+            id="new_report_saledetails"
+            inherit_id="point_of_sale.report_saledetails">
+        <xpath expr="//table[1]" position="replace">
+
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price Unit</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="products" t-as="line">
+                        <t t-set="internal_reference" t-value="line['code'] and '[%s] ' % line['code'] or ''"/>
+                        <td>
+                            <t t-esc="internal_reference"/>
+                            <t t-esc="line['product_name']"/>
+                        </td>
+                        <td style="text-align:right;">
+                            <t t-esc="line['quantity']"/>
+                            <t t-if="line[&quot;uom&quot;] != &quot;Units&quot;">
+                                <t t-esc="line[&quot;uom&quot;]"/>
+                            </t>
+                        </td>
+                        <td style="text-align:right;">
+                            <t t-esc="line[&quot;price_unit&quot;]"/>
+                            <t t-if="line[&quot;discount&quot;] != 0">
+                                Disc: <t t-esc="line[&quot;discount&quot;]"/>%
+                            </t>
+                        </td>
+                        <td style="text-align:right;">
+                            <t t-set="total" t-value="line[&quot;price_unit&quot;] * line['quantity']"/>
+                            <t t-esc="total"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </xpath>
+
+        <xpath expr="//table[2]" position="replace">
+            <table class="table table-sm">
+                <thead><tr>
+                    <th>Name</th>
+                    <th>Total</th>
+                </tr></thead>
+                <tbody>
+                <tr t-foreach="payments" t-as="payment">
+                    <td>
+                        <t t-esc="payment['name']"/>
+                    </td>
+                    <td style="text-align:right;"><t t-esc="payment['total']" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </xpath>
+
+        <xpath expr="//table[3]" position="replace">
+            <table class="table table-sm">
+                <thead><tr>
+                    <th>Name</th>
+                    <th>Tax Amount</th>
+                    <th>Base Amount</th>
+                </tr></thead>
+                <tbody>
+                <tr t-foreach="taxes" t-as="tax">
+                    <td>
+                        <t t-esc="tax['name']"/>
+                    </td>
+                    <td style="text-align:right;"><t t-esc="tax['tax_amount']" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+                    <td style="text-align:right;"><t t-esc="tax['base_amount']" t-options="{'widget': 'float', 'precision': currency_precision}"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </xpath>
+
+
+
+
+    </template>
+</odoo>
