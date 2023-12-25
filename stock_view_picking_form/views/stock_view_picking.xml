@@ -35,6 +35,7 @@
     </record>
 
 
+
 <!--    <record id="view_stock_move_line" model="ir.ui.view">-->
 <!--        <field name="name">stock.move.line</field>-->
 <!--        <field name="model">stock.picking</field>-->

@@ -29,3 +29,4 @@ class StockMove(models.Model):
     n_w_kgs_inven = fields.Float(string='N.W. KGS.', related="sale_line_id.n_w_kgs")
 
 
+
