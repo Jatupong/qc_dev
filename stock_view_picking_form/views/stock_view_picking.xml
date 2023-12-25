@@ -24,6 +24,9 @@
             </xpath>
 
             <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_packaging_id']" position="after">
+                <field name="width_inven"/>
+                <field name="length_inven"/>
+                <field name="height_inven"/>
                 <field name="g_w_kgs_inven"/>
                 <field name="n_w_kgs_inven"/>
             </xpath>

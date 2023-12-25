@@ -22,6 +22,9 @@ class StockViewPicking(models.Model):
 class StockMove(models.Model):
     _inherit = "stock.move"
 
+    width_inven = fields.Float(string='WIDTH', related="sale_line_id.width")
+    length_inven = fields.Float(string='LENGTH', related="sale_line_id.length")
+    height_inven = fields.Float(string='HEIGHT', related="sale_line_id.height")
     g_w_kgs_inven = fields.Float(string='G.W. KGS.', related="sale_line_id.g_w_kgs")
     n_w_kgs_inven = fields.Float(string='N.W. KGS.', related="sale_line_id.n_w_kgs")
 
