@@ -450,6 +450,9 @@
                             <t t-set="sum_product_uom_qty" t-value="0"/>
                             <t t-set="sum_G_W_KGS" t-value="0"/>
                             <t t-set="sum_N_W_KGS" t-value="0"/>
+                            <t t-set="sum_WIDTH" t-value="0"/>
+                            <t t-set="sum_LENGTH" t-value="0"/>
+                            <t t-set="sum_HEIGHT" t-value="0"/>
                             <t t-set="SO_line" t-value="o.sale_order(o.origin,'order_line')"/>
                             <t t-foreach="SO_line" t-as="line">
                                 <tr align="middle">
@@ -471,13 +474,16 @@
                                         <span t-field="line.box_cost"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-
+                                        <t t-set="sum_WIDTH" t-value="sum_WIDTH+line.width"/>
+                                        <span t-field="line.width"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-
+                                        <t t-set="sum_LENGTH" t-value="sum_LENGTH+line.length"/>
+                                        <span t-field="line.length"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-
+                                        <t t-set="sum_HEIGHT" t-value="sum_HEIGHT+line.height"/>
+                                        <span t-field="line.height"/>
                                     </td>
                                     <td style="border: 1px solid black;">
                                         <t t-set="sum_G_W_KGS" t-value="sum_G_W_KGS+line.g_w_kgs"/>
@@ -517,13 +523,34 @@
                                     <span>-</span>
                                 </td>
                                 <td style="border: 1px solid black; color: white;">
-                                    <span>-</span>
+
+                                    <t t-if="sum_WIDTH == 0">
+                                        <span>-</span>
+                                    </t>
+                                    <t t-if="sum_WIDTH!= 0">
+                                        <span t-esc="sum_WIDTH"/>
+                                    </t>
+
                                 </td>
                                 <td style="border: 1px solid black; color: white;">
-                                    <span>-</span>
+
+                                    <t t-if="sum_LENGTH == 0">
+                                        <span>-</span>
+                                    </t>
+                                    <t t-if="sum_LENGTH!= 0">
+                                        <span t-esc="sum_LENGTH"/>
+                                    </t>
+
                                 </td>
                                 <td style="border: 1px solid black; color: white;">
-                                    <span>-</span>
+
+                                    <t t-if="sum_HEIGHT == 0">
+                                        <span>-</span>
+                                    </t>
+                                    <t t-if="sum_HEIGHT!= 0">
+                                        <span t-esc="sum_HEIGHT"/>
+                                    </t>
+
                                 </td>
                                 <td style="border: 1px solid black; color: white;">
                                     <t t-if="sum_G_W_KGS == 0">
