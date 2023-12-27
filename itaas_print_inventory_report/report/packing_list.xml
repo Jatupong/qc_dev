@@ -453,6 +453,8 @@
                             <t t-set="sum_WIDTH" t-value="0"/>
                             <t t-set="sum_LENGTH" t-value="0"/>
                             <t t-set="sum_HEIGHT" t-value="0"/>
+                            <t t-set="sum_CBM" t-value="0"/>
+                            <t t-set="total_CBM" t-value="0"/>
                             <t t-set="SO_line" t-value="o.sale_order(o.origin,'order_line')"/>
                             <t t-foreach="SO_line" t-as="line">
                                 <tr align="middle">
@@ -494,7 +496,11 @@
                                         <span t-field="line.n_w_kgs"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-
+                                        <t t-set="sum_CBM" t-value="((line.width * line.length) * line.height) + sum_CBM"/>
+<!--                                        <span t-field="line.n_w_kgs"/>-->
+<!--                                        <t t-esc="sum_CBM"/>-->
+                                        <span t-esc="'{0:,.2f}'.format(float(sum_CBM))"/>
+                                        <t t-set="total_CBM" t-value="total_CBM + sum_CBM"/>
                                     </td>
                                 </tr>
                             </t>
@@ -569,7 +575,13 @@
                                     </t>
                                 </td>
                                 <td style="border: 1px solid black; color: white;">
-                                    <span>ผลรวม</span>
+                                    <t t-if="total_CBM == 0">
+                                        <span>0</span>
+                                    </t>
+                                    <t t-if="total_CBM != 0">
+<!--                                        <span t-esc="total_CBM"/>-->
+                                         <span t-esc="'{0:,.2f}'.format(float(total_CBM))"/>
+                                    </t>
                                 </td>
                             </tr>
                         </tfoot>
@@ -673,6 +685,8 @@
             file="itaas_print_inventory_report.picking_list_id"
     />
 </odoo>
+
+
 
 
 
