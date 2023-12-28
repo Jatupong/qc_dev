@@ -126,14 +126,14 @@ class WizardPP30Report(models.TransientModel):
         sql = ("""
         SELECT EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
         EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year, 
-		case when aml.journal_id = %s 
+		case when am.journal_id = %s 
              then sum(aml.credit) + sum(aml.debit) end as export_amount,
-        case when aml.journal_id = %s
+        case when am.journal_id = %s
              then sum(aml.credit) + sum(aml.debit) end as internal_amount
         FROM account_move_line aml
         JOIN account_move am ON aml.move_id = am.id
         WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice'
-        GROUP BY am.tax_invoice_date, aml.journal_id;
+        GROUP BY aml_month, aml_year, am.journal_id;
         """)
         self._cr.execute(sql, (
             self.journal_export_id.id, self.journal_internal_id.id, date_from, date_to
@@ -141,57 +141,61 @@ class WizardPP30Report(models.TransientModel):
         results = self._cr.dictfetchall()
 
         self._cr.execute("""
-        SELECT 
-        EXTRACT(MONTH FROM aml.date) AS aml_month , 
-        EXTRACT(YEAR FROM aml.date) AS aml_year,
-        sum(aml.credit) + sum(aml.debit) AS price_subtotal
-        FROM account_move_line aml
-        JOIN account_move am ON aml.move_id = am.id
-        WHERE aml.journal_id = %s AND aml.price_subtotal != aml.price_total AND am.date BETWEEN %s AND %s AND am.state = 'posted'
-        GROUP BY aml_month, aml_year;""", (
+                SELECT 
+                    EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
+                    EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
+                    sum(aml.credit) + sum(aml.debit) AS price_subtotal
+                    FROM account_move_line aml
+                    JOIN account_move am ON aml.move_id = am.id
+                    WHERE am.journal_id = %s AND aml.display_type = 'product' 
+                    AND aml.price_subtotal != aml.price_total 
+                    AND am.tax_invoice_date BETWEEN %s AND %s AND am.state = 'posted'
+                    GROUP BY aml_month, aml_year;""", (
             self.journal_shop_sale_id.id, date_from, date_to))
         results_shop_sale_vat = self._cr.dictfetchall()
 
         self._cr.execute("""
                 SELECT 
-                EXTRACT(MONTH FROM aml.date) AS aml_month , 
-                EXTRACT(YEAR FROM aml.date) AS aml_year,
-                sum(aml.credit) + sum(aml.debit) AS price_subtotal
-                FROM account_move_line aml
-                JOIN account_move am ON aml.move_id = am.id
-                WHERE aml.journal_id = %s and aml.price_subtotal = aml.price_total and aml.date BETWEEN %s AND %s AND am.state = 'posted'
-                GROUP BY aml_month, aml_year;""", (
+                    EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
+                    EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
+                    sum(aml.credit) + sum(aml.debit) AS price_subtotal
+                    FROM account_move_line aml
+                    JOIN account_move am ON aml.move_id = am.id
+                    WHERE am.journal_id = %s AND aml.display_type = 'product' 
+                    AND aml.price_subtotal = aml.price_total 
+                    AND am.tax_invoice_date BETWEEN %s AND %s AND am.state = 'posted'
+                    GROUP BY aml_month, aml_year;""", (
             self.journal_shop_sale_id.id, date_from, date_to))
         results_shop_sale_no_vat = self._cr.dictfetchall()
 
         self._cr.execute("""
-                        SELECT 
-                        EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
-                        EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
-                        case when aml.display_type = 'product' 
-                             then sum(aml.credit) + sum(aml.debit) end as price_subtotal,
-                        case when aml.display_type = 'tax' 
-                                     then sum(aml.credit) + sum(aml.debit) end as amount_tax
-                        FROM account_move_line aml
-                        JOIN account_move am ON aml.move_id = am.id
-                        WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice' AND am.state = 'posted'
-                        GROUP BY aml_month, aml_year, aml.display_type;""", (
+                SELECT 
+                    EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
+                    EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
+                    case when aml.display_type = 'product' 
+                         then sum(aml.credit) + sum(aml.debit) end as price_subtotal,
+                    case when aml.display_type = 'tax' 
+                         then sum(aml.credit) + sum(aml.debit) end as amount_tax
+                    FROM account_move_line aml
+                    JOIN account_move am ON aml.move_id = am.id
+                    WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice' AND am.state = 'posted'
+                    GROUP BY aml_month, aml_year, aml.display_type;""", (
             date_from, date_to))
         results_sale_taxes = self._cr.dictfetchall()
 
         self._cr.execute("""
-            SELECT 
-                EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
-                EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
-                case when aml.display_type = 'product' 
-                             then sum(aml.credit) + sum(aml.debit) end as price_subtotal,
-                case when aml.display_type = 'tax' 
-                             then sum(aml.credit) + sum(aml.debit) end as amount_tax
-                FROM account_move_line aml
-                JOIN account_move am ON aml.move_id = am.id
-                WHERE am.tax_invoice_date BETWEEN %s AND %s AND
-                am.move_type = 'in_invoice' AND am.state = 'posted' AND aml.display_type in ('product','tax')
-                GROUP BY aml_month, aml_year, aml.display_type;""", (
+                SELECT 
+                    EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
+                    EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
+                    case when aml.display_type = 'product' 
+                                 then sum(aml.credit) + sum(aml.debit) end as price_subtotal,
+                    case when aml.display_type = 'tax' 
+                                 then sum(aml.credit) + sum(aml.debit) end as amount_tax
+                    FROM account_move_line aml
+                    JOIN account_move am ON aml.move_id = am.id
+                    WHERE am.tax_invoice_date BETWEEN %s AND %s AND
+                    am.move_type = 'in_invoice' AND am.state = 'posted' AND aml.display_type in ('product','tax')
+                    GROUP BY aml_month, aml_year, aml.display_type;""", (
             date_from, date_to))
         results_purchase = self._cr.dictfetchall()
 
@@ -209,6 +213,7 @@ class WizardPP30Report(models.TransientModel):
             results_shop_sale_no_vat_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_shop_sale_no_vat))
             results_sale_taxes_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_sale_taxes))
             results_purchase_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_purchase))
+
             export_amount = 0.0
             internal_amount = 0.0
             shop_sale_vat_amount = 0.0
