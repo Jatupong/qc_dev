@@ -126,12 +126,11 @@ class WizardPP30Report(models.TransientModel):
         sql = ("""
         SELECT EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
         EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year, 
-		case when am.journal_id = %s 
-             then sum(aml.credit) + sum(aml.debit) end as export_amount,
+		case when am.journal_id = %s
+             then sum(am.amount_total_signed) end as export_amount,
         case when am.journal_id = %s
-             then sum(aml.credit) + sum(aml.debit) end as internal_amount
-        FROM account_move_line aml
-        JOIN account_move am ON aml.move_id = am.id
+             then sum(am.amount_total_signed) end as internal_amount
+        FROM account_move am
         WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice'
         GROUP BY aml_month, aml_year, am.journal_id;
         """)
