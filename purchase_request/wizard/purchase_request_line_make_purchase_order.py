@@ -1,10 +1,10 @@
 # Copyright 2018-2019 ForgeFlow, S.L.
 # License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl-3.0).
-
 from datetime import datetime
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import get_lang
 
 
 class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
@@ -28,7 +28,11 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         domain=[("state", "=", "draft")],
     )
     sync_data_planned = fields.Boolean(
-        string="Merge on PO lines with equal Scheduled Date"
+        string="Match existing PO lines by Scheduled Date",
+        help=(
+            "When checked, PO lines on the selected purchase order are only reused "
+            "if the scheduled date matches as well."
+        ),
     )
 
     @api.model
@@ -38,7 +42,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "request_id": line.request_id.id,
             "product_id": line.product_id.id,
             "name": line.name or line.product_id.name,
-            "product_qty": line.pending_qty_to_receive,
+            "product_qty": line.pending_qty_to_receive - line.purchased_qty,
             "product_uom_id": line.product_uom_id.id,
         }
 
@@ -92,7 +96,9 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         self._check_valid_request_line(request_line_ids)
         self.check_group(request_lines)
         for line in request_lines:
-            items.append([0, 0, self._prepare_item(line)])
+            if line.product_qty - line.purchased_qty > 0:
+                items.append([0, 0, self._prepare_item(line)])
+            print('items',items)
         return items
 
     @api.model
@@ -111,23 +117,18 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             return res
         res["item_ids"] = self.get_items(request_line_ids)
         request_lines = self.env["purchase.request.line"].browse(request_line_ids)
+        print('request_lines',request_lines)
         supplier_ids = request_lines.mapped("supplier_id").ids
+        print('supplier_ids',supplier_ids)
         if len(supplier_ids) == 1:
             res["supplier_id"] = supplier_ids[0]
         return res
 
     @api.model
-    def _prepare_purchase_order(self, picking_type, group_id, company, origin,item=False):
-        print('itemmmmmmmmmmmmmmmmmmmmmmmmmm:',item)
-        print('itemmmmmmmmmmmmmmmmmmmmmmmmmm:',item.request_id)
-
-        sequence = item.request_id.purchase_request_type.po_type.sequence_id
-        name_seq = sequence.with_context(ir_sequence_date=item.request_id.date_start).next_by_id() or '/'
-
+    def _prepare_purchase_order(self, picking_type, group_id, company, origin):
         if not self.supplier_id:
             raise UserError(_("Enter a supplier."))
         supplier = self.supplier_id
-
         data = {
             "origin": origin,
             "partner_id": self.supplier_id.id,
@@ -137,34 +138,18 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "picking_type_id": picking_type.id,
             "company_id": company.id,
             "group_id": group_id.id,
-            "name": name_seq,
         }
         return data
 
-    @api.model
-    def _get_purchase_line_onchange_fields(self):
-        return ["product_uom", "price_unit", "name", "taxes_id"]
-
-    @api.model
-    def _execute_purchase_line_onchange(self, vals):
-        cls = self.env["purchase.order.line"]
-        onchanges_dict = {
-            "onchange_product_id": self._get_purchase_line_onchange_fields()
-        }
-        for onchange_method, changed_fields in onchanges_dict.items():
-            if any(f not in vals for f in changed_fields):
-                obj = cls.new(vals)
-                getattr(obj, onchange_method)()
-                for field in changed_fields:
-                    vals[field] = obj._fields[field].convert_to_write(obj[field], obj)
-
     def create_allocation(self, po_line, pr_line, new_qty, alloc_uom):
+        print('create_allocation_________')
         vals = {
             "requested_product_uom_qty": new_qty,
             "product_uom_id": alloc_uom.id,
             "purchase_request_line_id": pr_line.id,
             "purchase_line_id": po_line.id,
         }
+        print('valsvals',vals)
         return self.env["purchase.request.allocation"].create(vals)
 
     @api.model
@@ -182,31 +167,27 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         min_qty = item.line_id._get_supplier_min_qty(product, po.partner_id)
         qty = max(qty, min_qty)
         date_required = item.line_id.date_required
-        vals = {
-            "name": product.name,
+        return {
             "order_id": po.id,
             "product_id": product.id,
             "product_uom": product.uom_po_id.id or product.uom_id.id,
             "price_unit": 0.0,
             "product_qty": qty,
-            # "account_analytic_id": item.line_id.analytic_account_id.id,
+            "analytic_distribution": item.line_id.analytic_distribution,
             "purchase_request_lines": [(4, item.line_id.id)],
             "date_planned": datetime(
                 date_required.year, date_required.month, date_required.day
             ),
             "move_dest_ids": [(4, x.id) for x in item.line_id.move_dest_ids],
         }
-        # if item.line_id.analytic_tag_ids:
-        #     vals["analytic_tag_ids"] = [
-        #         (4, ati) for ati in item.line_id.analytic_tag_ids.ids
-        #     ]
-        self._execute_purchase_line_onchange(vals)
-        return vals
 
     @api.model
     def _get_purchase_line_name(self, order, line):
+        """Fetch the product name as per supplier settings"""
         product_lang = line.product_id.with_context(
-            lang=self.supplier_id.lang, partner_id=self.supplier_id.id
+            lang=get_lang(self.env, self.supplier_id.lang).code,
+            partner_id=self.supplier_id.id,
+            company_id=order.company_id.id,
         )
         name = product_lang.display_name
         if product_lang.description_purchase:
@@ -220,9 +201,9 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         order_line_data = [
             ("order_id", "=", order.id),
             ("name", "=", name),
-            ("product_id", "=", item.product_id.id or False),
+            ("product_id", "=", item.product_id.id),
             ("product_uom", "=", vals["product_uom"]),
-            # ("account_analytic_id", "=", item.line_id.analytic_account_id.id or False),
+            ("analytic_distribution", "=?", item.line_id.analytic_distribution),
         ]
         if self.sync_data_planned:
             date_required = item.line_id.date_required
@@ -242,14 +223,24 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
     def make_purchase_order(self):
         res = []
         purchase_obj = self.env["purchase.order"]
+        print('purchase_obj',purchase_obj)
         po_line_obj = self.env["purchase.order.line"]
+        print('po_line_obj',po_line_obj)
         pr_line_obj = self.env["purchase.request.line"]
+        print('pr_line_obj',pr_line_obj)
+        print('pr_line_obj',pr_line_obj.request_id)
         purchase = False
 
         for item in self.item_ids:
-            print('item',item.request_id)
             line = item.line_id
-            if item.product_qty <= 0.0:
+            print('lineline',line)
+            print('lineline',line.request_id)
+
+            print('lineline',line.product_qty)
+
+            request = line.request_id
+            # if item.product_qty <= 0.0:
+            if line.product_qty <= 0.0:
                 raise UserError(_("Enter a positive quantity."))
             if self.purchase_order_id:
                 purchase = self.purchase_order_id
@@ -259,18 +250,15 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     line.request_id.group_id,
                     line.company_id,
                     line.origin,
-                    item,
                 )
                 purchase = purchase_obj.create(po_data)
+                # request.update({'state':'done',
+                #     })
+
 
             # Look for any other PO line in the selected PO with same
             # product and UoM to sum quantities instead of creating a new
             # po line
-            purchase.update({
-                # 'requests_order_type':item.request_id.order_type,
-                'purchase_request_type': item.request_id.purchase_request_type,
-                'purchasing_type': item.request_id.purchasing_type,
-            })
             domain = self._get_order_line_search_domain(purchase, item)
             available_po_lines = po_line_obj.search(domain)
             new_pr_line = True
@@ -310,10 +298,14 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             new_qty = pr_line_obj._calc_new_qty(
                 line, po_line=po_line, new_pr_line=new_pr_line
             )
+            new_qty_change = line.product_qty - new_qty
+            print('new_qty',new_qty)
+            print('lineline', line.product_qty)
+            print('new_qty_change', line.product_qty - new_qty)
             po_line.product_qty = new_qty
-            po_line._compute_product_uom_qty()
-            # The onchange quantity is altering the scheduled date of the PO
-            # lines. We do not want that:
+            # The quantity update triggers a compute method that alters the
+            # unit price (which is what we want, to honor graduate pricing)
+            # but also the scheduled date which is what we don't want.
             date_required = item.line_id.date_required
             po_line.date_planned = datetime(
                 date_required.year, date_required.month, date_required.day
@@ -322,7 +314,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
 
         return {
             "domain": [("id", "in", res)],
-            "name": _("RFQ"),
+            "name": _("Draft PO"),
             "view_mode": "tree,form",
             "res_model": "purchase.order",
             "view_id": False,
@@ -359,7 +351,7 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
     )
     name = fields.Char(string="Description", required=True)
     product_qty = fields.Float(
-        string="Quantity to purchase", digits="Product Unit of Measure"
+        string="Quantity to purchase", digits="Product Unit of Measure",
     )
     product_uom_id = fields.Many2one(
         comodel_name="uom.uom", string="UoM", required=True
@@ -382,7 +374,7 @@ class PurchaseRequestLineMakePurchaseOrderItem(models.TransientModel):
                     "|",
                     ("product_id", "=", self.product_id.id),
                     ("product_tmpl_id", "=", self.product_id.product_tmpl_id.id),
-                    # ("name", "=", self.wiz_id.supplier_id.id),
+                    ("partner_id", "=", self.wiz_id.supplier_id.id),
                 ]
             )
             if sup_info_id:
