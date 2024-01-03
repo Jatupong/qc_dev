@@ -94,13 +94,13 @@
                         font-size: 12px;
                         line-height: 10px;
                         }
-                        .font_size_10{
-                        font-size: 10px;
-                        line-height: 8px;
-                        }
+<!--                        .font_size_10{-->
+<!--                        font-size: 10px;-->
+<!--                        line-height: 8px;-->
+<!--                        }-->
                     </style>
 
-                    <div class="font_size_10" style="text-align:right; padding-top:10px; padding-bottom:10px;">
+                    <div style="text-align:right; padding-top:10px; padding-bottom:10px; font-size:10px;">
                         <span t-field="o.company_id.proforma_invoice_no_form"/>
                         : <span t-esc="o.company_id._convert_format_full_month(context_timestamp(datetime.datetime.now()))"/>
                         <span>Page </span><span class="page"/> / <span class="topage"/>
