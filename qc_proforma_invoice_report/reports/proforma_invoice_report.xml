@@ -94,6 +94,10 @@
                         font-size: 12px;
                         line-height: 10px;
                         }
+                        .font_size_10{
+                        font-size: 10px;
+                        line-height: 8px;
+                        }
                     </style>
 
                     <div class="font_size_10" style="text-align:right; padding-top:10px; padding-bottom:10px;">
