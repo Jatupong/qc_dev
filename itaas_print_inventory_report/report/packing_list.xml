@@ -496,10 +496,10 @@
                                         <span t-field="line.n_w_kgs"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-                                        <t t-set="sum_CBM" t-value="(((line.width * line.length) * line.height) * line.box_cost) + sum_CBM"/>
+                                        <t t-set="sum_CBM" t-value="((((line.width * line.length) * line.height) / 1000000 ) *2 ) + sum_CBM"/>
                                         <!--                                        <span t-field="line.n_w_kgs"/>-->
                                         <!--<t t-esc="sum_CBM"/>-->
-                                        <span t-esc="'{0:,.2f}'.format(float(sum_CBM / 100))"/>
+                                        <span t-esc="'{0:,.5f}'.format(float(sum_CBM / 100))"/>
                                         <t t-set="total_CBM" t-value="total_CBM + (sum_CBM / 100)"/>
                                     </td>                                </tr>
                             </t>
@@ -579,7 +579,7 @@
                                     </t>
                                     <t t-if="total_CBM != 0">
                                         <!--                                        <span t-esc="total_CBM"/>-->
-                                        <span t-esc="'{0:,.2f}'.format(float(total_CBM))"/>
+                                        <span t-esc="'{0:,.5f}'.format(float(total_CBM))"/>
                                     </t>
                                 </td>
                             </tr>
