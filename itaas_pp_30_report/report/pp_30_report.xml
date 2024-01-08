@@ -200,10 +200,12 @@
                                     <span t-esc="data['month_th']"/>
                                 </td>
                                 <td align="right">
-                                    <span t-esc="data['export_amount']"/>
+<!--                                    <span t-esc="data['export_amount']"/>-->
+                                    <span t-esc="data['export_amount_untaxed']"/>
                                 </td>
                                 <td align="right">
-                                    <span t-esc="data['internal_amount']"/>
+<!--                                    <span t-esc="data['internal_amount']"/>-->
+                                    <span t-esc="data['internal_amount_untaxed']"/>
                                 </td>
                                 <td align="right">
                                     <span t-esc="data['shop_sale_vat_amount']"/>
