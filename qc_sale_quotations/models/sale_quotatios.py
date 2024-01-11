@@ -7,7 +7,7 @@ from odoo import api, fields, models, _
 class SaleQuotation(models.Model):
     _inherit = 'sale.order'
 
-    department = fields.Many2one(comodel_name='department.id', string='แผนก')
+    department = fields.Many2one(comodel_name='department.id', string='แผนก',store=False,)
     id_pp = fields.Char(string='PP No.')
     id_po = fields.Char(string='PO No.')
     w_load_product = fields.Char(string='Requested Week')
@@ -16,7 +16,7 @@ class SaleQuotation(models.Model):
 
 
     correction = fields.Char(string='Revision')
-    currency = fields.Char(string='Currency')
+    currency = fields.Char(string='Currency',store=False)
     container = fields.Char(string='Container Size')
     loading_type = fields.Many2one(comodel_name='loading.type', string='Loading Type')
     bar_code = fields.Char(string='BarCode')
