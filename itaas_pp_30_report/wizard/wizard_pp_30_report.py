@@ -249,8 +249,10 @@ class WizardPP30Report(models.TransientModel):
                 purchase_amount += res['price_subtotal'] or 0.0
                 purchase_taxes_amount += res['amount_tax'] or 0.0
 
-            income_amount = export_amount + internal_amount + shop_sale_vat_amount + shop_sale_no_vat_amount
-            sale_amount = export_amount + internal_amount
+            # income_amount = export_amount + internal_amount + shop_sale_vat_amount + shop_sale_no_vat_amount
+            income_amount = export_amount_untaxed + internal_amount_untaxed + shop_sale_vat_amount + shop_sale_no_vat_amount
+            # sale_amount = export_amount + internal_amount
+            sale_amount = export_amount_untaxed + internal_amount_untaxed
             return_vat_amount = purchase_taxes_amount - sale_taxes_amount
 
             value = {
