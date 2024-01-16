@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- currency.id : form -->
+
+    <record id="view_currency_id_form" model="ir.ui.view">
+        <field name="name">currency.id.form</field>
+        <field name="model">currency.id</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- currency.id : tree -->
+    <record id="view_currency_id_tree" model="ir.ui.view">
+         <field name="name">currency.id.tree</field>
+        <field name="model">currency.id</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <!-- currency.id : action -->
+    <record id="action_currency_id" model="ir.actions.act_window">
+        <field name="name">Currency</field>
+        <field name="res_model">currency.id</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_currency_id_tree"/>
+    </record>
+
+    <!-- currency.id : menu -->
+    <menuitem id="menu_currency_id"
+              name="Currency"
+              parent="sale.menu_sale_config"
+              sequence="107"
+              action="action_currency_id"/>
+</odoo>
