@@ -39,7 +39,7 @@ class SaleOrder(models.Model):
     attn_id = fields.Many2one('res.partner', string="Attn")
     cc_id = fields.Many2one('res.partner', string="CC")
 
-    delivery_exp_date = fields.Date(string="วันหมดอายุส่งมอบ")
+    delivery_exp_date = fields.Date(string="วันหมดอายุส่งมอบ",store=False,)
 
     delivery_date = fields.Datetime(string="Delivery Date" ,readonly=True ,compute='_compute_deliverydate')
 

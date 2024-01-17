@@ -32,15 +32,15 @@
 
                     <table style="font-family:TH SarabunPSK;src:url(/itaas_print_inventory_report/static/THSarabun.ttf); font-size: 22px;border:0px solid white" width="100%">
                             <tr>
-                                <td align="right" style="font-size: 10px;" width="100%" >
+                                <td align="right" style="font-size: 10px;" width="100%">
                                     <span t-field="o.company_id.packing_list"/>
 <!--                                    <span>REV:1 1 January 2021</span>-->
                                 </td>
                             </tr>
-                            <tr >
-                            <td width="100%" class="text-center" align="center" style='border:0px solid white'>
+                            <tr>
+                            <td width="100%" class="text-center" align="center" style="border:0px solid white">
                                 <!--                                <div style="width:500px; word-wrap: break-word;">-->
-                                <font style="font-size: 18px;border:0px solid white" >
+                                <font style="font-size: 18px;border:0px solid white">
                                     <!--                                        <font style="font-size: 16px;">-->
                                     <span t-field="o.company_id.english_name"/>
 
@@ -156,8 +156,8 @@
                             </td>
 
                             <td width="45%">
-                                <table width="100%" style='border:0px solid white'>
-                                    <tr style="height:30px;" >
+                                <table width="100%" style="border:0px solid white">
+                                    <tr style="height:30px;">
                                         <td style="line-height:15px;" width="15%">
                                             <div/>
                                         </td>
@@ -496,10 +496,10 @@
                                         <span t-field="line.n_w_kgs"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-                                        <t t-set="sum_CBM" t-value="((line.width * line.length) * line.height) + sum_CBM"/>
+                                        <t t-set="sum_CBM" t-value="((((line.width * line.length) * line.height) / 1000000 ) * line.box_cost ) + sum_CBM"/>
 <!--                                        <span t-field="line.n_w_kgs"/>-->
 <!--                                        <t t-esc="sum_CBM"/>-->
-                                        <span t-esc="'{0:,.2f}'.format(float(sum_CBM))"/>
+                                        <span t-esc="'{0:,.5f}'.format(float(sum_CBM))"/>
                                         <t t-set="total_CBM" t-value="total_CBM + sum_CBM"/>
                                     </td>
                                 </tr>
@@ -580,7 +580,7 @@
                                     </t>
                                     <t t-if="total_CBM != 0">
 <!--                                        <span t-esc="total_CBM"/>-->
-                                         <span t-esc="'{0:,.2f}'.format(float(total_CBM))"/>
+                                         <span t-esc="'{0:,.5f}'.format(float(total_CBM))"/>
                                     </t>
                                 </td>
                             </tr>

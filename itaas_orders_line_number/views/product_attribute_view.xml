@@ -15,6 +15,9 @@
                 <xpath expr="//field[@name='attribute_line_ids']/tree/field[@name='value_count']" position="after">
                     <field name="number" string="No." readonly="1" force_save="1"/>
                 </xpath>
+                <xpath expr="//field[@name='default_code']" position="attributes">
+                     <attribute name="attrs">{}</attribute>
+                </xpath>
 
             </field>
         </record>

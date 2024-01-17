@@ -129,14 +129,23 @@ class WizardPP30Report(models.TransientModel):
 		case when am.journal_id = %s
              then sum(am.amount_total_signed) end as export_amount,
         case when am.journal_id = %s
-             then sum(am.amount_total_signed) end as internal_amount
+             then sum(am.amount_total_signed) end as internal_amount, 
+        case when am.journal_id = %s
+             then sum(am.amount_untaxed) end as export_amount_untaxed,
+        case when am.journal_id = %s
+             then sum(am.amount_untaxed) end as internal_amount_untaxed
         FROM account_move am
         WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice'
         GROUP BY aml_month, aml_year, am.journal_id;
         """)
+        print('sqlsql',sql)
         self._cr.execute(sql, (
+            # self.journal_export_id.id, self.journal_internal_id.id, date_from, date_to,
+            self.journal_export_id.id, self.journal_internal_id.id,
             self.journal_export_id.id, self.journal_internal_id.id, date_from, date_to
+
         ))
+
         results = self._cr.dictfetchall()
 
         self._cr.execute("""
@@ -208,6 +217,7 @@ class WizardPP30Report(models.TransientModel):
 
         for date in date_results:
             result_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results))
+            print('result_by_date',result_by_date)
             results_shop_sale_vat_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_shop_sale_vat))
             results_shop_sale_no_vat_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_shop_sale_no_vat))
             results_sale_taxes_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_sale_taxes))
@@ -220,10 +230,15 @@ class WizardPP30Report(models.TransientModel):
             sale_taxes_amount = 0.0
             purchase_taxes_amount = 0.0
             purchase_amount = 0.0
+            export_amount_untaxed = 0.0
+            internal_amount_untaxed = 0.0
 
             for res in result_by_date:
+                print('resres',res)
                 export_amount += res['export_amount'] or 0.0
                 internal_amount += res['internal_amount'] or 0.0
+                export_amount_untaxed += res['export_amount_untaxed'] or 0.0
+                internal_amount_untaxed += res['internal_amount_untaxed'] or 0.0
             for res in results_shop_sale_vat_by_date:
                 shop_sale_vat_amount += res['price_subtotal'] or 0.0
             for res in results_shop_sale_no_vat_by_date:
@@ -234,14 +249,18 @@ class WizardPP30Report(models.TransientModel):
                 purchase_amount += res['price_subtotal'] or 0.0
                 purchase_taxes_amount += res['amount_tax'] or 0.0
 
-            income_amount = export_amount + internal_amount + shop_sale_vat_amount + shop_sale_no_vat_amount
-            sale_amount = export_amount + internal_amount
+            # income_amount = export_amount + internal_amount + shop_sale_vat_amount + shop_sale_no_vat_amount
+            income_amount = export_amount_untaxed + internal_amount_untaxed + shop_sale_vat_amount + shop_sale_no_vat_amount
+            # sale_amount = export_amount + internal_amount
+            sale_amount = export_amount_untaxed + internal_amount_untaxed
             return_vat_amount = purchase_taxes_amount - sale_taxes_amount
 
             value = {
                 'month_th': date['month_th'],
                 'export_amount': '{0:,.2f}'.format(export_amount),
                 'internal_amount': '{0:,.2f}'.format(internal_amount),
+                'export_amount_untaxed': '{0:,.2f}'.format(export_amount_untaxed),
+                'internal_amount_untaxed': '{0:,.2f}'.format(internal_amount_untaxed),
                 'shop_sale_vat_amount': '{0:,.2f}'.format(shop_sale_vat_amount),
                 'shop_sale_no_vat_amount': '{0:,.2f}'.format(shop_sale_no_vat_amount),
                 'income_amount': '{0:,.2f}'.format(income_amount),
@@ -353,6 +372,7 @@ class WizardPP30ReportXls(models.AbstractModel):
         worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'ยอดรับคืนภาษี', for_center_bold_border)
         i_row += 1
 
+
         data_results = lines._get_result_report()
 
         for data in data_results:
@@ -360,9 +380,11 @@ class WizardPP30ReportXls(models.AbstractModel):
             i_col = 0
             worksheet.write(i_row, i_col, data['month_th'], for_left_border)
             i_col += 1
-            worksheet.write(i_row, i_col, data['export_amount'], for_right_border_num_format)
+            worksheet.write(i_row, i_col, data['export_amount_untaxed'], for_right_border_num_format)
+            # worksheet.write(i_row, i_col, data['export_amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, data['internal_amount'], for_right_border_num_format)
+            worksheet.write(i_row, i_col, data['internal_amount_untaxed'], for_right_border_num_format)
+            # worksheet.write(i_row, i_col, data['internal_amount'], for_right_border_num_format)
             i_col += 1
             worksheet.write(i_row, i_col, data['shop_sale_vat_amount'], for_right_border_num_format)
             i_col += 1

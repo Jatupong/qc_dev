@@ -8,3 +8,4 @@ from . import loading_type
 from . import urgent_need
 from . import want_to_deliver
 from . import Importance_view
+# from . import currency_view

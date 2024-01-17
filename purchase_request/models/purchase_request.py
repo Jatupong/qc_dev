@@ -9,7 +9,7 @@ _STATES = [
     ("to_approve", "To be approved"),
     ("approved", "Approved"),
     ("rejected", "Rejected"),
-    # ("done", "Done"),
+    ("done", "Done"),
 ]
 
 
@@ -20,7 +20,6 @@ class PurchaseRequest(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
     _order = "id desc"
 
-    active = fields.Boolean(default=True)
     @api.model
     def _company_get(self):
         return self.env["res.company"].browse(self.env.company.id)
@@ -32,9 +31,6 @@ class PurchaseRequest(models.Model):
     @api.model
     def _get_default_name(self):
         return self.env["ir.sequence"].next_by_code("purchase.request")
-
-
-
 
     @api.model
     def _default_picking_type(self):
@@ -156,25 +152,26 @@ class PurchaseRequest(models.Model):
         store=True,
     )
 
-    cost_center = fields.Many2one(
-        comodel_name="account.analytic.account",
-        string="Cost Center"
-    )
-
-    purchase_request_type = fields.Many2one('purchase.request.type', string="Purchase Request Types" ,required=True)
-    purchasing_type = fields.Many2one('purchasing.type', string="Purchasing Types")
-    order_type = fields.Many2one('order.type', string="Order Type")
-    requests_order_type = fields.Many2one('order.type', string="Order Type")
-
-
-
     @api.depends("line_ids", "line_ids.estimated_cost")
     def _compute_estimated_cost(self):
         for rec in self:
-            total_estimate_cost = 0
+            estimate_cost = 0
             for line in rec.line_ids:
-                total_estimate_cost += line.estimated_cost * line.product_qty
-            rec.estimated_cost = total_estimate_cost
+                estimate_cost += line.estimated_cost * line.product_qty
+
+            rec.estimated_cost = estimate_cost
+
+    # @api.onchange('requested_by')
+    # def onchange_requested_by(self):
+    #     # self.assigned_to = self.activity_id.employee_id.department_id.name
+
+    @api.onchange("requested_by")
+    def onchange_requested_by(self):
+        print('onchange_requested_by')
+        self.department_id_1 = self.requested_by.department_id.id
+        if not self.department_id_1:
+            self.department_id_1 = False
+        print('self.department_id_1',self.department_id_1)
 
     @api.depends("line_ids")
     def _compute_purchase_count(self):
@@ -255,18 +252,19 @@ class PurchaseRequest(models.Model):
         user_id = request.assigned_to or self.env.user
         return user_id.partner_id.id
 
-    @api.model
-    def create(self, vals):
-        if vals.get("name", _("New")) == _("New"):
-            vals["name"] = self._get_default_name()
-        request = super(PurchaseRequest, self).create(vals)
-        if vals.get("assigned_to"):
-            partner_id = self._get_partner_id(request)
-            request.message_subscribe(partner_ids=[partner_id])
-        return request
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("name", _("New")) == _("New"):
+                vals["name"] = self._get_default_name()
+        requests = super(PurchaseRequest, self).create(vals_list)
+        for vals, request in zip(vals_list, requests):
+            if vals.get("assigned_to"):
+                partner_id = self._get_partner_id(request)
+                request.message_subscribe(partner_ids=[partner_id])
+        return requests
 
     def write(self, vals):
-        print ('WRITE1-001')
         res = super(PurchaseRequest, self).write(vals)
         for request in self:
             if vals.get("assigned_to"):
@@ -286,6 +284,11 @@ class PurchaseRequest(models.Model):
                 )
         return super(PurchaseRequest, self).unlink()
 
+
+
+    def state_all(self,purchase_count):
+        print('self',self)
+        print('purchase_count',purchase_count)
     def button_draft(self):
         self.mapped("line_ids").do_uncancel()
         return self.write({"state": "draft"})
