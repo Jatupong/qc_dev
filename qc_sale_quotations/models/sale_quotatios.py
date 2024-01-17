@@ -16,7 +16,8 @@ class SaleQuotation(models.Model):
 
 
     correction = fields.Char(string='Revision')
-    currency = fields.Many2one(comodel_name='currency.id', string='Currency', store=False)
+    # currency = fields.Many2one(comodel_name='res.currency', string='Currency', store=False)
+    currency = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
     container = fields.Char(string='Container Size')
     loading_type = fields.Many2one(comodel_name='loading.type', string='Loading Type')
     bar_code = fields.Char(string='BarCode')
