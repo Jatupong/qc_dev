@@ -335,19 +335,19 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/THSarabun.ttf")
                         format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/THSarabun.ttf")
                         format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/THSarabun.ttf")
                         format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
@@ -373,7 +373,7 @@
                         margin-bottom:5px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        src: local('United'),url("/itaas_print_inventory_report/static/font/THSarabun.ttf")
                         format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
@@ -481,7 +481,7 @@
                         }
                     </style>
 
-                    <t t-set="max_body_height" t-value="150"/>
+                    <t t-set="max_body_height" t-value="120"/>
                     <t t-set="new_line_height" t-value="2"/>
                     <t t-set="row_line_height" t-value="2"/>
                     <t t-set="max_line_lenght" t-value="10"/>
@@ -992,19 +992,19 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/THSarabun.ttf")
                         format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/THSarabun.ttf")
                         format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/THSarabun.ttf")
                         format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
@@ -1030,7 +1030,7 @@
                         margin-bottom:5px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/THSarabun.ttf")
                         format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
