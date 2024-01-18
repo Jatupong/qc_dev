@@ -343,7 +343,7 @@
                                                 <span t-esc="inv.amount_total"/>
                                             </td>
                                             <td>
-                                                <t t-if="inv.currency_id">
+                                                <t t-if="inv.currency_id and inv.invoice_date">
                                                     <t t-set="currency_rate" t-value="inv.currency_id._get_rates(inv.company_id, inv.invoice_date)"/>
                                                     <t t-if="currency_rate">
                                                         <span t-esc="currency_rate"/>
