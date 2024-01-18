@@ -19,7 +19,7 @@
 
             <xpath expr="//field[@name='payment_term_id']" position="after">
                 <field name="correction"/>
-                <field name="currency"/>
+                <field name="currency_id" modifiers="{}"/>
                 <field name="container"/>
                 <field name="loading_type"/>
                 <field name="bar_code"/>
