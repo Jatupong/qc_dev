@@ -22,3 +22,4 @@
     "application": True,
     "auto_install": False,
 }
+
