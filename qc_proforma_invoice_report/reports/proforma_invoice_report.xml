@@ -418,7 +418,7 @@
                                 <th colspan="2"><span>Quantity</span></th>
                                 <th rowspan="2">
                                     <span>Unit Price<br/>
-                                        <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                        <t t-if="o.currency_id"><span t-field="o.currency_id"/></t>
                                         <t t-else=""><span t-field="o.currency_id"/></t>
                                     </span>
                                 </th>
@@ -476,7 +476,7 @@
                             </tr>
                             <tr>
                                 <td colspan="6" align="center"><B>GRAND TOTAL (</B>
-                                    <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                    <t t-if="o.currency_id"><span t-field="o.currency_id"/></t>
                                     <t t-else=""><span t-field="o.currency_id"/></t>
                                     <B>)</B></td>
                                 <td colspan="2" align="right">
@@ -486,7 +486,7 @@
                             <tr>
                                 <td colspan="8">
                                     <span>(</span>
-                                    <t t-if="o.currency"><span t-field="o.currency"/></t>
+                                    <t t-if="o.currency_id"><span t-field="o.currency_id"/></t>
                                     <t t-else=""><span t-field="o.currency_id"/></t>  :  <span t-esc="o.company_id.num2_words(o.amount_total)"/><span>)</span>
 
                                 </td>
