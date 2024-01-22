@@ -23,7 +23,8 @@
     'depends': ['stock', 'itaas_company_detail_address', 'itaas_image_signature'],
     'data': [
 
-        'views/res_config_settings_view.xml',
+        # 'views/res_config_settings_view.xml',
+        
         # 'report/internal_transfer_report.xml',
         'report/delivery_report.xml',
         # 'report/receipt_report.xml',
