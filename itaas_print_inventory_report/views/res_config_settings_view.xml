@@ -6,45 +6,45 @@
         <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
         <field name="arch" type="xml">
 
-<!--            <xpath expr="//div[@data-key='stock']" position="inside">-->
-<!--                <h2 class="mt32">Reports</h2>-->
-<!--                <div class="row mt16 o_settings_container" id="connectors_setting_container">-->
-<!--                    <div class="col-12 col-lg-6 o_setting_box" id="internal_transfer_no_form">-->
-<!--                        <div class="o_setting_left_pane"/>-->
-<!--                        <div class="o_setting_right_pane">-->
-<!--                            <span class="o_form_label">Internal Transfer No. Form</span>-->
-<!--                            <div class="text-muted">-->
-<!--                                <field name="internal_transfer_no_form"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-12 col-lg-6 o_setting_box" id="delivery_no_form">-->
-<!--                        <div class="o_setting_left_pane"/>-->
-<!--                        <div class="o_setting_right_pane">-->
-<!--                            <span class="o_form_label">Delivery No. Form</span>-->
-<!--                            <div class="text-muted">-->
-<!--                                <field name="internal_transfer_no_form"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-12 col-lg-6 o_setting_box" id="receipt_no_form">-->
-<!--                        <div class="o_setting_left_pane"/>-->
-<!--                        <div class="o_setting_right_pane">-->
-<!--                            <span class="o_form_label">Receipt No. Form</span>-->
-<!--                            <div class="text-muted">-->
-<!--                                <field name="receipt_no_form"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-12 col-lg-6 o_setting_box" id="return_in_form">-->
-<!--                        <div class="o_setting_left_pane"/>-->
-<!--                        <div class="o_setting_right_pane">-->
-<!--                            <span class="o_form_label">Return In No. Form</span>-->
-<!--                            <div class="text-muted">-->
-<!--                                <field name="return_in_form"/>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+            <xpath expr="//div[@data-key='stock']" position="inside">
+                <h2 class="mt32">Reports</h2>
+                <div class="row mt16 o_settings_container" id="connectors_setting_container">
+                    <div class="col-12 col-lg-6 o_setting_box" id="internal_transfer_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Internal Transfer No. Form</span>
+                            <div class="text-muted">
+                                <field name="internal_transfer_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="delivery_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Delivery No. Form</span>
+                            <div class="text-muted">
+                                <field name="internal_transfer_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="receipt_no_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Receipt No. Form</span>
+                            <div class="text-muted">
+                                <field name="receipt_no_form"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6 o_setting_box" id="return_in_form">
+                        <div class="o_setting_left_pane"/>
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Return In No. Form</span>
+                            <div class="text-muted">
+                                <field name="return_in_form"/>
+                            </div>
+                        </div>
+                    </div>
 <!--                    <div class="col-12 col-lg-6 o_setting_box" id="return_out_form">-->
 <!--                        <div class="o_setting_left_pane"/>-->
 <!--                        <div class="o_setting_right_pane">-->
@@ -81,8 +81,8 @@
 <!--                            </div>-->
 <!--                        </div>-->
 <!--                    </div>-->
-<!--                </div>-->
-<!--            </xpath>-->
+                </div>
+            </xpath>
 
         </field>
     </record>
