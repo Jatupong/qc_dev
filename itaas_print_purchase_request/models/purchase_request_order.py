@@ -19,8 +19,8 @@ from datetime import datetime, timedelta
 class purchase_request(models.Model):
     _inherit = "purchase.request"
 
+
     department_id = fields.Many2one('hr.department', string="Department")
-    
 
     def get_lines(self, data, max_line):
         # this function will count number of \n
