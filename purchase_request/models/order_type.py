@@ -4,14 +4,10 @@
 from odoo import api, fields, models
 
 
-class PurchaseRequestType(models.Model):
-    _name = "purchase.request.type"
-    _description = "Type of purchase request"
+class OrderType(models.Model):
+    _name = "order.type"
+    _description = "Type of purchasing"
     _order = "sequence"
-
-
-    po_type = fields.Many2one('purchase.order.type', string="Purchase Order Types")
-
 
     @api.model
     def _get_domain_sequence_id(self):

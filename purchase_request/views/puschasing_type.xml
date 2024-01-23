@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <record id="view_purchase_request_type_tree" model="ir.ui.view">
-        <field name="model">purchase.request.type</field>
+    <record id="view_purchasing_type_tree" model="ir.ui.view">
+        <field name="model">purchasing.type</field>
         <field name="arch" type="xml">
-            <tree name="Purchase Request Types" decoration-muted="active == False">
+            <tree name="Purchasing Types" decoration-muted="active == False">
                 <field name="sequence" widget="handle" />
                 <field name="active" invisible="True" />
                 <field name="name" />
@@ -15,8 +15,8 @@
             </tree>
         </field>
     </record>
-    <record id="view_purchase_request_type_form" model="ir.ui.view">
-        <field name="model">purchase.request.type</field>
+    <record id="view_purchasing_type_form" model="ir.ui.view">
+        <field name="model">purchasing.type</field>
         <field name="arch" type="xml">
             <form string="Type">
                 <sheet>
@@ -37,9 +37,6 @@
                     <group>
                         <group>
                             <field name="sequence_id" />
-                            <field name="po_type"/>
-
-
                             <field
                                     name="company_id"
                                     groups="base.group_multi_company"
@@ -57,10 +54,10 @@
             </form>
         </field>
     </record>
-    <record id="view_purchase_request_type_search" model="ir.ui.view">
-        <field name="model">purchase.request.type</field>
+    <record id="view_purchasing_type_search" model="ir.ui.view">
+        <field name="model">purchasing.type</field>
         <field name="arch" type="xml">
-            <search string="Purchase Request Types">
+            <search string="Purchasing Types">
                 <field name="name" />
                 <field name="sequence_id" />
                 <field name="payment_term_id" />
@@ -95,13 +92,13 @@
             </search>
         </field>
     </record>
-    <record model="ir.actions.act_window" id="action_purchase_request_type_view">
-        <field name="name">Purchase Request Types</field>
+    <record model="ir.actions.act_window" id="action_purchasing_type_view">
+        <field name="name">Purchasing Types</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">purchase.request.type</field>
+        <field name="res_model">purchasing.type</field>
         <field name="view_mode">form,tree</field>
-        <field name="view_id" ref="view_purchase_request_type_tree" />
-        <field name="search_view_id" ref="view_purchase_request_type_search" />
+        <field name="view_id" ref="view_purchasing_type_tree" />
+        <field name="search_view_id" ref="view_purchasing_type_search" />
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click to set a new type for purchase order.
@@ -109,20 +106,13 @@
         </field>
     </record>
     <menuitem
-            id="menu_purchase_request_type"
+            id="menu_purchasing_type"
             parent="purchase_request.menu_purchase_request"
-            sequence="40"
-            action="action_purchase_request_type_view"
+            sequence="50"
+            action="action_purchasing_type_view"
     />
 
 
-    <record id="seq_purchase_request" model="ir.sequence">
-        <field name="name">Purchase Request</field>
-        <field name="code">purchase.request</field>
-        <field name="prefix">P</field>
-        <field name="padding">5</field>
-        <field name="company_id" eval="False"/>
-    </record>
 
 
 
