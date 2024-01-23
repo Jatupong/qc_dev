@@ -18,12 +18,8 @@
                     <field name="group_customers" />
                 </xpath>
 
-            <xpath expr="//field[@name='ref']" position="attributes">
-                     <attribute name="attrs">{}</attribute>
-            </xpath>
+
             </field>
         </record>
-
-
 
 </odoo>

@@ -2,7 +2,7 @@
 <odoo>
     <template id="qc_proforma_invoice_report_id" >
 
-          <t t-foreach="docs" t-as="o">
+        <t t-foreach="docs" t-as="o">
             <t t-call="web.basic_layout">
                 <div class="header">
                     <style>
@@ -90,17 +90,13 @@
                         font-size: 14px;
                         line-height: 12px;
                         }
-                        .font_size_12{
-                        font-size: 12px;
-                        line-height: 10px;
+                        .font_size_10{
+                        font-size: 10px;
+                        line-height: 8px;
                         }
-<!--                        .font_size_10{-->
-<!--                        font-size: 10px;-->
-<!--                        line-height: 8px;-->
-<!--                        }-->
                     </style>
 
-                    <div style="text-align:right; padding-top:10px; padding-bottom:10px; font-size:10px;">
+                    <div class="font_size_10" style="text-align:right; padding-top:10px; padding-bottom:10px;">
                         <span t-field="o.company_id.proforma_invoice_no_form"/>
                         : <span t-esc="o.company_id._convert_format_full_month(context_timestamp(datetime.datetime.now()))"/>
                         <span>Page </span><span class="page"/> / <span class="topage"/>
@@ -110,30 +106,16 @@
                             <td width="15%" style="vertical-align: middle;">
                                 <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:70px; max-width:70px;" alt="Logo"/>
                             </td>
-
                             <td width="45%" style="vertical-align: middle;">
-                                <div style="width:350px; word-wrap: break-word; padding-top: 5px;">
-                                  <font class="font_size_20">
+                                <div style="width:350px; word-wrap: break-word;">
+                                    <font class="font_size_20">
                                         <p>
                                             <B>
                                                 <span t-field="o.company_id.name"/>&amp;nbsp;
                                             </B>
                                         </p>
                                     </font>
-                                </div>
-
-
-                                <div style="width:350px; word-wrap: break-word;">
-
-                                    <!--<font class="font_size_20">-->
-                                    <!--    <p>-->
-                                    <!--        <B>-->
-                                    <!--            <span t-field="o.company_id.name"/>&amp;nbsp;-->
-                                    <!--        </B>-->
-                                    <!--    </p>-->
-                                    <!--</font>-->
-
-                                    <font class="font_size_12">
+                                    <font class="font_size_14">
                                         <p>
                                             <span t-if="o.company_id.english_address"><span t-field="o.company_id.english_address"/></span>
                                             <span t-if="o.company_id.phone"><br/>Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
@@ -142,7 +124,6 @@
                                     </font>
                                 </div>
                             </td>
-
                             <td width="40%" style="text-align:center; vertical-align: bottom;">
                                 <div class="font_size_28">
                                     <strong>PROFORMA INVOICE</strong>
@@ -159,7 +140,7 @@
                                         <td><B>Date</B></td>
                                         <td colspan="3">
                                             <B>: </B>
-                                            <span t-field="o.date_order" t-options="{'widget': 'date'}"/></td>
+                                            <span t-field="o.date_order"/></td>
                                     </tr>
                                     <tr>
                                         <td><B>To</B></td>
@@ -215,10 +196,9 @@
                                         </td>
                                     </tr>
                                     <tr>
-
                                         <td><B>Backstamp</B></td>
                                         <td>
-                                           : <span t-field="o.logo"/>
+                                            <B>: </B>
                                         </td>
                                     </tr>
                                 </table>
@@ -253,7 +233,7 @@
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
                                         <td width="30%"><B>Shipping Mark</B></td>
-                                        <td width="70%" colspan="3"><B>: </B><span t-field="o.shipping_mark"/></td>
+                                        <td width="70%" colspan="3"><B>: </B></td>
                                     </tr>
                                 </table>
                             </td>
@@ -407,8 +387,10 @@
                         line-height: 12px;
                         }
                     </style>
+
                     <t t-set="num" t-value="0"/>
-                    <table class="table table-bordered-b font_fam font_size_14" style="height:130mm; ">
+
+                    <table class="table table-bordered-b font_fam font_size_14" style="height:200mm; ">
                         <thead>
                             <tr>
                                 <th rowspan="2"><span>NO</span></th>
@@ -418,7 +400,7 @@
                                 <th colspan="2"><span>Quantity</span></th>
                                 <th rowspan="2">
                                     <span>Unit Price<br/>
-                                        <t t-if="o.currency_id"><span t-field="o.currency_id"/></t>
+                                        <t t-if="o.currency"><span t-field="o.currency"/></t>
                                         <t t-else=""><span t-field="o.currency_id"/></t>
                                     </span>
                                 </th>
@@ -476,7 +458,7 @@
                             </tr>
                             <tr>
                                 <td colspan="6" align="center"><B>GRAND TOTAL (</B>
-                                    <t t-if="o.currency_id"><span t-field="o.currency_id"/></t>
+                                    <t t-if="o.currency"><span t-field="o.currency"/></t>
                                     <t t-else=""><span t-field="o.currency_id"/></t>
                                     <B>)</B></td>
                                 <td colspan="2" align="right">
@@ -486,7 +468,7 @@
                             <tr>
                                 <td colspan="8">
                                     <span>(</span>
-                                    <t t-if="o.currency_id"><span t-field="o.currency_id"/></t>
+                                    <t t-if="o.currency"><span t-field="o.currency"/></t>
                                     <t t-else=""><span t-field="o.currency_id"/></t>  :  <span t-esc="o.company_id.num2_words(o.amount_total)"/><span>)</span>
 
                                 </td>
@@ -671,13 +653,13 @@
                     <table class="table table-bordered-b font_fam font_size_16">
                         <tr>
                             <td width="33%" align="center">
-                                <div style="height:30px;">
+                                <div style="height:40px;">
 
                                 </div>
                                 <span>Authorized Signature (Buyer)</span>
                             </td>
                             <td width="33%" align="center">
-                                <div style="height:30px;">
+                                <div style="height:40px;">
 
                                 </div>
                                 <span>Quality Ceramic Co.,Ltd</span>
@@ -711,4 +693,3 @@
     </template>
 
 </odoo>
-

@@ -7,7 +7,7 @@
         <field name="model">purchase.request.line.make.purchase.order</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
-            <form string="Create Draft PO">
+            <form string="Create RFQ">
                 <separator string="Existing RFQ to update:" />
                 <newline />
                 <group>
@@ -33,17 +33,11 @@
                                 invisible="1"
                             />
                             <field name="request_id" attrs="{'readonly': True}" />
-                            <field name="product_id"/>
+                            <field name="product_id" />
                             <field name="name" />
-                            <field name="product_qty"/>
-                            <field
-                                name="product_uom_id"
-                                invisible="1"
-                                groups="!uom.group_uom"
-                            />
+                            <field name="product_qty" />
                             <field name="product_uom_id" groups="uom.group_uom" />
-<!--                            <field name="keep_description" widget="boolean_toggle" />-->
-                            <field name="keep_description"/>
+                            <field name="keep_description" widget="boolean_toggle" />
                         </tree>
                     </field>
                 </group>
@@ -51,7 +45,7 @@
                 <footer>
                     <button
                         name="make_purchase_order"
-                        string="Create Draft PO"
+                        string="Create RFQ"
                         type="object"
                         class="oe_highlight"
                     />
@@ -64,7 +58,7 @@
         id="action_purchase_request_line_make_purchase_order"
         model="ir.actions.act_window"
     >
-        <field name="name">Create Draft PO</field>
+        <field name="name">Create RFQ</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">purchase.request.line.make.purchase.order</field>
         <field name="view_mode">form</field>

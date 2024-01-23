@@ -114,14 +114,12 @@ class StockRule(models.Model):
             )
             pr = purchase_request_model.create(request_data)
             cache[domain] = pr
-        elif (
-            not pr.origin
-            or procurement.origin not in pr.origin.split(", ")
-            and procurement.origin != "/"
-        ):
+        elif not pr.origin or procurement.origin not in pr.origin.split(", "):
             if pr.origin:
                 if procurement.origin:
                     pr.write({"origin": pr.origin + ", " + procurement.origin})
+                else:
+                    pr.write({"origin": pr.origin})
             else:
                 pr.write({"origin": procurement.origin})
         # Create Line

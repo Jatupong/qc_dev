@@ -179,7 +179,7 @@
                                         <table width="100%" class="font_fam table table-nobordered font_size_14">
                                                 <tr>
                                                         <td width="15%">เลขที่สั่งผลิต</td>
-                                                        <td width="35%">: <span t-esc="o._get_mr_number(o.name)"/></td>
+                                                        <td width="35%">: </td>
                                                         <td width="15%">วันที่</td>
                                                         <td width="35%">:
                                                                 <span t-field="o.date_order"/>
@@ -198,14 +198,11 @@
                                                 <tr>
                                                         <td>P/O No.</td>
                                                         <td>:
-                                                                <t t-if="o.id_po">
-                                                                        <span t-field="o.id_po"/>
-                                                                </t>
-
+                                                                <span t-field="o.id_po"/>
                                                         </td>
                                                         <td>P/I No.</td>
                                                         <td>:
-                                                                <span t-field="o.name"/>
+                                                                <span t-field="o.id_po"/>
                                                         </td>
                                                 </tr>
                                                 <tr>

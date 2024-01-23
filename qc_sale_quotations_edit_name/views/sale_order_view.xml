@@ -41,7 +41,7 @@
             <xpath expr="//field[@name='correction']" position="attributes">
                 <attribute name="string">Revision</attribute>
             </xpath>
-            <xpath expr="//field[@name='currency_id']" position="attributes">
+            <xpath expr="//field[@name='currency']" position="attributes">
                 <attribute name="string">Currency</attribute>
             </xpath>
             <xpath expr="//field[@name='container']" position="attributes">

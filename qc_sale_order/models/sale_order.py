@@ -38,9 +38,6 @@ class SaleOrderLine(models.Model):
     cost_3 = fields.Float(string='ราคา3')
     g_w_kgs = fields.Float(string='G.W. KGS.')
     n_w_kgs = fields.Float(string='N.W. KGS.')
-    width = fields.Float(string='WIDTH')
-    length = fields.Float(string='LENGTH')
-    height = fields.Float(string='HEIGHT')
 
 class SaleOrderSetLine(models.Model):
     _name = 'sale.order.set.line'

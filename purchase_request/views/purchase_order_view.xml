@@ -7,18 +7,100 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form" />
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='currency_id']" position="after">
+                <field name="currency_thb" invisible="1" />
+            </xpath>
+
+
+            <!--            <xpath expr="//header/button[@name='action_rfq_send']" position="attributes">-->
+            <!--                &lt;!&ndash;                <attribute name="states">done</attribute>&ndash;&gt;-->
+            <!--                <attribute name="attrs">{"invisible": [["state", "not in", ["done"]]]}</attribute>-->
+            <!--            </xpath>-->
+
+
+            <xpath expr="//header/button[@name='action_rfq_send']" position='attributes'>
+                <attribute name="states">done</attribute>
+            </xpath>
+
+
+
+
             <xpath expr="//field[@name='order_line']/tree" position="inside">
                 <field name="purchase_request_lines" invisible="1" />
                 <button
-                    attrs="{'invisible': [('purchase_request_lines', '=', [])]}"
-                    name="action_open_request_line_tree_view"
-                    title="Request Lines"
-                    type="object"
-                    icon="fa-folder-open-o"
+                        attrs="{'invisible': [('purchase_request_lines', '=', [])]}"
+                        name="action_open_request_line_tree_view"
+                        type="object"
+                        icon="fa-folder-open-o"
                 />
             </xpath>
+            <xpath expr="//field[@name='order_line']"  position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '=', 'to approve')]}</attribute>
+            </xpath>
+            <!--            <field name="date_order" position="after">-->
+            <!--                <field name="incoterm_date" attrs="{'invisible': [('state','in',('purchase','done'))],'readonly': [('state', 'in', ('purchase','done','cancel','to approve'))]}"/>-->
+            <!--                <attribute name="required">1</attribute>-->
+            <!--            </field>-->
+<!--            <field name="effective_date" position="after">-->
+<!--                <field name="purchase_request_type" attrs="{'readonly': [('state', '=', 'to approve')]}"/>-->
+<!--                &lt;!&ndash;                <field name="purchasing_type" attrs="{'readonly': [('state', '=', 'to approve')]}"/>&ndash;&gt;-->
+<!--            </field>-->
+<!--            <field name="effective_date" position="after">-->
+<!--                <field name="requests_order_type" attrs="{'readonly': [('state', '=', 'to approve')]}"/>-->
+<!--&lt;!&ndash;                <field name="tax_type_purchase" attrs="{'readonly': [('state', '=', 'to approve')]}" invisible="1"/>&ndash;&gt;-->
+<!--            </field>-->
+
+            <field name="partner_ref" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '=', 'to approve')]}</attribute>
+            </field>
+            <field name="currency_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', ('purchase','done','cancel','to approve'))]}</attribute>
+                <attribute name="required">1</attribute>
+            </field>
+            <field name="date_order" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '=', 'to approve')]}</attribute>
+            </field>
+            <field name="date_planned" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'not in', ('draft', 'sent', 'purchase'))]}</attribute>
+            </field>
+            <field name="picking_type_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', 'in', ('purchase','done','cancel','to approve'))]}</attribute>
+                <attribute name="required">1</attribute>
+            </field>
+
+
+            <field name="user_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '=', 'to approve')]}</attribute>
+            </field>
+            <field name="company_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '=', 'to approve')]}</attribute>
+            </field>
+            <field name="origin" position="attributes">
+                <attribute name="attrs">{'readonly': [('state', '=', 'to approve')]}</attribute>
+            </field>
+            <field name="invoice_status" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', 'in', ('draft', 'sent', 'to approve', 'cancel'))],'readonly': [('state', '=', 'to approve')]}</attribute>
+            </field>
+            <field name="payment_term_id" position="attributes">
+                <attribute name="attrs">{'readonly': ['|', ('invoice_status','=', 'invoiced'), ('state', 'in', ('done','to approve'))]}</attribute>
+            </field>
+            <field name="fiscal_position_id" position="attributes">
+                <attribute name="attrs">{'readonly': ['|', ('invoice_status','=', 'invoiced'), ('state', 'in', ('done','to approve'))]}</attribute>
+            </field>
         </field>
     </record>
+
+    <!--    <record id="view_purchase_journal_entries_form" model="ir.ui.view">-->
+    <!--        <field name="name">purchase.journal.entries.view</field>-->
+    <!--        <field name="model">purchase.order</field>-->
+    <!--        <field name="inherit_id" ref="purchase.purchase_order_form"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <button name="button_cancel" position="after">-->
+    <!--                <button name="button_record_journal_entries" string="Record Journal Entries" class="oe_highlight" type="object"/>-->
+    <!--            </button>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
     <record id="purchase_order_line_form2" model="ir.ui.view">
         <field name="name">purchase.order.line.form2</field>
         <field name="model">purchase.order.line</field>
@@ -38,13 +120,15 @@
             <xpath expr="//tree" position="inside">
                 <field name="purchase_request_lines" invisible="1" />
                 <button
-                    attrs="{'invisible': [('purchase_request_lines', '=', [])]}"
-                    name="action_open_request_line_tree_view"
-                    title="Request Lines"
-                    type="object"
-                    icon="fa-folder-open-o"
+                        attrs="{'invisible': [('purchase_request_lines', '=', [])]}"
+                        name="action_open_request_line_tree_view"
+                        type="object"
+                        icon="fa-folder-open-o"
                 />
             </xpath>
         </field>
     </record>
+
+
+
 </odoo>
