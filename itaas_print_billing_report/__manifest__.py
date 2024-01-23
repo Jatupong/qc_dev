@@ -15,7 +15,7 @@
             """,
     'author': 'IT as a Service Co., Ltd.',
     'website': 'www.itaas.co.th',
-    'depends': ['thai_accounting', 'itaas_company_detail_address'],
+    'depends': ['thai_accounting', 'itaas_company_detail_address','base'],
     'data': [
 
         'views/res_config_settings_view.xml',
