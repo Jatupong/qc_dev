@@ -10,7 +10,8 @@
     "website": "https://github.com/OCA/purchase-workflow",
     "category": "Purchase Management",
     "license": "AGPL-3",
-    "depends": ["purchase"],
+    'depends': ['purchase', 'itaas_company_detail_address', 'itaas_partner_detail_address',
+                'itaas_contact_person', 'itaas_image_signature','base'],
     "data": [
         # "security/ir.model.access.csv",
         # "wizard/purchase_make_invoice_advance_views.xml",
