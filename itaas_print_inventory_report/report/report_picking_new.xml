@@ -1,0 +1,16 @@
+<!-- Copyright 2017 ForgeFlow S.L.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <template id="report_picking_new_1" inherit_id="stock.report_picking">
+        <xpath expr="//div[2]" position="after">
+                <h2>Picking Operations</h2>
+        </xpath>
+    </template>
+    <template id="report_delivery_new_2" inherit_id="stock.report_delivery_document">
+        <xpath expr="//h2" position="before">
+                <h2 >Delivery Slip</h2>
+        </xpath>
+    </template>
+</odoo>
+
+
