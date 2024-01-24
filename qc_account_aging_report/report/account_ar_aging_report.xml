@@ -78,7 +78,7 @@
                             <td><span t-field="o.company_id"/></td>
                         </tr>
                         <tr align="center">
-                            <td><span>รายละเอียดเจ้าหนี้ค้างรับ</span></td>
+                            <td><span>รายละเอียดลูกหนี้ค้างรับ</span></td>
                         </tr>
                         <tr align="center">
                             <td><span>ณ </span><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></td>
@@ -240,7 +240,7 @@
                                 <th colspan="15"><span>ลูกหนี้การค้า</span></th>
                                 <th colspan="3"><span>หักชำระเงินมัดจำ</span></th>
                                 <th colspan="4"><span>หัก CREDIT NOTE</span></th>
-                                <th colspan="4"><span>เจ้าหนี้สุทธิ ตามบัญชี</span></th>
+                                <th colspan="4"><span>ลูกหนี้สุทธิ ตามบัญชี</span></th>
                                 <th rowspan="3"><span>ขาด/เกินวงเงิน</span></th>
                             </tr>
                             <tr>
@@ -254,7 +254,7 @@
                                 <th rowspan="2"><span>ระยะเวลา<br/>การชำระเงิน(วัน)</span></th>
                                 <th rowspan="2"><span>วงเงินเชื่อที่<br/>ได้รับอนุมัติ</span></th>
                                 <th rowspan="2"><span>วันที่ครบ<br/>กำหนด</span></th>
-                                <th rowspan="2"><span>อายุเจ้าหนี้</span></th>
+                                <th rowspan="2"><span>อายุลูกหนี้</span></th>
                                 <th rowspan="2"><span>สกุลเงิน</span></th>
                                 <th rowspan="2"><span>จำนวนเงิน<br/>(ต่างประเทศ)</span></th>
                                 <th rowspan="2"><span>อัตราแลกเปลี่ยน<br/>แลกเปลี่ยน</span></th>
