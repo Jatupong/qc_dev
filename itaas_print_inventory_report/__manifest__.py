@@ -20,15 +20,13 @@
                     """,
     'author': 'IT as a Service Co., Ltd.',
     'website': 'www.itaas.co.th',
-    'depends': ['stock', 'itaas_company_detail_address', 'itaas_image_signature','base'],
+    'depends': ['stock', 'itaas_company_detail_address', 'itaas_image_signature'],
     'data': [
 
-        # 'report/internal_transfer_report.xml',
-        # 'report/receipt_report.xml',
-
-
         'views/res_config_settings_view.xml',
+        # 'report/internal_transfer_report.xml',
         'report/delivery_report.xml',
+        # 'report/receipt_report.xml',
         'report/return_in_report.xml',
         'report/return_out_report.xml',
         'report/product_bill_report.xml',
@@ -38,6 +36,7 @@
         'report/product_bill_report03.xml',
         'report/bill_of_lading.xml',
         'report/packing_list.xml',
+
         'wizard/stock_count_wizard_view.xml',
         'report/stock_count_report.xml',
 
