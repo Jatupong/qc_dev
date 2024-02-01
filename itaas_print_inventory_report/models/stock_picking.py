@@ -7,29 +7,31 @@ from odoo.exceptions import UserError
 from num2words import num2words
 import locale
 
+
 class stock_move_line(models.Model):
     _inherit = "stock.move.line"
 
-    def get_field_json(self,field):
-        ans =[]
+    def get_field_json(self, field):
+        ans = []
         for i in field.fields_get():
             my_code = "field.{}".format(i)
             value = eval(my_code)
-            print("field : {} var = {}".format(i,value))
+            print("field : {} var = {}".format(i, value))
             if str(i) == 'display_name':
                 ans.append("{}".format(value))
 
         return ans
+
+
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     buyer_confirm = fields.Many2one('res.users', string="Buyer Confirm")
 
-
-    def sale_order(self,data,field):
+    def sale_order(self, data, field):
         domain = [('name', '=', data)]
-        order =self.env['sale.order'].search(domain)
+        order = self.env['sale.order'].search(domain)
         if len(order) == 1:
             my_code = "order.{}".format(field)
             value = eval(my_code)
@@ -38,6 +40,7 @@ class StockPicking(models.Model):
             return value
         else:
             return ""
+
     def get_lines(self, data, max_line):
         line_count = 0
         if data:
@@ -88,7 +91,7 @@ class StockPicking(models.Model):
         break_page_line.append(count - 1)
 
         return break_page_line
-    
+
     def get_break_line_06(self, order_line, max_body_height, new_line_height, row_line_height, max_line_lenght):
         break_page_line = []
         count_height = 0
@@ -136,7 +139,21 @@ class StockPicking(models.Model):
         break_page_line.append(count - 1)
 
         return break_page_line
-    
+
+    def unique_grade_report(self):
+        grades_displayed = set()
+        unique_grades = []
+        move_lines = self.mapped('move_line_ids')
+        for move_line in move_lines:
+            product = move_line.product_id
+
+            if product and product.product_ceg_th:
+                product_ceg_th = product.product_ceg_th
+                if product_ceg_th not in grades_displayed:
+                    grades_displayed.add(product_ceg_th)
+                    unique_grades.append(product_ceg_th)
+        return unique_grades
+
 
     # @api.multi
     # def get_report_values(self, docids, data):
@@ -157,4 +174,3 @@ class StockPicking(models.Model):
     #         'result': result
     #
     #     }
-
