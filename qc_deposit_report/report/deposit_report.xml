@@ -312,9 +312,9 @@
                                     <span>(บาท)</span>
                                 </td>
                             </tr>
-<!--                            <t t-set="sale_order_ids_by_partner" t-value="sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)"/>-->
-<!--                            <t t-foreach="sale_order_ids_by_partner" t-as="sale">-->
-                                <t t-foreach="sale_order_ids" t-as="sale">
+                            <t t-set="sale_order_ids_by_partner" t-value="sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)"/>
+                            <t t-foreach="sale_order_ids_by_partner" t-as="sale">
+<!--                                <t t-foreach="sale_order_ids" t-as="sale">-->
                                 <t t-foreach="sale.invoice_ids" t-as="inv">
                                     <tr>
                                         <td>
@@ -344,7 +344,7 @@
                                                 <span t-esc="inv.amount_total"/>
                                             </td>
                                             <td>
-                                                <t t-set="currency_rate" t-value="inv.currency_id._get_rates(inv.company_id, inv.invoice_date)"/>
+                                                <t t-set="currency_rate" t-value="inv.currency_id._get_rates(inv.company_id, (inv.invoice_date or inv.today()))"/>
                                                 <span t-esc="currency_rate"/>
                                             </td>
                                             <td>
