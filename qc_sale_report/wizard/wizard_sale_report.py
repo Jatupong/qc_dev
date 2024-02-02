@@ -40,13 +40,11 @@ class WizardSaleReport(models.TransientModel):
         from_date = datetime(curr_date.year, 1, 1).date() or False
         to_date = datetime(curr_date.year, curr_date.month, curr_date.day).date() or False
         res.update({'date_from': str(from_date), 'date_to': str(to_date)})
-
         return res
 
     def print_report_excel(self):
         [data] = self.read()
         data = {'form': data}
-
         return self.env.ref('qc_sale_report.sale_report_xls').report_action([], data=data, config=False)
 
     def _get_invoice_line(self):
@@ -67,8 +65,7 @@ class WizardSaleReport(models.TransientModel):
         if self.team_id:
             domain += [('move_id.team_id', '=', self.team_id.id)]
         if self.partner_id:
-            domain += [('move_id.team_id', '=', self.partner_id.id)]
-
+            domain += [('partner_id', '=', self.partner_id.id)]
         return self.env['account.move.line'].search(domain, order='invoice_date')
 
     def convert_usertz_to_utc(self, date_time):
@@ -77,7 +74,6 @@ class WizardSaleReport(models.TransientModel):
         tz = pytz.timezone('UTC')
         date_time = user_tz.localize(date_time).astimezone(tz)
         date_time = date_time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-
         return date_time
 
     def _get_result_sale(self):
