@@ -305,23 +305,31 @@
                         </tr>
                     </table>
 
-                    <table width="100%" style="font-size:20px;font-family: TH SarabunPSK">
+                    <!--                    <table width="100%" style="font-size:20px;font-family: TH SarabunPSK">-->
+                    <table width="100%" class="font_fam">
                         <tr style="border:1px solid white;">
-                            <td width="27%" style="font-size:20px;">วันที่ส่ง
+                            <td width="25%" style="font-size:16px;">วันที่ส่ง
                                 <span t-field="o.scheduled_date" t-options="{'format': 'dd/MM/YYYY'}"/>
                             </td>
-                            <td width="20%" style="font-size:20px;">จากหน่วย
+                            <td width="45%" style="font-size:16px;">
+                                จากหน่วย
                                 <span t-field="o.location_id"/>
-                            </td>
-                            <td widht="25%" style="font-size:20px;">ถึงหน่วย
+
+                                &amp;nbsp;&amp;nbsp;&amp;nbsp;ถึงหน่วย
                                 <span t-field="o.location_dest_id"/>
                             </td>
-                            <td width="20%" style="font-size:12px; vertical-align: middle;">
-                                <!--                                <t t-foreach="o.move_line_nosuggest_ids" t-as="line">-->
-                                <!--                              <span t-field="line.product_id.product_ceg_th"/>-->
-                                <!--                                </t>-->
+
+                            <td width="30%" style="font-size:16px;">
+                                <t t-set="unique_grades" t-value="o.unique_grade_report()"/>
+                                <t t-if="unique_grades">
+                                    <span t-foreach="unique_grades" t-as="grade">
+                                        <t t-if="grade">
+                                            <span t-esc="grade" />
+                                            <t t-if="not last">,</t>
+                                        </t>
+                                    </span>
+                                </t>
                             </td>
-                            <td width="10%" style="font-size:12px;"/>
                         </tr>
 
                     </table>
@@ -439,7 +447,7 @@
                         }
                     </style>
 
-                    <t t-set="max_body_height" t-value="120"/>
+                    <t t-set="max_body_height" t-value="200"/>
                     <t t-set="new_line_height" t-value="2"/>
                     <t t-set="row_line_height" t-value="2"/>
                     <t t-set="max_line_lenght" t-value="10"/>
@@ -456,22 +464,46 @@
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                        <table class="table-bordered-b font_fam"
-                               style="height:180mm; font-size:12px; line-height:16px; font-family: TH SarabunPSK">
+                        <table width="100%" class="table-bordered-b font_fam"
+                               style="height:180mm; font-size:14px; line-height:16px; font-family: TH SarabunPSK">
                             <thead>
                                 <tr>
-                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">ลำดับ</th>
-                                    <th width="10%" rowspan="2" style="font-family: TH SarabunPSK">ใบสั่งผลิต</th>
-                                    <th width="10%" rowspan="2" style="font-family: TH SarabunPSK">รหัส</th>
-                                    <th width="20%" rowspan="2" style="font-family: TH SarabunPSK">รายการ</th>
-                                    <th width="10%" rowspan="2" style="font-family: TH SarabunPSK">ลายสินค้า</th>
-                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">โลโก้</th>
-                                    <th width="10%" colspan="2" style="font-family: TH SarabunPSK">ประเภทโลโก้</th>
-                                    <th width="10%" rowspan="2" style="font-family: TH SarabunPSK">ตกแต่งพิเศษ</th>
-                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">จำนวนส่ง</th>
-                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">จำนวนรับ</th>
-                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">ของเสีย</th>
-                                    <th width="5%" rowspan="2" style="font-family: TH SarabunPSK">หมายเหตุ</th>
+                                    <th width="5%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">ลำดับ
+                                    </th>
+                                    <th width="10%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">ใบสั่งผลิต
+                                    </th>
+                                    <th width="10%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">รหัส
+                                    </th>
+                                    <th width="20%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">รายการ
+                                    </th>
+                                    <th width="10%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">ลายสินค้า
+                                    </th>
+                                    <th width="5%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">โลโก้
+                                    </th>
+                                    <th width="10%" colspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">ประเภทโลโก้
+                                    </th>
+                                    <th width="10%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">ตกแต่งพิเศษ
+                                    </th>
+                                    <th width="5%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">จำนวนส่ง
+                                    </th>
+                                    <th width="5%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">จำนวนรับ
+                                    </th>
+                                    <th width="5%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">ของเสีย
+                                    </th>
+                                    <th width="5%" rowspan="2"
+                                        style="font-family: TH SarabunPSK;vertical-align: middle;">หมายเหตุ
+                                    </th>
 
                                 </tr>
 
@@ -494,7 +526,8 @@
                                             <td align="center">
                                                 <div class="word_wrap">
                                                     <!--                                                    <t t-if="move_line[y].product_id.name">-->
-                                                    <span t-if="move_line[y].product_id.name" style="font-family: TH SarabunPSK" t-field="o.name"/>
+                                                    <span t-if="move_line[y].product_id.name"
+                                                          style="font-family: TH SarabunPSK" t-field="o.name"/>
                                                     <!--                                                    </t>-->
                                                     <span t-if="not move_line[y].product_id.name"></span>
                                                 </div>
@@ -513,11 +546,12 @@
                                             <!--                                            รายการ-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-field="move_line[y].product_id.name"/>
-                                                    <t t-if="'product_ceg_th' in move_line[y].move_id.product_id.fields_get()">
-                                                        <span t-field="move_line[y].move_id.product_id.product_ceg_th"/>
-                                                        <br/>
-                                                    </t>
+                                                    <span style="font-family: TH SarabunPSK"
+                                                          t-field="move_line[y].product_id.name"/>
+                                                    <!--                                                    <t t-if="'product_ceg_th' in move_line[y].move_id.product_id.fields_get()">-->
+                                                    <!--                                                        <span t-field="move_line[y].move_id.product_id.product_ceg_th"/>-->
+                                                    <!--                                                        <br/>-->
+                                                    <!--                                                    </t>-->
 
                                                 </div>
                                             </td>
@@ -527,11 +561,13 @@
                                                     <!--                                                    <span t-if="move_line[y].move_id.product_id.shape_name_eng" t-field="move_line[y].product_id.shape_name_eng"/> <span t-field="move_line[y].product_id.shape_name_th"/>-->
                                                     <!--                                                    <span t-if="not move_line[y].move_id.product_id.shape_name_eng"></span>-->
                                                     <t t-if="'shape_name_th' in move_line[y].product_id.fields_get()">
-                                                        <span style="font-family: TH SarabunPSK" t-field="move_line[y].product_id.shape_name_th"/>
+                                                        <span style="font-family: TH SarabunPSK"
+                                                              t-field="move_line[y].product_id.shape_name_th"/>
                                                         <br/>
                                                     </t>
                                                     <t t-if="'shape_name_eng' in move_line[y].product_id.fields_get()">
-                                                        <span style="font-family: TH SarabunPSK" t-field="move_line[y].product_id.shape_name_eng"/>
+                                                        <span style="font-family: TH SarabunPSK"
+                                                              t-field="move_line[y].product_id.shape_name_eng"/>
                                                         <br/>
                                                     </t>
 
@@ -570,7 +606,8 @@
                                                            t-as="value">
                                                             <t t-set="bot" t-value="value.display_name.split(':')"/>
                                                             <t t-if="'ใต้เคลือบ' in bot[0]">
-                                                                <span style="font-family: TH SarabunPSK" t-esc="bot[-1]"/>
+                                                                <span style="font-family: TH SarabunPSK"
+                                                                      t-esc="bot[-1]"/>
                                                             </t>
 
                                                         </t>
@@ -596,7 +633,8 @@
                                                            t-as="value">
                                                             <t t-set="top" t-value="value.display_name.split(':')"/>
                                                             <t t-if="'บนเคลือบ' in top[0]">
-                                                                <span style="font-family: TH SarabunPSK" t-esc="top[-1]"/>
+                                                                <span style="font-family: TH SarabunPSK"
+                                                                      t-esc="top[-1]"/>
                                                             </t>
 
 
@@ -611,15 +649,16 @@
                                                     <t t-if="move_line[y].product_id.attribute_line_ids.value_ids">
                                                         <t t-foreach="move_line[y].product_id.attribute_line_ids"
                                                            t-as="value">
-                                                             <t t-if="value.attribute_id.name=='Shinobu'">
+                                                            <t t-if="value.attribute_id.name=='Shinobu'">
                                                                 <t t-foreach="move_line[y].product_id.product_template_variant_value_ids"
-                                                           t-as="value">
-                                                                <t t-set="test"
-                                                                   t-value="move_line[y].get_field_json(value)"/>
-                                                                <t t-foreach="test"
-                                                                   t-as="tag">
-                                                                    <span style="font-family: TH SarabunPSK" t-esc="tag"/>
-                                                                </t>
+                                                                   t-as="value">
+                                                                    <t t-set="test"
+                                                                       t-value="move_line[y].get_field_json(value)"/>
+                                                                    <t t-foreach="test"
+                                                                       t-as="tag">
+                                                                        <span style="font-family: TH SarabunPSK"
+                                                                              t-esc="tag"/>
+                                                                    </t>
                                                                 </t>
                                                             </t>
                                                         </t>
@@ -629,7 +668,8 @@
                                                            t-as="value">
                                                             <t t-set="special" t-value="value.display_name.split(':')"/>
                                                             <t t-if="'พิเศษ' in special[0]">
-                                                                <span style="font-family: TH SarabunPSK" t-esc="special[-1]"/>
+                                                                <span style="font-family: TH SarabunPSK"
+                                                                      t-esc="special[-1]"/>
                                                             </t>
 
                                                         </t>
@@ -639,15 +679,19 @@
                                             <!--                                            จำนวนส่ง-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
-                                                    <span style="font-family: TH SarabunPSK" t-else="" t-field="move_line[y].qty_done"/>
+                                                    <span style="font-family: TH SarabunPSK"
+                                                          t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
+                                                    <span style="font-family: TH SarabunPSK" t-else=""
+                                                          t-field="move_line[y].qty_done"/>
                                                 </div>
                                             </td>
                                             <!--                                            จำนวนรับ-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
-                                                    <span style="font-family: TH SarabunPSK" t-else="" t-field="move_line[y].qty_done"/>
+                                                    <span style="font-family: TH SarabunPSK"
+                                                          t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
+                                                    <span style="font-family: TH SarabunPSK" t-else=""
+                                                          t-field="move_line[y].qty_done"/>
                                                 </div>
                                             </td>
                                             <!--                                            ของเสีย-->
@@ -660,8 +704,10 @@
                                             <!--                                            หมายเหตุ-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-if="o.note" t-field="o.note"/>
-                                                    <span style="font-family: TH SarabunPSK" t-else="" t-field="o.note"/>
+                                                    <span style="font-family: TH SarabunPSK" t-if="o.note"
+                                                          t-field="o.note"/>
+                                                    <span style="font-family: TH SarabunPSK" t-else=""
+                                                          t-field="o.note"/>
                                                 </div>
                                             </td>
 
@@ -683,16 +729,20 @@
                                             </td>
                                             <td>
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-if="move_line[y].move_id.description_picking"
+                                                    <span style="font-family: TH SarabunPSK"
+                                                          t-if="move_line[y].move_id.description_picking"
                                                           t-field="move_line[y].move_id.description_picking"/>
-                                                    <span style="font-family: TH SarabunPSK" t-else="" t-field="move_line[y].product_id.default_code"/>
+                                                    <span style="font-family: TH SarabunPSK" t-else=""
+                                                          t-field="move_line[y].product_id.default_code"/>
                                                 </div>
                                             </td>
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-field="move_line[y].product_id.name"/>
+                                                    <span style="font-family: TH SarabunPSK"
+                                                          t-field="move_line[y].product_id.name"/>
                                                     <t t-if="'product_ceg_th' in move_line[y].move_id.product_id.fields_get()">
-                                                        <span style="font-family: TH SarabunPSK" t-field="move_line[y].move_id.product_id.product_ceg_th"/>
+                                                        <span style="font-family: TH SarabunPSK"
+                                                              t-field="move_line[y].move_id.product_id.product_ceg_th"/>
                                                         <br/>
                                                     </t>
 
@@ -701,11 +751,13 @@
                                             <td align="center">
                                                 <div class="word_wrap">
                                                     <t t-if="'shape_name_th' in move_line[y].product_id.fields_get()">
-                                                        <span style="font-family: TH SarabunPSK" t-field="move_line[y].product_id.shape_name_th"/>
+                                                        <span style="font-family: TH SarabunPSK"
+                                                              t-field="move_line[y].product_id.shape_name_th"/>
                                                         <br/>
                                                     </t>
                                                     <t t-if="'shape_name_eng' in move_line[y].product_id.fields_get()">
-                                                        <span style="font-family: TH SarabunPSK" t-field="move_line[y].product_id.shape_name_eng"/>
+                                                        <span style="font-family: TH SarabunPSK"
+                                                              t-field="move_line[y].product_id.shape_name_eng"/>
                                                         <br/>
                                                     </t>
                                                     <!--
@@ -745,7 +797,8 @@
                                                            t-as="value">
                                                             <t t-set="bot" t-value="value.display_name.split(':')"/>
                                                             <t t-if="'ใต้เคลือบ' in bot[0]">
-                                                                <span style="font-family: TH SarabunPSK" t-esc="bot[-1]"/>
+                                                                <span style="font-family: TH SarabunPSK"
+                                                                      t-esc="bot[-1]"/>
                                                             </t>
 
                                                         </t>
@@ -771,7 +824,8 @@
                                                            t-as="value">
                                                             <t t-set="top" t-value="value.display_name.split(':')"/>
                                                             <t t-if="'บนเคลือบ' in top[0]">
-                                                                <span style="font-family: TH SarabunPSK" t-esc="top[-1]"/>
+                                                                <span style="font-family: TH SarabunPSK"
+                                                                      t-esc="top[-1]"/>
                                                             </t>
 
                                                         </t>
@@ -786,13 +840,14 @@
                                                            t-as="value">
                                                             <t t-if="value.attribute_id.name=='Shinobu'">
                                                                 <t t-foreach="move_line[y].product_id.product_template_variant_value_ids"
-                                                           t-as="value">
-                                                                <t t-set="test"
-                                                                   t-value="move_line[y].get_field_json(value)"/>
-                                                                <t t-foreach="test"
-                                                                   t-as="tag">
-                                                                    <span style="font-family: TH SarabunPSK" t-esc="tag"/>
-                                                                </t>
+                                                                   t-as="value">
+                                                                    <t t-set="test"
+                                                                       t-value="move_line[y].get_field_json(value)"/>
+                                                                    <t t-foreach="test"
+                                                                       t-as="tag">
+                                                                        <span style="font-family: TH SarabunPSK"
+                                                                              t-esc="tag"/>
+                                                                    </t>
                                                                 </t>
                                                             </t>
                                                         </t>
@@ -802,7 +857,8 @@
                                                            t-as="value">
                                                             <t t-set="special" t-value="value.display_name.split(':')"/>
                                                             <t t-if="'พิเศษ' in special[0]">
-                                                                <span style="font-family: TH SarabunPSK" t-esc="special[-1]"/>
+                                                                <span style="font-family: TH SarabunPSK"
+                                                                      t-esc="special[-1]"/>
                                                             </t>
 
 
@@ -813,15 +869,19 @@
                                             <!--                                            จำนวนส่ง-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
-                                                    <span style="font-family: TH SarabunPSK" t-else="" t-field="move_line[y].qty_done"/>
+                                                    <span style="font-family: TH SarabunPSK"
+                                                          t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
+                                                    <span style="font-family: TH SarabunPSK" t-else=""
+                                                          t-field="move_line[y].qty_done"/>
                                                 </div>
                                             </td>
                                             <!--                                            จำนวนรับ-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
-                                                    <span style="font-family: TH SarabunPSK" t-else="" t-field="move_line[y].qty_done"/>
+                                                    <span style="font-family: TH SarabunPSK"
+                                                          t-if="move_line[y].qty_done" t-field="move_line[y].qty_done"/>
+                                                    <span style="font-family: TH SarabunPSK" t-else=""
+                                                          t-field="move_line[y].qty_done"/>
                                                 </div>
                                             </td>
                                             <!--                                            ของเสีย-->
@@ -834,8 +894,10 @@
                                             <!--                                            หมายเหตุ-->
                                             <td align="center">
                                                 <div class="word_wrap">
-                                                    <span style="font-family: TH SarabunPSK" t-if="o.note" t-field="o.note"/>
-                                                    <span style="font-family: TH SarabunPSK" t-else="" t-field="o.note"/>
+                                                    <span style="font-family: TH SarabunPSK" t-if="o.note"
+                                                          t-field="o.note"/>
+                                                    <span style="font-family: TH SarabunPSK" t-else=""
+                                                          t-field="o.note"/>
                                                 </div>
                                             </td>
 

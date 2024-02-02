@@ -28,10 +28,11 @@ class WizardSaleReport(models.TransientModel):
     date_to = fields.Date(string='Date To', required=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
     team_id = fields.Many2one('crm.team', string='Team')
-    product_ids = fields.Many2many('product.product', 'product_sale_report_ref', string='Products', domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]")
+    product_ids = fields.Many2many('product.product', 'product_sale_report_ref', string='Products',)
+    # product_ids = fields.Many2many('product.product', 'product_sale_report_ref', string='Products', domain="[('sale_ok', '=', True), '|', ('company_id', '=', False), ('company_id', '=', company_id)]")
     product_category_ids = fields.Many2many('product.category', 'product_category_sale_report_ref', string='Categories')
     currency_id = fields.Many2one('res.currency', default=lambda self: self.env.company.currency_id)
-
+    partner_id = fields.Many2one('res.partner', string='Customer')
     @api.model
     def default_get(self, fields):
         res = super(WizardSaleReport, self).default_get(fields)
@@ -39,13 +40,11 @@ class WizardSaleReport(models.TransientModel):
         from_date = datetime(curr_date.year, 1, 1).date() or False
         to_date = datetime(curr_date.year, curr_date.month, curr_date.day).date() or False
         res.update({'date_from': str(from_date), 'date_to': str(to_date)})
-
         return res
 
     def print_report_excel(self):
         [data] = self.read()
         data = {'form': data}
-
         return self.env.ref('qc_sale_report.sale_report_xls').report_action([], data=data, config=False)
 
     def _get_invoice_line(self):
@@ -57,6 +56,16 @@ class WizardSaleReport(models.TransientModel):
             ('sale_line_ids', '!=', False),
         ]
 
+        if self.product_ids:
+            domain += [('product_id', '=', self.product_ids.ids)]
+        if self.product_category_ids:
+            domain += [('product_id.categ_id', '=', self.product_category_ids.ids)]
+        if self.currency_id:
+            domain += [('currency_id', '=', self.currency_id.id)]
+        if self.team_id:
+            domain += [('move_id.team_id', '=', self.team_id.id)]
+        if self.partner_id:
+            domain += [('partner_id', '=', self.partner_id.id)]
         return self.env['account.move.line'].search(domain, order='invoice_date')
 
     def convert_usertz_to_utc(self, date_time):
@@ -65,7 +74,6 @@ class WizardSaleReport(models.TransientModel):
         tz = pytz.timezone('UTC')
         date_time = user_tz.localize(date_time).astimezone(tz)
         date_time = date_time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
-
         return date_time
 
     def _get_result_sale(self):
@@ -112,8 +120,8 @@ class WizardSaleReport(models.TransientModel):
                     'loading_date': '',
                     'pi_no': sale_id.name,
                     'currency': sale_id.currency or '',
-                    # 'currency_rate': line.move_id.customer_department,
-                    'currency_rate': '',
+                    'currency_rate': line.move_id.customs_department or '',
+                    # 'currency_rate': '',
                     'currency_avg': '',
                     'item_code': line.product_id.default_code or '',
                     'description': line.name,
@@ -262,9 +270,9 @@ class WizardSaleReportXls(models.AbstractModel):
         i_col += 1
         worksheet.write(i_row, i_col, 'สกุลเงิน', for_center_bold_border)
         i_col += 1
-        worksheet.write(i_row, i_col, 'อัตราแลก \n เปลี่ยน', for_center_bold_border)
+        worksheet.write(i_row, i_col, 'อัตราแลกเปลี่ยน', for_center_bold_border)
         i_col += 1
-        worksheet.write(i_row, i_col, 'อัตราขายถัว \n เฉลี่ย', for_center_bold_border)
+        worksheet.write(i_row, i_col, 'อัตราขายถัวเฉลี่ย', for_center_bold_border)
         i_col += 1
         worksheet.write(i_row, i_col, 'Item Code', for_center_bold_border)
         i_col += 1
@@ -284,7 +292,7 @@ class WizardSaleReportXls(models.AbstractModel):
         i_col += 1
         worksheet.write(i_row, i_col, 'Special sticker', for_center_bold_border)
         i_col += 1
-        worksheet.write(i_row, i_col, 'ค่ากล่องสีต่อ \n หน่วย', for_center_bold_border)
+        worksheet.write(i_row, i_col, 'ค่ากล่องสีต่อหน่วย', for_center_bold_border)
         i_col += 1
         worksheet.write(i_row, i_col, 'ค่ากล่องสี \n (USD)', for_center_bold_border)
         i_col += 1

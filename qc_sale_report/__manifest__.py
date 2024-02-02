@@ -4,7 +4,7 @@
 
 {
     'name': 'QC. Sale Report',
-    'version': '16.0.0.1',
+    'version': '16.0.0.4',
     'price': 'Free',
     'currency': 'THB',
     'category': 'Sale',
