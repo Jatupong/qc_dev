@@ -31,10 +31,10 @@ class TestMassEditing(common.TransactionCase):
         self.IrActionsActWindow = self.env["ir.actions.act_window"]
 
         self.mass_editing_user = self.env.ref(
-            "server_action_mass_edit@2023-02-02.mass_editing_user"
+            "server_action_mass_edit.mass_editing_user"
         )
         self.mass_editing_partner_title = self.env.ref(
-            "server_action_mass_edit@2023-02-02.mass_editing_partner_title"
+            "server_action_mass_edit.mass_editing_partner_title"
         )
         user_admin = self.env.ref("base.user_admin")
         user_demo = self.env.ref("base.user_demo")
@@ -321,7 +321,7 @@ class TestMassEditing(common.TransactionCase):
         )
         # Test change on mass_edit_line field_id : set widget_option
         mass_edit_line_form = Form(
-            self.env.ref("server_action_mass_edit@2023-02-02.mass_editing_user_line_1")
+            self.env.ref("server_action_mass_edit.mass_editing_user_line_1")
         )
         mass_edit_line_form.field_id = self.env.ref(
             "base.field_res_partner__category_id"
