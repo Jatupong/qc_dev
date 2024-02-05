@@ -238,7 +238,7 @@
                     <table width="100%" class="font_fam table table-bordered font_size_14">
                         <t t-foreach="partner_ids" t-as="partner">
                             <tr>
-                                <td colspan="16">
+                                <td colspan="17">
                                     <span t-esc="partner.name"/>
                                 </td>
                             </tr>
@@ -285,7 +285,7 @@
                                 <td>
                                     <span>มัดจำ</span>
                                 </td>
-                                <td colspan="2">
+                                <td colspan="2" >
                                     <span>คงเหลือ</span>
                                 </td>
                                 <td rowspan="2">

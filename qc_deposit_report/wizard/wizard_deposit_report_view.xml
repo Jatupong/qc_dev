@@ -33,7 +33,6 @@
 		<field name="view_id" ref="view_wizard_deposit_report_form"/>
 		<field name="target">new</field>
 	</record>
-
 	<menuitem id="menu_deposit_report"
 			  name="รายละเอียดเงินมัดจำลูกหนี้"
 			  action="action_wizard_deposit_report"

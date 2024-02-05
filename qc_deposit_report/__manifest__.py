@@ -4,7 +4,7 @@
 
 {
     'name': 'QC. Deposit Report',
-    'version': '16.0.0.1',
+    'version': '16.0.0.8',
     'price': 'Free',
     'currency': 'THB',
     'category': 'Account',
