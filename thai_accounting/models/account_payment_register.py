@@ -111,19 +111,50 @@ class AccountPaymentRegister(models.TransientModel):
     @api.depends('source_amount', 'source_amount_currency', 'source_currency_id', 'company_id', 'currency_id',
                  'payment_date')
     def _compute_amount(self):
+        active_ids = self.env.context.get("active_ids", False)
+        active_model = self.env.context.get("active_model", False)
         for wizard in self:
-            if wizard.source_currency_id == wizard.currency_id:
-                # Same currency.
-                wizard.amount = wizard.source_amount_currency
-            elif wizard.currency_id == wizard.company_id.currency_id:
-                # Payment expressed on the company's currency.
-                wizard.amount = wizard.source_amount
+            print('_compute_amount:')
+            if active_model == 'account.move':
+                print('source_amount_currency:', wizard.source_amount_currency)
+                move_id = self.env[active_model].browse(active_ids)
+                if wizard.source_currency_id == wizard.currency_id:
+                    print('CASE_1')
+                    # Same currency.
+                    wizard.amount = wizard.source_amount_currency
+                    print('hhhhhh', wizard.source_amount_currency)
+                elif move_id[0].currency_id == wizard.currency_id:
+                    print('CASE_2')
+                    # Payment expressed on the company's currency.
+                    wizard.amount = wizard.source_amount
+                else:
+                    print('CASE_3')
+                    # Foreign currency on payment different than the one set on the journal entries.
+                    amount_payment_currency = 0
+                    for m_id in move_id:
+                        amount_payment_currency += m_id.currency_id._convert(m_id.amount_total,
+                                                                             wizard.currency_id,
+                                                                             wizard.company_id,
+                                                                             wizard.payment_date)
+                    wizard.amount = amount_payment_currency
             else:
-                # Foreign currency on payment different than the one set on the journal entries.
-                amount_payment_currency = wizard.company_id.currency_id._convert(wizard.source_amount,
-                                                                                 wizard.currency_id, wizard.company_id,
-                                                                                 wizard.payment_date)
-                wizard.amount = amount_payment_currency
+                if wizard.source_currency_id == wizard.currency_id:
+                    print('CASE_4')
+                    # Same currency.
+                    wizard.amount = wizard.source_amount_currency
+                elif wizard.currency_id != wizard.company_id.currency_id:
+                    print('CASE_5')
+                    # Payment expressed on the company's currency.
+                    wizard.amount = wizard.source_amount
+                else:
+                    print('CASE_6')
+                    # Foreign currency on payment different than the one set on the journal entries.
+                    amount_payment_currency = wizard.company_id.currency_id._convert(wizard.source_amount,
+                                                                                     wizard.currency_id,
+                                                                                     wizard.company_id,
+                                                                                     wizard.payment_date)
+                    wizard.amount = amount_payment_currency
+
 
     @api.depends('amount')
     def _compute_payment_difference(self):
