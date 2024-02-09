@@ -93,17 +93,17 @@ class account_payment(models.Model):
 
     #UPDATE WHT
     def _prepare_move_line_default_vals(self, write_off_line_vals=None):
-        print ('_prepare_move_line_default_vals',write_off_line_vals)
-        res = super(account_payment,self)._prepare_move_line_default_vals(write_off_line_vals)
-        print('_prepare_move_line_default_valsssssssssssssssssssss:',res)
+        print('_prepare_move_line_default_vals', write_off_line_vals)
+        res = super(account_payment, self)._prepare_move_line_default_vals(write_off_line_vals)
+        print('_prepare_move_line_default_valsssssssssssssssssssss:', res)
         if write_off_line_vals:
-            print ('STep-91',write_off_line_vals)
+            print('STep-91', write_off_line_vals)
             for write_off_line_val in write_off_line_vals:
                 for write_off_line in res:
                     print('STep-92')
                     account_id = self.env['account.account'].browse(write_off_line['account_id'])
-                    print('STep-93',account_id.name)
-                    print('STep-93',account_id.wht)
+                    print('STep-93', account_id.name)
+                    print('STep-93', account_id.wht)
                     if account_id.wht == True:
                         print('STep-94')
                         write_off_line['wht_type'] = write_off_line_val['wht_type']
@@ -112,157 +112,167 @@ class account_payment(models.Model):
                         write_off_line['date_maturity'] = write_off_line_val['date_maturity']
                 return res
         else:
-            print('ELSEEEEEE')
-            print('self._context:',self._context)
-            try:
-                new_data_temp = []
-                if self.payment_type == 'inbound':
-                    print('inbound')
-                    credit_line_ids = list(filter(lambda m: m['credit'], res))
-                    debit_line_ids = list(filter(lambda m: m['debit'], res))
-                    print('credit_line_ids:', credit_line_ids)
-                    print('debit_line_ids:', debit_line_ids)
-                    print('==== START')
-                    amount_payment = self.amount
-                    credit_amount = credit_line_ids[0]['credit']
-                    debit_amount = debit_line_ids[0]['debit']
-                    for writeoff_multi_acc_new_id in self.writeoff_multi_acc_ids:
-                        if writeoff_multi_acc_new_id.amount > 0:
-                            amount_payment += abs(writeoff_multi_acc_new_id.amount)
-                        else:
-                            amount_payment -= abs(writeoff_multi_acc_new_id.amount)
-                    print('credit_amount:', credit_amount)
-                    print('debit_amount:', debit_amount)
-                    print('amount_payment:', amount_payment)
-                    for debit_line_id in debit_line_ids:
-                        print('DEBIT;', debit_line_id['debit'])
-                        vals_new = {
-                            'name': debit_line_id['name'],
-                            'date_maturity': debit_line_id['date_maturity'],
-                            'amount_currency': debit_line_id['debit'],
-                            'currency_id': debit_line_id['currency_id'],
-                            'debit': debit_line_id['debit'],
-                            'credit': 0.00,
-                            'partner_id': debit_line_id['partner_id'],
-                            'account_id': debit_line_id['account_id'],
-                        }
-                        new_data_temp.append(vals_new)
-                    for writeoff_multi_acc_new_id in self.writeoff_multi_acc_ids:
-                        print('writeoff_multi_acc_new_id.amount:', writeoff_multi_acc_new_id.amount)
-                        if writeoff_multi_acc_new_id.amount > 0:
-                            vals_new = {
-                                'name': writeoff_multi_acc_new_id.name,
-                                'date_maturity': self.date,
-                                'amount_currency': abs(writeoff_multi_acc_new_id.amount),
-                                'currency_id': self.currency_id.id,
-                                'debit': abs(writeoff_multi_acc_new_id.amount),
-                                'credit': 0.00,
-                                'partner_id': self.partner_id.id,
-                                'account_id': writeoff_multi_acc_new_id.writeoff_account_id.id,
-                            }
-                        else:
-                            vals_new = {
-                                'name': writeoff_multi_acc_new_id.name,
-                                'date_maturity': self.date,
-                                'amount_currency': abs(writeoff_multi_acc_new_id.amount),
-                                'currency_id': self.currency_id.id,
-                                'debit': 0.00,
-                                'credit': abs(writeoff_multi_acc_new_id.amount),
-                                'partner_id': self.partner_id.id,
-                                'account_id': writeoff_multi_acc_new_id.writeoff_account_id.id,
-                            }
-                        new_data_temp.append(vals_new)
-                    for credit_line_id in credit_line_ids:
-                        print('credit:', credit_line_id['credit'])
-                        vals_new = {
-                            'name': credit_line_id['name'],
-                            'date_maturity': credit_line_id['date_maturity'],
-                            'amount_currency': credit_line_id['amount_currency'],
-                            'currency_id': credit_line_id['currency_id'],
-                            'debit': 0.00,
-                            'credit': amount_payment,
-                            'partner_id': credit_line_id['partner_id'],
-                            'account_id': credit_line_id['account_id'],
-                        }
-                        new_data_temp.append(vals_new)
-                    return new_data_temp
-                elif self.payment_type == 'outbound':
-                    print('OUTBOUND')
-                    credit_line_ids = list(filter(lambda m: m['credit'], res))
-                    debit_line_ids = list(filter(lambda m: m['debit'], res))
-                    print('credit_line_ids:',credit_line_ids)
-                    print('debit_line_ids:',debit_line_ids)
-                    print('==== START')
-                    amount_payment = self.amount
-                    credit_amount = credit_line_ids[0]['credit']
-                    debit_amount = debit_line_ids[0]['debit']
-                    for writeoff_multi_acc_new_id in self.writeoff_multi_acc_ids:
-                        if writeoff_multi_acc_new_id.amount > 0:
-                            amount_payment += abs(writeoff_multi_acc_new_id.amount)
-                        else:
-                            amount_payment -= abs(writeoff_multi_acc_new_id.amount)
-                    print('credit_amount:',credit_amount)
-                    print('debit_amount:',debit_amount)
-                    print('amount_payment:',amount_payment)
-                    for debit_line_id in debit_line_ids:
-                        print('DEBIT;', debit_line_id['debit'])
-                        vals_new = {
-                            'name': debit_line_id['name'],
-                            'date_maturity': debit_line_id['date_maturity'],
-                            'amount_currency': amount_payment,
-                            'currency_id': debit_line_id['currency_id'],
-                            'debit': amount_payment,
-                            'credit': 0.00,
-                            'partner_id': debit_line_id['partner_id'],
-                            'account_id': debit_line_id['account_id'],
-                        }
-                        new_data_temp.append(vals_new)
-                    for writeoff_multi_acc_new_id in self.writeoff_multi_acc_ids:
-                        print('writeoff_multi_acc_new_id.amount:', writeoff_multi_acc_new_id.amount)
-                        if writeoff_multi_acc_new_id.amount > 0:
-                            vals_new = {
-                                'name': writeoff_multi_acc_new_id.name,
-                                'date_maturity': self.date,
-                                'amount_currency': abs(writeoff_multi_acc_new_id.amount),
-                                'currency_id': self.currency_id.id,
-                                'debit': 0.00,
-                                'credit': abs(writeoff_multi_acc_new_id.amount),
-                                'partner_id': self.partner_id.id,
-                                'account_id': writeoff_multi_acc_new_id.writeoff_account_id.id,
-                            }
-                        else:
-                            vals_new = {
-                                'name': writeoff_multi_acc_new_id.name,
-                                'date_maturity': self.date,
-                                'amount_currency': abs(writeoff_multi_acc_new_id.amount),
-                                'currency_id': self.currency_id.id,
-                                'debit': abs(writeoff_multi_acc_new_id.amount),
-                                'credit': 0.00,
-                                'partner_id': self.partner_id.id,
-                                'account_id': writeoff_multi_acc_new_id.writeoff_account_id.id,
-                            }
-                        new_data_temp.append(vals_new)
-                    for credit_line_id in credit_line_ids:
-                        print('credit:', credit_line_id['credit'])
-                        vals_new = {
-                            'name': credit_line_id['name'],
-                            'date_maturity': credit_line_id['date_maturity'],
-                            'amount_currency': credit_line_id['amount_currency'],
-                            'currency_id': credit_line_id['currency_id'],
-                            'debit': 0.00,
-                            'credit': credit_line_id['credit'],
-                            'partner_id': credit_line_id['partner_id'],
-                            'account_id': credit_line_id['account_id'],
-                        }
-                        new_data_temp.append(vals_new)
-                    print('RETURN---new_data_temp', new_data_temp)
-                    return new_data_temp
-                else:
-                    print('RETURN---',res)
-                    return res
-            except:
-                print('EXCEPTTTTTTTTTT')
+            # if no write_off_line_vals
+            # we normally don't use standard write off val and may have our own write off
+            # but if difference currency we will not support
+            if self.currency_id != self.env.user.company_id.currency_id:
+                print('jjjjjj')
                 return res
+
+            # if same currency then we can support multi-write off
+            else:
+                print('ELSEEEEEE')
+                print('self._context:', self._context)
+                try:
+                    new_data_temp = []
+                    if self.payment_type == 'inbound':
+                        print('inbound')
+                        credit_line_ids = list(filter(lambda m: m['credit'], res))
+                        debit_line_ids = list(filter(lambda m: m['debit'], res))
+                        print('credit_line_ids:', credit_line_ids)
+                        print('debit_line_ids:', debit_line_ids)
+                        print('==== START')
+                        amount_payment = self.amount
+                        credit_amount = credit_line_ids[0]['credit']
+                        debit_amount = debit_line_ids[0]['debit']
+                        for writeoff_multi_acc_new_id in self.writeoff_multi_acc_ids:
+                            if writeoff_multi_acc_new_id.amount > 0:
+                                amount_payment += abs(writeoff_multi_acc_new_id.amount)
+                            else:
+                                amount_payment -= abs(writeoff_multi_acc_new_id.amount)
+                        print('credit_amount:', credit_amount)
+                        print('debit_amount:', debit_amount)
+                        print('amount_payment:', amount_payment)
+                        for debit_line_id in debit_line_ids:
+                            print('DEBIT;', debit_line_id['debit'])
+                            vals_new = {
+                                'name': debit_line_id['name'],
+                                'date_maturity': debit_line_id['date_maturity'],
+                                'amount_currency': debit_line_id['debit'],
+                                'currency_id': debit_line_id['currency_id'],
+                                'debit': debit_line_id['debit'],
+                                'credit': 0.00,
+                                'partner_id': debit_line_id['partner_id'],
+                                'account_id': debit_line_id['account_id'],
+                            }
+                            new_data_temp.append(vals_new)
+                        for writeoff_multi_acc_new_id in self.writeoff_multi_acc_ids:
+                            print('writeoff_multi_acc_new_id.amount:', writeoff_multi_acc_new_id.amount)
+                            if writeoff_multi_acc_new_id.amount > 0:
+                                vals_new = {
+                                    'name': writeoff_multi_acc_new_id.name,
+                                    'date_maturity': self.date,
+                                    'amount_currency': abs(writeoff_multi_acc_new_id.amount),
+                                    'currency_id': self.currency_id.id,
+                                    'debit': abs(writeoff_multi_acc_new_id.amount),
+                                    'credit': 0.00,
+                                    'partner_id': self.partner_id.id,
+                                    'account_id': writeoff_multi_acc_new_id.writeoff_account_id.id,
+                                }
+                            else:
+                                vals_new = {
+                                    'name': writeoff_multi_acc_new_id.name,
+                                    'date_maturity': self.date,
+                                    'amount_currency': abs(writeoff_multi_acc_new_id.amount),
+                                    'currency_id': self.currency_id.id,
+                                    'debit': 0.00,
+                                    'credit': abs(writeoff_multi_acc_new_id.amount),
+                                    'partner_id': self.partner_id.id,
+                                    'account_id': writeoff_multi_acc_new_id.writeoff_account_id.id,
+                                }
+                            new_data_temp.append(vals_new)
+                        for credit_line_id in credit_line_ids:
+                            print('credit:', credit_line_id['credit'])
+                            vals_new = {
+                                'name': credit_line_id['name'],
+                                'date_maturity': credit_line_id['date_maturity'],
+                                'amount_currency': credit_line_id['amount_currency'],
+                                'currency_id': credit_line_id['currency_id'],
+                                'debit': 0.00,
+                                'credit': amount_payment,
+                                'partner_id': credit_line_id['partner_id'],
+                                'account_id': credit_line_id['account_id'],
+                            }
+                            new_data_temp.append(vals_new)
+                        return new_data_temp
+                    elif self.payment_type == 'outbound':
+                        print('OUTBOUND')
+                        credit_line_ids = list(filter(lambda m: m['credit'], res))
+                        debit_line_ids = list(filter(lambda m: m['debit'], res))
+                        print('credit_line_ids:', credit_line_ids)
+                        print('debit_line_ids:', debit_line_ids)
+                        print('==== START')
+                        amount_payment = self.amount
+                        credit_amount = credit_line_ids[0]['credit']
+                        debit_amount = debit_line_ids[0]['debit']
+                        for writeoff_multi_acc_new_id in self.writeoff_multi_acc_ids:
+                            if writeoff_multi_acc_new_id.amount > 0:
+                                amount_payment += abs(writeoff_multi_acc_new_id.amount)
+                            else:
+                                amount_payment -= abs(writeoff_multi_acc_new_id.amount)
+                        print('credit_amount:', credit_amount)
+                        print('debit_amount:', debit_amount)
+                        print('amount_payment:', amount_payment)
+                        for debit_line_id in debit_line_ids:
+                            print('DEBIT;', debit_line_id['debit'])
+                            vals_new = {
+                                'name': debit_line_id['name'],
+                                'date_maturity': debit_line_id['date_maturity'],
+                                'amount_currency': amount_payment,
+                                'currency_id': debit_line_id['currency_id'],
+                                'debit': amount_payment,
+                                'credit': 0.00,
+                                'partner_id': debit_line_id['partner_id'],
+                                'account_id': debit_line_id['account_id'],
+                            }
+                            new_data_temp.append(vals_new)
+                        for writeoff_multi_acc_new_id in self.writeoff_multi_acc_ids:
+                            print('writeoff_multi_acc_new_id.amount:', writeoff_multi_acc_new_id.amount)
+                            if writeoff_multi_acc_new_id.amount > 0:
+                                vals_new = {
+                                    'name': writeoff_multi_acc_new_id.name,
+                                    'date_maturity': self.date,
+                                    'amount_currency': abs(writeoff_multi_acc_new_id.amount),
+                                    'currency_id': self.currency_id.id,
+                                    'debit': 0.00,
+                                    'credit': abs(writeoff_multi_acc_new_id.amount),
+                                    'partner_id': self.partner_id.id,
+                                    'account_id': writeoff_multi_acc_new_id.writeoff_account_id.id,
+                                }
+                            else:
+                                vals_new = {
+                                    'name': writeoff_multi_acc_new_id.name,
+                                    'date_maturity': self.date,
+                                    'amount_currency': abs(writeoff_multi_acc_new_id.amount),
+                                    'currency_id': self.currency_id.id,
+                                    'debit': abs(writeoff_multi_acc_new_id.amount),
+                                    'credit': 0.00,
+                                    'partner_id': self.partner_id.id,
+                                    'account_id': writeoff_multi_acc_new_id.writeoff_account_id.id,
+                                }
+                            new_data_temp.append(vals_new)
+                        for credit_line_id in credit_line_ids:
+                            print('credit:', credit_line_id['credit'])
+                            vals_new = {
+                                'name': credit_line_id['name'],
+                                'date_maturity': credit_line_id['date_maturity'],
+                                'amount_currency': credit_line_id['amount_currency'],
+                                'currency_id': credit_line_id['currency_id'],
+                                'debit': 0.00,
+                                'credit': credit_line_id['credit'],
+                                'partner_id': credit_line_id['partner_id'],
+                                'account_id': credit_line_id['account_id'],
+                            }
+                            new_data_temp.append(vals_new)
+                        print('RETURN---new_data_temp', new_data_temp)
+                        return new_data_temp
+                    else:
+                        print('RETURN---', res)
+                        return res
+                except:
+                    print('EXCEPTTTTTTTTTT')
+                    return res
+
 
 
 
