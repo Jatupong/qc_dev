@@ -10,7 +10,7 @@ from . import purchase_order
 from . import stock_move
 from . import stock_move_line
 from . import purchase_request_type
-# from . import purchasing_type
-# from . import order_type
-# from . import purchase_order_type
+from . import purchasing_type
+from . import order_type
+from . import purchase_order_type
 
