@@ -13,7 +13,7 @@ class SaleOrder(models.Model):
         selection=[
             ('draft', "Draft Order"),
             ('sent', "Pre-production order"),
-            ('check_delivery', "Check Delivery"),
+            ('check_delivery', "Check Deliveryr"),
             ('delivery_confirm', "Delivery Confirm"),
             ('pp_confirm', "PP Confirm"),
             ('sale', "Sales Order"),

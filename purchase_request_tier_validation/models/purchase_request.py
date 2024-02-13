@@ -1,6 +1,6 @@
 # Copyright 2019-2020 ForgeFlow S.L.
 # License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
-from odoo import api, models, fields
+from odoo import api, models
 
 
 class PurchaseRequest(models.Model):
@@ -9,7 +9,6 @@ class PurchaseRequest(models.Model):
     _state_from = ["draft"]
     _state_to = ["approved"]
 
-    active = fields.Boolean(default=True)
     _tier_validation_manual_config = False
 
     @api.model
