@@ -4,7 +4,7 @@
 
 {
     'name': 'QC. Sale Order State',
-    'version': '16.0.0.1',
+    'version': '16.0.0.4',
     'category': 'base',
     'summary': '',
     'description': """
