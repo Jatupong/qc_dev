@@ -5,6 +5,7 @@ from odoo import models
 
 
 class PurchaseOrder(models.Model):
+
     _name = "purchase.order"
     _inherit = ["purchase.order", "tier.validation"]
     _state_from = ["draft", "sent", "to approve"]
