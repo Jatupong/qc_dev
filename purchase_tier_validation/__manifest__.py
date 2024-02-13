@@ -11,6 +11,10 @@
     "license": "AGPL-3",
     "application": False,
     "installable": True,
-    "depends": ["purchase", "base_tier_validation"],
-    "data": ["views/purchase_order_view.xml"],
+    "depends": ["purchase",
+                # "base_tier_validation"
+                ],
+    "data": [
+        # "views/purchase_order_view.xml"
+    ],
 }
