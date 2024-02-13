@@ -12,9 +12,9 @@
     "application": False,
     "installable": True,
     "depends": ["purchase",
-                # "base_tier_validation"
+                "base_tier_validation"
                 ],
     "data": [
-        # "views/purchase_order_view.xml"
+        "views/purchase_order_view.xml"
     ],
 }
