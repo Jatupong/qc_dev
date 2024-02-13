@@ -36,11 +36,13 @@ class TierValidation(models.AbstractModel):
         compute="_compute_validated_rejected", search="_search_validated"
     )
     validated_message = fields.Html(compute="_compute_validated_rejected")
+
     need_validation = fields.Boolean(compute="_compute_need_validation")
     rejected = fields.Boolean(
         compute="_compute_validated_rejected", search="_search_rejected"
     )
     rejected_message = fields.Html(compute="_compute_validated_rejected")
+    # abc
     reviewer_ids = fields.Many2many(
         string="Reviewers",
         comodel_name="res.users",
