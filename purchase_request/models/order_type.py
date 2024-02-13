@@ -17,6 +17,7 @@ class OrderType(models.Model):
             ("company_id", "in", [False, self.env.company.id]),
         ]
 
+
     @api.model
     def _default_sequence_id(self):
         seq_type = self.env.ref("purchase_request.seq_purchase_request")
