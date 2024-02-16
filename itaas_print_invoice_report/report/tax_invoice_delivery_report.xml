@@ -425,15 +425,29 @@
                                                     <!--<t t-if="not o.bill_to_id">-->
                                                     <!--<t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
                                                     <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
-                                                    <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>
+<!--                                                    <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>-->
 <!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
 <!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
 <!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
 <!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
 <!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
 <!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
+<!--                                                    <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>-->
+
+
+                                                     <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>
+                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
                                                     <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>
+
+
+
                                                     <!--</t>-->
                                                 </div>
                                             </td>
@@ -592,7 +606,7 @@
                         <!-- unit is mm --> <!-- max height a4 = 297, deduct margin and bottom 100, 50 and left 147, 30px per line then max = 15 line-->
                         <!--t t-set="max_body_line" t-value="15"-->
                         <!-- header of tbody take 2 new light = 15, then 147 - 15 = 132-->
-                        <t t-set="max_body_height" t-value="100"/>
+                        <t t-set="max_body_height" t-value="150"/>
                         <t t-set="new_line_height" t-value="5"/>
                         <t t-set="row_line_height" t-value="5"/> <!--- 30px = 7.9375 mm -->
                         <t t-set="max_line_lenght" t-value="45"/>
@@ -639,9 +653,17 @@
                                                 <td align="left" style="border-left:0px solid white;">
                                                     <span t-field="invoice_line_ids[y].product_uom_id.name"/>
                                                 </td>
+<!--                                                <td align="right">-->
+<!--                                                    <t t-if="invoice_line_ids[y].price_unit">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_unit)))"/>-->
+<!--                                                    </t>-->
+<!--                                                </td>-->
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].price_unit">
                                                         <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_unit)))"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        0.00
                                                     </t>
                                                 </td>
                                                 <td align="right">
@@ -649,18 +671,39 @@
                                                         <span t-esc="'{0:,.0f}'.format(abs(float(invoice_line_ids[y].discount)))"/> %
                                                     </t>
                                                 </td>
+<!--                                                <td align="right">-->
+<!--                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include == True">-->
+<!--                                                        <t t-if="invoice_line_ids[y].price_subtotal != 0.00">-->
+<!--                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>-->
+<!--                                                        </t>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include != True">-->
+<!--                                                        <t t-if="invoice_line_ids[y].price_subtotal != 0.00">-->
+<!--                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>-->
+<!--                                                        </t>-->
+<!--                                                    </t>-->
+<!--                                                </td>-->
+
+
                                                 <td align="right">
-                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include == True">
-                                                        <t t-if="invoice_line_ids[y].price_subtotal != 0.00">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include">
+                                                        <t t-if="invoice_line_ids[y].price_total != 0.00">
+                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))" t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            0.00
                                                         </t>
                                                     </t>
-                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include != True">
+                                                    <t t-else="">
                                                         <t t-if="invoice_line_ids[y].price_subtotal != 0.00">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))" t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            0.00
                                                         </t>
                                                     </t>
                                                 </td>
+
                                             </tr>
                                         </t>
                                         <t t-if="(y+1)==(break_line[x])">
@@ -681,31 +724,60 @@
                                                         <span t-field="invoice_line_ids[y].quantity"/>
                                                     </t>
                                                 </td>
+
                                                 <td align="left" style="border-left:0px solid white;">
                                                     <span t-field="invoice_line_ids[y].product_uom_id.name"/>
                                                 </td>
+
+
+<!--                                                <td align="right">-->
+<!--                                                    <t t-if="invoice_line_ids[y].price_unit">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_unit)))"/>-->
+<!--                                                    </t>-->
+<!--                                                </td>-->
+
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].price_unit">
                                                         <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_unit)))"/>
                                                     </t>
+                                                    <t t-else="">
+                                                        0.00
+                                                    </t>
                                                 </td>
+
+
+
+
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].discount">
                                                         <span t-esc="'{0:,.0f}'.format(abs(float(invoice_line_ids[y].discount)))"/> %
                                                     </t>
                                                 </td>
+<!--                                                <td align="right">-->
+<!--                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include == True">-->
+<!--                                                        <t t-if="invoice_line_ids[y].price_subtotal != 0.00">-->
+<!--                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>-->
+<!--                                                        </t>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include != True">-->
+<!--                                                        <t t-if="invoice_line_ids[y].price_subtotal != 0.00">-->
+<!--                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>-->
+<!--                                                        </t>-->
+<!--                                                    </t>-->
+<!--                                                </td>-->
+
                                                 <td align="right">
-                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include == True">
-                                                        <t t-if="invoice_line_ids[y].price_subtotal != 0.00">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
-                                                        </t>
+                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include == True and invoice_line_ids[y].price_subtotal != 0.00">
+                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))" t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>
                                                     </t>
-                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include != True">
-                                                        <t t-if="invoice_line_ids[y].price_subtotal != 0.00">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
-                                                        </t>
+                                                    <t t-elif="invoice_line_ids[y].tax_ids.price_include != True and invoice_line_ids[y].price_subtotal != 0.00">
+                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))" t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        0.00
                                                     </t>
                                                 </td>
+
                                             </tr>
                                             <t t-set="end" t-value="(break_line[x])"/>
                                         </t>
