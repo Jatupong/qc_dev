@@ -502,6 +502,7 @@
                         table.table-bordered {
                         border:1px solid black;
                         padding:2px;
+                        height:auto;
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -601,7 +602,7 @@
                         </td>
                     </table>
 
-                    <table width="100%" class="font_fam table table-bordered" style="margin-top:10px; margin-bottom: 0px; font-size:20px; line-height:20px; height:150px;">
+                    <table width="100%" class="font_fam table table-bordered" style="margin-top:10px; margin-bottom: 0px; font-size:20px; line-height:20px; height:200px;">
                         <tr>
                             <td width="60%">
                                 <table width="100%" class="table table-nobordered">
@@ -687,7 +688,7 @@
                         }
                     </style>
 
-                    <t t-set="max_body_height" t-value="150"/>
+                    <t t-set="max_body_height" t-value="160"/>
                     <t t-set="new_line_height" t-value="5"/>
                     <t t-set="row_line_height" t-value="5"/>
                     <t t-set="max_line_lenght" t-value="50"/>
@@ -889,12 +890,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">83</field>
+        <field name="margin_top">100</field>
         <field name="margin_bottom">55</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">78</field>
+        <field name="header_spacing">95</field>
         <field name="dpi">90</field>
     </record>
 
