@@ -755,6 +755,10 @@
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed_signed(o.reconciled_invoice_ids[y]))))"/>-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>-->
                                             </td>
+
+
+
+
                                             <!--                                            <td align="right">-->
                                             <!--                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>-->
 
