@@ -314,7 +314,7 @@
                             </tr>
                             <t t-set="sale_order_ids_by_partner" t-value="sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)"/>
                             <t t-foreach="sale_order_ids_by_partner" t-as="sale">
-<!--                                <t t-foreach="sale_order_ids" t-as="sale">-->
+                                <!--                                <t t-foreach="sale_order_ids" t-as="sale">-->
                                 <t t-foreach="sale.invoice_ids" t-as="inv">
                                     <tr>
                                         <td>
@@ -402,7 +402,9 @@
                                             </td>
                                         </t>
                                         <td>
-                                            <span t-esc="sale_amount_total - inv.amount_total"/>
+                                            <!--                                            <span t-esc="sale_amount_total - inv.amount_total"/>-->
+                                            <t t-set="sum_amount_total" t-value="sale_amount_total - inv.amount_total"/>
+                                            <span t-esc="'{0:,.2f}'.format(float(sum_amount_total))"/>
                                         </td>
                                         <td>
                                             <span t-esc="inv.narration"/>

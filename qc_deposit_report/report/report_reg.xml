@@ -16,7 +16,7 @@
             <field name="name">A4_Five_Margin_deposit</field>
             <field name="default" eval="False"/>
             <field name="format">A4</field>
-            <field name="orientation">Portrait</field>
+            <field name="orientation">Landscape</field>
             <field name="margin_top">30</field>
             <field name="margin_bottom">35</field>
             <field name="margin_left">5</field>
