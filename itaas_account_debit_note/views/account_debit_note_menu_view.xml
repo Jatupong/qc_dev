@@ -58,8 +58,8 @@
             <!--            </field>-->
 
             <xpath expr="//field[@name='partner_shipping_id']" position="after">
-                <field name="is_debit_note"/>
-                <field name="is_debit_vendor"/>
+                <field name="is_debit_note" invisible="1" />
+                <field name="is_debit_vendor" invisible="1" />
             </xpath>
         </field>
     </record>

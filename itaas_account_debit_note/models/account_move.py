@@ -8,11 +8,10 @@ from odoo.exceptions import UserError, AccessError
 class AccountMoveseq(models.Model):
     _inherit = 'account.move'
 
-    is_debit_note = fields.Boolean(string='Is Debit Note')
+    is_debit_note = fields.Boolean(string='Is Debit Note', default=True)
     is_debit_invoice = fields.Boolean(string='Is Debit Invoice')
-    is_debit_vendor = fields.Boolean(string='Is Debit Vendor')
+    is_debit_vendor = fields.Boolean(string='Is Debit Vendor', default=True)
     is_credit_note = fields.Boolean(string='Is Credit Note')
-
 
     def _get_sequence(self):
         print('mmmmmm')
@@ -28,4 +27,3 @@ class AccountMoveseq(models.Model):
         if self.move_type in ('out_refund', 'in_refund') and self.is_credit_note and journal.refund_sequence_id:
             return journal.refund_sequence_id
         return
-
