@@ -955,8 +955,11 @@
                                             </strong>
                                         </td>
                                         <td align="right">
+                                            <!--                                            <span t-if="end ==(break_line[len(break_line)-1])"-->
+                                            <!--                                                  t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>-->
+
                                             <span t-if="end ==(break_line[len(break_line)-1])"
-                                                  t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
+                                                  t-esc="'{0:,.2f}'.format(abs(float(discount_total)+float(o.amount_untaxed)))"/>
                                         </td>
 
                                     </tr>
@@ -969,10 +972,10 @@
                                             </strong>
                                         </td>
                                         <td align="right">
-<!--                                            <span t-if="end==(break_line[len(break_line)-1])"-->
-<!--                                                  t-esc="'{0:,.2f}'.format(float(discounted_amount))"/>-->
+                                            <!--                                            <span t-if="end==(break_line[len(break_line)-1])"-->
+                                            <!--                                                  t-esc="'{0:,.2f}'.format(float(discounted_amount))"/>-->
 
-                                             <span t-esc="'{0:,.2f}'.format(abs(float(discount_total)))"/>
+                                            <span t-esc="'{0:,.2f}'.format(abs(float(discount_total)))"/>
                                         </td>
                                     </tr>
                                     <tr>
