@@ -8,9 +8,9 @@ from odoo.exceptions import UserError, AccessError
 class AccountMoveseq(models.Model):
     _inherit = 'account.move'
 
-    is_debit_note = fields.Boolean(string='Is Debit Note', default=False)
+    is_debit_note = fields.Boolean(string='Is Debit Note',default=False)
     is_debit_invoice = fields.Boolean(string='Is Debit Invoice')
-    is_debit_vendor = fields.Boolean(string='Is Debit Vendor', default=True)
+    is_debit_vendor = fields.Boolean(string='Is Debit Vendor', default=False)
     is_credit_note = fields.Boolean(string='Is Credit Note')
 
     def _get_sequence(self):
