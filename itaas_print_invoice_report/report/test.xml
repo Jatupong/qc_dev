@@ -725,7 +725,7 @@
                         <t t-set="invoice_line_ids"
                            t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
                         <t t-set="item" t-value="0"/>
-                        <t t-set="discount_total" t-value="0.0"/>
+
                         <t t-foreach="range(0,len(break_line),1)" t-as="x">
                             <table width="100%" class="font_fam table-bordered-b font_size_14" style="height:150mm;">
                                 <thead>
@@ -757,7 +757,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
+                                    <t t-set="discount_total" t-value="0.0"/>
                                     <!--                                    <t t-if="break_line[x]">-->
                                     <!--                                        <t t-foreach="range(start, break_line[x], 1)" t-as="y">-->
                                     <!--                                         -->
@@ -767,13 +767,6 @@
 
 
                                     <t t-foreach="range(start,break_line[x],1)" t-as="y">
-                                        <t t-if="invoice_line_ids[y].discount">
-                                            <t t-set="discount_amount"
-                                               t-value="abs(float(invoice_line_ids[y].discount)) * float(invoice_line_ids[y].price_unit) * float(invoice_line_ids[y].quantity) / 100"/>
-                                            <t t-set="discount_total" t-value="discount_total + discount_amount"/>
-                                        </t>
-
-
                                         <t t-if="(y+1)!=(break_line[x])">
                                             <tr style="height:30px;">
                                                 <td align="center">
@@ -928,7 +921,11 @@
                                             <t t-set="end" t-value="(break_line[x])"/>
                                         </t>
 
-
+                                        <t t-if="invoice_line_ids[y].discount">
+                                            <t t-set="discount_amount"
+                                               t-value="abs(float(invoice_line_ids[y].discount)) * float(invoice_line_ids[y].price_unit) * float(invoice_line_ids[y].quantity) / 100"/>
+                                            <t t-set="discount_total" t-value="discount_total + discount_amount"/>
+                                        </t>
                                     </t>
 
 
