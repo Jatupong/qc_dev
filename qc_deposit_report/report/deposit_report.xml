@@ -393,18 +393,23 @@
                                         <!--                                        คงเหลือ-->
                                         <t t-if="inv.company_id.currency_id != inv.currency_id">
                                             <td>
-                                                <span t-esc="sale_amount_total - inv.amount_total"/>
+                                                <!--                                                <span t-esc="sale_amount_total - inv.amount_total"/>-->
+                                                <t t-set="sum_amount_total_1" t-value="sale_amount_total - inv.amount_total"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(sum_amount_total_1))"/>
                                             </td>
                                         </t>
                                         <t t-else="">
                                             <td>
-                                                <span t-esc="sale_amount_total - inv.amount_total"/>
+                                                <!--                                                <span t-esc="sale_amount_total - inv.amount_total"/>-->
+                                                <t t-set="sum_amount_total_2" t-value="sale_amount_total - inv.amount_total"/>
+                                                <span t-esc="'{0:,.2f}'.format(float(sum_amount_total_2))"/>
+
                                             </td>
                                         </t>
                                         <td>
                                             <!--                                            <span t-esc="sale_amount_total - inv.amount_total"/>-->
-                                            <t t-set="sum_amount_total" t-value="sale_amount_total - inv.amount_total"/>
-                                            <span t-esc="'{0:,.2f}'.format(float(sum_amount_total))"/>
+                                            <t t-set="sum_amount_total_3" t-value="sale_amount_total - inv.amount_total"/>
+                                            <span t-esc="'{0:,.2f}'.format(float(sum_amount_total_3))"/>
                                         </td>
                                         <td>
                                             <span t-esc="inv.narration"/>
