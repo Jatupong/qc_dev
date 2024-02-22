@@ -2,8 +2,8 @@
 <odoo>
     <template id="qc_proforma_invoice_report_id" >
 
-        <t t-foreach="docs" t-as="o">
-             <t t-call="web.basic_layout">
+         <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
                 <div class="header">
                     <style>
                         @font-face
@@ -161,7 +161,20 @@
                                         <td><B>Attn</B></td>
                                         <td colspan="3">
                                             <B>: </B>
-                                            <span t-fields="o.attn_id.street"/><br/>
+                                            <div style="width:500px; word-wrap: break-word;">
+                                                <!--                                                <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
+                                                <!--                                                <span t-esc="' '.join([ address for address in partner_address ])"/>-->
+                                                <span t-if="o.attn_id.name"><span t-field="o.partner_id.name"/>&amp;nbsp;</span>
+                                                <span t-if="o.attn_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>
+                                                <span t-if="o.attn_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.attn_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                                <span t-if="o.attn_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.attn_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                                <span t-if="o.attn_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.attn_id.district_id.name"/>&amp;nbsp;</span>
+                                                <span t-if="o.attn_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.attn_id.district_id.name"/>&amp;nbsp;</span>
+                                                <span t-if="o.attn_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.attn_id.state_id.name"/>&amp;nbsp;</span>
+                                                <span t-if="o.attn_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.attn_id.state_id.name"/>&amp;nbsp;</span>
+                                                <span t-if="o.attn_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>
+                                            </div>
+                                            <!--<span t-fields="o.attn_id.street"/><br/>-->
                                             <!--<t t-set="contact_ids" t-value="o.partner_id.child_ids.filtered(lambda x:x.type == 'contact')"/>-->
                                             <!--<t t-if="contact_ids">-->
                                             <!--    <span t-esc="contact_ids[0].name"/>-->
@@ -200,7 +213,7 @@
                                         <td><B>Backstamp</B></td>
                                         <td>
                                             <B>: </B>
-                                            <span t-fields="o.logo"/>
+                                            <span t-field="o.logo"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -417,6 +430,7 @@
                         </thead>
                         <tbody>
                             <t t-set="product_qty_total" t-value="0.0"/>
+                              <t t-set="product_qty_total1" t-value="0.0"/>
                             <t t-foreach="o.order_line" t-as="line">
                                 <t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>
                                 <tr>
@@ -440,7 +454,8 @@
                                         </t>
                                         <t t-else="">
                                             <span t-field="line.product_uom_qty"/>
-                                            <t t-set="product_qty_total" t-value="product_qty_total + line.product_uom_qty"/>
+                                            <t t-set="product_qty_total1" t-value="product_qty_total1 + line.product_uom_qty"/>
+                                            <!--<span t-esc="product_qty_total"/>-->
                                         </t>
                                     </td>
                                     <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_unit)"/></td>
@@ -449,10 +464,17 @@
                             </t>
                         </tbody>
                         <tfoot>
-                            <tr>
-                                <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>
-                                <td align="right"><span t-esc="'{0:,.2f}'.format(product_qty_total)"/></td>
-                                <td colspan="2" align="2"/>
+                            <!--<tr>-->
+                            <!--    <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>-->
+                                <!--<td align="right"><span><br/></span></td>-->
+                            <!--    <td align="right"/>-->
+                            <!--    <td colspan="2" align="2"/><span t-esc="'{0:,.2f}'.format(product_qty_total + product_qty_total1)"/>-->
+                            <!--</tr>-->
+                              <tr>
+                                <td colspan="6" align="center"><B>TOTAL OF GOODS</B></td>
+                                <td colspan="2" align="right">
+                                    <span t-esc="'{0:,.2f}'.format(product_qty_total + product_qty_total1)"/>
+                                </td>
                             </tr>
                             <tr>
                                 <td colspan="6" align="center"><B>TOTAL OF AMOUNT</B></td>
