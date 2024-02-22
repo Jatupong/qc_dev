@@ -179,10 +179,13 @@
                                         <table width="100%" class="font_fam table table-nobordered font_size_14">
                                                 <tr>
                                                         <td width="15%">เลขที่สั่งผลิต</td>
-                                                        <td width="35%">: </td>
+                                                        <td width="35%">:
+                                                          <span t-field="o.order_line.manufacturing_request_ids[0].number"/>
+                                                        </td>
+
                                                         <td width="15%">วันที่</td>
                                                         <td width="35%">:
-                                                                <span t-field="o.date_order"/>
+                                                                <span t-field="o.date_order" t-options="{'widget': 'date', 'format': 'dd/MM/yyy'}"/>
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -192,7 +195,7 @@
                                                         </td>
                                                         <td>กำหนดส่ง</td>
                                                         <td>:
-                                                                <span t-field="o.commitment_date"/>
+                                                                <span t-field="o.commitment_date" t-options="{'widget': 'date', 'format': 'dd/MM/yyy'}"/>
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -202,7 +205,7 @@
                                                         </td>
                                                         <td>P/I No.</td>
                                                         <td>:
-                                                                <span t-field="o.id_po"/>
+                                                                <span t-field="o.name"/>
                                                         </td>
                                                 </tr>
                                                 <tr>
@@ -220,8 +223,8 @@
                                                         <td>:
                                                                 <span t-field="o.logo"/>
                                                         </td>
-                                                        <td></td>
-                                                        <td></td>
+                                                        <td/>
+                                                        <td/>
                                                 </tr>
                                         </table>
                                 </div>
