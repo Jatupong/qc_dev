@@ -3,7 +3,7 @@
     <template id="qc_proforma_invoice_report_id" >
 
         <t t-foreach="docs" t-as="o">
-            <t t-call="web.basic_layout">
+             <t t-call="web.basic_layout">
                 <div class="header">
                     <style>
                         @font-face
@@ -161,10 +161,11 @@
                                         <td><B>Attn</B></td>
                                         <td colspan="3">
                                             <B>: </B>
-                                            <t t-set="contact_ids" t-value="o.partner_id.child_ids.filtered(lambda x:x.type == 'contact')"/>
-                                            <t t-if="contact_ids">
-                                                <span t-esc="contact_ids[0].name"/>
-                                            </t>
+                                            <span t-fields="o.attn_id.street"/><br/>
+                                            <!--<t t-set="contact_ids" t-value="o.partner_id.child_ids.filtered(lambda x:x.type == 'contact')"/>-->
+                                            <!--<t t-if="contact_ids">-->
+                                            <!--    <span t-esc="contact_ids[0].name"/>-->
+                                            <!--</t>-->
                                         </td>
                                     </tr>
                                     <tr>
@@ -199,6 +200,7 @@
                                         <td><B>Backstamp</B></td>
                                         <td>
                                             <B>: </B>
+                                            <span t-fields="o.logo"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -233,7 +235,9 @@
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
                                         <td width="30%"><B>Shipping Mark</B></td>
-                                        <td width="70%" colspan="3"><B>: </B></td>
+                                        <td width="70%" colspan="3"><B>:  </B>
+                                        <span t-field="o.shipping_mark"/>
+                                       </td>
                                     </tr>
                                 </table>
                             </td>
@@ -390,7 +394,7 @@
 
                     <t t-set="num" t-value="0"/>
 
-                    <table class="table table-bordered-b font_fam font_size_14" style="height:200mm; ">
+                    <table class="table table-bordered-b font_fam font_size_14" style="height:100mm; ">
                         <thead>
                             <tr>
                                 <th rowspan="2"><span>NO</span></th>
@@ -645,7 +649,7 @@
                                 <span t-field="o.partner_bank_id.bank_id.state"/>
                                 <span t-field="o.partner_bank_id.bank_id.country"/>
                                 <span t-field="o.partner_bank_id.bank_id.zip"/>
-                                <span>TEL:</span><span t-field="o.partner_bank_id.bank_id.bic"/>
+                                <span>TEL:</span><span t-field="o.partner_bank_id.bank_id.phone"/>
                                 <span>FAX:</span><span t-field="o.partner_bank_id.bank_id.fax"/>
                             </p>
                         </t>
@@ -656,12 +660,16 @@
                                 <div style="height:40px;">
 
                                 </div>
+                                <br/>
+                                <br/>
+                                <br/>
                                 <span>Authorized Signature (Buyer)</span>
                             </td>
                             <td width="33%" align="center">
                                 <div style="height:40px;">
 
                                 </div>
+                                <br/><br/><br/>
                                 <span>Quality Ceramic Co.,Ltd</span>
                             </td>
                             <td width="34%">
