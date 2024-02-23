@@ -85,6 +85,7 @@ class AccountPayment(models.Model):
     #         account = 0.0
     #         return account
 
+
     # @api.multi
     # def invoice_print(self):
     #     """ Print the invoice and mark it as sent, so that we can see more
@@ -128,7 +129,6 @@ class AccountPayment(models.Model):
     #     }
 
     def get_line(self, data, max_line):
-        print('get_line')
         # this function will count number of \n
         line_count = data.count("\n")
         if not line_count:
@@ -178,12 +178,10 @@ class AccountPayment(models.Model):
         return break_page_line
 
     def get_break_line_invoice(self, invoice_ids, max_body_height, new_line_height, row_line_height, max_line_lenght):
-        print('get_break_line_invoice', invoice_ids)
         break_page_line = []
         count_height = 0
         count = 1
         for line in invoice_ids:
-            print('line', line)
             line_height = row_line_height + ((self.get_line(line.name, max_line_lenght)) * new_line_height)
             count_height += line_height
             if count_height > max_body_height:

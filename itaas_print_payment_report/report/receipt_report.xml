@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="payment_receipt_report_id">
+    <template id="payment_receipt_report_id" >
         <t t-foreach="docs" t-as="o">
             <t t-call="web.basic_layout">
 
@@ -8,13 +8,11 @@
                     @font-face
                     {
                     font-family: Sarabun-Regular;
-                    src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                    format('opentype');
+                    src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                     }
                     .font_fam{
                     font-family: Sarabun-Regular;
-                    src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                    format('opentype');
+                    src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                     }
                     table.table-bordered{
                     border:1px solid black;
@@ -146,25 +144,22 @@
                     }
                 </style>
 
-                <div class="header">
+               <div class="header">
                     <style>
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -189,8 +184,7 @@
                         margin-bottom:5px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
                         border:1px solid white;
@@ -221,12 +215,12 @@
                         border-bottom:#000 solid 1px;
                         }
                         .table_top_left_right{
-                        border-top:1px solid black;
-                        border-left:1px solid white;
-                        border-right:1px solid white;
+                            border-top:1px solid black;
+                            border-left:1px solid white;
+                            border-right:1px solid white;
 
-                        }
-                        .font_size_32{
+                            }
+                             .font_size_32{
                         font-size: 32px;
                         line-height: 30px;
                         }
@@ -258,32 +252,20 @@
 
                     <table width="100%" class="font_fam table table-nobordered">
                         <td width="20%" style="vertical-align: middle;">
-                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
-                                 style="max-height:150px; max-width:150px;" alt="Logo"/>
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:150px; max-width:150px;" alt="Logo"/>
                         </td>
                         <td width="55%" style="vertical-align: middle;">
                             <div style="width:500px; word-wrap: break-word;">
                                 <font style="font-size: 16px;line-height:18px;">
                                     <B>
                                         <span t-field="o.company_id.name"/>&amp;nbsp;
-                                        <t t-if="o.company_id.branch_no == '00000'">
-                                            <span>(สำนักงานใหญ่)</span>
-                                        </t>
-                                        <t t-if="o.company_id.branch_no != '00000'">(<span
-                                                t-field="o.company_id.branch_no"/>)
-                                        </t>
-                                    </B>
-                                    <br/>
+                                        <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>
+                                        <t t-if="o.company_id.branch_no != '00000'">(<span t-field="o.company_id.branch_no"/>)</t>
+                                    </B><br/>
                                     <B>
                                         <span t-field="o.company_id.english_name"/>&amp;nbsp;
-                                        <t t-if="o.company_id.branch_no == '00000'">
-                                            <span>(HEAD OFFICE)</span>
-                                            <br/>
-                                        </t>
-                                        <t t-if="o.company_id.branch_no != '00000'">
-                                            <span t-field="o.company_id.eng_name"/>
-                                            <br/>
-                                        </t>
+                                        <t t-if="o.company_id.branch_no == '00000'"><span>(HEAD OFFICE)</span><br/></t>
+                                        <t t-if="o.company_id.branch_no != '00000'"><span t-field="o.company_id.eng_name"/><br/></t>
                                     </B>
 
                                 </font>
@@ -301,61 +283,32 @@
                                     <!--<span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span><br/>-->
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
-                                    <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;
-                                    </span>
-                                    <!--                                    <br/>-->
+                                    <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
+<!--                                    <br/>-->
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
-                                    <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span
-                                            t-field="o.company_id.city"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ<span
-                                            t-field="o.company_id.city"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'">
-                                        <span t-field="o.company_id.state_id.name"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">
-                                        จังหวัด<span t-field="o.company_id.state_id.name"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;
-                                    </span>
-                                    <br/>
+                                    <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.company_id.city"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'"><span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;</span><br/>
 
-                                    <t t-if="o.company_id.english_address">
-                                        <span t-field="o.company_id.english_address"/>
-                                        <br/>
-                                    </t>
-                                    <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span
-                                            t-esc="o.company_id.phone"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span
-                                            t-esc="o.company_id.email"/>&amp;nbsp;
-                                        <br/>
-                                    </span>
-                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;<span
-                                            t-esc="o.company_id.vat"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;
-                                    </span>
-                                </font>
-                            </div>
+                                    <t t-if="o.company_id.english_address"><span t-field="o.company_id.english_address"/><br/></t>
+                                    <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;<br/></span>
+                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;</span>
+                                </font>                            </div>
                         </td>
                         <td width="25%" style="text-align:left; vertical-align: middle;">
                             <div style="text-align:center;">
                                 <font style="font-size: 18px;">
-                                    <strong>ใบเสร็จรับเงิน</strong>
-                                    <br/>
-                                    <strong>Receipt</strong>
-                                    <br/>
-                                </font>
-                                <br/>
+                                    <strong>ใบเสร็จรับเงิน</strong><br/>
+                                    <strong>Receipt</strong><br/>
+                                </font><br/>
                                 <font style="font-size: 16px;">
                                     <span>หน้า</span>
-                                    <span class="page"/>/
-                                    <span class="topage"/>
-                                    <br/>
+                                    <span class="page"/>/<span class="topage"/><br/>
                                 </font>
                             </div>
                         </td>
@@ -363,13 +316,10 @@
 
                     <table width="100%" class="font_fam td_bott" style="font-size: 14px; line-height:10px; ">
                         <tr>
-                            <td width="15%"
-                                style="padding-top:10px;border-right:0px solid white;border-left:0px solid white;">
-                                <strong>รหัสลูกค้า<br/>Customer Code
-                                </strong>
+                            <td width="15%" style="padding-top:10px;border-right:0px solid white;border-left:0px solid white;">
+                                <strong>รหัสลูกค้า<br/>Customer Code</strong>
                             </td>
-                            <td width="60%"
-                                style="padding-top:10px;border-right:0px solid white;border-left:0px solid white;border-bottom:0px solid white;">
+                            <td width="60%" style="padding-top:10px;border-right:0px solid white;border-left:0px solid white;border-bottom:0px solid white;">
                                 <span t-field="o.partner_id.ref"/>
                                 <t t-if="o.partner_id.vat">
                                     &amp;nbsp;
@@ -377,82 +327,50 @@
                                     <span t-field="o.partner_id.vat"/>
                                 </t>
                             </td>
-                            <td width="25%" rowspan="3"
-                                style="padding-top:10px;border-right:0px solid white;border-left:0px solid white;">
+                            <td width="25%" rowspan="3" style="padding-top:10px;border-right:0px solid white;border-left:0px solid white;">
                                 <div style="padding-left:5px;">
-                                    <span>
-                                        <B>เลขที่/No</B>
-                                    </span>
-                                    <br/>
-                                    <span t-field="o.name"/>
-                                    <br/>
-                                    <span>
-                                        <B>วันที่/Date</B>
-                                    </span>
-                                    <br/>
+                                    <span><B>เลขที่/No</B></span><br/>
+                                    <span t-field="o.name"/><br/>
+                                    <span><B>วันที่/Date</B></span><br/>
                                     <!--                                    <span t-field="o.payment_date" t-field-options="{&quot;widget&quot;: &quot;date&quot;}"/><br/>-->
-                                    <span t-field="o.date" t-field-options="{&quot;widget&quot;: &quot;date&quot;}"/>
-                                    <br/>
+                                    <span t-field="o.date" t-field-options="{&quot;widget&quot;: &quot;date&quot;}"/><br/>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <td style="border-right:0px solid white;border-left:0px solid white; border-top:1px solid white;">
-                                <strong>ชื่อลูกค้า<br/>Customer Name
-                                </strong>
+                                <strong>ชื่อลูกค้า<br/>Customer Name</strong>
                             </td>
                             <td style="border-right:0px solid white;border-top:0px solid white;">
                                 <span t-field="o.partner_id"/>
                                 <t t-if="o.partner_id.branch_no">
-                                    <t t-if="o.partner_id.branch_no == '00000'">
-                                        <span>(สำนักงานใหญ่)</span>
-                                    </t>
-                                    <t t-if="o.partner_id.branch_no != '00000'">(สาขา&amp;nbsp;<span
-                                            t-field="o.partner_id.branch_no"/>)
-                                    </t>
+                                    <t t-if="o.partner_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>
+                                    <t t-if="o.partner_id.branch_no != '00000'">(สาขา&amp;nbsp;<span t-field="o.partner_id.branch_no"/>)</t>
                                 </t>
                             </td>
                         </tr>
-                        <tr>
+                       <tr>
                             <td style="border-right:0px solid white;border-left:0px solid white; border-top:1px solid white;">
-                                <!--<td>-->
-                                <B>
-                                    <span>ที่อยู่<br/>Address
-                                    </span>
-                                </B>
+                            <!--<td>-->
+                                <B><span>ที่อยู่<br/>Address</span></B>
                             </td>
                             <td style="border-right:0px solid white;border-left:0px solid white; border-top:1px solid white;">
-                                <!--                                <div style="width:500px;word-wrap: break-word; height:50px;">-->
+<!--                                <div style="width:500px;word-wrap: break-word; height:50px;">-->
 
-                                <t t-if="o.partner_id">
-                                    <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>
-                                    <!--                                        <span t-esc="' '.join([ address for address in partner_address ])"/>-->
-                                    <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">
-                                        แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">
-                                        ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">
-                                        เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">
-                                        อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'">
-                                        <span t-field="o.partner_id.state_id.name"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">
-                                        จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;
-                                    </span>
-                                    <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;
-                                    </span>
-                                </t>
-                                <!--                                </div>-->
+                                    <t t-if="o.partner_id">
+                                        <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>
+<!--                                        <span t-esc="' '.join([ address for address in partner_address ])"/>-->
+                                        <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>
+                                        <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;</span>
+                                        <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                        <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                        <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                        <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                        <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+                                        <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+                                        <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>
+                                    </t>
+<!--                                </div>-->
                             </td>
                         </tr>
                     </table>
@@ -461,24 +379,21 @@
                 </div>
 
                 <div class="page">
-                    <style>
+                  <style>
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered {
                         border:1px solid black;
                         padding:3px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -486,31 +401,27 @@
                         text-align:center;
                         padding:3px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; tbody &gt; tr &gt; td{
                         border:0px solid White;
                         border-left: 1px solid black;
                         padding:3px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered &gt; tfoot &gt; tr &gt; td{
                         border:1px solid black;
                         padding:3px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
 
                         table.table-nobordered{
                         margin:0px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
                         border:1px solid white;
@@ -533,8 +444,7 @@
                         border:1px solid black;
                         padding:5px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered-foot &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -542,24 +452,21 @@
                         vertical-align: middle;
                         text-align:center;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered-foot &gt; tbody &gt; tr &gt; td{
                         border:1px solid black;
                         padding:5px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
                         table.table-bordered-foot &gt; tfoot &gt; tr &gt; td{
                         border:1px solid black;
                         padding:5px;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf")
-                        format('opentype');
+                        src: local('United'), url("/itaas_print_invoice_report/static/sarabun/Sarabun-Regular.ttf") format('opentype');
                         }
-                        .font_size_32{
+                         .font_size_32{
                         font-size: 32px;
                         line-height: 30px;
                         }
@@ -599,178 +506,60 @@
                     <t t-set="max_line_lenght" t-value="40"/>
                     <!--#############it may reduce to 30 from invoice as 40, due to it has code column-->
 
-                    <!--                    <t t-set="reconciled_invoice_ids" t-value="o.reconciled_invoice_ids.sorted(key=lambda l: (l.name, l.invoice_date), reverse=False)"/>-->
-
-
-                    <!--                    <t t-if="o.reconciled_invoice_ids">-->
-                    <!--                        <t t-set="reconciled_invoice_ids" t-value="o.reconciled_invoice_ids.sorted(key=lambda l: (l.name, l.invoice_date), reverse=False)"/>-->
-                    <!--                        <t t-set="break_line"-->
-                    <!--                           t-value="o.get_break_line_invoice(reconciled_invoice_ids, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>-->
-                    <!--                    </t>-->
-
-
-                    <!--                    <t t-if="o.reconciled_bill_ids">-->
-                    <!--                        <t t-set="reconciled_invoice_ids" t-value="o.reconciled_bill_ids.sorted(key=lambda l: (l.name, l.invoice_date), reverse=False)"/>-->
-                    <!--                        <t t-set="break_line"-->
-                    <!--                           t-value="o.get_break_line_invoice(reconciled_bill_ids, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>-->
-                    <!--                    </t>-->
-
-
-                    <t t-if="o.reconciled_invoice_ids">
-                        <t t-set="reconciled_invoice_ids"
-                           t-value="o.reconciled_invoice_ids.sorted(key=lambda l: (l.name, l.invoice_date), reverse=False)"/>
-                        <t t-set="break_line"
-                           t-value="o.get_break_line_invoice(reconciled_invoice_ids, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
-                    </t>
-
-                    <t t-if="o.reconciled_bill_ids">
-                        <t t-set="reconciled_bill_ids"
-                           t-value="o.reconciled_bill_ids.sorted(key=lambda l: (l.name, l.invoice_date), reverse=False)"/>
-                        <t t-set="break_line"
-                           t-value="o.get_break_line_invoice(reconciled_bill_ids, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
-                    </t>
-
+                    <t t-set="reconciled_invoice_ids" t-value="o.reconciled_invoice_ids.sorted(key=lambda l: (l.name, l.invoice_date), reverse=False)"/>
+                    <t t-set="break_line" t-value="o.get_break_line_invoice(reconciled_invoice_ids, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
-                    <t t-set="sum_amount_total" t-value="0"/>
 
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
                         <table width="100%" class="font_fam table table-bordered-b font_size_14" style="height:120mm;">
                             <thead>
                                 <tr>
-                                    <th width="5%">
-                                        <span>ลำดับ<br/>No.
-                                        </span>
-                                    </th>
-                                    <th width="30%">
-                                        <span>รายการใบแจ้งหนี้<br/>INVOICE
-                                        </span>
-                                    </th>
-                                    <th width="13%">
-                                        <span>วันที่ออกใบแจ้งหนี้<br/>INVOICE DATE
-                                        </span>
-                                    </th>
-                                    <th width="13%">
-                                        <span>กำหนดชำระเงิน<br/>DUE DATE
-                                        </span>
-                                    </th>
-                                    <th width="13%">
-                                        <span>จำนวนเงิน<br/>AMOUNT DUE
-                                        </span>
-                                    </th>
-                                    <th width="13%">
-                                        <span>จำนวนเงินที่จ่าย<br/>AMOUNT PAID
-                                        </span>
-                                    </th>
-                                    <th width="13%">
-                                        <span>คงเหลือ<br/>BALANCE
-                                        </span>
-                                    </th>
+                                    <th width="5%"><span>ลำดับ<br/>No.</span></th>
+                                    <th width="30%"><span>รายการใบแจ้งหนี้<br/>INVOICE</span> </th>
+                                    <th width="13%"><span>วันที่ออกใบแจ้งหนี้<br/>INVOICE DATE</span> </th>
+                                    <th width="13%"><span>กำหนดชำระเงิน<br/>DUE DATE</span> </th>
+                                    <th width="13%"><span>จำนวนเงิน<br/>AMOUNT DUE</span> </th>
+                                    <th width="13%"><span>จำนวนเงินที่จ่าย<br/>AMOUNT PAID</span> </th>
+                                    <th width="13%"><span>คงเหลือ<br/>BALANCE</span> </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <t t-foreach="range(start,break_line[x],1)" t-as="y">
-
-
                                     <t t-if="(y+1)!=(break_line[x])">
                                         <tr style="height:30px;">
                                             <td align="center">
                                                 <span t-esc="y+1"/>
                                             </td>
-                                            <td align="left">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <span t-field="o.reconciled_invoice_ids[y].name"/>
-                                                </t>
+                                            <td>
 
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <span t-field="o.reconciled_bill_ids[y].name"/>
-                                                </t>
-                                                <!--                                                    <span t-field="o.ref"/>-->
+                                                <span t-field="o.reconciled_invoice_ids[y].name"/>
+                                                <!--<span t-field="o.line_ids[y].move_id"/>-->
 
                                             </td>
-
-                                            <td align="left">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <span t-field="o.reconciled_invoice_ids[y].invoice_date"/>
-                                                </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <span t-field="o.reconciled_bill_ids[y].invoice_date"/>
-                                                </t>
-                                            </td>
-
-
                                             <td align="center">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <span t-field="o.reconciled_invoice_ids[y].invoice_date_due"/>
-                                                </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <span t-field="o.reconciled_bill_ids[y].invoice_date_due"/>
+                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date"/>
+                                                <!--<span t-field="o.invoice_line_ids.name"/>-->
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date_due"/>
+                                            </td>
+                                            <td align="right">
+                                                <t t-if="o.reconciled_invoice_ids[y].amount_total">
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>
                                                 </t>
                                             </td>
-
-                                            <!--                                            <td align="right">-->
-                                            <!--                                                <t t-if="o.reconciled_invoice_ids[y].amount_total">-->
-                                            <!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>-->
-                                            <!--                                                </t>-->
-                                            <!--                                            </td>-->
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <t t-if="o.reconciled_invoice_ids[y].amount_total">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>
-                                                    </t>
-                                                    <!--                                                    <span t-field="o.currency_id.symbol"/>-->
+                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>
                                                 </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <t t-if="o.reconciled_bill_ids[y].amount_total">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_bill_ids[y].amount_total)))"/>
-                                                    </t>
-                                                    <!--                                                    <span t-field="o.currency_id.symbol"/>-->
-                                                </t>
-                                            </td>
-
-                                            <td align="right">
-                                                <!--                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">-->
-                                                <!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>-->
-                                                <!--                                                </t>-->
-
-
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>
-                                                    </t>
-                                                    <!--                                                    <span t-field="o.currency_id.symbol"/>-->
-                                                </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <t t-if="o.reconciled_bill_ids[y].amount_total_in_currency_signed">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_bill_ids[y].amount_total_in_currency_signed)))"/>
-                                                        <t t-set="sum_amount_total"
-                                                           t-value="sum_amount_total + o.reconciled_bill_ids[y].amount_total_in_currency_signed"/>
-                                                    </t>
-                                                    <!--                                                    <span t-field="o.currency_id.symbol"/>-->
-                                                </t>
-
-
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o._get_invoice_payment_amount(o.reconciled_invoice_ids[y]))))"/>-->
                                                 <!--amount_total_signed-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed_signed(o.reconciled_invoice_ids[y]))))"/>-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>-->
                                             </td>
-
-
-
-
-                                            <!--                                            <td align="right">-->
-                                            <!--                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>-->
-
-                                            <!--                                            </td>-->
-
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>
-                                                </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_bill_ids[y].amount_residual)))"/>
-                                                </t>
+                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>
                                             </td>
                                         </tr>
                                     </t>
@@ -779,135 +568,36 @@
                                             <td align="center">
                                                 <span t-esc="y+1"/>
                                             </td>
-                                            <td align="left">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <span t-field="o.reconciled_invoice_ids[y].name"/>
-                                                </t>
-                                                <!--                                                    <span t-field="o.ref"/>-->
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <span t-field="o.reconciled_bill_ids[y].name"/>
-                                                </t>
+                                            <td>
+                                                <span t-field="o.reconciled_invoice_ids[y].name"/>
+                                                <!--<span t-field="o.move_id[y]"/>-->
+                                                <!--<span t-field="o.line_ids[y].move_id"/>-->
                                             </td>
-                                            <td align="left">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <span t-field="o.reconciled_invoice_ids[y].invoice_date"/>
-                                                </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <span t-field="o.reconciled_bill_ids[y].invoice_date"/>
-                                                </t>
-                                            </td>
-
                                             <td align="center">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <span t-field="o.reconciled_invoice_ids[y].invoice_date_due"/>
-                                                </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <span t-field="o.reconciled_bill_ids[y].invoice_date_due"/>
+                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date"/>
+                                                <!--<span t-field="o.invoice_line_ids[y].invoice_date"/>-->
+                                            </td>
+                                            <td align="center">
+                                                <span t-field="o.reconciled_invoice_ids[y].invoice_date_due"/>
+                                            </td>
+                                            <td align="right">
+                                                <t t-if="o.reconciled_invoice_ids[y].amount_total">
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>
                                                 </t>
                                             </td>
-
-
-                                            <!--                                            <td align="right">-->
-                                            <!--                                                <t t-if="o.reconciled_invoice_ids[y].amount_total">-->
-                                            <!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>-->
-                                            <!--                                                </t>-->
-                                            <!--                                            </td>-->
-
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <t t-if="o.reconciled_invoice_ids[y].amount_total">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total)))"/>
-                                                    </t>
-                                                    <!--                                                    <span t-field="o.currency_id.symbol"/>-->
+                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>
                                                 </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <t t-if="o.reconciled_bill_ids[y].amount_total">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_bill_ids[y].amount_total)))"/>
-                                                    </t>
-                                                    <!--                                                    <span t-field="o.currency_id.symbol"/>-->
-                                                </t>
-                                            </td>
-
-                                            <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <!--                                                    <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">-->
-                                                    <!--                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>-->
-                                                    <!--                                                    </t>-->
-
-                                                    <t t-if="len(o.reconciled_invoice_ids) > 1">
-                                                        <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>
-                                                        </t>
-                                                    </t>
-                                                    <t t-else="">
-                                                        <t t-if="o.amount">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(o.amount)))"/>
-                                                        </t>
-                                                    </t>
-
-                                                </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <t t-if="o.reconciled_bill_ids[y].amount_total_in_currency_signed">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_bill_ids[y].amount_total_in_currency_signed)))"/>
-                                                        <t t-set="sum_amount_total"
-                                                           t-value="sum_amount_total + o.reconciled_bill_ids[y].amount_total_in_currency_signed"/>
-                                                    </t>
-
-                                                </t>
-
-
-                                                <!--                                                                                                <t t-if="len(o.reconciled_invoice_ids) > 1">-->
-                                                <!--                                                                                                    <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">-->
-                                                <!--                                                                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>-->
-                                                <!--                                                                                                    </t>-->
-                                                <!--                                                                                                </t>-->
-                                                <!--                                                                                                <t t-else="">-->
-                                                <!--                                                                                                    <t t-if="o.amount">-->
-                                                <!--                                                                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.amount)))"/>-->
-                                                <!--                                                                                                    </t>-->
-                                                <!--                                                                                                </t>-->
-
-                                                <!--                                                <t t-if="o.reconciled_invoice_ids[y].amount_total_in_currency_signed">-->
-                                                <!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_total_in_currency_signed)))"/>-->
-                                                <!--                                                </t>-->
-
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o._get_invoice_payment_amount(o.reconciled_invoice_ids[y]))))"/>-->
                                                 <!--<span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed_signed(o.reconciled_invoice_ids[y]))))"/>-->
                                             </td>
-
-
-                                            <!--                                            <td align="right">-->
-                                            <!--                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>-->
-                                            <!--                                            </td>-->
-
                                             <td align="right">
-                                                <t t-if="o.reconciled_invoice_ids">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>
-                                                </t>
-                                                <t t-if="o.reconciled_bill_ids">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_bill_ids[y].amount_residual)))"/>
-                                                </t>
+                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>
                                             </td>
                                         </tr>
                                         <t t-set="end" t-value="(break_line[x])"/>
                                     </t>
-
-
-                                    <t t-set="amount_residual_set" t-value="set()"/>
-                                    <t t-if="o.reconciled_invoice_ids">
-                                        <t t-foreach="o.reconciled_invoice_ids" t-as="invoice">
-                                            <t t-set="amount_residual_set"
-                                               t-value="amount_residual_set.union({abs(float(invoice.amount_residual))})"/>
-                                        </t>
-                                    </t>
-                                    <t t-if="o.reconciled_bill_ids">
-                                        <t t-foreach="o.reconciled_bill_ids" t-as="invoice">
-                                            <t t-set="amount_residual_set"
-                                               t-value="amount_residual_set.union({abs(float(invoice.amount_residual))})"/>
-                                        </t>
-                                    </t>
-
-
                                 </t>
                                 <t t-set="start" t-value="break_line[x]"/>
                                 <p style="page-break-after:always;"/>
@@ -920,9 +610,7 @@
 
                                                 <td width="10%">
                                                     <t t-if="o.currency_id.name == 'THB'">
-                                                        <span>บาท</span>
-                                                        <br/>
-                                                        <span>Baht</span>
+                                                        <span>บาท</span><br/><span>Baht</span>
                                                     </t>
                                                     <t t-if="not o.currency_id.name == 'THB'">
                                                         <span t-field="o.currency_id"/>
@@ -942,8 +630,7 @@
                                         </table>
                                     </td>
                                     <td style="vertical-align: middle;">
-                                        <span>จำนวนเงินที่ได้รับ</span>
-                                        <br/>
+                                        <span>จำนวนเงินที่ได้รับ</span><br/>
                                     </td>
                                     <td align="right" style="vertical-align: middle;">
                                         <t t-if="end ==(break_line[len(break_line)-1])">
@@ -952,30 +639,26 @@
                                             </t>
                                         </t>
                                     </td>
+                                    <td/>
 
-                                    <td align="right" style="vertical-align: middle;">
-                                        <t t-if="amount_residual_set">
-                                            <span t-esc="'{0:,.2f}'.format(sum(amount_residual_set))"/>
-                                        </t>
-                                    </td>
+                                    <tr>
+                                        <!--<td colspan="7" rowspan="4" width="65%" style="text-align:left; font-size:20px; border-right: 1px solid black;line-height:20px;">-->
+                                        <td style="text-align:left;font-size:14px;" colspan="7">
+                                            <span><B>หมายเหตุ/Remark : </B></span><br/>
+                                            <t t-if="o.remark">
+                                                <span t-field="o.remark"/>
+                                            </t>
+                                            <t t-if="not o.remark">
+                                                <br/>
+                                            </t>
+                                        </td>
+                                    </tr>
+
+
+
+
+
                                 </tr>
-
-                                <tr>
-                                    <!--<td colspan="7" rowspan="4" width="65%" style="text-align:left; font-size:20px; border-right: 1px solid black;line-height:20px;">-->
-                                    <td style="text-align:left;font-size:14px;" colspan="7">
-                                        <span>
-                                            <B>หมายเหตุ/Remark :</B>
-                                        </span>
-                                        <br/>
-                                        <t t-if="o.remark">
-                                            <span t-field="o.remark"/>
-                                        </t>
-                                        <t t-if="not o.remark">
-                                            <br/>
-                                        </t>
-                                    </td>
-                                </tr>
-
 
                             </tfoot>
 
@@ -983,178 +666,94 @@
                             <p style="page-break-after:always;"/>
                         </table>
 
-                        <table class="table table-bordered-foot font_size_14"
-                               style="line-height:18px;margin-top: -17px;">
+                        <table class="table table-bordered-foot font_size_14" style="line-height:18px;margin-top: -17px;">
                             <tr>
                                 <td width="15%" rowspan="5">
                                     <table width="100%" class="table table-nobordered">
                                         <tr style="height:30px;">
-                                            <td>
-                                                <span>ชำระโดย</span>
-                                            </td>
+                                            <td><span>ชำระโดย</span></td>
                                         </tr>
                                         <tr style="height:30px;">
                                             <td>
                                                 <t t-if="o.journal_id.type =='cash'">☑</t>
                                                 <t t-else="">☐</t>
-                                                <span>&amp;nbsp;เงินสด</span>
+                                                <span>&amp;nbsp;เงินสด </span>
                                             </td>
                                         </tr>
                                         <tr style="height:30px;">
                                             <td>
-                                                <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">
-                                                    ☑
-                                                </t>
+                                                <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">☑</t>
                                                 <t t-else="">☐</t>
-                                                <span>&amp;nbsp;เงินโอน</span>
+                                                <span>&amp;nbsp;เงินโอน </span>
                                             </td>
                                         </tr>
                                         <tr style="height:30px;">
                                             <td>
                                                 <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque">☑</t>
                                                 <t t-else="">☐</t>
-                                                <span>&amp;nbsp;เช็ค</span>
+                                                <span>&amp;nbsp;เช็ค </span>
                                             </td>
                                         </tr>
                                     </table>
                                 </td>
-                                <td align="center">
-                                    <span>ธนาคาร</span>
-                                </td>
-                                <td align="center">
-                                    <span>สาขา</span>
-                                </td>
-                                <td align="center">
-                                    <span>เลขที่เช็ค/เลขที่บัญชี</span>
-                                </td>
-                                <td align="center">
-                                    <span>ลงวันที่</span>
-                                </td>
-                                <td align="center">
-                                    <span>จำนวนเงิน</span>
-                                </td>
+                                <td align="center"><span>ธนาคาร</span></td>
+                                <td align="center"><span>สาขา</span></td>
+                                <td align="center"><span>เลขที่เช็ค/เลขที่บัญชี</span></td>
+                                <td align="center"><span>ลงวันที่</span></td>
+                                <td align="center"><span>จำนวนเงิน</span></td>
                             </tr>
                             <tr style="line-height=20px;">
                                 <t t-if="o.journal_id.type =='cash'">
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td align="right" class="last-page"><span
-                                            t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;
-                                        <br/>
-                                    </td>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                    <td><br/></td>
+                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>
                                 </t>
 
                                 <t t-if="not o.journal_id.type =='cash'">
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
                                 </t>
                             </tr>
                             <tr style="line-height=20px;">
                                 <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">
                                     <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_id"/><br/></td>-->
-                                    <td align="center" class="last-page">
-                                        <span>&amp;nbsp;</span>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
+                                    <td align="center" class="last-page"><span>K bank</span><br/></td>
+                                    <td><br/></td>
                                     <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_account_id"/><br/></td>-->
-                                    <td align="center" class="last-page">
-                                        <span>&amp;nbsp;</span>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td align="right" class="last-page"><span
-                                            t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;
-                                        <br/>
-                                    </td>
+                                    <td align="center" class="last-page"><span>0123401234</span><br/></td>
+                                    <td><br/></td>
+                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>
                                 </t>
 
 
                                 <t t-else="">
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
                                 </t>
                             </tr>
                             <tr style="line-height=20px;">
                                 <t t-if="o.journal_id.type =='bank' and o.journal_id.bank_cheque">
-                                    <td align="center" class="last-page">
-                                        <span t-field="o.cheque_reg_id.cheque_bank.name"/>
-                                        <br/>
-                                    </td>
-                                    <td align="center" class="last-page">
-                                        <span t-field="o.cheque_reg_id.cheque_branch"/>
-                                        <br/>
-                                    </td>
-                                    <td align="center" class="last-page">
-                                        <span t-field="o.cheque_reg_id.cheque_number"/>
-                                        <br/>
-                                    </td>
-                                    <td align="center" class="last-page">
-                                        <span t-field="o.cheque_reg_id.cheque_date"/>
-                                        <br/>
-                                    </td>
-                                    <td align="right" class="last-page"><span
-                                            t-esc="'{0:,.2f}'.format(float(o.cheque_reg_id.amount))"/>&amp;nbsp;
-                                        <br/>
-                                    </td>
+                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_bank.name"/><br/></td>
+                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_branch"/><br/></td>
+                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_number"/><br/></td>
+                                    <td align="center" class="last-page"><span t-field="o.cheque_reg_id.cheque_date"/><br/></td>
+                                    <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.cheque_reg_id.amount))"/>&amp;nbsp;<br/></td>
                                 </t>
 
                                 <t t-else="">
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
-                                    <td>
-                                        <br/>
-                                    </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
+                                    <td><br/> </td>
                                 </t>
                             </tr>
 
@@ -1164,39 +763,22 @@
                                 </span>
                             </td>
                         </table>
-                        <table class="table table-bordered font_fam font_size_14"
-                               style="text-align: center; page-break-inside: avoid;margin-top: -17px;">
+                        <table class="table table-bordered font_fam font_size_14" style="text-align: center; page-break-inside: avoid;margin-top: -17px;">
                             <tr>
                                 <td class="col-xs-6" style="text-align: center; line-height:15px;">
-                                    <br/>
-                                    <br/>
-                                    <span>__________________________</span>
-                                    <br/>
-                                    <br/>
-                                    <span>(.................................................)</span>
-                                    <br/>
-                                    <br/>
-                                    <strong>ผู้รับเงิน</strong>
-                                    <br/>
-                                    <strong>Received By</strong>
-                                    <br/>
-                                    <br/>
+                                    <br/><br/>
+                                    <span>__________________________</span><br/><br/>
+                                    <span>(.................................................)</span><br/><br/>
+                                    <strong>ผู้รับเงิน</strong><br/>
+                                    <strong>Received By</strong><br/><br/>
                                     <strong>วันที่........../........../..........</strong>
                                 </td>
                                 <td class="col-xs-6" style="text-align: center; line-height:15px;">
-                                    <br/>
-                                    <br/>
-                                    <span>__________________________</span>
-                                    <br/>
-                                    <br/>
-                                    <span>(.................................................)</span>
-                                    <br/>
-                                    <br/>
-                                    <strong>เจ้าหน้าที่ผู้มีอำนาจ</strong>
-                                    <br/>
-                                    <strong>Authorized Signature</strong>
-                                    <br/>
-                                    <br/>
+                                    <br/><br/>
+                                    <span>__________________________</span><br/><br/>
+                                    <span>(.................................................)</span><br/><br/>
+                                    <strong>เจ้าหน้าที่ผู้มีอำนาจ</strong><br/>
+                                    <strong>Authorized Signature</strong><br/><br/>
                                     <strong>วันที่........../........../..........</strong>
                                 </td>
                             </tr>
