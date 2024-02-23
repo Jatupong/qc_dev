@@ -29,7 +29,9 @@ class SaleOrder(models.Model):
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    width = fields.Float()
+    width = fields.Float(string='Width')
+    length = fields.Float(string='Length')
+    height = fields.Float(string='Height')
     product_cost = fields.Float(string='ผลิตภัณท์')
     commission_cost = fields.Float(string='คอม')
     box_cost = fields.Float(string='กล่อง')
