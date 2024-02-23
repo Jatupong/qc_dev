@@ -51,6 +51,10 @@
                                     <!--<span t-esc="company_id.sub_district" style="position: absolute;left:480px; top:430px;"/>-->
                                     <span t-esc="company_id.sub_district" style="position: absolute;left:500px; top:430px;"/>
 
+
+
+
+
                                     <!--<span t-esc="company_id.street2" style="position: absolute;left:485px; top:430px;"/>-->
                                     <span t-esc="company_id.city" style="position: absolute;left:190px;top: 470px;"/>
                                     <span t-esc="company_id.state_id.name" style="position: absolute;left:520px;top: 470px;"/>
