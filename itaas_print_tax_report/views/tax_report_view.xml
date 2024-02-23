@@ -201,14 +201,7 @@
     <!--<field name="target">new</field>-->
     <!--</record>-->
 
-    <record id="action_pnd53_report_pdf" model="ir.actions.act_window">
-        <field name="name">Witholding Tax Report</field>
-        <field name="res_model">pnd53.report</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="view_mode">form</field>
-        <field name="view_id" ref="view_pnd53_report_wizard_form"/>
-        <field name="target">new</field>
-    </record>
+
 
     <!--<record id="action_pnd53at1_report_pdf" model="ir.actions.act_window">-->
     <!--<field name="name">PND53 AT1 Report</field>-->
@@ -221,13 +214,27 @@
     <!--</record>-->
 
 
-    <!-- Menu for tax report action -->
 
+<!-- ================ ปิดไว้อยู่-->
+
+<!--    <record id="action_pnd53_report_pdf" model="ir.actions.act_window">-->
+<!--        <field name="name">Witholding Tax Report</field>-->
+<!--        <field name="res_model">pnd53.report</field>-->
+<!--        <field name="type">ir.actions.act_window</field>-->
+<!--        <field name="view_mode">form</field>-->
+<!--        <field name="view_id" ref="view_pnd53_report_wizard_form"/>-->
+<!--        <field name="target">new</field>-->
+<!--    </record>-->
+    <!-- Menu for tax report action -->
     <menuitem id="menu_main_tax_report" parent="account.menu_finance_reports" name="Thailand (Tax Report)"/>
     <menuitem id="menu_tax_report" action="action_tax_report_excel"  parent="menu_main_tax_report"/>
     <menuitem id="menu_tax_report2" action="action_tax_report_excel2"  parent="menu_main_tax_report"/>
+<!--    <menuitem id="menu_pnd53_report" action="action_pnd53_report_pdf"  parent="menu_main_tax_report"/>-->
+
+<!-- ================ ปิดไว้อยู่-->
+
+
     <!--<menuitem id="menu_tax_summary_report" action="action_tax_summary_report_pdf"  parent="menu_main_tax_report"/>-->
-    <menuitem id="menu_pnd53_report" action="action_pnd53_report_pdf"  parent="menu_main_tax_report"/>
     <!--<menuitem id="menu_pnd53at1_report" action="action_pnd53at1_report_pdf"  parent="menu_main_tax_report"/>-->
 
 </odoo>
