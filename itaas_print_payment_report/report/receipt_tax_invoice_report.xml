@@ -377,12 +377,14 @@
                                                     <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
                                                     <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>
                                                     <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>
-<!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
+
+                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+
                                                     <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>
                                                     <!--</t>-->
                                                 </div>
@@ -656,8 +658,12 @@
                                                 <span t-esc="'{0:,.2f}'.format(float(o.amount))"/>
                                             </t>
                                         </t>
+
                                     </td>
-                                    <td/>
+
+                                   <td align="right" style="vertical-align: middle;">
+                                       <span t-esc="'{0:,.2f}'.format(abs(float(o.reconciled_invoice_ids[y].amount_residual)))"/>
+                                    </td>
 
                                     <tr>
                                         <!--<td colspan="7" rowspan="4" width="65%" style="text-align:left; font-size:20px; border-right: 1px solid black;line-height:20px;">-->
@@ -739,11 +745,13 @@
                             </tr>
                             <tr style="line-height=20px;">
                                 <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">
-                                    <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_id"/><br/></td>-->
-                                    <td align="center" class="last-page"><span>K bank</span><br/></td>
+                                    <td align="center" class="last-page"><span t-field="o.journal_id.bank_id"/><br/></td>
+<!--                                    <td align="center" class="last-page">-->
+<!--                                        <span>K bank</span><br/>-->
+<!--                                    </td>-->
                                     <td><br/></td>
-                                    <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_account_id"/><br/></td>-->
-                                    <td align="center" class="last-page"><span>0123401234</span><br/></td>
+                                    <td align="center" class="last-page"><span t-field="o.journal_id.bank_account_id"/><br/></td>
+<!--                                    <td align="center" class="last-page"><span>0123401234</span><br/></td>-->
                                     <td><br/></td>
                                     <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>
                                 </t>
