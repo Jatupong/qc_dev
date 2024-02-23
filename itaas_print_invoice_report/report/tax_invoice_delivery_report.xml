@@ -802,7 +802,7 @@
                                                 <!--                                                </td>-->
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].price_unit">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_unit)))"/>
+                                                        <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_unit))"/>
                                                     </t>
                                                     <t t-else="">
                                                         0.00
@@ -883,7 +883,7 @@
 
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].price_unit">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_unit)))"/>
+                                                        <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_unit))"/>
                                                     </t>
                                                     <t t-else="">
                                                         0.00
