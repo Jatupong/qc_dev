@@ -48,8 +48,10 @@
                                     <span t-esc="company_id.moo_number" style="position: absolute;left:360px; top:395px;"/>
                                     <span t-esc="company_id.soi_number" style="position: absolute;left:480px; top:395px;"/>
                                     <span t-esc="company_id.road" style="position: absolute;left:130px; top:430px;"/>
-                                    <span t-esc="company_id.sub_district" style="position: absolute;left:480px; top:430px;"/>
-                                    <span t-esc="company_id.street2" style="position: absolute;left:485px; top:430px;"/>
+                                    <!--<span t-esc="company_id.sub_district" style="position: absolute;left:480px; top:430px;"/>-->
+                                    <span t-esc="company_id.sub_district" style="position: absolute;left:500px; top:430px;"/>
+
+                                    <!--<span t-esc="company_id.street2" style="position: absolute;left:485px; top:430px;"/>-->
                                     <span t-esc="company_id.city" style="position: absolute;left:190px;top: 470px;"/>
                                     <span t-esc="company_id.state_id.name" style="position: absolute;left:520px;top: 470px;"/>
                                     <t t-set="company_code" t-value="company_id.zip"/>
@@ -63,9 +65,11 @@
                                     <span t-esc="company_id.phone" style="position: absolute;left:400px;top: 505px;"/>
                                     <!-- sent -->
                                     <span style="position: absolute;left:195px;top: 605px;">
+
                                         <font style="font-size: 30px;">✓</font>
                                     </span>
                                     <span style="position: absolute;left:310px;top: 710px;">
+
                                         <font style="font-size: 30px;">✓</font>
                                     </span>
                                 </font>
@@ -80,13 +84,13 @@
                                 <!-- check -->
                                 <font style="font-size: 40px;">
                                     <t t-if="month == 1">
-                                        <span style="position:absolute; top:305px; left:795px;">✓</span>
+                                        <span style="position:absolute; top:305px; left:790px;">✓</span>
                                     </t>
                                     <t t-if="month == 2">
-                                        <span style="position:absolute; top:360px; left:795px;">✓</span>
+                                        <span style="position:absolute; top:360px; left:790px;">✓</span>
                                     </t>
                                     <t t-if="month == 3">
-                                        <span style="position:absolute; top:415px; left:795px;">✓</span>
+                                        <span style="position:absolute; top:415px; left:790px;">✓</span>
                                     </t>
 
 

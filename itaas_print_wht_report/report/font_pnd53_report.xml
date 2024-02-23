@@ -48,8 +48,11 @@
                                     <span t-esc="company_id.moo_number" style="position: absolute;left:350px; top:415px;"/>
                                     <span t-esc="company_id.soi_number" style="position: absolute;left:480px; top:415px;"/>
                                     <span t-esc="company_id.road" style="position: absolute;left:130px; top:448px;"/>
-                                    <span t-esc="company_id.street2" style="position: absolute;left:490px; top:448px;"/>
-                                    <span t-esc="company_id.sub_district" style="position: absolute;left:480px; top:450px;"/>
+                                    <!--<span t-esc="company_id.street2" style="position: absolute;left:490px; top:448px;"/>-->
+                                    <!--<span t-esc="company_id.sub_district" style="position: absolute;left:480px; top:450px;"/>-->
+
+                                    <span t-esc="company_id.sub_district" style="position: absolute;left:515px; top:450px;"/>
+
                                     <span t-esc="company_id.city" style="position: absolute;left:190px;top: 488px;"/>
                                     <span t-esc="company_id.state_id.name" style="position: absolute;left:520px;top: 488px;"/>
                                     <t t-set="company_code" t-value="company_id.zip"/>
@@ -65,7 +68,8 @@
                                 <t t-set="month" t-value="0"/>
                                 <t t-if="date_to">
                                     <t t-set="date" t-value="time.strptime(date_to,'%Y-%m-%d')"/>
-                                    <span style="position:absolute; left:690px; top:585px;" t-esc="date.tm_year + 543"/>
+                                    <!--<span style="position:absolute; left:690px; top:585px;" t-esc="date.tm_year + 543"/>-->
+                                    <span style="position:absolute; left:700px; top:600px;" t-esc="date.tm_year + 543"/>
                                     <t t-set="month" t-value="date.tm_mon"/>
                                 </t>
                                 <!-- check -->
@@ -120,7 +124,8 @@
                                     <font style="font-size: 30px;">✓</font>
                                 </span>
                                 <!-- sent -->
-                                <span style="position: absolute;left:840px;top:455px;">
+                                <!--<span style="position: absolute;left:840px;top:455px;">-->
+                                <span style="position: absolute;left:840px;top:460px;">
                                     <font style="font-size: 30px;">✓</font>
                                 </span>
                             </td>
