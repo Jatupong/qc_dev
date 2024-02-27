@@ -692,9 +692,10 @@
                                 <tr style="height: 60px;">
                                     <td colspan="6">
                                         หมายเหตุ : &amp;nbsp;
-                                        <t t-if="'notes' in o.fields_get()">
-                                            <span t-field="o.notes"/>
-                                        </t>
+<!--                                        <t t-if="'notes' in o.fields_get()">-->
+<!--                                            <span t-field="o.notes"/>-->
+<!--                                        </t>-->
+                                        <span t-field="o.description"/>
                                     </td>
                                 </tr>
                             </tfoot>
