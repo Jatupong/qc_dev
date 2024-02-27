@@ -115,7 +115,40 @@ class WizardPP30Report(models.TransientModel):
         # for date in date_results:
         #     date.update({'month_th': month_th[int(date['aml_month'] - 1)],})
 
+        date_ranges = []
+
+        # Assuming self.date_from and self.date_to are defined somewhere in your code
+        if self.date_to:
+            year = self.date_to.year
+
+            for month in range(1, 13):
+                first_day_of_month = datetime(year, month, 1)
+                last_day_of_month = (first_day_of_month + relativedelta(day=31)).date()
+
+                # Check if the generated date range overlaps with the input date range
+                if first_day_of_month.date() <= self.date_to <= last_day_of_month:
+                    last_day_of_month = self.date_to
+
+                date_ranges.append({
+                    'date_from': first_day_of_month.date(),
+                    'date_to': last_day_of_month
+                })
+
+                if month >= self.date_to.month:
+                    break
+
+            print('date_ranges:', date_ranges)
+        else:
+            # If date_to is not provided, set it equal to date_from
+            self.date_to = self.date_from
+            date_ranges.append({
+                'date_from': self.date_from,
+                'date_to': self.date_to
+            })
+            print('date_ranges:', date_ranges)
+
         date_results = []
+
         for i in range(12):
             date_results.append({'aml_month': i + 1,
                                  'aml_year': self.date_to.year,
@@ -179,21 +212,85 @@ class WizardPP30Report(models.TransientModel):
             date_from, date_to))
         results_sale_taxes = self._cr.dictfetchall()
 
-        self._cr.execute("""
-            SELECT 
-                EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
-                EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
-                case when aml.display_type = 'product' 
-                             then sum(aml.credit) + sum(aml.debit) end as price_subtotal,
-                case when aml.display_type = 'tax' 
-                             then sum(aml.credit) + sum(aml.debit) end as amount_tax
-                FROM account_move_line aml
-                JOIN account_move am ON aml.move_id = am.id
-                WHERE am.tax_invoice_date BETWEEN %s AND %s AND
-                am.move_type = 'in_invoice' AND am.state = 'posted' AND aml.display_type in ('product','tax')
-                GROUP BY aml_month, aml_year, aml.display_type;""", (
-            date_from, date_to))
-        results_purchase = self._cr.dictfetchall()
+        # self._cr.execute("""
+        #     SELECT
+        #         EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month ,
+        #         EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year,
+        #         case when aml.display_type = 'product'
+        #                      then sum(aml.credit) + sum(aml.debit) end as price_subtotal,
+        #         case when aml.display_type = 'tax'
+        #                      then sum(aml.credit) + sum(aml.debit) end as amount_tax
+        #         FROM account_move_line aml
+        #         JOIN account_move am ON aml.move_id = am.id
+        #         WHERE am.tax_invoice_date BETWEEN %s AND %s AND
+        #         am.move_type = 'in_invoice' AND am.state = 'posted' AND aml.display_type in ('product','tax')
+        #         GROUP BY aml_month, aml_year, aml.display_type;""", (
+        #     date_from, date_to))
+        # results_purchase = self._cr.dictfetchall()
+
+        # print('results_purchase_TESTTTTTTTTTTTTTT', results_purchase)
+
+        results_purchase = []
+
+        if date_ranges:
+            for index,mount in enumerate(date_ranges):
+                data = {'date_from': mount['date_from'], 'date_to': mount['date_to'], 'report_type': 'purchase',
+                        'tax_id': False,
+                        'company_id': self.company_id}
+                docs = self.env['report.itaas_print_tax_report.purchase_tax_report_id']._get_report_values(self,data=data)
+
+                amount_total_7_0 = amount_total_tax = 0
+
+                for move_id in docs['docs']:
+                    print('move_id_purchase_line:', move_id)
+                    if move_id['type'] == 'in_refund':
+                        if move_id['debit']:
+                            amount_total_tax += move_id['debit'] * (-1)
+                        else:
+                            amount_total_tax += move_id['credit'] * (-1)
+                        print('==============REFUND==========')
+                        print('debit:', move_id['debit'])
+                        print('debit:', move_id['credit'])
+                        print('amount_total_tax_refund', amount_total_tax)
+                        if move_id['amount_untaxed']:
+                            amount_total_7_0 += move_id['amount_untaxed']
+                        else:
+                            if move_id['debit']:
+                                amount_total_7_0 += (move_id['debit'] / 0.07)
+                            elif move_id['credit']:
+                                amount_total_7_0 += (move_id['credit'] / 0.07)
+                    else:
+
+                        if move_id['debit']:
+                            amount_total_tax += move_id['debit']
+                        else:
+                            amount_total_tax += move_id['credit']
+                        print('==============+NO REFUND==========')
+                        print('debit:', move_id['debit'])
+                        print('debit:', move_id['credit'])
+                        print('amount_total_tax_no_refund', amount_total_tax)
+                        if move_id['amount_untaxed']:
+                            amount_total_7_0 += move_id['amount_untaxed']
+                        else:
+                            if move_id['debit']:
+                                amount_total_7_0 += (move_id['debit'] / 0.07)
+                            elif move_id['credit']:
+                                amount_total_7_0 += (move_id['credit'] / 0.07)
+
+                data_purchase = {
+                    'aml_month': index+1,
+                    'aml_year': self.date_to.year,
+                    'price_subtotal': amount_total_7_0,
+                    'amount_tax': amount_total_tax,
+                }
+
+                results_purchase.append(data_purchase)
+
+                # print('data_purchaseeeeeeeeeeee', data_purchase)
+                # print('docsssssssssssss'+str(index+1),docs)
+                # print('mounttttttttt'+str(index+1),mount)
+
+            # print('results_purchaseeeeeeeeeeeee', results_purchase)
 
         return date_results, results, results_shop_sale_vat, results_shop_sale_no_vat, results_sale_taxes, results_purchase
 
@@ -203,12 +300,17 @@ class WizardPP30Report(models.TransientModel):
         if not results:
             raise UserError(_("Document is empty"))
 
+        print('DATA_RESULTSSSSSSSSSSSSSSSSSSSs',date_results)
+
         for date in date_results:
             result_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results))
             results_shop_sale_vat_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_shop_sale_vat))
             results_shop_sale_no_vat_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_shop_sale_no_vat))
             results_sale_taxes_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_sale_taxes))
             results_purchase_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_purchase))
+
+            print('results_purchase_by_dateeeeeeeeeeeeeeeee',results_purchase_by_date)
+            print('result_by_dateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',result_by_date)
             export_amount = 0.0
             internal_amount = 0.0
             shop_sale_vat_amount = 0.0
@@ -227,6 +329,7 @@ class WizardPP30Report(models.TransientModel):
             for res in results_sale_taxes_by_date:
                 sale_taxes_amount += res['amount_tax'] or 0.0
             for res in results_purchase_by_date:
+                print('RESSSSSSSSSSSSSSs',res)
                 purchase_amount += res['price_subtotal'] or 0.0
                 purchase_taxes_amount += res['amount_tax'] or 0.0
 
@@ -351,7 +454,10 @@ class WizardPP30ReportXls(models.AbstractModel):
 
         data_results = lines._get_result_report()
 
+        print('data_resultsssssssssssssssssssss',data_results)
+
         for data in data_results:
+            print('dataaaaaaaaaaaaaaaaaaaaaaaaa',data)
             i_row += 1
             i_col = 0
             worksheet.write(i_row, i_col, data['month_th'], for_left_border)
