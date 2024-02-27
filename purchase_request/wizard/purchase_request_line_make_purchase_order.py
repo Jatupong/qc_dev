@@ -118,11 +118,21 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
 
     @api.model
     def _prepare_purchase_order(self, picking_type, group_id, company, origin,item=False):
-        print('itemmmmmmmmmmmmmmmmmmmmmmmmmm:',item)
-        print('itemmmmmmmmmmmmmmmmmmmmmmmmmm:',item.request_id)
-
+        print("fn _prepare_purchase_order Action")
+        print("request_id:{}".format(item.request_id))
         sequence = item.request_id.purchase_request_type.po_type.sequence_id
-        name_seq = sequence.with_context(ir_sequence_date=item.request_id.date_start).next_by_id() or '/'
+        if len(item.request_id.purchase_request_type.po_type) == 0:
+            if self.user_has_groups('base.group_no_one'):
+                raise UserError(_("Purchase Order Types ใน '{}' ไม่มีได้เลือกข้อมูล".format(item.request_id.purchase_request_type.name)))
+            elif not self.user_has_groups('base.group_no_one'):
+                sequence = item.request_id.purchase_request_type.sequence_id
+        try:
+            name_seq = sequence.with_context(ir_sequence_date=item.request_id.date_start).next_by_id() or '/'
+        except Exception as err:
+            print("Err! {}".format(err))
+            name_seq = "test"
+
+        print("name_seq:{}".format(name_seq))
 
         if not self.supplier_id:
             raise UserError(_("Enter a supplier."))
@@ -139,6 +149,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             "group_id": group_id.id,
             "name": name_seq,
         }
+        print("data {}".format(data))
         return data
 
     @api.model
@@ -240,6 +251,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
         return order_line_data
 
     def make_purchase_order(self):
+        print("fn make_purchase_order Action!")
         res = []
         purchase_obj = self.env["purchase.order"]
         po_line_obj = self.env["purchase.order.line"]
@@ -252,8 +264,10 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
             if item.product_qty <= 0.0:
                 raise UserError(_("Enter a positive quantity."))
             if self.purchase_order_id:
+                print("Have purchase_order_id {}".format(self.purchase_order_id))
                 purchase = self.purchase_order_id
             if not purchase:
+                print("purchase = False")
                 po_data = self._prepare_purchase_order(
                     line.request_id.picking_type_id,
                     line.request_id.group_id,
@@ -262,6 +276,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                     item,
                 )
                 purchase = purchase_obj.create(po_data)
+                print("purchase {}".format(purchase))
 
             # Look for any other PO line in the selected PO with same
             # product and UoM to sum quantities instead of creating a new
@@ -319,6 +334,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                 date_required.year, date_required.month, date_required.day
             )
             res.append(purchase.id)
+        print("Res {}".format(res))
 
         return {
             "domain": [("id", "in", res)],
