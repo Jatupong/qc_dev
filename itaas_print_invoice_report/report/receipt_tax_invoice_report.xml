@@ -791,11 +791,12 @@
                                                 </td>
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].price_unit">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_unit)))"/>
+                                                        <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_unit))"/>
                                                     </t>
 
                                                     <t t-else="">
-                                                        0.00
+<!--                                                        0.00-->
+                                                        <span></span>
                                                     </t>
 
 
@@ -809,20 +810,22 @@
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].tax_ids.price_include == True">
                                                         <t t-if="invoice_line_ids[y].price_subtotal != 0.00">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))"
+                                                            <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_total))"
                                                                   t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                                         </t>
                                                         <t t-else="">
-                                                            0.00
+<!--                                                            0.00-->
+                                                            <span></span>
                                                         </t>
                                                     </t>
                                                     <t t-if="invoice_line_ids[y].tax_ids.price_include != True">
                                                         <t t-if="invoice_line_ids[y].price_subtotal != 0.00">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))"
+                                                            <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_subtotal))"
                                                                   t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                                         </t>
                                                         <t t-else="">
-                                                            0.00
+<!--                                                            0.00-->
+                                                            <span></span>
                                                         </t>
                                                     </t>
                                                 </td>
@@ -853,10 +856,11 @@
                                                 </td>
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].price_unit">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_unit)))"/>
+                                                        <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_unit))"/>
                                                     </t>
                                                     <t t-else="">
-                                                        0.00
+<!--                                                        0.00-->
+                                                        <span></span>
                                                     </t>
                                                 </td>
                                                 <td align="right">
@@ -868,20 +872,22 @@
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].tax_ids.price_include == True">
                                                         <t t-if="invoice_line_ids[y].price_subtotal != 0.00">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))"
+                                                            <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_total))"
                                                                   t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                                         </t>
                                                         <t t-else="">
-                                                            0.00
+<!--                                                            0.00-->
+                                                            <span></span>
                                                         </t>
                                                     </t>
                                                     <t t-if="invoice_line_ids[y].tax_ids.price_include != True">
                                                         <t t-if="invoice_line_ids[y].price_subtotal != 0.00">
-                                                            <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))"
+                                                            <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_subtotal))"
                                                                   t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                                         </t>
                                                         <t t-else="">
-                                                            0.00
+<!--                                                            0.00-->
+                                                            <span></span>
                                                         </t>
                                                     </t>
                                                 </td>
