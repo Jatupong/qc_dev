@@ -15,5 +15,6 @@ class AccountDebitNotedev(models.TransientModel):
             new_move = self.env['account.move'].browse(new_move_id)
             new_move.tax_invoice_date = self.date
             new_move.is_debit_note = True
+            new_move.is_debit_vendor = True
             
         return res
