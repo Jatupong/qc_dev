@@ -126,11 +126,7 @@ class PurchaseRequestLineMakePurchaseOrder(models.TransientModel):
                 raise UserError(_("Purchase Order Types ใน '{}' ไม่มีได้เลือกข้อมูล".format(item.request_id.purchase_request_type.name)))
             elif not self.user_has_groups('base.group_no_one'):
                 sequence = item.request_id.purchase_request_type.sequence_id
-        try:
-            name_seq = sequence.with_context(ir_sequence_date=item.request_id.date_start).next_by_id() or '/'
-        except Exception as err:
-            print("Err! {}".format(err))
-            name_seq = "test"
+        name_seq = sequence.with_context(ir_sequence_date=item.request_id.date_start).next_by_id() or '/'
 
         print("name_seq:{}".format(name_seq))
 
