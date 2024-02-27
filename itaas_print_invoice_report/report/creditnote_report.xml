@@ -972,7 +972,13 @@
                                                     </t>
                                                 </t>
                                                 <t t-if="not o.currency_id.name == 'THB'">
-                                                    <span t-esc="'{0:,.2f}'.format(float(amount_price_subtotal))"/>
+<!--                                                    <span t-esc="'{0:,.2f}'.format(float(amount_price_subtotal))"/>-->
+                                                    <t t-if="o.is_manual_cn">
+                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed - o.inv_amount_untaxed)))"/>
+                                                    </t>
+                                                    <t t-if="not o.is_manual_cn">
+                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.amount_untaxed - ori_amount_untaxed)))"/>
+                                                    </t>
 
                                                 </t>
                                             </t>
@@ -1222,6 +1228,12 @@
     </template>
 
 </odoo>
+
+
+
+
+
+
 
 
 
