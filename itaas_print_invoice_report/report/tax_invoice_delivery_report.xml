@@ -731,7 +731,7 @@
                                 <thead>
                                     <tr style="height:30px;">
                                         <th width="5%">
-                                            <span>ลำดับ<br/>No.
+                                            <span>ลำดับ dsaccas<br/>No.
                                             </span>
                                         </th>
                                         <th width="50%">
@@ -805,7 +805,8 @@
                                                         <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_unit))"/>
                                                     </t>
                                                     <t t-else="">
-                                                        0.00
+<!--                                                        0.00-->
+                                                        <span></span>
                                                     </t>
                                                 </td>
                                                 <td align="right">
@@ -835,7 +836,8 @@
                                                                   t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>
                                                         </t>
                                                         <t t-else="">
-                                                            0.00
+<!--                                                            0.00-->
+                                                            <span></span>
                                                         </t>
                                                     </t>
                                                     <t t-else="">
@@ -844,7 +846,8 @@
                                                                   t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>
                                                         </t>
                                                         <t t-else="">
-                                                            0.00
+<!--                                                            0.00-->
+                                                            <span></span>
                                                         </t>
                                                     </t>
                                                 </td>
@@ -886,7 +889,8 @@
                                                         <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_unit))"/>
                                                     </t>
                                                     <t t-else="">
-                                                        0.00
+<!--                                                        0.00-->
+                                                        <span></span>
                                                     </t>
                                                 </td>
 
@@ -912,17 +916,32 @@
 
                                                 <td align="right">
                                                     <t t-if="invoice_line_ids[y].tax_ids.price_include == True and invoice_line_ids[y].price_subtotal != 0.00">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))"
+                                                        <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_total))"
                                                               t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>
                                                     </t>
                                                     <t t-elif="invoice_line_ids[y].tax_ids.price_include != True and invoice_line_ids[y].price_subtotal != 0.00">
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))"
+                                                        <span t-esc="'{0:,.2f}'.format(float(invoice_line_ids[y].price_subtotal))"
                                                               t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>
                                                     </t>
                                                     <t t-else="">
-                                                        0.00
+<!--                                                        0.00-->
+                                                        <span></span>
                                                     </t>
                                                 </td>
+
+<!--                                                <td align="right">-->
+<!--                                                    <t t-if="invoice_line_ids[y].tax_ids.price_include == True and invoice_line_ids[y].price_subtotal != 0.00">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_total)))"-->
+<!--                                                              t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-elif="invoice_line_ids[y].tax_ids.price_include != True and invoice_line_ids[y].price_subtotal != 0.00">-->
+<!--                                                        <span t-esc="'{0:,.2f}'.format(abs(float(invoice_line_ids[y].price_subtotal)))"-->
+<!--                                                              t-field-options="{'widget': 'monetary', 'display_currency': 'o.currency_id'}"/>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-else="">-->
+<!--                                                        0.00-->
+<!--                                                    </t>-->
+<!--                                                </td>-->
 
                                             </tr>
                                             <t t-set="end" t-value="(break_line[x])"/>
