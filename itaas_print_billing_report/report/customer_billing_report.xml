@@ -274,7 +274,8 @@
                                     <!--                                    <span t-if="o.company_id.moo_number">หมู่ที่&amp;nbsp;<span t-field="o.company_id.moo_number"/>&amp;nbsp;</span>-->
                                     <!--                                    <span t-if="o.company_id.soi_number">ซอย<span t-field="o.company_id.soi_number"/>&amp;nbsp;</span>-->
                                     <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span><br/>
+                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
+<!--                                    <br/>-->
                                     <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;</span>
@@ -296,7 +297,7 @@
                             <div style="text-align:center;">
                                 <font style="font-size:20px;">
                                     <strong>ใบวางบิล</strong><br/>
-                                    <strong>Customer Billing</strong><br/>
+                                    <strong>Supplier Billing</strong><br/>
                                 </font>
                                 <font style="font-size: 16px;">
                                     <span>หน้า</span>
@@ -486,10 +487,11 @@
                             <thead>
                                 <tr style="height:30px;">
                                     <th width="6%"><span>ลำดับ<br/>No.</span></th>
-                                    <th width="28%"><span>รายการใบแจ้งหนี้/ใบลดหนี้<br/>INVOICE/CREDIT</span> </th>
+<!--                                    <th width="28%"><span>รายการใบแจ้งหนี้/ใบลดหนี้<br/>INVOICE/CREDIT</span> </th>-->
+                                    <th width="25%"><span>รายการใบแจ้งหนี้/ใบลดหนี้<br/>INVOICE/CREDIT</span> </th>
                                     <th width="13%"><span>วันที่ออกใบแจ้งหนี้<br/>INVOICE DATE</span> </th>
                                     <th width="13%"><span>กำหนดชำระเงิน<br/>DUE DATE</span> </th>
-                                    <th width="12%"><span>รายละเอียด<br/>DESCRIPTION</span> </th>
+                                    <th width="15%"><span>รายละเอียด<br/>DESCRIPTION</span> </th>
                                     <th width="12%"><span>จำนวนเงิน<br/>AMOUNT</span> </th>
                                     <th width="16%"><span>จำนวนเงินวางบิล<br/>DUE AMOUNT</span> </th>
                                 </tr>
@@ -504,13 +506,13 @@
                                             <td>
                                                 <span t-field="o.invoice_ids[y].name"/>
                                             </td>
-                                            <td align="right">
+                                            <td align="left">
                                                 <span t-field="o.invoice_ids[y].invoice_date"/>
                                             </td>
-                                            <td align="right">
+                                            <td align="left">
                                                 <span t-field="o.invoice_ids[y].invoice_date_due"/>
                                             </td>
-                                            <td align="right">
+                                            <td align="left">
                                                 <span t-field="o.invoice_ids[y].invoice_origin"/>
                                             </td>
                                             <td align="right">
@@ -531,13 +533,13 @@
                                             <td>
                                                 <span t-field="o.invoice_ids[y].name"/>
                                             </td>
-                                            <td align="right">
+                                            <td align="left">
                                                 <span t-field="o.invoice_ids[y].invoice_date"/>
                                             </td>
-                                            <td align="right">
+                                            <td align="left">
                                                 <span t-field="o.invoice_ids[y].invoice_date_due"/>
                                             </td>
-                                            <td align="right">
+                                            <td align="left">
                                                 <span t-field="o.invoice_ids[y].invoice_origin"/>
                                             </td>
                                             <td align="right">
@@ -606,6 +608,7 @@
                         <p style="page-break-after:always;"/>
                     </t>
                 </div>
+
                 <div class="footer">
                     <style>
                         @font-face
@@ -670,7 +673,8 @@
                     }
                     </style>
 
-                    <table width="100%" class="table table-bordered font_size_14">
+<!--                    <table width="100%" class="table table-bordered font_size_14">-->
+                    <table width="100%" class="font_size_14">
                         <tr>
                             <td colspan="7" align="center" style="vertical-align: middle;">
                                 <span>วิธีการชำระเงิน</span>
@@ -698,7 +702,8 @@
                                     </div>
                                     <div class="col-7">
                                         <span>กรุณาสั่งจ่ายเช็คขีดคร่อมในนาม</span>
-                                        <span t-if="end ==(break_line[len(break_line)-1])" t-field="o.company_id.name"/>
+<!--                                        <span t-if="end ==(break_line[len(break_line)-1])" t-field="o.company_id.name"/>-->
+                                        <span t-if="end ==(break_line[len(break_line)-1])" t-field="o.company_id.english_name"/>
                                     </div>
                                 </div>
                             </td>
@@ -720,7 +725,8 @@
                         </tr>
                     </table>
                     <div class="last-page">
-                        <table width="100%" class="table table-bordered font_size_14" style="text-align: center; page-break-inside: avoid;">
+<!--                        <table width="100%" class="table table-bordered font_size_14" style="text-align: center; page-break-inside: avoid;">-->
+                        <table width="100%" class="font_size_14" style="text-align: center; page-break-inside: avoid;">
                             <tbody>
                                 <tr>
                                     <td class="col-xs-4" style="text-align: center; line-height:14px;">
@@ -763,6 +769,7 @@
 <!--                        </div>-->
 <!--                    </t>-->
                 </div>
+
             </t>
         </t>
     </template>
