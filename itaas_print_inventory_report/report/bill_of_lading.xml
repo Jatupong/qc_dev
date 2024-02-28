@@ -752,6 +752,7 @@
         <field name="header_line" eval="False"/>
         <field name="header_spacing">80</field>
         <field name="dpi">90</field>
+
     </record>
 
     <report
