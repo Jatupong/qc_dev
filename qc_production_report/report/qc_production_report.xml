@@ -180,7 +180,14 @@
                                                 <tr>
                                                         <td width="15%">เลขที่สั่งผลิต</td>
                                                         <td width="35%">:
-                                                          <span t-field="o.order_line.manufacturing_request_ids[0].number"/>
+                                                                <t t-if="len(o.order_line.manufacturing_request_ids)!=0">
+                                                                        <span t-field="o.order_line.manufacturing_request_ids[0].number"/>
+                                                                </t>
+                                                                <t t-else="">
+                                                                        <t t-if="o.order_line.manufacturing_request_ids.number">
+                                                                              <span t-field="o.order_line.manufacturing_request_ids.number"/>
+                                                                        </t>
+                                                                </t>
                                                         </td>
 
                                                         <td width="15%">วันที่</td>
@@ -412,7 +419,7 @@
                                                         </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <t t-foreach="o.order_line" t-as="line">
+                                                        <t t-foreach="o.order_line.filtered(lambda x:x.display_type not in ['line_note','line_section'])" t-as="line">
                                                                 <t t-set="i_num" t-value="i_num + 1"/>
                                                                 <t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>
                                                                 <tr>
