@@ -602,11 +602,14 @@
                             <thead>
                                 <tr>
                                     <th width="4%">ลำดับ</th>
-                                    <th width="15%">รหัส</th>
+                                    <th width="7%">รหัส</th>
                                     <th width="35%">ชื่อสินค้า</th>
                                     <th width="12%">คลัง</th>
                                     <th width="8%">จำนวน</th>
                                     <th width="12%">หน่วย</th>
+                                    <th width="13%">Lot No.</th>
+
+                                    <th width="8%">Lot No.</th>
                                     <th width="13%">Lot No.</th>
                                 </tr>
                             </thead>
