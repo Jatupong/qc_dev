@@ -357,7 +357,8 @@
                                                 <!--                                                <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
                                                 <!--                                                <span t-esc="' '.join([ address for address in partner_address ])"/>-->
                                                 <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>
-                                                <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>
+<!--                                                <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>-->
+                                                <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;</span>
                                                 <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
                                                 <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
                                                 <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
