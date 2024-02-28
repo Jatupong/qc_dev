@@ -90,7 +90,11 @@ class report_pnd(models.TransientModel):
 
                 address = self.get_partner_full_address_text(move.partner_id)
                 address_text = ' '.join(address)
-                move_ids += address_text[0:30] + '|'
+                # print("address_text [")
+                # for i in address:
+                #     print(i)
+                # print("]")
+                move_ids += address_text + '|'
 
                 if move.date_maturity:
                     date_payment_text = move.date_maturity.strftime('%d/%m/%Y')
