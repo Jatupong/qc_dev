@@ -17,7 +17,7 @@
                         format('opentype');
                         }
                         table.table-bordered{
-                        border:2px solid black;
+                        border:0px solid white;
                         width: 100%;
                         font-family: SarabunPSK;
                         src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")
@@ -25,96 +25,137 @@
                         }
                         .word_wrap{word-wrap: break-word;}
 
-                        table.table-bordered {
-                        border:2px solid black;
+                        table.table-nobordered {
+                        border:0px solid white;
                         padding:3px;
                         width: 100%;
                         }
-                        table.table-bordered &gt; thead &gt; tr &gt; th{
-                        border:2px solid black;
+                        table.table-nobordered &gt; thead &gt; tr &gt; th{
+                        border:0px solid white;
                         padding:3px;
                         text-align:center;
                         }
-                        table.table-bordered &gt; tbody &gt; tr &gt; td{
-                        border:1px solid black;
+                        table.table-nobordered &gt; tbody &gt; tr &gt; td{
+                        border:0px solid white;
                         padding:3px;
                         }
-                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
-                        border:1px solid black;
+                        table.table-nobordered &gt; tfoot &gt; tr &gt; td{
+                        border:0px solid white;
                         padding:3px;
+                        }
+                        .font_size_14{
+                        font-size: 14px;
+                        line-height: 10px;
+                        }
+                        .font_size_18{
+                        font-size: 18px;
+                        line-height: 10px;
+                        }
+                        .table-bordered{
+                        border:unset;
                         }
                     </style>
 
-                    <table style=" font-size: 16px;border:0px solid black">
-                        <tr>
-                            <td width="15%" class="word_wrap">
-                                <!--                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-width: 140px;"/>-->
-                            </td>
 
-                            <table style=" font-size: 22px;border:0px solid white">
-                                <tr>
-                                    <td width="15%" class="word_wrap">
-                                        <!--                                <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="max-width: 140px;"/>-->
-                                        <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:140px; max-width:140px;" alt="Logo"/>
-                                    </td>
-                                    <td width="70%" style="vertical-align: middle;">
-                                        <div style="width:450px; word-wrap: break-word;">
-                                            <font style="font-size: 16px;font-family:TH SarabunPSK">
-                                                <font style="font-size: 18px;">
-                                                    <span t-field="o.company_id.name"/>&amp;nbsp;
+                    <table width="100%" class="font_fam table table-nobordered">
+                        <tbody>
+                            <tr>
+                                <td width="20%" style="vertical-align: middle;">
+                                    <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                         style="max-height:150px; max-width:150px;" alt="Logo"/>
+                                </td>
+                                <td width="80%" style="vertical-align: middle;">
+                                    <div style="width:500px; word-wrap: break-word;">
+                                        <font class="font_size_18">
+                                            <B>
+                                                <span t-field="o.company_id.name"/>&amp;nbsp;
+                                                <!--<span t-field="o.company_id.partner_id.branch_no"/>&amp;nbsp;-->
+                                                <span>(สำนักงานใหญ่)</span>
+                                                <!--                                            <t t-if="o.company_id.branch_no">-->
+                                                <!--                                                <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>-->
+                                                <!--                                                <t t-if="o.company_id.branch_no != '00000'">(สาขา&amp;nbsp;<span t-field="o.company_id.branch_no"/>)</t>-->
+                                                <!--                                            </t>-->
+                                                <!--                                            <t t-if="not o.company_id.branch_no">-->
+                                                <!--                                            </t>-->
+                                            </B>
+                                            <br/>
+                                            <B>
+                                                <span t-field="o.company_id.english_name"/>
+
+                                                <t t-if="o.company_id.branch_no">
                                                     <t t-if="o.company_id.branch_no == '00000'">
-                                                        <span>(สำนักงานใหญ่)</span>
+                                                        <span>(HEAD OFFICE)</span>
                                                     </t>
-                                                    <t t-if="o.company_id.branch_no != '00000'">
-                                                        (<span t-field="o.company_id.branch_no"/>)
+                                                    <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span
+                                                            t-field="o.company_id.branch_no"/>)
                                                     </t>
-                                                </font>
-                                                <br/>
-                                                <span t-if="o.company_id.building"><span t-field="o.company_id.building"/>&amp;nbsp;
-                                                </span>
-                                                <!--                                        <span t-if="o.company_id.roomnumber">ห้องที่&amp;nbsp;<span t-field="o.company_id.roomnumber"/>&amp;nbsp;</span>-->
-                                                <!--                                        <span t-if="o.company_id.floornumber">ชั้นที่&amp;nbsp;<span t-field="o.company_id.floornumber"/>&amp;nbsp;</span>-->
-                                                <span t-if="o.company_id.village">หมู่บ้าน&amp;nbsp;<span t-field="o.company_id.village"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.house_number"><span t-field="o.company_id.house_number"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.moo_number">หมู่&amp;nbsp;<span t-field="o.company_id.moo_number"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.soi_number">ซอย&amp;nbsp;<span t-field="o.company_id.soi_number"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.city and o.company_id.state_id and o.company_id.state_id.code == 'BKK'">
-                                                    เขต<span t-field="o.company_id.city"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.city and o.company_id.state_id and o.company_id.state_id.code != 'BKK'">
-                                                    อ.<span t-field="o.company_id.city"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.state_id and o.company_id.state_id.code == 'BKK'">
-                                                    &amp;nbsp;<span t-field="o.company_id.state_id.name"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.state_id and o.company_id.state_id.code != 'BKK'">
-                                                    จ.&amp;nbsp;<span t-field="o.company_id.state_id.name"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.zip"><span t-esc="o.company_id.zip"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.phone">โทรศัพท์&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;
-                                                </span>
-                                                <br/>
-                                                <span t-if="o.company_id.email">อีเมลล์&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;
-                                                </span>
-                                                <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;
-                                                </span>
-                                            </font>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
+                                                </t>
+                                                <t t-if="not o.company_id.branch_no">
+                                                </t>
+                                            </B>
+                                            <br/>
+                                        </font>
+                                        <font class="font_size_14">
+                                            <!--                                        <t t-set="company_address" t-value="o.company_id.get_company_full_address()"/>-->
+                                            <!--                                        <span t-esc="' '.join([ address for address in company_address ])"/><br/>-->
+                                            <!--                                    <span t-if="o.company_id.building">อาคาร<span t-field="o.company_id.building"/>&amp;nbsp;</span>-->
+                                            <!--                                    <span t-if="o.company_id.roomnumber">ห้องเลขที่<span t-field="o.company_id.roomnumber"/>&amp;nbsp;</span>-->
+                                            <!--                                    <span t-if="o.company_id.floornumber">ชั้นที่<span t-field="o.company_id.floornumber"/>&amp;nbsp;</span>-->
+                                            <!--                                    <span t-if="o.company_id.village">หมู่บ้าน<span t-field="o.company_id.village"/>&amp;nbsp;</span>-->
+                                            <!--                                    <span t-if="o.company_id.house_number">เลขที่&amp;nbsp;<span t-field="o.company_id.house_number"/>&amp;nbsp;</span>-->
+                                            <!--                                    <span t-if="o.company_id.moo_number">หมู่ที่&amp;nbsp;<span t-field="o.company_id.moo_number"/>&amp;nbsp;</span>-->
+                                            <!--                                    <span t-if="o.company_id.soi_number">ซอย<span t-field="o.company_id.soi_number"/>&amp;nbsp;</span>-->
+                                            <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;
+                                            </span>
+                                            <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;
+                                            </span>
 
-                        </tr>
+                                            <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
+                                            <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
+                                            <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต
+                                                <span
+                                                        t-field="o.company_id.city"/>&amp;nbsp;
+                                            </span>
+                                            <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ
+                                                <span
+                                                        t-field="o.company_id.city"/>&amp;nbsp;
+                                            </span>
+                                            <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'">
+                                                <span t-field="o.company_id.state_id.name"/>&amp;nbsp;
+                                            </span>
+                                            <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">
+                                                จังหวัด<span t-field="o.company_id.state_id.name"/>&amp;nbsp;
+                                            </span>
+                                            <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;
+                                            </span>
+                                            <br/>
+
+                                            <t t-if="o.company_id.english_address">
+                                                <span t-field="o.company_id.english_address"/>
+                                                <br/>
+                                            </t>
+                                            <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span
+                                                    t-esc="o.company_id.phone"/>&amp;nbsp;
+                                            </span>
+                                            <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span
+                                                    t-esc="o.company_id.email"/>&amp;nbsp;
+                                                <br/>
+                                            </span>
+                                            <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;
+                                                <span
+                                                        t-esc="o.company_id.vat"/>&amp;nbsp;
+                                            </span>
+                                            <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span
+                                                    t-esc="o.company_id.fax"/>&amp;nbsp;
+                                            </span>
+                                        </font>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
                     </table>
+
 
                     <div style="border: 1px solid black; margin-top: 10px;"/>
 
@@ -127,28 +168,31 @@
                         </font>
                     </div>
 
-                    <table width="100%" style="font-size:16px; line-height:25px; margin-top:15px;border:0px solid white;font-family:TH SarabunPSK">
+                    <table width="100%"
+                           style="font-size:16px; line-height:25px; margin-top:15px;border:0px solid white;font-family:TH SarabunPSK">
                         <tr>
                             <td width="70%">
                                 <table width="100%" style="border:0px solid white">
-                                    <tr style="height:30px;">
-                                        <td style="line-height:15px;" width="15%">
-                                            <div/>
-                                        </td>
-                                    </tr>
+<!--                                    <tr style="height:30px;">-->
+<!--                                        <td style="line-height:15px;" width="15%">-->
+<!--                                            <div/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr style="height:30px;">-->
+<!--                                        <td width="15%" style="line-height:15px;">-->
+<!--                                            <div>ชื่อลูกค้า</div>-->
+<!--                                        </td>-->
+<!--                                        <td width="75%" colspan="5">-->
+<!--                                            <div class="word-wrap" style="width:420px;">-->
+<!--                                                <span t-field="o.partner_id"/>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
                                     <tr style="height:30px;">
                                         <td width="15%" style="line-height:15px;">
-                                            <div>ชื่อลูกค้า</div>
-                                        </td>
-                                        <td width="75%" colspan="5">
-                                            <div class="word-wrap" style="width:420px;">
-                                                <span t-field="o.partner_id"/>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr style="height:30px;">
-                                        <td width="15%" style="line-height:15px;">
-                                            <div>คลังต้น</div>
+<!--                                            <div>คลังต้น</div>-->
+                                            <div>เบิกจากคลัง</div>
+
                                         </td>
                                         <td width="75%" colspan="5">
                                             <div class="word-wrap" style="width:420px;">
@@ -158,7 +202,8 @@
                                     </tr>
                                     <tr style="height:30px;">
                                         <td style="line-height:15px;">
-                                            <div>คลังปลาย</div>
+<!--                                            <div>คลังปลาย</div>-->
+                                            <div>หน่วยงานที่เบิก</div>
                                         </td>
                                         <td colspan="5">
                                             <div class="word-wrap" style="width:420px;">
@@ -357,11 +402,13 @@
                         <t t-set="move_line" t-value="o.move_line_ids"/>
                     </t>
 
-                    <t t-set="break_line" t-value="o.get_break_line_01(move_line, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
+                    <t t-set="break_line"
+                       t-value="o.get_break_line_01(move_line, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                        <table class="table-bordered-b font_fam" style="height:125mm; font-size:19px; line-height:29px;">
+                        <table class="table-bordered-b font_fam"
+                               style="height:125mm; font-size:19px; line-height:29px;">
                             <thead>
                                 <tr>
                                     <th width="3%">ลำดับ<br/>No.
@@ -374,8 +421,8 @@
                                     </th>
                                     <th width="11%">lot no.
                                     </th>
-                                    <th width="12%">หมายเหตุ<br/>Remark
-                                    </th>
+<!--                                    <th width="12%">หมายเหตุ<br/>Remark-->
+<!--                                    </th>-->
                                 </tr>
                             </thead>
                             <tbody class="sale_tbody">
@@ -397,7 +444,8 @@
                                                 <!--</td>-->
                                                 <td>
                                                     <div class="word_wrap">
-                                                        <span t-if="move_line[y].move_id.description_picking" t-field="move_line[y].move_id.description_picking"/>
+                                                        <span t-if="move_line[y].move_id.description_picking"
+                                                              t-field="move_line[y].move_id.description_picking"/>
                                                         <span t-else="" t-field="move_line[y].product_id.name"/>
                                                     </div>
                                                 </td>
@@ -410,15 +458,15 @@
 
                                                 <td align="center">
                                                     <div class="word_wrap">
-                                                      <!--<t t-if="move_line[y].product_uom">-->
-                                                      <!--   <span t-field="move_line[y].product_uom"/>-->
-                                                      <!--</t>-->
+                                                        <!--<t t-if="move_line[y].product_uom">-->
+                                                        <!--   <span t-field="move_line[y].product_uom"/>-->
+                                                        <!--</t>-->
                                                         <!--<span t-field="o.purchase_id.order_line[y].product_uom.name"/>-->
-                                                          <t t-if="move_line[y].product_uom_id">
-                                                         <span t-field="move_line[y].product_uom_id.name"/>
-                                                      </t>
-                                                      <t t-if="not move_line[y].product_uom_id">
-                                                        <span t-field="o.purchase_id.order_line[y].product_uom.name"/>
+                                                        <t t-if="move_line[y].product_uom_id">
+                                                            <span t-field="move_line[y].product_uom_id.name"/>
+                                                        </t>
+                                                        <t t-if="not move_line[y].product_uom_id">
+                                                            <span t-field="o.purchase_id.order_line[y].product_uom.name"/>
                                                         </t>
                                                     </div>
                                                 </td>
@@ -426,22 +474,22 @@
 
                                                 <td align="center">
                                                     <div class="word_wrap">
-                                                      <t t-if="move_line[y].lot_id">
-                                                         <span t-field="move_line[y].lot_id"/>
-                                                      </t>
+                                                        <t t-if="move_line[y].lot_id">
+                                                            <span t-field="move_line[y].lot_id"/>
+                                                        </t>
                                                         <!--<span t-field="move_line[y].qty_done"/>-->
                                                         <!--<span t-field="o.purchase_id.order_line[y]."/>-->
                                                         <!--<span t-esc="'%.2f'% (o.purchase_id.order_line[y].discount)"/>-->
                                                     </div>
                                                 </td>
-                                                <td align="center">
-                                                    <div class="word_wrap">
-                                                        <!--<span t-field="o.purchase_id.order_line[y]."/>-->
-                                                        <span>
-                                                            <!--<t t-esc="'%.2f'% (o.purchase_id.order_line[y].price_subtotal-(o.purchase_id.order_line[y].price_subtotal*(o.purchase_id.order_line[y].discount/100)))"/>-->
-                                                        </span>
-                                                    </div>
-                                                </td>
+<!--                                                <td align="center">-->
+<!--                                                    <div class="word_wrap">-->
+<!--                                                        &lt;!&ndash;<span t-field="o.purchase_id.order_line[y]."/>&ndash;&gt;-->
+<!--                                                        <span>-->
+<!--                                                            &lt;!&ndash;<t t-esc="'%.2f'% (o.purchase_id.order_line[y].price_subtotal-(o.purchase_id.order_line[y].price_subtotal*(o.purchase_id.order_line[y].discount/100)))"/>&ndash;&gt;-->
+<!--                                                        </span>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
 
                                             </tr>
                                         </t>
@@ -461,7 +509,8 @@
                                                 <!--</td>-->
                                                 <td>
                                                     <div class="word_wrap">
-                                                        <span t-if="move_line[y].move_id.description_picking" t-field="move_line[y].move_id.description_picking"/>
+                                                        <span t-if="move_line[y].move_id.description_picking"
+                                                              t-field="move_line[y].move_id.description_picking"/>
                                                         <span t-else="" t-field="move_line[y].product_id.name"/>
                                                     </div>
                                                 </td>
@@ -473,30 +522,30 @@
                                                 </td>
                                                 <td align="center">
                                                     <div class="word_wrap">
-                                                      <t t-if="move_line[y].product_uom_id">
-                                                         <span t-field="move_line[y].product_uom_id.name"/>
-                                                      </t>
-                                                      <t t-if="not move_line[y].product_uom_id">
-                                                        <span t-field="o.purchase_id.order_line[y].product_uom.name"/>
+                                                        <t t-if="move_line[y].product_uom_id">
+                                                            <span t-field="move_line[y].product_uom_id.name"/>
+                                                        </t>
+                                                        <t t-if="not move_line[y].product_uom_id">
+                                                            <span t-field="o.purchase_id.order_line[y].product_uom.name"/>
                                                         </t>
                                                     </div>
                                                 </td>
                                                 <td align="center">
                                                     <div class="word_wrap">
-                                                      <t t-if="move_line[y].lot_id">
-                                                         <span t-field="move_line[y].lot_id"/>
-                                                      </t>
+                                                        <t t-if="move_line[y].lot_id">
+                                                            <span t-field="move_line[y].lot_id"/>
+                                                        </t>
                                                         <!--<span t-esc="'%.2f'% (o.purchase_id.order_line[y].discount)"/>-->
                                                     </div>
                                                 </td>
-                                                <td align="center">
-                                                    <div class="word_wrap">
-                                                        <!--<span t-field="o.purchase_id.order_line[y]."/>-->
-                                                        <span>
-                                                            <!--<t t-esc="'%.2f'% (o.purchase_id.order_line[y].price_subtotal-(o.purchase_id.order_line[y].price_subtotal*(o.purchase_id.order_line[y].discount/100)))"/>-->
-                                                        </span>
-                                                    </div>
-                                                </td>
+<!--                                                <td align="center">-->
+                                                <!--                                                    <div class="word_wrap">-->
+                                                <!--                                                        &lt;!&ndash;<span t-field="o.purchase_id.order_line[y]."/>&ndash;&gt;-->
+                                                <!--                                                        <span>-->
+                                                <!--                                                            &lt;!&ndash;<t t-esc="'%.2f'% (o.purchase_id.order_line[y].price_subtotal-(o.purchase_id.order_line[y].price_subtotal*(o.purchase_id.order_line[y].discount/100)))"/>&ndash;&gt;-->
+                                                <!--                                                        </span>-->
+                                                <!--                                                    </div>-->
+                                                <!--                                                </td>-->
 
                                             </tr>
                                             <t t-set="end" t-value="(break_line[x])"/>
@@ -516,17 +565,17 @@
                                     </tr>
                                 </t>
                             </tbody>
-                            <!--<tfoot>-->
-                            <!--    <tr>-->
-                            <!--        <td colspan="8">-->
-                            <!--            <strong>หมายเหตุ/Remark :</strong>-->
-                            <!--            <t t-if="o.note">-->
-                            <!--                <span>&amp;nbsp;</span>-->
-                            <!--                <span t-field="o.note"/>-->
-                            <!--            </t>-->
-                            <!--        </td>-->
-                            <!--    </tr>-->
-                            <!--</tfoot>-->
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5">
+                                        <strong>หมายเหตุ/Remark :</strong>
+                                        <t t-if="o.note">
+                                            <span>&amp;nbsp;</span>
+                                            <span t-field="o.note"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tfoot>
 
                         </table>
                         <t t-set="start" t-value="break_line[x]"/>
@@ -569,13 +618,15 @@
                     <div>
                         <table width="100%" class="font_fam" style="font-size:20px;">
                             <tr align="center">
-                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;" width="10%">
+                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;"
+                                    width="10%">
                                 </td>
-                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;" width="60%">
+                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;"
+                                    width="60%">
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <span>ผู้ขอ___________________________</span>
+                                    <span>ผู้ขอเบิก________________________</span>
                                     <br/>
                                     <br/>
                                     <span>แผนก__________________________</span>
@@ -587,14 +638,15 @@
                                     <br/>
                                     <br/>
                                 </td>
-                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;" width="30%">
+                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;"
+                                    width="30%">
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <span>ผู้จ่าย__________________________</span>
+                                    <span>ผู้จ่ายของ__________________________</span>
                                     <br/>
                                     <br/>
-                                    <span>ผู้รับ___________________________</span>
+                                    <span>ผู้รับของ___________________________</span>
                                     <br/>
                                     <br/>
                                     <br/>
@@ -604,6 +656,7 @@
                         </table>
                     </div>
                 </div>
+<!--                dfsfsfs-->
 
                 <!--                <div class="footer" style="padding-top:20px;">-->
                 <!--                    <style>-->
@@ -711,5 +764,6 @@
             name="itaas_print_inventory_report.bill_of_lading_id"
             file="itaas_print_inventory_report.bill_of_lading_id"
     />
+
 </odoo>
 

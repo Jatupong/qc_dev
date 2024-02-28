@@ -35,7 +35,6 @@ class StockPicking(models.Model):
         if len(order) == 1:
             my_code = "order.{}".format(field)
             value = eval(my_code)
-
             print("Have field[{}]".format(value))
             if "line" in str(field):
                 my_code = "order.{}.filtered(lambda x:x.display_type not in ['line_note','line_section'])".format(field)
