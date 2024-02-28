@@ -68,7 +68,8 @@ class report_pnd(models.TransientModel):
             for move in move_line_ids:
 
                 move_ids += str(inv_row) + '|'
-                move_ids += str(move.partner_id.vat[0:13] or '') + '|'
+                if move.partner_id.vat:
+                    move_ids += str(move.partner_id.vat[0:13]) + '|'
 
                 title_name = move.partner_id.title or ''
                 name_temp = move.partner_id.name.split(' ')

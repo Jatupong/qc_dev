@@ -18,3 +18,15 @@ class AccountMoveLine(models.AbstractModel):
 
     condition = fields.Selection([("pnd2_1", "1"), ("pnd2_2", "2"), ("pnd2_3", "3"), ("pnd2_4", "4"), ("pnd2_5", "5")],
                                  string="Condition PND2")
+
+class AccountMove(models.AbstractModel):
+    _inherit = 'account.move'
+
+    def debug_mode(self):
+        return self.user_has_groups('base.group_no_one')
+
+class AccountMoveline(models.AbstractModel):
+    _inherit = 'account.move.line'
+
+    def debug_mode(self):
+        return self.user_has_groups('base.group_no_one')

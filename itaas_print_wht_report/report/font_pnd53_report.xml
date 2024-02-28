@@ -39,6 +39,7 @@
                                     </t>
                                     <!-- company_name -->
                                     <span t-esc="company_id.name" style="position: absolute;left:90px;top: 337px;width:500px;"/>
+                                    <field name="company_id" groups="base.group_multi_company"/>
                                     <!-- company address -->
                                     <span t-esc="company_id.building" style="position: absolute;left:200px; top:377px;"/>
                                     <span t-esc="company_id.room_number" style="position: absolute;left:425px; top:377px;"/>
@@ -137,7 +138,7 @@
                             <font style="font-size: 30px;">✓</font>
                         </span>
                         <span t-esc="pnd['total_item']" style="position: absolute;left:1190px;top: 765px;"/>
-                        <span t-esc="pnd['total_page']" style="position: absolute;left:1190px;top: 800px;"/>
+                        <span t-esc="pnd['total_page']" style="position: absolute;left:1190px;top: 810px;"/>
                         <span t-esc="'{0:,.2f}'.format(float(pnd['total_amount']))" style="position: absolute; right:230px; top:1080px;"/>
                         <span t-esc="'{0:,.2f}'.format(float(pnd['total_wht_amount']))" style="position: absolute; right:230px; top:1125px;"/>
                         <span t-esc="'{0:,.2f}'.format(float(pnd['total_wht_amount']))" style="position: absolute; right:230px; top:1210px;"/>
