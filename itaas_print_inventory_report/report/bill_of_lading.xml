@@ -740,6 +740,7 @@
         </t>
     </template>
 
+
     <record id="paperformat_A4_Zero_Margin_bill_of_lading_id" model="report.paperformat">
         <field name="name">A4_Zero_Margin_bill_of_lading_id</field>
         <field name="default" eval="False"/>
