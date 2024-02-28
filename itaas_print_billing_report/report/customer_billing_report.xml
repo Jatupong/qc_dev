@@ -275,7 +275,7 @@
                                     <!--                                    <span t-if="o.company_id.soi_number">ซอย<span t-field="o.company_id.soi_number"/>&amp;nbsp;</span>-->
                                     <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;</span>
                                     <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
-<!--                                    <br/>-->
+                                                        <!--<br/>-->
                                     <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;</span>
@@ -295,10 +295,19 @@
 
                         <td width="25%" style="text-align:left; vertical-align: middle;">
                             <div style="text-align:center;">
+                                <t t-if="o.sequence_billing.name == 'Supplier Billing'">
                                 <font style="font-size:20px;">
                                     <strong>ใบวางบิล</strong><br/>
                                     <strong>Supplier Billing</strong><br/>
                                 </font>
+                                </t>
+
+                                <t t-if="o.sequence_billing.name == 'Customer Billing'">
+                                <font style="font-size:20px;">
+                                    <strong>ใบวางบิล</strong><br/>
+                                    <strong>Customer Billing</strong><br/>
+                                </font>
+                                </t>
                                 <font style="font-size: 16px;">
                                     <span>หน้า</span>
                                     <span class="page"/>/<span class="topage"/><br/>
@@ -355,6 +364,7 @@
                                                 <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
                                                 <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
                                                 <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+
                                                 <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>
                                             </div>
                                         </td>
@@ -482,6 +492,7 @@
                     <t t-set="break_line" t-value="o.get_break_line_invoice(max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
+
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
                         <table width="100%" class="table table-bordered-b font_fam" style="height:140mm; font-size: 14px;">
                             <thead>
