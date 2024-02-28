@@ -33,6 +33,7 @@ class StockPicking(models.Model):
         domain = [('name', '=', data)]
         order = self.env['sale.order'].search(domain)
         if len(order) == 1:
+
             my_code = "order.{}".format(field)
             value = eval(my_code)
             print("Have field[{}]".format(value))
