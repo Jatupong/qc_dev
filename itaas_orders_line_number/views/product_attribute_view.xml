@@ -14,6 +14,7 @@
 
                 <xpath expr="//field[@name='attribute_line_ids']/tree/field[@name='value_count']" position="after">
                     <field name="number" string="No." readonly="1" force_save="1"/>
+                    <field name="date_time_add_attribute_line" invisible="1"/>
                 </xpath>
 
             </field>
