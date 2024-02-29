@@ -249,7 +249,7 @@
                                         <B>
                                             <span t-field="o.company_id.name"/>&amp;nbsp;
                                             <!--<span t-field="o.company_id.partner_id.branch_no"/>&amp;nbsp;-->
-                                            <span>(สำนักงานใหญ่)</span>
+                                            <!--                                            <span>(สำนักงานใหญ่)</span>-->
                                             <!--                                            <t t-if="o.company_id.branch_no">-->
                                             <!--                                                <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>-->
                                             <!--                                                <t t-if="o.company_id.branch_no != '00000'">(สาขา&amp;nbsp;<span t-field="o.company_id.branch_no"/>)</t>-->
@@ -262,8 +262,8 @@
                                             <span t-field="o.company_id.english_name"/>
 
                                             <t t-if="o.company_id.branch_no">
-                                                <t t-if="o.company_id.branch_no == '00000'">
-                                                    <span>(HEAD OFFICE)</span>
+                                                <t t-if="o.company_id.branch_no == 'purchase_request_report_id00000'">
+                                                    <!--                                                    <span>(HEAD OFFICE)</span>-->
                                                 </t>
                                                 <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span
                                                         t-field="o.company_id.branch_no"/>)
@@ -288,7 +288,7 @@
                                         </span>
                                         <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;
                                         </span>
-<!--                                        <br/>-->
+                                        <!--                                        <br/>-->
                                         <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                         <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                         <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span
@@ -314,16 +314,21 @@
                                         <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span
                                                 t-esc="o.company_id.phone"/>&amp;nbsp;
                                         </span>
-                                        <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span
-                                                t-esc="o.company_id.email"/>&amp;nbsp;
+                                        <!--                                        <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span-->
+                                        <!--                                                t-esc="o.company_id.email"/>&amp;nbsp;-->
+                                        <!--                                            <br/>-->
+                                        <!--                                        </span>-->
+
+                                        <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span
+                                                t-esc="o.company_id.fax"/>&amp;nbsp;
                                             <br/>
                                         </span>
                                         <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;<span
                                                 t-esc="o.company_id.vat"/>&amp;nbsp;
                                         </span>
-                                        <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span
-                                                t-esc="o.company_id.fax"/>&amp;nbsp;
-                                        </span>
+
+
+                                        <span>สำนักงานใหญ่</span>
                                     </font>
                                 </div>
                             </td>
@@ -331,6 +336,8 @@
                                 <div style="text-align:center;">
                                     <font style="font-size: 14px;">
                                         <span t-field="o.company_id.purchase_order_no_form"/>
+                                        <br/>
+                                        <span t-field="o.company_id.document_id3"/>
                                     </font>
                                     <br/>
                                     <br/>
@@ -692,9 +699,9 @@
                                 <tr style="height: 60px;">
                                     <td colspan="6">
                                         หมายเหตุ : &amp;nbsp;
-<!--                                        <t t-if="'notes' in o.fields_get()">-->
-<!--                                            <span t-field="o.notes"/>-->
-<!--                                        </t>-->
+                                        <!--                                        <t t-if="'notes' in o.fields_get()">-->
+                                        <!--                                            <span t-field="o.notes"/>-->
+                                        <!--                                        </t>-->
                                         <span t-field="o.description"/>
                                     </td>
                                 </tr>
