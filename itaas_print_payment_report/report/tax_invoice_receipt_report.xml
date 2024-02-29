@@ -733,10 +733,10 @@
                             <tr style="line-height=20px;">
                                 <t t-if="o.journal_id.type =='bank' and not o.journal_id.bank_cheque">
                                     <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_id"/><br/></td>-->
-                                    <td align="center" class="last-page"><span>K bank</span><br/></td>
+                                    <td align="center" class="last-page"><span>&amp;nbsp;</span><br/></td>
                                     <td><br/></td>
                                     <!--<td align="center" class="last-page"><span t-field="o.journal_id.bank_account_id"/><br/></td>-->
-                                    <td align="center" class="last-page"><span>0123401234</span><br/></td>
+                                    <td align="center" class="last-page"><span>&amp;nbsp;</span><br/></td>
                                     <td><br/></td>
                                     <td align="right" class="last-page"><span t-esc="'{0:,.2f}'.format(float(o.amount))"/>&amp;nbsp;<br/></td>
                                 </t>
