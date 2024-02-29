@@ -1,0 +1,11 @@
+<odoo>
+    <record id="action_account_moves_undue_id" model="ir.actions.act_window">
+        <field name="domain">[('is_undue_tax','=',True),('debit','>',0.00),('move_id.state','=','posted')]</field>
+        <field name="name">ภาษีซื้อไม่ถึงกำหนด</field>
+        <field name="res_model">account.move.line</field>
+        <field name="view_id" ref="thai_accounting.view_move_line_wht_tree"/>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="action_account_moves_undue_id" id="action_account_moves_undue" parent="thai_accounting.menu_finance_accounting_tax" sequence="99" groups="account.group_account_user" />
+</odoo>
