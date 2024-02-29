@@ -27,8 +27,8 @@
                 <field name="wht_income"/>
                 <field name="bank_fee"/>
                 <field name="diff_little_money"/>
-                <field name="sale_tax_report"/>
-                <field name="purchase_tax_report"/>
+<!--                <field name="sale_tax_report"/>-->
+<!--                <field name="purchase_tax_report"/>-->
                 <field name="is_cheque"/>
             </field>
         </field>
