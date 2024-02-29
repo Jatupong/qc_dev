@@ -407,6 +407,35 @@
                                         </div>
                                     </td>
 
+<!--                                    <td>-->
+<!--                                        <div class="box5">-->
+<!--                                            <t t-if="k['partner']">-->
+<!--                                                <span t-esc="k['partner'].name"/>-->
+<!--                                            </t>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                        <div class="box6">-->
+<!--                                            <span t-esc="k['move_id'].partner_id.vat"/>-->
+<!--                                        </div>-->
+<!--                                    </td>-->
+<!--                                    <t t-if="k['move_id'].partner_id.branch_no == '00000'">-->
+<!--                                        <td align="right">-->
+<!--                                            <div class="box7">-->
+<!--                                                <span t-esc="k['move_id'].partner_id.branch_no"/>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                        <td><div class="box8"><br/></div></td>-->
+<!--                                    </t>-->
+<!--                                    <t t-if="k['move_id'].partner_id.branch_no != '00000'">-->
+<!--                                        <td><div class="box7"><br/></div></td>-->
+<!--                                        <td align="right">-->
+<!--                                            <div class="box8">-->
+<!--                                                <span t-esc="k['move_id'].partner_id.branch_no"/>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+<!--                                    </t>-->
+
                                     <td>
                                         <div class="box5">
                                             <t t-if="k['partner']">
@@ -416,25 +445,27 @@
                                     </td>
                                     <td>
                                         <div class="box6">
-                                            <span t-esc="k['move_id'].partner_id.vat"/>
+                                            <span t-esc="k['partner'].vat"/>
                                         </div>
                                     </td>
-                                    <t t-if="k['move_id'].partner_id.branch_no == '00000'">
+                                    <t t-if="k['partner'].branch_no == '00000'">
                                         <td align="right">
                                             <div class="box7">
-                                                <span t-esc="k['move_id'].partner_id.branch_no"/>
+                                                <span t-esc="k['partner'].branch_no"/>
                                             </div>
                                         </td>
                                         <td><div class="box8"><br/></div></td>
                                     </t>
-                                    <t t-if="k['move_id'].partner_id.branch_no != '00000'">
+                                    <t t-if="k['partner'].branch_no != '00000'">
                                         <td><div class="box7"><br/></div></td>
                                         <td align="right">
                                             <div class="box8">
-                                                <span t-esc="k['move_id'].partner_id.branch_no"/>
+                                                <span t-esc="k['partner'].branch_no"/>
                                             </div>
                                         </td>
                                     </t>
+
+
                                     <td align="right">
                                         <t t-if="k['move_id'].state == 'cancel'">
                                             <span>0.00</span>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tax_report_tax,tax_report,itaas_std_tax_report.model_tax_report,base.group_user,1,1,1,1
+access_tax_excel_export_new,tax_excel_export_new,itaas_std_tax_report.model_tax_excel_export_new,base.group_user,1,1,1,1
+
+
+

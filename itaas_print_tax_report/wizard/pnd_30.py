@@ -122,26 +122,26 @@ class report_report_pnd30_id(models.AbstractModel):
                         amount_sum_5 += move_id['amount_tax'] * (-1)
 
                 else:
-                    if move_id['untaxed_amount_after_discount']:
-                        sum_vat_7_and_0 += move_id['untaxed_amount_after_discount']
-                        amount_sum_5 += move_id['amount_tax']
+                    # if move_id['untaxed_amount_after_discount']:
+                    #     sum_vat_7_and_0 += move_id['untaxed_amount_after_discount']
+                    #     amount_sum_5 += move_id['amount_tax']
 
-                    else:
-                        sum_vat_7_and_0 += move_id['amount_untaxed']
-                        amount_sum_5 += move_id['amount_tax']
+                    # else:
+                    sum_vat_7_and_0 += move_id['amount_untaxed']
+                    amount_sum_5 += move_id['amount_tax']
 
-            if move_id['invoice_line'][0].tax_ids.amount == 0:
-                if move_id['state'] != 'cancel':
-                    if move_id['type'] == 'out_refund':
-                        if move_id['untaxed_amount_after_discount']:
-                            amount_0 += move_id['untaxed_amount_after_discount'] * (-1)
-                        else:
-                            amount_0 += move_id['amount_untaxed'] * (-1)
-                    else:
-                        if move_id['untaxed_amount_after_discount']:
-                            amount_0 += move_id['untaxed_amount_after_discount']
-                        else:
-                            amount_0 += move_id['amount_untaxed']
+            # if move_id['invoice_line'][0].tax_ids.amount == 0:
+            #     if move_id['state'] != 'cancel':
+            #         if move_id['type'] == 'out_refund':
+            #             if move_id['untaxed_amount_after_discount']:
+            #                 amount_0 += move_id['untaxed_amount_after_discount'] * (-1)
+            #             else:
+            #                 amount_0 += move_id['amount_untaxed'] * (-1)
+            #         else:
+            #             if move_id['untaxed_amount_after_discount']:
+            #                 amount_0 += move_id['untaxed_amount_after_discount']
+            #             else:
+            #                 amount_0 += move_id['amount_untaxed']
         amount_sum_4 = sum_vat_7_and_0 - amount_0
         data_sale = {
             'amount_untaxed_7_and_0':  sum_vat_7_and_0,

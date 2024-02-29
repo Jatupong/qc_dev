@@ -15,3 +15,4 @@ class Account_journal(models.Model):
         if tax_false:
             self.is_check_not_vat = False
 
+

@@ -11,15 +11,15 @@ class Account_Tax(models.Model):
 
     wht_personal_company = fields.Selection([('personal', 'ภงด3'), ('company', 'ภงด53'),('pnd1_kor', 'ภงด1ก'),('pnd1_kor_special', 'ภงด1ก พิเศษ'),('pnd2', 'ภงด2'),('pnd2_kor', 'ภงด2ก'),('personal_kor', 'ภงด3ก')])
     is_tax_not_due = fields.Boolean('Tax is not due')
+    is_tax_exempted = fields.Boolean('Tax is Exempted')
 
 
 class account_move(models.Model):
     _inherit = 'account.move'
 
 
-    def action_post(self):
-        print('kkkkkkkk')
-        res = super(account_move, self).action_post()
+    def post(self):
+        res = super(account_move, self).post()
         for move in self:
             if move.move_type in ('in_invoice','in_refund'):
                 tax = move.invoice_line_ids.filtered(lambda r: r.tax_ids).mapped('tax_ids')
@@ -46,9 +46,12 @@ class account_move_line_inherit(models.Model):
     date_vat_new = fields.Date(string="Date Vat" ,copy=False)
     ref_new = fields.Char(string="Ref" ,copy=False)
     is_special_tax = fields.Boolean(string='Special Tax',copy=False)
-
-
     account_for_vat_0 = fields.Many2one("account.account", string="Account Vat 0")
+    is_undue_tax = fields.Boolean('Is Undue Tax',related="account_id.is_undue_tax",store=True)
+
+
+
+
 
 
     def address_sum(self, address):
