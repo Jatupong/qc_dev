@@ -75,23 +75,23 @@
 
 
     <!--    New menu for tax report -->
-    <menuitem id="menu_finance_accounting_tax"
-              name="Tax"
-              parent="account.menu_finance_entries"
-              sequence="20" />
+<!--    <menuitem id="menu_finance_accounting_tax"-->
+<!--              name="Tax"-->
+<!--              parent="account.menu_finance_entries"-->
+<!--              sequence="20" />-->
 
 
-    <menuitem action="action_account_moves_all_sale_tax"
-              id="menu_action_account_moves_sale_tax"
-              parent="menu_finance_accounting_tax"
-              sequence="1"
-              groups="account.group_account_user" />
+<!--    <menuitem action="action_account_moves_all_sale_tax"-->
+<!--              id="menu_action_account_moves_sale_tax"-->
+<!--              parent="menu_finance_accounting_tax"-->
+<!--              sequence="1"-->
+<!--              groups="account.group_account_user" />-->
 
-    <menuitem action="action_account_moves_all_purchase_tax"
-              id="menu_action_account_moves_purchase_tax"
-              parent="menu_finance_accounting_tax"
-              sequence="2"
-              groups="account.group_account_user" />
+<!--    <menuitem action="action_account_moves_all_purchase_tax"-->
+<!--              id="menu_action_account_moves_purchase_tax"-->
+<!--              parent="menu_finance_accounting_tax"-->
+<!--              sequence="2"-->
+<!--              groups="account.group_account_user" />-->
 
 
 
