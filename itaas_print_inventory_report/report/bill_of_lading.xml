@@ -5,24 +5,42 @@
             <t t-call="web.basic_layout">
                 <div class="header" style="position: relative;">
                     <style>
+                        <!--                        @font-face-->
+                        <!--                        {-->
+                        <!--                        font-family: SarabunPSK;-->
+                        <!--                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")-->
+                        <!--                        format('opentype');-->
+                        <!--                        }-->
+                        <!--                        .font_fam{-->
+                        <!--                        font-family: SarabunPSK;-->
+                        <!--                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")-->
+                        <!--                        format('opentype');-->
+                        <!--                        }-->
+                        <!--                        table.table-bordered{-->
+                        <!--                        border:0px solid white;-->
+                        <!--                        width: 100%;-->
+                        <!--                        font-family: SarabunPSK;-->
+                        <!--                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")-->
+                        <!--                        format('opentype');-->
+                        <!--                        }-->
+
                         @font-face
                         {
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")
+                        font-family: Sarabun-Regular;
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf")
                         format('opentype');
                         }
                         .font_fam{
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")
+                        font-family: Sarabun-Regular;
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf")
                         format('opentype');
                         }
+
                         table.table-bordered{
                         border:0px solid white;
                         width: 100%;
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")
-                        format('opentype');
                         }
+                        <!--                        font-family: SarabunPSK;-->
                         .word_wrap{word-wrap: break-word;}
 
                         table.table-nobordered {
@@ -60,17 +78,17 @@
                     <table width="100%" class="font_fam table table-nobordered">
                         <tbody>
                             <tr>
-                                <td width="20%" style="vertical-align: middle;">
+                                <td width="18%" style="vertical-align: middle;">
                                     <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
                                          style="max-height:150px; max-width:150px;" alt="Logo"/>
                                 </td>
-                                <td width="80%" style="vertical-align: middle;">
+                                <td width="55%" style="vertical-align: middle;">
                                     <div style="width:500px; word-wrap: break-word;">
                                         <font class="font_size_18">
                                             <B>
                                                 <span t-field="o.company_id.name"/>&amp;nbsp;
                                                 <!--<span t-field="o.company_id.partner_id.branch_no"/>&amp;nbsp;-->
-                                                <span>(สำนักงานใหญ่)</span>
+                                                <!--                                                <span>(สำนักงานใหญ่)</span>-->
                                                 <!--                                            <t t-if="o.company_id.branch_no">-->
                                                 <!--                                                <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>-->
                                                 <!--                                                <t t-if="o.company_id.branch_no != '00000'">(สาขา&amp;nbsp;<span t-field="o.company_id.branch_no"/>)</t>-->
@@ -82,14 +100,14 @@
                                             <B>
                                                 <span t-field="o.company_id.english_name"/>
 
-                                                <t t-if="o.company_id.branch_no">
-                                                    <t t-if="o.company_id.branch_no == '00000'">
-                                                        <span>(HEAD OFFICE)</span>
-                                                    </t>
-                                                    <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span
-                                                            t-field="o.company_id.branch_no"/>)
-                                                    </t>
-                                                </t>
+<!--                                                <t t-if="o.company_id.branch_no">-->
+<!--                                                    <t t-if="o.company_id.branch_no == '00000'">-->
+<!--                                                        <span>(HEAD OFFICE)</span>-->
+<!--                                                    </t>-->
+<!--                                                    <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span-->
+<!--                                                            t-field="o.company_id.branch_no"/>)-->
+<!--                                                    </t>-->
+<!--                                                </t>-->
                                                 <t t-if="not o.company_id.branch_no">
                                                 </t>
                                             </B>
@@ -137,19 +155,28 @@
                                             <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span
                                                     t-esc="o.company_id.phone"/>&amp;nbsp;
                                             </span>
-                                            <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span
-                                                    t-esc="o.company_id.email"/>&amp;nbsp;
-                                                <br/>
+                                            <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span
+                                                    t-esc="o.company_id.fax"/>&amp;nbsp;
+                                                  <br/>
                                             </span>
+                                            <!--                                            <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span-->
+                                            <!--                                                    t-esc="o.company_id.email"/>&amp;nbsp;-->
+                                            <!--                                                <br/>-->
+                                            <!--                                            </span>-->
                                             <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;
                                                 <span
                                                         t-esc="o.company_id.vat"/>&amp;nbsp;
                                             </span>
-                                            <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span
-                                                    t-esc="o.company_id.fax"/>&amp;nbsp;
-                                            </span>
+                                            <span>(สำนักงานใหญ่)</span>
                                         </font>
                                     </div>
+                                </td>
+                                <td width="27%" style="vertical-align: top;text-align:center">
+                                    <font class="font_size_14">
+                                        <span t-field="o.company_id.document_id2"/>
+                                        <br/>
+                                        <span t-field="o.company_id.document_id3"/>
+                                    </font>
                                 </td>
                             </tr>
                         </tbody>
@@ -159,7 +186,7 @@
 
                     <div style="border: 1px solid black; margin-top: 10px;"/>
 
-                    <div width="100%" style="text-align:center; margin-top:24px;font-family:TH SarabunPSK">
+                    <div width="100%" class="font_fam" style="text-align:center; margin-top:24px;">
                         <font style="font-size: 24px;">
                             <b>
                                 <span>ใบเบิกพัสดุ</span>
@@ -168,33 +195,33 @@
                         </font>
                     </div>
 
-                    <table width="100%"
-                           style="font-size:16px; line-height:25px; margin-top:15px;border:0px solid white;font-family:TH SarabunPSK">
+                    <table width="100%" class="font_fam"
+                           style="font-size:16px; line-height:25px; margin-top:15px;border:0px solid white;">
                         <tr>
                             <td width="70%">
                                 <table width="100%" style="border:0px solid white">
-<!--                                    <tr style="height:30px;">-->
-<!--                                        <td style="line-height:15px;" width="15%">-->
-<!--                                            <div/>-->
-<!--                                        </td>-->
-<!--                                    </tr>-->
-<!--                                    <tr style="height:30px;">-->
-<!--                                        <td width="15%" style="line-height:15px;">-->
-<!--                                            <div>ชื่อลูกค้า</div>-->
-<!--                                        </td>-->
-<!--                                        <td width="75%" colspan="5">-->
-<!--                                            <div class="word-wrap" style="width:420px;">-->
-<!--                                                <span t-field="o.partner_id"/>-->
-<!--                                            </div>-->
-<!--                                        </td>-->
-<!--                                    </tr>-->
+                                    <!--                                    <tr style="height:30px;">-->
+                                    <!--                                        <td style="line-height:15px;" width="15%">-->
+                                    <!--                                            <div/>-->
+                                    <!--                                        </td>-->
+                                    <!--                                    </tr>-->
+                                    <!--                                    <tr style="height:30px;">-->
+                                    <!--                                        <td width="15%" style="line-height:15px;">-->
+                                    <!--                                            <div>ชื่อลูกค้า</div>-->
+                                    <!--                                        </td>-->
+                                    <!--                                        <td width="75%" colspan="5">-->
+                                    <!--                                            <div class="word-wrap" style="width:420px;">-->
+                                    <!--                                                <span t-field="o.partner_id"/>-->
+                                    <!--                                            </div>-->
+                                    <!--                                        </td>-->
+                                    <!--                                    </tr>-->
                                     <tr style="height:30px;">
-                                        <td width="15%" style="line-height:15px;">
-<!--                                            <div>คลังต้น</div>-->
+                                        <td width="20%" style="line-height:15px;">
+                                            <!--                                            <div>คลังต้น</div>-->
                                             <div>เบิกจากคลัง</div>
 
                                         </td>
-                                        <td width="75%" colspan="5">
+                                        <td width="80%" colspan="5">
                                             <div class="word-wrap" style="width:420px;">
                                                 <span t-field="o.location_id"/>
                                             </div>
@@ -202,7 +229,7 @@
                                     </tr>
                                     <tr style="height:30px;">
                                         <td style="line-height:15px;">
-<!--                                            <div>คลังปลาย</div>-->
+                                            <!--                                            <div>คลังปลาย</div>-->
                                             <div>หน่วยงานที่เบิก</div>
                                         </td>
                                         <td colspan="5">
@@ -214,15 +241,15 @@
                                 </table>
                             </td>
                             <td width="30%">
-                                <table width="100%" style="border:0px solid white">
-                                    <tr style="height:30px;">
-                                        <td style="line-height:15px;" width="15%">
-                                            <div/>
-                                        </td>
-                                        <td width="75%">
-                                            <span t-field="o.company_id.document_id2"/>
-                                        </td>
-                                    </tr>
+                                <table width="100%" class="font_fam" style="border:0px solid white">
+                                    <!--                                    <tr style="height:30px;">-->
+                                    <!--                                        <td style="line-height:15px;" width="15%">-->
+                                    <!--                                            <div/>-->
+                                    <!--                                        </td>-->
+                                    <!--                                        <td width="75%">-->
+                                    <!--                                            <span t-field="o.company_id.document_id2"/>-->
+                                    <!--                                        </td>-->
+                                    <!--                                    </tr>-->
                                     <tr style="height:30px;">
                                         <td style="line-height:15px;" width="15%">
                                             <div>เลขที่</div>
@@ -249,17 +276,30 @@
 
                 <div class="page">
                     <style>
+                        <!--                        @font-face-->
+                        <!--                        {-->
+                        <!--                        font-family: SarabunPSK;-->
+                        <!--                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")-->
+                        <!--                        format('opentype');-->
+                        <!--                        }-->
+                        <!--                        .font_fam{-->
+                        <!--                        font-family: SarabunPSK;-->
+                        <!--                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")-->
+                        <!--                        format('opentype');-->
+                        <!--                        }-->
+
                         @font-face
                         {
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")
+                        font-family: Sarabun-Regular;
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf")
                         format('opentype');
                         }
                         .font_fam{
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")
+                        font-family: Sarabun-Regular;
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf")
                         format('opentype');
                         }
+
                         table.table-bordered {
                         border:0px solid white;
                         }
@@ -282,9 +322,9 @@
                         margin-top:10px;
                         margin-bottom:5px;
                         width: 100%;
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
-                        format('opentype');
+                        <!--                        font-family: SarabunPSK;-->
+                        <!--                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")-->
+                        <!--                        format('opentype');-->
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
                         border:1px solid white;
@@ -390,7 +430,7 @@
                         padding:0px;
                         }
                     </style>
-                    <t t-set="max_body_height" t-value="135"/>
+                    <t t-set="max_body_height" t-value="170"/>
                     <t t-set="new_line_height" t-value="5"/>
                     <t t-set="row_line_height" t-value="5"/>
                     <t t-set="max_line_lenght" t-value="50"/>
@@ -408,7 +448,7 @@
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
                         <table class="table-bordered-b font_fam"
-                               style="height:125mm; font-size:19px; line-height:29px;">
+                               style="height:160mm; font-size:16px; line-height:29px;">
                             <thead>
                                 <tr>
                                     <th width="3%">ลำดับ<br/>No.
@@ -421,8 +461,8 @@
                                     </th>
                                     <th width="11%">lot no.
                                     </th>
-<!--                                    <th width="12%">หมายเหตุ<br/>Remark-->
-<!--                                    </th>-->
+                                    <!--                                    <th width="12%">หมายเหตุ<br/>Remark-->
+                                    <!--                                    </th>-->
                                 </tr>
                             </thead>
                             <tbody class="sale_tbody">
@@ -482,14 +522,14 @@
                                                         <!--<span t-esc="'%.2f'% (o.purchase_id.order_line[y].discount)"/>-->
                                                     </div>
                                                 </td>
-<!--                                                <td align="center">-->
-<!--                                                    <div class="word_wrap">-->
-<!--                                                        &lt;!&ndash;<span t-field="o.purchase_id.order_line[y]."/>&ndash;&gt;-->
-<!--                                                        <span>-->
-<!--                                                            &lt;!&ndash;<t t-esc="'%.2f'% (o.purchase_id.order_line[y].price_subtotal-(o.purchase_id.order_line[y].price_subtotal*(o.purchase_id.order_line[y].discount/100)))"/>&ndash;&gt;-->
-<!--                                                        </span>-->
-<!--                                                    </div>-->
-<!--                                                </td>-->
+                                                <!--                                                <td align="center">-->
+                                                <!--                                                    <div class="word_wrap">-->
+                                                <!--                                                        &lt;!&ndash;<span t-field="o.purchase_id.order_line[y]."/>&ndash;&gt;-->
+                                                <!--                                                        <span>-->
+                                                <!--                                                            &lt;!&ndash;<t t-esc="'%.2f'% (o.purchase_id.order_line[y].price_subtotal-(o.purchase_id.order_line[y].price_subtotal*(o.purchase_id.order_line[y].discount/100)))"/>&ndash;&gt;-->
+                                                <!--                                                        </span>-->
+                                                <!--                                                    </div>-->
+                                                <!--                                                </td>-->
 
                                             </tr>
                                         </t>
@@ -538,7 +578,7 @@
                                                         <!--<span t-esc="'%.2f'% (o.purchase_id.order_line[y].discount)"/>-->
                                                     </div>
                                                 </td>
-<!--                                                <td align="center">-->
+                                                <!--                                                <td align="center">-->
                                                 <!--                                                    <div class="word_wrap">-->
                                                 <!--                                                        &lt;!&ndash;<span t-field="o.purchase_id.order_line[y]."/>&ndash;&gt;-->
                                                 <!--                                                        <span>-->
@@ -585,15 +625,27 @@
 
                 <div class="footer">
                     <style>
+                        <!--                        @font-face-->
+                        <!--                        {-->
+                        <!--                        font-family: SarabunPSK;-->
+                        <!--                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")-->
+                        <!--                        format('opentype');-->
+                        <!--                        }-->
+                        <!--                        .font_fam{-->
+                        <!--                        font-family: SarabunPSK;-->
+                        <!--                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")-->
+                        <!--                        format('opentype');-->
+                        <!--                        }-->
+
                         @font-face
                         {
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")
+                        font-family: Sarabun-Regular;
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf")
                         format('opentype');
                         }
                         .font_fam{
-                        font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/THSarabun.ttf")
+                        font-family: Sarabun-Regular;
+                        src: local('United'), url("/itaas_print_purchase_report/static/sarabun/Sarabun-Regular.ttf")
                         format('opentype');
                         }
                         table.table-bordered {
@@ -616,37 +668,37 @@
                     </style>
 
                     <div>
-                        <table width="100%" class="font_fam" style="font-size:20px;">
+                        <table width="100%" class="font_fam" style="font-size:16px;">
                             <tr align="center">
-                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;"
-                                    width="10%">
+                                <td style="padding:5px; border: 0px solid white;text-align:left;"
+                                    width="5%">
                                 </td>
-                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;"
-                                    width="60%">
+                                <td style="padding:5px; border: 0px solid white;text-align:left;"
+                                    width="50%">
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <span>ผู้ขอเบิก________________________</span>
+                                    <span>ผู้ขอเบิก _____________________________________</span>
                                     <br/>
                                     <br/>
-                                    <span>แผนก__________________________</span>
+                                    <span>แผนก _____________________________________</span>
                                     <br/>
                                     <br/>
-                                    <span>ผูอนุมัติ_________________________</span>
+                                    <span>ผูอนุมัติ _____________________________________</span>
                                     <br/>
                                     <br/>
                                     <br/>
                                     <br/>
                                 </td>
-                                <td class="col-xs-4" style="padding:5px; border: 0px solid white;text-align:left;"
-                                    width="30%">
+                                <td style="padding:5px; border: 0px solid white;text-align:left;"
+                                    width="40%">
                                     <br/>
                                     <br/>
                                     <br/>
-                                    <span>ผู้จ่ายของ__________________________</span>
+                                    <span>ผู้จ่ายของ _____________________________________</span>
                                     <br/>
                                     <br/>
-                                    <span>ผู้รับของ___________________________</span>
+                                    <span>ผู้รับของ _____________________________________</span>
                                     <br/>
                                     <br/>
                                     <br/>
@@ -656,7 +708,7 @@
                         </table>
                     </div>
                 </div>
-<!--                dfsfsfs-->
+                <!--                dfsfsfs-->
 
                 <!--                <div class="footer" style="padding-top:20px;">-->
                 <!--                    <style>-->
@@ -747,7 +799,7 @@
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
         <field name="margin_top">85</field>
-        <field name="margin_bottom">95</field>
+        <field name="margin_bottom">70</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
