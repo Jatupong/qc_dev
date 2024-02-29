@@ -30,14 +30,15 @@ Stock report
     'website' : 'www.itaas.co.th',
     'depends' : ['base','account','account_accountant','thai_accounting'],
     'data' : [
+        'views/account_account.xml',
         # 'views/journal_form.xml',
         'views/purchase_form_inherit.xml',
+        'views/account_move_view.xml',
         'report/teejai_report_journal_journal.xml',
         'report/teejai_report02_journal_1.xml',
 
         'report/report_reg.xml',
         'report/sale_tax_report.xml',
-        'report/sale_tax_report2.xml',
         'report/purchase_tax_report.xml',
         'report/report_taxsummary.xml',
         'report/report_pnd3.xml',
@@ -54,6 +55,8 @@ Stock report
         'report/report_pnd30.xml',
         'views/res_company.xml',
         'security/ir.model.access.csv',
+
+        'views/undue_purchase_tax_views.xml',
     ],
 
 
