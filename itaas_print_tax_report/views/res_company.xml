@@ -22,7 +22,6 @@
         <field name="arch" type="xml">
             <field name="name" position="after">
                 <field name="is_tax_not_due"/>
-                <field name="is_tax_exempted"/>
             </field>
         </field>
     </record>

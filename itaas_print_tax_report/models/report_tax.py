@@ -44,9 +44,6 @@ class report_sale_tax_report(models.AbstractModel):
                       ('state','in',('posted','cancel')),('move_type','in',('out_invoice','out_refund')),
                       ('operating_unit_id','in',(data['operating_unit']))]
             docs = self.env['account.move'].search(domain)
-
-
-
             print('docs:', docs)
             date = datetime.today()
             amount_untaxed = 0
@@ -393,21 +390,110 @@ class report_sale_tax_report(models.AbstractModel):
             domain = [('tax_invoice_date', '>=', data['date_from']), ('tax_invoice_date', '<=', data['date_to']),
                       ('state', 'in', ('posted', 'cancel')), ('move_type', 'in', ('out_invoice', 'out_refund'))]
             docs = self.env['account.move'].search(domain)
-            # print('dataaa_vat_0:',data['vat_0'])
-            # print('dataaa_vat_7:',data['vat_7'])
-            # print('dataaa_vat_exmpted:',data['vat_exmpted'])
+
             print('docs_1:',docs)
+            date = datetime.today()
+            amount_untaxed = 0
+            amount_tax = 0
+            amount_total = 0
+            sum_untaxed = 0
+            untaxed_amount_after_discount = 0
+
             if 'vat_0' in data and data['vat_0']:
                 print('Vat 0')
                 tax = self.env['account.tax'].search([('tax_report', '=', True),
-                                                      ('is_tax_exempted', '=', False),
                                                       ('amount', '=', 0),
                                                       ('type_tax_use', '=', 'sale')])
-                print('taxxxxxxxxxxxxxx_vat_0:',tax)
+                print('taxxxxxxxxxxxxxx:',tax)
                 for move_id in docs:
-                    print('move_id_vat_0:',move_id)
-                    if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
-                        print('move_id:',move_id.id)
+                    print('move_id:',move_id)
+                    all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                    if all_tax_ids == 1:
+                        if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id and a.tax_ids.is_tax_not_due):
+                            if move_id.adjust_move_id:
+                                print('move_id:',move_id.id)
+                                if move_id.journal_id.type_vat == 'tax':
+                                    date = move_id.tax_invoice_date
+                                elif move_id.journal_id.type_vat == 'not_deal':
+                                    date = move_id.tax_invoice_date
+                                else:
+                                    date = move_id.tax_invoice_date
+
+                                if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                    print('aaaaa')
+                                    amount_untaxed = move_id.amount_untaxed
+                                    amount_tax = move_id.amount_tax
+                                    amount_total = move_id.amount_total
+                                    untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                else:
+                                    rate = self.env['res.currency.rate'].search(
+                                        [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
+                                    print('rate:',rate)
+                                    rate = rate.rate
+                                    amount_untaxed = move_id.amount_untaxed / rate
+                                    amount_tax = move_id.amount_tax / rate
+                                    amount_total = move_id.amount_total / rate
+                                    untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                move_ids={
+                                    'date': date.strftime("%d/%m/%Y"),
+                                    'name': move_id.tax_inv_number or move_id.name,
+                                    'partner': self.get_partner_name(move_id),
+                                    'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                    'vat': move_id.partner_id.vat,
+                                    'branch': move_id.partner_id.branch_no,
+                                    'amount_untaxed':amount_untaxed,
+                                    'amount_tax': amount_tax,
+                                    'amount_total': amount_total,
+                                    'move_id': move_id,
+                                    'state': move_id.state,
+                                    'type': move_id.move_type,
+                                    'invoice_line':move_id.invoice_line_ids,
+                                }
+                                doc.append(move_ids)
+                                print('doc_last:', doc)
+                        elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
+                            print('move_id:',move_id.id)
+                            if move_id.journal_id.type_vat == 'tax':
+                                date = move_id.tax_invoice_date
+                            elif move_id.journal_id.type_vat == 'not_deal':
+                                date = move_id.tax_invoice_date
+                            else:
+                                date = move_id.tax_invoice_date
+
+                            if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                print('aaaaa')
+                                amount_untaxed = move_id.amount_untaxed
+                                amount_tax = move_id.amount_tax
+                                amount_total = move_id.amount_total
+                                untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                            else:
+                                rate = self.env['res.currency.rate'].search(
+                                    [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
+                                print('rate:',rate)
+                                rate = rate.rate
+                                amount_untaxed = move_id.amount_untaxed / rate
+                                amount_tax = move_id.amount_tax / rate
+                                amount_total = move_id.amount_total / rate
+                                untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                            move_ids={
+                                'date': date.strftime("%d/%m/%Y"),
+                                'name': move_id.tax_inv_number or move_id.name,
+                                'partner': self.get_partner_name(move_id),
+                                'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                'vat': move_id.partner_id.vat,
+                                'branch': move_id.partner_id.branch_no,
+                                'amount_untaxed':amount_untaxed,
+                                'amount_tax': amount_tax,
+                                'amount_total': amount_total,
+                                'move_id': move_id,
+                                'state': move_id.state,
+                                'type': move_id.move_type,
+                                'invoice_line':move_id.invoice_line_ids,
+                            }
+                            doc.append(move_ids)
+                            print('doc_last:', doc)
+                    else:
+                        print('move_iddddd:',move_id)
                         if move_id.journal_id.type_vat == 'tax':
                             date = move_id.tax_invoice_date
                         elif move_id.journal_id.type_vat == 'not_deal':
@@ -416,117 +502,22 @@ class report_sale_tax_report(models.AbstractModel):
                             date = move_id.tax_invoice_date
 
                         if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                            amount_untaxed = move_id.amount_untaxed
+                            amount_untaxed = (move_id.amount_tax / 7) * 100
                             amount_tax = move_id.amount_tax
-                            amount_total = move_id.amount_total
-                            untaxed_amount_after_discount = move_id.amount_untaxed
-                        else:
-                            rate = self.env['res.currency.rate'].search(
-                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)], limit=1)
-                            print('rate:',rate)
-                            rate = rate.rate
-                            amount_untaxed = move_id.amount_untaxed / rate
-                            amount_tax = move_id.amount_tax / rate
-                            amount_total = move_id.amount_total / rate
-                            untaxed_amount_after_discount = move_id.amount_untaxed / rate
-                        move_ids={
-                            'date': date.strftime("%d/%m/%Y"),
-                            'name': move_id.tax_inv_number or move_id.name,
-                            'partner': self.get_partner_name(move_id),
-                            'untaxed_amount_after_discount': untaxed_amount_after_discount,
-                            'vat': move_id.partner_id.vat,
-                            'branch': move_id.partner_id.branch_no,
-                            'amount_untaxed':amount_untaxed,
-                            'amount_tax': amount_tax,
-                            'amount_total': amount_total,
-                            'move_id': move_id,
-                            'state': move_id.state,
-                            'type': move_id.move_type,
-                            'invoice_line':move_id.invoice_line_ids,
-                        }
-                        doc.append(move_ids)
-                        print('doc_last:', doc)
-            elif 'vat_7' in data and data['vat_7']:
-                print('VATTTTTTTTTTTTT________7')
-                tax = self.env['account.tax'].search([('tax_report', '=', True),
-                                                      ('amount', '=', 7),
-                                                      ('type_tax_use', '=', 'sale')],limit=1)
-                for move_id in docs:
-                    print('move_id:', move_id)
-                    if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id):
-                        print('move_id:', move_id.id)
-                        if move_id.journal_id.type_vat == 'tax':
-                            date = move_id.tax_invoice_date
-                        elif move_id.journal_id.type_vat == 'not_deal':
-                            date = move_id.tax_invoice_date
-                        else:
-                            date = move_id.tax_invoice_date
-
-                        if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                            print('aaaaa')
-                            amount_untaxed = move_id.amount_untaxed
-                            amount_tax = move_id.amount_tax
-                            amount_total = move_id.amount_total
-                            untaxed_amount_after_discount = move_id.amount_untaxed
-                        else:
-                            rate = self.env['res.currency.rate'].search(
-                                [('name', '<=', move_id.invoice_date),
-                                 ('company_id', '=', self.env.company.id)], limit=1)
-                            print('rate:', rate)
-                            rate = rate.rate
-                            amount_untaxed = move_id.amount_untaxed / rate
-                            amount_tax = move_id.amount_tax / rate
-                            amount_total = move_id.amount_total / rate
-                            untaxed_amount_after_discount = move_id.amount_untaxed / rate
-                        move_ids = {
-                            'date': date.strftime("%d/%m/%Y"),
-                            'name': move_id.tax_inv_number or move_id.name,
-                            'partner': self.get_partner_name(move_id),
-                            'untaxed_amount_after_discount': untaxed_amount_after_discount,
-                            'vat': move_id.partner_id.vat,
-                            'branch': move_id.partner_id.branch_no,
-                            'amount_untaxed': amount_untaxed,
-                            'amount_tax': amount_tax,
-                            'amount_total': amount_total,
-                            'move_id': move_id,
-                            'state': move_id.state,
-                            'type': move_id.move_type,
-                            'invoice_line': move_id.invoice_line_ids,
-                        }
-                        doc.append(move_ids)
-                        print('doc_last:', doc)
-            elif 'vat_exmpted' in data and data['vat_exmpted']:
-                print('vat_exmpted')
-                tax = self.env['account.tax'].search([('is_tax_exempted', '=', True),
-                                                      ('amount', '=', 0),
-                                                      ('type_tax_use', '=', 'sale')])
-                print('tax_tax:',tax)
-                for move_id in docs:
-                    print('move_id_vat_0:', move_id)
-                    if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids.id == tax.id or not a.tax_ids):
-                        print('move_id:', move_id.id)
-                        if move_id.journal_id.type_vat == 'tax':
-                            date = move_id.tax_invoice_date
-                        elif move_id.journal_id.type_vat == 'not_deal':
-                            date = move_id.tax_invoice_date
-                        else:
-                            date = move_id.tax_invoice_date
-
-                        if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                            amount_untaxed = move_id.amount_untaxed
-                            amount_tax = move_id.amount_tax
-                            amount_total = move_id.amount_total
-                            untaxed_amount_after_discount = move_id.amount_untaxed
+                            amount_total = amount_untaxed + amount_tax
+                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                         else:
                             rate = self.env['res.currency.rate'].search(
                                 [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
                                 limit=1)
-                            print('rate:', rate)
                             rate = rate.rate
-                            amount_untaxed = move_id.amount_untaxed / rate
+                            print('rate:', rate)
+                            amount_untaxed =((move_id.amount_tax / 7) * 100) / rate
                             amount_tax = move_id.amount_tax / rate
-                            amount_total = move_id.amount_total / rate
-                            untaxed_amount_after_discount = move_id.amount_untaxed / rate
+                            amount_total = (amount_untaxed + amount_tax)  / rate
+                            untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                        print('move_id.amount_tax_move_id.amount_tax:',(move_id.amount_tax / 7) * 100)
+                        print('move_id.amount_tax_move_id.amount_tax:',move_id.amount_tax)
                         move_ids = {
                             'date': date.strftime("%d/%m/%Y"),
                             'name': move_id.tax_inv_number or move_id.name,
@@ -543,11 +534,103 @@ class report_sale_tax_report(models.AbstractModel):
                             'invoice_line': move_id.invoice_line_ids,
                         }
                         doc.append(move_ids)
-                        print('doc_last:', doc)
             else:
                 print('======TAX_ID_FALSE========')
                 for move_id in docs:
-                    if move_id.invoice_line_ids:
+                    print('move_id.invoice_line_ids:',move_id.invoice_line_ids.mapped('tax_ids'))
+                    all_tax_ids = len(move_id.invoice_line_ids.mapped('tax_ids'))
+                    print('all_tax_ids:',all_tax_ids)
+                    if all_tax_ids == 1:
+                        if move_id.invoice_line_ids.filtered(lambda a: a.tax_ids and a.tax_ids.is_tax_not_due):
+                            print('is_tax_not_due')
+                            if move_id.adjust_move_id:
+                                if move_id.journal_id.type_vat == 'tax':
+                                    date = move_id.tax_invoice_date
+                                elif move_id.journal_id.type_vat == 'not_deal':
+                                    date = move_id.tax_invoice_date
+                                else:
+                                    date = move_id.tax_invoice_date
+
+                                if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                    amount_untaxed = move_id.amount_untaxed
+                                    amount_tax = move_id.amount_tax
+                                    amount_total = move_id.amount_total
+                                    untaxed_amount_after_discount = move_id.amount_untaxed
+                                    # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+                                else:
+                                    rate = self.env['res.currency.rate'].search([('name', '<=', move_id.invoice_date),('company_id', '=', self.env.company.id)], limit=1)
+                                    rate = rate.rate
+                                    print('rate:',rate)
+                                    amount_untaxed = move_id.amount_untaxed / rate
+                                    amount_tax = move_id.amount_tax / rate
+                                    amount_total = move_id.amount_total / rate
+                                    # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                    untaxed_amount_after_discount = move_id.amount_untaxed / rate
+                                move_ids={
+                                    'date': date.strftime("%d/%m/%Y"),
+                                    'name': move_id.tax_inv_number or move_id.name,
+                                    'partner': self.get_partner_name(move_id),
+                                    'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                    'vat': move_id.partner_id.vat,
+                                    'branch': move_id.partner_id.branch_no,
+                                    'amount_untaxed':amount_untaxed,
+                                    'amount_tax': amount_tax,
+                                    'amount_total': amount_total,
+                                    'move_id': move_id,
+                                    'state': move_id.state,
+                                    'type': move_id.move_type,
+                                    'invoice_line':move_id.invoice_line_ids,
+                                }
+
+                                doc.append(move_ids)
+                        elif move_id.invoice_line_ids.filtered(lambda a: a.tax_ids):
+                            print('is_tax_not_due')
+                            if move_id.journal_id.type_vat == 'tax':
+                                date = move_id.tax_invoice_date
+                            elif move_id.journal_id.type_vat == 'not_deal':
+                                date = move_id.tax_invoice_date
+                            else:
+                                date = move_id.tax_invoice_date
+
+                            if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
+                                amount_untaxed = move_id.amount_untaxed
+                                amount_tax = move_id.amount_tax
+                                amount_total = move_id.amount_total
+                                # remove remove
+                                # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
+
+                                untaxed_amount_after_discount = move_id.amount_untaxed
+                            else:
+                                rate = self.env['res.currency.rate'].search(
+                                    [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                    limit=1)
+                                rate = rate.rate
+                                print('rate:', rate)
+                                amount_untaxed = move_id.amount_untaxed / rate
+                                amount_tax = move_id.amount_tax / rate
+                                amount_total = move_id.amount_total / rate
+
+                                # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                                untaxed_amount_after_discount = move_id.amount_untaxed / rate
+
+                            move_ids = {
+                                'date': date.strftime("%d/%m/%Y"),
+                                'name': move_id.tax_inv_number or move_id.name,
+                                'partner': self.get_partner_name(move_id),
+                                'untaxed_amount_after_discount': untaxed_amount_after_discount,
+                                'vat': move_id.partner_id.vat,
+                                'branch': move_id.partner_id.branch_no,
+                                'amount_untaxed': amount_untaxed,
+                                'amount_tax': amount_tax,
+                                'amount_total': amount_total,
+                                'move_id': move_id,
+                                'state': move_id.state,
+                                'type': move_id.move_type,
+                                'invoice_line': move_id.invoice_line_ids,
+                            }
+                            doc.append(move_ids)
+                    else:
+                        print('move_iddddd:',move_id)
                         if move_id.journal_id.type_vat == 'tax':
                             date = move_id.tax_invoice_date
                         elif move_id.journal_id.type_vat == 'not_deal':
@@ -556,32 +639,38 @@ class report_sale_tax_report(models.AbstractModel):
                             date = move_id.tax_invoice_date
 
                         if move_id.currency_id.id == self.env.user.company_id.currency_id.id:
-                            amount_untaxed = move_id.amount_untaxed
+                            amount_untaxed = (move_id.amount_tax / 7) * 100
                             amount_tax = move_id.amount_tax
-                            amount_total = move_id.amount_total
-                            untaxed_amount_after_discount = move_id.amount_untaxed
+                            amount_total = amount_untaxed + amount_tax
+                            untaxed_amount_after_discount = amount_untaxed
+                            # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount
                         else:
-                            rate = self.env['res.currency.rate'].search([('name', '<=', move_id.invoice_date),('company_id', '=', self.env.company.id)], limit=1)
+                            rate = self.env['res.currency.rate'].search(
+                                [('name', '<=', move_id.invoice_date), ('company_id', '=', self.env.company.id)],
+                                limit=1)
                             rate = rate.rate
-                            print('rate:',rate)
-                            amount_untaxed = move_id.amount_untaxed / rate
+                            print('rate:', rate)
+                            amount_untaxed =((move_id.amount_tax / 7) * 100) / rate
                             amount_tax = move_id.amount_tax / rate
-                            amount_total = move_id.amount_total / rate
-                            untaxed_amount_after_discount = move_id.amount_untaxed / rate
-                        move_ids={
+                            amount_total = (amount_untaxed + amount_tax)  / rate
+                            untaxed_amount_after_discount = amount_untaxed / rate
+                            # untaxed_amount_after_discount = move_id.untaxed_amount_after_discount / rate
+                        print('move_id.amount_tax_move_id.amount_tax:',(move_id.amount_tax / 7) * 100)
+                        print('move_id.amount_tax_move_id.amount_tax:',move_id.amount_tax)
+                        move_ids = {
                             'date': date.strftime("%d/%m/%Y"),
                             'name': move_id.tax_inv_number or move_id.name,
                             'partner': self.get_partner_name(move_id),
                             'untaxed_amount_after_discount': untaxed_amount_after_discount,
                             'vat': move_id.partner_id.vat,
                             'branch': move_id.partner_id.branch_no,
-                            'amount_untaxed':amount_untaxed,
+                            'amount_untaxed': amount_untaxed,
                             'amount_tax': amount_tax,
                             'amount_total': amount_total,
                             'move_id': move_id,
                             'state': move_id.state,
                             'type': move_id.move_type,
-                            'invoice_line':move_id.invoice_line_ids,
+                            'invoice_line': move_id.invoice_line_ids,
                         }
                         doc.append(move_ids)
 
@@ -671,7 +760,7 @@ class report_purchase_tax_report(models.AbstractModel):
                 print('account_ids:',account_ids)
                 docs = self.env['account.move.line'].search(domain)
                 for move_line_id in docs.filtered(lambda x: x.account_id in account_ids and x.debit == 0 and x.credit == 0):
-                    print('move_line_id111:', move_line_id.id)
+                    print('move_line_id:', move_line_id.id)
                     if move_line_id.date_vat_new:
                         date_t2 = move_line_id.date_vat_new
                         # date_t2 = move_line_id.date_vat_new.strftime("%d/%m/%Y")
@@ -686,7 +775,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     else:
                         ref = move_line_id.ref
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
 
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
@@ -756,9 +845,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
-
-
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
                             amount_untaxed = move_line_id.tax_base_amount * (-1)
@@ -823,7 +910,7 @@ class report_purchase_tax_report(models.AbstractModel):
                 account_ids = tax.invoice_repartition_line_ids.filtered(lambda x: x.account_id).mapped('account_id')
                 docs = self.env['account.move.line'].search(domain)
                 for move_line_id in docs.filtered(lambda x: x.account_id in account_ids and x.debit == 0 and x.credit == 0):
-                    print('move_line_id222:', move_line_id.id)
+                    print('move_line_id:', move_line_id.id)
                     if move_line_id.date_vat_new:
                         date_t2 = move_line_id.date_vat_new
                     else:
@@ -835,7 +922,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     else:
                         ref = move_line_id.ref
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
                             amount_untaxed = move_line_id.tax_base_amount * (-1)
@@ -887,10 +974,7 @@ class report_purchase_tax_report(models.AbstractModel):
                 print('docs:',docs)
                 print('account_ids:',account_ids)
                 for move_line_id in docs.filtered(lambda x: x.account_id in account_ids):
-                    print('move_line_id333:',move_line_id)
-                    print('move_line_id5555:',move_line_id.move_id.name)
-                    print('move_line_id5555:', move_line_id.move_id.partner_id.name)
-                    
+                    print('move_line_id:',move_line_id)
                     if move_line_id.date_vat_new:
                         date_t2 = move_line_id.date_vat_new
                     else:
@@ -903,7 +987,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
                             amount_untaxed = move_line_id.tax_base_amount * (-1)
@@ -968,7 +1052,7 @@ class report_purchase_tax_report(models.AbstractModel):
                 docs = self.env['account.move.line'].search(domain)
                 for move_line_id in docs.filtered(
                         lambda x: x.account_id in account_ids and x.debit == 0 and x.credit == 0):
-                    print('move_line_id444:', move_line_id.id)
+                    print('move_line_id:', move_line_id.id)
                     if move_line_id.date_vat_new:
                         date_t2 = move_line_id.date_vat_new
                         # date_t2 = move_line_id.date_vat_new.strftime("%d/%m/%Y")
@@ -983,7 +1067,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     else:
                         ref = move_line_id.ref
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
 
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
@@ -1052,7 +1136,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         print('move_line_id.move_id:', move_line_id.move_id)
                         print('refunddddddddddddddddddddddddddd')
@@ -1119,7 +1203,7 @@ class report_purchase_tax_report(models.AbstractModel):
                 account_ids = tax.invoice_repartition_line_ids.filtered(lambda x: x.account_id).mapped('account_id')
                 docs = self.env['account.move.line'].search(domain)
                 for move_line_id in docs.filtered(lambda x: x.account_id in account_ids and x.debit == 0 and x.credit == 0):
-                    print('move_line_id555:', move_line_id.id)
+                    print('move_line_id:', move_line_id.id)
                     if move_line_id.date_vat_new:
                         date_t2 = move_line_id.date_vat_new
                     else:
@@ -1133,7 +1217,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
                             amount_untaxed = move_line_id.tax_base_amount * (-1)
@@ -1200,7 +1284,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         print('move_line_id.move_id:', move_line_id.move_id)
                         print('refunddddddddddddddddddddddddddd')
@@ -1271,7 +1355,7 @@ class report_purchase_tax_report(models.AbstractModel):
                 print('account_ids:', account_ids)
                 docs = self.env['account.move.line'].search(domain)
                 for move_line_id in docs:
-                    print('move_line_id666:', move_line_id.id)
+                    print('move_line_id:', move_line_id.id)
                     if move_line_id.date_vat_new:
                         date_t2 = move_line_id.date_vat_new
                         # date_t2 = move_line_id.date_vat_new.strftime("%d/%m/%Y")
@@ -1286,7 +1370,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     else:
                         ref = move_line_id.ref
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
 
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
@@ -1356,7 +1440,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         print('move_line_id.move_id:', move_line_id.move_id)
                         print('refunddddddddddddddddddddddddddd')
@@ -1438,7 +1522,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
                             amount_untaxed = move_line_id.tax_base_amount * (-1)
@@ -1507,7 +1591,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
                             amount_untaxed = move_line_id.tax_base_amount * (-1)
@@ -1573,7 +1657,7 @@ class report_purchase_tax_report(models.AbstractModel):
                 print('account_ids:', account_ids)
                 docs = self.env['account.move.line'].search(domain)
                 for move_line_id in docs:
-                    print('move_line_id777:', move_line_id.id)
+                    print('move_line_id:', move_line_id.id)
                     if move_line_id.date_vat_new:
                         date_t2 = move_line_id.date_vat_new
                         # date_t2 = move_line_id.date_vat_new.strftime("%d/%m/%Y")
@@ -1588,7 +1672,7 @@ class report_purchase_tax_report(models.AbstractModel):
                     else:
                         ref = move_line_id.ref
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
 
                     if move_line_id.move_id.move_type == 'in_refund':
                         if move_line_id.tax_base_amount:
@@ -1656,7 +1740,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         print('move_line_id.move_id:', move_line_id.move_id)
                         print('refunddddddddddddddddddddddddddd')
@@ -1740,7 +1824,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         print('move_line_id.move_id:', move_line_id.move_id)
                         print('refunddddddddddddddddddddddddddd')
@@ -1809,7 +1893,7 @@ class report_purchase_tax_report(models.AbstractModel):
                         ref = move_line_id.ref
 
                     if not ref:
-                        ref = "No-Ref"
+                        raise UserError(_("Please check ref for item %s" % move_line_id.move_id.name))
                     if move_line_id.move_id.move_type == 'in_refund':
                         print('move_line_id.move_id:', move_line_id.move_id)
                         print('refunddddddddddddddddddddddddddd')

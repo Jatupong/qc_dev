@@ -49,6 +49,7 @@ class report_pnd(models.TransientModel):
             return self.env.ref('itaas_print_wht_report.action_report_pnd2_id').report_action(self, data=data)
 
     def get_bank_report(self):
+        sum_credit = 0
         final_text = ""
         final_text_body = ""
 
@@ -64,6 +65,7 @@ class report_pnd(models.TransientModel):
         inv_row = 1
 
         if move_line_ids:
+
             # ลำดับ|เลประจำตัวผู้เสียภาษีอากร|คำนำหน้าชื่อ|ชื่อของผู้มีเงินได้|ชื่อสกุล|ที่อยู่|วันเดือนปี|ประเภทเงินได้|อัตราภาษี|จำนวนเงินที่จ่าย|เงื่อนไขการหักภาษี
             for move in move_line_ids:
 
@@ -85,9 +87,16 @@ class report_pnd(models.TransientModel):
                     first_name = name_temp[0]
                     last_name = " "
 
-                move_ids += str(title_name) + '|'
-                move_ids += str(first_name) + '|'
-                move_ids += str(last_name) + '|'
+                if self.report_type == 'company':
+                    name = ""
+                    for i in name_temp:
+                        name += i
+                    move_ids+= name + '|'
+                elif self.report_type != 'company':
+                    move_ids += str(title_name) + '|'
+
+                    move_ids += str(first_name) + '|'
+                    move_ids += str(last_name) + '|'
 
                 address = self.get_partner_full_address_text(move.partner_id)
                 address_text = ' '.join(address)
@@ -118,7 +127,14 @@ class report_pnd(models.TransientModel):
 
                 move_ids += str(wht_tax) + '|'
                 move_ids += str(amount_before_tax) + '|'
+                sum_credit+=move.credit
+                # move_ids += str(sum_credit) + '|'
                 move_ids += str(move.credit) + '|'
+                if self.user_has_groups('base.group_no_one'):
+                    move_ids +="["
+                    for i in move_line_ids:
+                        move_ids += " {}:{}".format(i.id,i.credit)
+                    move_ids += "] = {}|".format(sum_credit)
 
                 if inv_row != len(move_line_ids):
                     move_ids += '1' + "\r\n"
