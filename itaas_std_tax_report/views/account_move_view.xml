@@ -1,0 +1,18 @@
+<odoo>
+	<record id="account_move_form_itaas_inherit" model="ir.ui.view">
+		<field name="name">account.move.form.itaas</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+<!--			<field name="invoice_date" position="after">-->
+<!--				<field name="tax_invoice_date"/>-->
+<!--			</field>-->
+			<field name="name" position="after">
+				<field name="tax_inv_generated" invisible="1"/>
+				<field name="tax_inv_number" readonly="1" class="oe_inline oe_right" attrs="{'invisible': [('tax_inv_generated','=',False)]}"/>
+			</field>
+
+		</field>
+	</record>
+
+</odoo>

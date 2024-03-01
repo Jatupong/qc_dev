@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="product_bill_report03_id">
-        <t t-foreach="docs" t-as="o">
+         <t t-foreach="docs" t-as="o">
             <t t-call="web.basic_layout">
                 <style>
                     @font-face
@@ -602,12 +602,16 @@
                             <thead>
                                 <tr>
                                     <th width="4%">ลำดับ</th>
-                                    <th width="15%">รหัส</th>
-                                    <th width="35%">ชื่อสินค้า</th>
-                                    <th width="12%">คลัง</th>
+                                    <th width="7%">รหัส</th>
+                                    <th width="32%">ชื่อสินค้า</th>
+                                    <th width="7%">คลัง</th>
                                     <th width="8%">จำนวน</th>
-                                    <th width="12%">หน่วย</th>
-                                    <th width="13%">Lot No.</th>
+                                    <th width="8%">หน่วย</th>
+                                    <th width="8%">Lot No.</th>
+
+                                    <th width="13%">ราคาต่อหน่วย</th>
+                                    <th width="13%">จำนวนเงิน</th>
+
                                 </tr>
                             </thead>
                             <tbody class="sale_tbody">
@@ -653,6 +657,21 @@
                                                     <span t-else="" t-field="move_line[y].lot_name"/>
                                                 </div>
                                             </td>
+
+                                            <td align="center">
+                                                <!--<div class="word_wrap">-->
+                                                <!--    <span t-if="move_line[y].lot_id" t-field="move_line[y].lot_id"/>-->
+                                                <!--    <span t-else="" t-field="move_line[y].lot_name"/>-->
+                                                <!--</div>-->
+                                            </td>
+
+                                            <td align="center">
+                                            <!--    <div class="word_wrap">-->
+                                            <!--        <span t-if="move_line[y].lot_id" t-field="move_line[y].lot_id"/>-->
+                                            <!--        <span t-else="" t-field="move_line[y].lot_name"/>-->
+                                            <!--    </div>-->
+                                            </td>
+
                                         </tr>
                                     </t>
                                     <t t-if="(y+1)==(break_line[x])">
@@ -696,14 +715,53 @@
                                                     <span t-else="" t-field="move_line[y].lot_name"/>
                                                 </div>
                                             </td>
+
+                                            <td align="center">
+                                                <!--<div class="word_wrap">-->
+                                                <!--    <span t-if="move_line[y].lot_id" t-field="move_line[y].lot_id"/>-->
+                                                <!--    <span t-else="" t-field="move_line[y].lot_name"/>-->
+                                                <!--</div>-->
+                                            </td>
+
+                                            <td align="center">
+                                            <!--    <div class="word_wrap">-->
+                                            <!--        <span t-if="move_line[y].lot_id" t-field="move_line[y].lot_id"/>-->
+                                            <!--        <span t-else="" t-field="move_line[y].lot_name"/>-->
+                                            <!--    </div>-->
+                                            </td>
+
+
                                         </tr>
                                         <t t-set="end" t-value="(break_line[x])"/>
                                     </t>
                                 </t>
                             </tbody>
                             <tfoot>
+
+
+                                <tr style="padding-top: 0px; padding-bottom: 0px;">
+                                    <td colspan="9" style="padding-top: 0px; padding-bottom: 0px;">
+                                      <table width="100%" style="border:1px solid white; padding-top: 0px; padding-bottom: 0px;">
+                                        <tr style=" padding-top: 0px; padding-bottom: 0px;">
+                                          <td width="89.3%" align="right" style="">
+                                            <strong>รวมเงิน</strong>
+                                          </td>
+                                          <td width="13%" align="right" style="border-left: 1px solid black;">
+                                            <span>0.00 Text</span>
+                                          </td>
+                                        <!--<strong>หมายเหตุ/Remark :</strong>-->
+                                        <!--<t t-if="o.note">-->
+                                        <!--    <span>&amp;nbsp;</span>-->
+                                        <!--    <span t-esc="o.note"/>-->
+                                        <!--</t>-->
+                                        </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+
                                 <tr>
-                                    <td colspan="7">
+                                    <td colspan="9">
                                       <table style="border:1px solid white;">
                                         <tr>
                                           <td>
@@ -895,7 +953,7 @@
                     </div>
                 </div>
             </t>
-        </t>
+         </t>
     </template>
 
     <record id="paperformat_A4_Zero_Margin_product_bill03" model="report.paperformat">

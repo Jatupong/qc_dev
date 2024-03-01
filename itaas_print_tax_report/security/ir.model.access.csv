@@ -1,8 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_pnd30_report_tax,pnd30_report_tax,itaas_print_tax_report.model_pnd30_report_tax,base.group_user,1,1,1,1
-access_tax_report_tax,tax_report,itaas_print_tax_report.model_tax_report,base.group_user,1,1,1,1
-access_tax_excel_export,tax_excel_export,itaas_print_tax_report.model_tax_excel_export,base.group_user,1,1,1,1
-access_tax_excel_export2,tax_excel_export2,itaas_print_tax_report.model_tax_excel_export2,base.group_user,1,1,1,1
 
 
 
