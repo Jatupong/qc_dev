@@ -7,17 +7,20 @@
                     @font-face
                     {
                     font-family: SarabunPSK;
-                    src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                    src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                    format('opentype');
                     }
                     .font_fam{
                     font-family: SarabunPSK;
-                    src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                    src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                    format('opentype');
                     }
                     table.table-bordered{
                     border:1px solid black;
                     width: 100%;
                     font-family: SarabunPSK;
-                    src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                    src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                    format('opentype');
                     }
                     table.table-bordered &gt; thead &gt; tr &gt; th{
                     border:1px solid black;
@@ -42,7 +45,8 @@
                     margin-bottom:5px;
                     width: 100%;
                     font-family: SarabunPSK;
-                    src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                    src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                    format('opentype');
                     }
                     table.table-nobordered &gt; thead &gt; tr &gt; th{
                     border:1px solid white;
@@ -113,17 +117,20 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -148,7 +155,8 @@
                         margin-bottom:5px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
                         border:1px solid white;
@@ -216,7 +224,8 @@
                     </style>
                     <table width="100%" class="font_fam table table-nobordered">
                         <td width="20%" style="vertical-align: middle;">
-                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:150px; max-width:150px;" alt="Logo"/>
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                 style="max-height:150px; max-width:150px;" alt="Logo"/>
                         </td>
                         <td width="55%" style="vertical-align: middle;">
                             <div style="width:500px; word-wrap: break-word;">
@@ -224,28 +233,37 @@
                                     <B>
                                         <span t-field="o.company_id.name"/>&amp;nbsp;
                                         <!--<span t-field="o.company_id.partner_id.branch_no"/>&amp;nbsp;-->
-                                        <span>(สำนักงานใหญ่)</span>
+                                        <!--                                        <span>(สำนักงานใหญ่)</span>-->
                                         <!--                                            <t t-if="o.company_id.branch_no">-->
                                         <!--                                                <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>-->
                                         <!--                                                <t t-if="o.company_id.branch_no != '00000'">(สาขา&amp;nbsp;<span t-field="o.company_id.branch_no"/>)</t>-->
                                         <!--                                            </t>-->
                                         <!--                                            <t t-if="not o.company_id.branch_no">-->
                                         <!--                                            </t>-->
-                                    </B><br/>
+                                    </B>
+                                    <br/>
                                     <B>
                                         <span t-field="o.company_id.english_name"/>
 
                                         <t t-if="o.company_id.branch_no">
-                                            <t t-if="o.company_id.branch_no == '00000'"><span>(HEAD OFFICE)</span></t>
-                                            <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span t-field="o.company_id.branch_no"/>)</t>
+                                            <!--                                            <t t-if="o.company_id.branch_no == '00000'">-->
+                                            <!--                                                <span>(HEAD OFFICE)</span>-->
+                                            <!--                                            </t>-->
+                                            <!--                                            <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span-->
+                                            <!--                                                    t-field="o.company_id.branch_no"/>)-->
+                                            <!--                                            </t>-->
                                         </t>
                                         <t t-if="not o.company_id.branch_no">
                                         </t>
-                                    </B><br/>
+                                    </B>
+                                    <br/>
                                 </font>
                                 <font class="font_size_14">
-                                    <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/></span>&amp;nbsp;
-                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.street">
+                                        <span t-esc="o.company_id.street"/>
+                                    </span>&amp;nbsp;
+                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;
+                                    </span>
                                     <!--                                        <t t-set="company_address" t-value="o.company_id.get_company_full_address()"/>-->
                                     <!--                                        <span t-esc="' '.join([ address for address in company_address ])"/><br/>-->
                                     <!--<span t-if="o.company_id.building">อาคาร<span t-field="o.company_id.building"/>&amp;nbsp;</span>-->
@@ -261,49 +279,99 @@
                                     <!--                                        <span t-if="o.company_id.tumbon"><span t-esc="o.company_id.tumbon"/>&amp;nbsp;</span><br/>-->
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
-                                    <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.company_id.city"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'"><span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;</span><br/>
-                                    <t t-if="o.company_id.english_address"><span t-field="o.company_id.english_address"/><br/></t>
-                                    <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;<br/></span>
-                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span
+                                            t-field="o.company_id.city"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ<span
+                                            t-field="o.company_id.city"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'">
+                                        <span t-field="o.company_id.state_id.name"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">
+                                        จังหวัด<span t-field="o.company_id.state_id.name"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;
+                                    </span>
+                                    <br/>
+                                    <t t-if="o.company_id.english_address">
+                                        <span t-field="o.company_id.english_address"/>
+                                        <br/>
+                                    </t>
+                                    <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span
+                                            t-esc="o.company_id.phone"/>&amp;nbsp;
+                                    </span>
+                                    <!--                                    <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span-->
+                                    <!--                                            t-esc="o.company_id.email"/>&amp;nbsp;-->
+                                    <!--                                        <br/>-->
+                                    <!--                                    </span>-->
+
+                                    <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;
+                                        <br/>
+                                    </span>
+
+
+                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;<span
+                                            t-esc="o.company_id.vat"/>&amp;nbsp;
+                                    </span>
+
+
+                                    <span>สำนักงานใหญ่</span>
                                 </font>
                             </div>
                         </td>
                         <td width="25%" style="text-align:center; vertical-align: middle;">
                             <div style="text-align:center;">
+
                                 <font style="font-size: 14px;">
-                                    <span t-field="o.company_id.document_id"/>
-<!--                                    <span>รหัสเอกสาร</span>-->
-                                </font><br/>
+                                    <span t-field="o.company_id.purchase_order_no_form"/>
+                                    <br/>
+                                    <span t-field="o.company_id.document_id3"/>
+                                </font>
+
+
+<!--                                <font style="font-size: 14px;">-->
+<!--                                    <span t-field="o.company_id.document_id"/>-->
+<!--                                    &lt;!&ndash;                                    <span>รหัสเอกสาร</span>&ndash;&gt;-->
+<!--                                </font>-->
+                                <br/>
                                 <font style="font-size: 16px;">
-                                    <strong>ใบเคลมสินค้า/ใบส่งคืนสินค้า</strong><br/>
+                                    <strong>ใบเคลมสินค้า/ใบส่งคืนสินค้า</strong>
+                                    <br/>
                                     <span>Delivery Note</span>
-                                </font><br/>
+                                </font>
+                                <br/>
                                 <font style="font-size: 14px;">
                                     <span>หน้า</span>
-                                    <span class="page"/>/<span class="topage"/><br/>
+                                    <span class="page"/>/
+                                    <span class="topage"/>
+                                    <br/>
                                 </font>
                             </div>
                         </td>
                     </table>
-                    <table width="100%" class="font_fam table table-bordered" style="margin-top:10px; font-size:14px; line-height:16px; height:140px;">
+                    <table width="100%" class="font_fam table table-bordered"
+                           style="margin-top:10px; font-size:14px; line-height:16px; height:140px;">
                         <tr>
                             <td width="60%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
-                                        <td colspan="2"><strong>สถานที่ส่งสินค้า/Customer</strong></td>
+                                        <td colspan="2">
+                                            <strong>สถานที่ส่งสินค้า/Customer</strong>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td width="20%"><strong>ผู้ติดต่อ/Name</strong></td>
-                                        <td width="80%">: <span t-field="o.partner_id"/></td>
+                                        <td width="20%">
+                                            <strong>ผู้ติดต่อ/Name</strong>
+                                        </td>
+                                        <td width="80%">:
+                                            <span t-field="o.partner_id"/>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td><strong>ที่อยู่/Address</strong></td>
+                                        <td>
+                                            <strong>ที่อยู่/Address</strong>
+                                        </td>
                                         <td><!--                                                                <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
                                             <!--                                                                <span t-esc="' '.join([ address for address in partner_address ])"/>-->
                                             <!--                                            <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>-->
@@ -319,15 +387,22 @@
                                                 <div style="max-width:400px; word-break: break-word;">
                                                     <!--                                        <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
                                                     <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
-                                                    :  <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;</span>
-                                                    <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>
-<!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
-<!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
-                                                    <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;</span>
+                                                    :
+                                                    <span t-if="o.partner_id.street"><span
+                                                            t-field="o.partner_id.street"/>&amp;nbsp;
+                                                    </span>
+                                                    <span t-if="o.partner_id.street2"><span
+                                                            t-field="o.partner_id.street2"/>&amp;nbsp;
+                                                        <br/>
+                                                    </span>
+                                                    <!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
+                                                    <!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
+                                                    <!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
+                                                    <!--                                                    <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>-->
+                                                    <!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
+                                                    <!--                                                    <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>-->
+                                                    <span t-if="o.partner_id.zip"><span t-esc="o.partner_id.zip"/>&amp;nbsp;
+                                                    </span>
                                                 </div>
                                             </t>
                                         </td>
@@ -337,16 +412,28 @@
                             <td width="40%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
-                                        <td width="35%"><strong>วันที่/Date</strong></td>
-                                        <td width="65%">: <span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/></td>
+                                        <td width="35%">
+                                            <strong>วันที่/Date</strong>
+                                        </td>
+                                        <td width="65%">:
+                                            <span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td><strong>เลขที่/No.</strong></td>
-                                        <td>: <span t-field="o.name"/></td>
+                                        <td>
+                                            <strong>เลขที่/No.</strong>
+                                        </td>
+                                        <td>:
+                                            <span t-field="o.name"/>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td><strong>เอกสารอ้างอิง/Ref.</strong></td>
-                                        <td>: <span t-field="o.origin"/></td>
+                                        <td>
+                                            <strong>เอกสารอ้างอิง/Ref.</strong>
+                                        </td>
+                                        <td>:
+                                            <span t-field="o.origin"/>
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
@@ -360,17 +447,20 @@
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -395,7 +485,8 @@
                         margin-bottom:5px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
                         border:1px solid white;
@@ -503,8 +594,6 @@
                     </style>
 
 
-
-
                     <t t-set="max_body_height" t-value="180"/>
                     <t t-set="new_line_height" t-value="5"/>
                     <t t-set="row_line_height" t-value="5"/>
@@ -517,11 +606,13 @@
                         <t t-set="move_line" t-value="o.move_line_ids"/>
                     </t>
 
-                    <t t-set="break_line" t-value="o.get_break_line_06(move_line, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
+                    <t t-set="break_line"
+                       t-value="o.get_break_line_06(move_line, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                        <table class="table-bordered-b font_fam" style="height:180mm; font-size:14px; line-height:16px;">
+                        <table class="table-bordered-b font_fam"
+                               style="height:180mm; font-size:14px; line-height:16px;">
                             <thead>
                                 <tr>
                                     <th width="4%">ลำดับ</th>
@@ -551,7 +642,8 @@
                                             </td>
                                             <td>
                                                 <div class="word_wrap">
-                                                    <span t-if="move_line[y].move_id.description_picking" t-field="move_line[y].move_id.description_picking"/>
+                                                    <span t-if="move_line[y].move_id.description_picking"
+                                                          t-field="move_line[y].move_id.description_picking"/>
                                                     <span t-else="" t-field="move_line[y].product_id.name"/>
                                                 </div>
                                             </td>
@@ -594,7 +686,8 @@
                                             </td>
                                             <td>
                                                 <div class="word_wrap">
-                                                    <span t-if="move_line[y].move_id.description_picking" t-field="move_line[y].move_id.description_picking"/>
+                                                    <span t-if="move_line[y].move_id.description_picking"
+                                                          t-field="move_line[y].move_id.description_picking"/>
                                                     <span t-else="" t-field="move_line[y].product_id.name"/>
                                                 </div>
                                             </td>
@@ -726,27 +819,25 @@
                 <!--                </div>-->
 
 
-
-
-
-
-
                 <div class="footer">
                     <style>
                         @font-face
                         {
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .font_fam{
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered &gt; thead &gt; tr &gt; th{
                         border:1px solid black;
@@ -771,7 +862,8 @@
                         margin-bottom:5px;
                         width: 100%;
                         font-family: SarabunPSK;
-                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-nobordered &gt; thead &gt; tr &gt; th{
                         border:1px solid white;
@@ -842,25 +934,49 @@
                         <table width="100%" class="font_fam table table-nobordered" style="font-size:14px;">
                             <tr align="center">
                                 <td class="col-xs-4" style="padding:5px;">
-                                    <br/><br/><br/>
-                                    <span>ลงชื่อ___________________________</span><br/><br/>
-                                    <span>ผู้รับสินค้า/Received By</span><br/><br/><br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <span>ลงชื่อ___________________________</span>
+                                    <br/>
+                                    <br/>
+                                    <span>ผู้รับสินค้า/Received By</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
                                     <span>วันที่/Date_________/_________/________</span>
-                                    <br/><br/>
+                                    <br/>
+                                    <br/>
                                 </td>
                                 <td class="col-xs-4" style="padding:5px;">
-                                    <br/><br/><br/>
-                                    <span>ลงชื่อ___________________________</span><br/><br/>
-                                    <span>ผู้ส่งสินค้า/Delivered By</span><br/><br/><br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <span>ลงชื่อ___________________________</span>
+                                    <br/>
+                                    <br/>
+                                    <span>ผู้ส่งสินค้า/Delivered By</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
                                     <span>วันที่/Date_________/_________/________</span>
-                                    <br/><br/>
+                                    <br/>
+                                    <br/>
                                 </td>
                                 <td class="col-xs-4" style="padding:5px;">
-                                    <br/><br/><br/>
-                                    <span>ลงชื่อ___________________________</span><br/><br/>
-                                    <span>ผู้มีอำนาจอนุมัติ/Authorized Signature</span><br/><br/><br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <span>ลงชื่อ___________________________</span>
+                                    <br/>
+                                    <br/>
+                                    <span>ผู้มีอำนาจอนุมัติ/Authorized Signature</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
                                     <span>วันที่/Date_________/_________/________</span>
-                                    <br/><br/>
+                                    <br/>
+                                    <br/>
                                 </td>
                             </tr>
                         </table>
@@ -875,12 +991,12 @@
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">75</field>
+        <field name="margin_top">85</field>
         <field name="margin_bottom">55</field>
         <field name="margin_left">5</field>
         <field name="margin_right">5</field>
         <field name="header_line" eval="False"/>
-        <field name="header_spacing">70</field>
+        <field name="header_spacing">80</field>
         <field name="dpi">90</field>
     </record>
 

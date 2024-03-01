@@ -100,14 +100,14 @@
                                             <B>
                                                 <span t-field="o.company_id.english_name"/>
 
-<!--                                                <t t-if="o.company_id.branch_no">-->
-<!--                                                    <t t-if="o.company_id.branch_no == '00000'">-->
-<!--                                                        <span>(HEAD OFFICE)</span>-->
-<!--                                                    </t>-->
-<!--                                                    <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span-->
-<!--                                                            t-field="o.company_id.branch_no"/>)-->
-<!--                                                    </t>-->
-<!--                                                </t>-->
+                                                <!--                                                <t t-if="o.company_id.branch_no">-->
+                                                <!--                                                    <t t-if="o.company_id.branch_no == '00000'">-->
+                                                <!--                                                        <span>(HEAD OFFICE)</span>-->
+                                                <!--                                                    </t>-->
+                                                <!--                                                    <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span-->
+                                                <!--                                                            t-field="o.company_id.branch_no"/>)-->
+                                                <!--                                                    </t>-->
+                                                <!--                                                </t>-->
                                                 <t t-if="not o.company_id.branch_no">
                                                 </t>
                                             </B>
@@ -157,7 +157,7 @@
                                             </span>
                                             <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span
                                                     t-esc="o.company_id.fax"/>&amp;nbsp;
-                                                  <br/>
+                                                <br/>
                                             </span>
                                             <!--                                            <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span-->
                                             <!--                                                    t-esc="o.company_id.email"/>&amp;nbsp;-->

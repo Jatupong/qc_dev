@@ -11,11 +11,13 @@
                         @font-face
                         {
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .font_fam{
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered1{
                         border:1px solid white;
@@ -51,24 +53,31 @@
                                 <td width="25%"/>
                                 <td width="50%" style="text-align:center;">
                                     <font style="font-size: 15px;">
-                                        <b><span> ใบจัดของ/ ใบส่งของ (Delivery Order) </span></b>
+                                        <b>
+                                            <span>ใบจัดของ/ ใบส่งของ (Delivery Order)</span>
+                                        </b>
                                     </font>
                                 </td>
                                 <td width="25%" style="text-align:center;">
                                     <font style="font-size: 15px;">
-                                        <span class="page"/>/<span class="topage"/><br/>
+                                        <span class="page"/>/
+                                        <span class="topage"/>
+                                        <br/>
                                     </font>
                                 </td>
                             </tr>
                         </table>
                     </div>
-                    <table width="100%" class="font_fam" style="margin-top:10px; font-size:14px; line-height:18px; border: 1px solid white;">
+                    <table width="100%" class="font_fam"
+                           style="margin-top:10px; font-size:14px; line-height:18px; border: 1px solid white;">
                         <tr style="border: 1px solid white;">
                             <td width="35%" style="border: 1px solid white;">
                                 <table width="100%" style="border: 1px solid white;">
                                     <tr style="height:25px; border: 1px solid white;">
                                         <td width="17%" style="border: 1px solid white;">
-                                            <B><div>ชื่อลูกค้า</div></B>
+                                            <B>
+                                                <div>ชื่อลูกค้า</div>
+                                            </B>
                                         </td>
                                         <td width="3%" style="border: 1px solid white;">
                                             <div>:</div>
@@ -81,29 +90,51 @@
                                                     <br/>
                                                 </t>
                                                 <t t-if="sale_id.partner_id.branch_no and sale_id.partner_id.branch_no != '00000'">
-                                                    <span>(สาขาที่ <span t-esc="sale_id.partner_id.branch_no"/>)</span>
+                                                    <span>(สาขาที่<span t-esc="sale_id.partner_id.branch_no"/>)
+                                                    </span>
                                                 </t>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr style="height:25px; border: 1px solid white;">
                                         <td width="17%" style="border: 1px solid white;">
-                                            <B><div>ที่อยู่ลูกค้า</div></B>
+                                            <B>
+                                                <div>ที่อยู่ลูกค้า</div>
+                                            </B>
                                         </td>
                                         <td width="3%" style="border: 1px solid white;">
                                             <div>:</div>
                                         </td>
                                         <td width="80%" style="border: 1px solid white;">
                                             <div class="word-wrap">
-                                                <span t-if="o.sale_id.partner_id.street"><span t-field="o.sale_id.partner_id.street"/>&amp;nbsp;</span>
-                                                <span t-if="o.sale_id.partner_id.street2"><span t-field="o.sale_id.partner_id.street2"/>&amp;nbsp;<br/></span>
-                                                <span t-if="o.sale_id.partner_id.sub_district_id.name and o.sale_id.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.sale_id.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
-                                                <span t-if="o.sale_id.partner_id.sub_district_id.name and o.sale_id.partner_id.state_id.code != 'BKK'">ต.<span t-field="o.sale_id.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
-                                                <span t-if="o.sale_id.partner_id.district_id.name and o.sale_id.partner_id.state_id.code == 'BKK'">เขต<span t-field="o.sale_id.partner_id.district_id.name"/>&amp;nbsp;</span>
-                                                <span t-if="o.sale_id.partner_id.district_id.name and o.sale_id.partner_id.state_id.code != 'BKK'">อ.<span t-field="o.sale_id.partner_id.district_id.name"/>&amp;nbsp;</span>
-                                                <span t-if="o.sale_id.partner_id.state_id.name and o.sale_id.partner_id.state_id.code == 'BKK'"><span t-field="o.sale_id.partner_id.state_id.name"/>&amp;nbsp;</span>
-                                                <span t-if="o.sale_id.partner_id.state_id.name and o.sale_id.partner_id.state_id.code != 'BKK'">จ.<span t-field="o.sale_id.partner_id.state_id.name"/>&amp;nbsp;</span>
-                                                <span t-if="o.sale_id.partner_id.zip"><span t-esc="o.sale_id.partner_id.zip"/>&amp;nbsp;</span>
+                                                <span t-if="o.sale_id.partner_id.street"><span
+                                                        t-field="o.sale_id.partner_id.street"/>&amp;nbsp;
+                                                </span>
+                                                <span t-if="o.sale_id.partner_id.street2"><span
+                                                        t-field="o.sale_id.partner_id.street2"/>&amp;nbsp;
+                                                    <br/>
+                                                </span>
+                                                <span t-if="o.sale_id.partner_id.sub_district_id.name and o.sale_id.partner_id.state_id.code == 'BKK'">
+                                                    แขวง<span t-field="o.sale_id.partner_id.sub_district_id.name"/>&amp;nbsp;
+                                                </span>
+                                                <span t-if="o.sale_id.partner_id.sub_district_id.name and o.sale_id.partner_id.state_id.code != 'BKK'">
+                                                    ต.<span t-field="o.sale_id.partner_id.sub_district_id.name"/>&amp;nbsp;
+                                                </span>
+                                                <span t-if="o.sale_id.partner_id.district_id.name and o.sale_id.partner_id.state_id.code == 'BKK'">
+                                                    เขต<span t-field="o.sale_id.partner_id.district_id.name"/>&amp;nbsp;
+                                                </span>
+                                                <span t-if="o.sale_id.partner_id.district_id.name and o.sale_id.partner_id.state_id.code != 'BKK'">
+                                                    อ.<span t-field="o.sale_id.partner_id.district_id.name"/>&amp;nbsp;
+                                                </span>
+                                                <span t-if="o.sale_id.partner_id.state_id.name and o.sale_id.partner_id.state_id.code == 'BKK'">
+                                                    <span t-field="o.sale_id.partner_id.state_id.name"/>&amp;nbsp;
+                                                </span>
+                                                <span t-if="o.sale_id.partner_id.state_id.name and o.sale_id.partner_id.state_id.code != 'BKK'">
+                                                    จ.<span t-field="o.sale_id.partner_id.state_id.name"/>&amp;nbsp;
+                                                </span>
+                                                <span t-if="o.sale_id.partner_id.zip"><span
+                                                        t-esc="o.sale_id.partner_id.zip"/>&amp;nbsp;
+                                                </span>
                                             </div>
                                         </td>
                                     </tr>
@@ -114,7 +145,9 @@
                                 <table width="100%" style="border: 1px solid white;">
                                     <tr style="height:25px; border: 1px solid white;">
                                         <td width="25%" style="border: 1px solid white;">
-                                            <B><div>วันที่</div></B>
+                                            <B>
+                                                <div>วันที่</div>
+                                            </B>
                                         </td>
                                         <td style="border: 1px solid white;">
                                             <div>:</div>
@@ -127,20 +160,24 @@
                                     </tr>
                                     <tr style="height:25px; border: 1px solid white;">
                                         <td width="25%" style="border: 1px solid white;">
-                                            <B><div>พนักงานขาย</div></B>
+                                            <B>
+                                                <div>พนักงานขาย</div>
+                                            </B>
                                         </td>
                                         <td width="3%" style="border: 1px solid white;">
                                             <div>:</div>
                                         </td>
                                         <td width="72%" style="border: 1px solid white;">
-                                            <div class="word-wrap" >
+                                            <div class="word-wrap">
                                                 <span t-field="o.sale_id.user_id.name"/>
                                             </div>
                                         </td>
                                     </tr>
                                     <tr style="height:25px; border: 1px solid white;">
                                         <td width="25%" style="border: 1px solid white;">
-                                            <B><div>ผู้จัดทำ</div></B>
+                                            <B>
+                                                <div>ผู้จัดทำ</div>
+                                            </B>
                                         </td>
                                         <td width="3%" style="border: 1px solid white;">
                                             <div>:</div>
@@ -157,47 +194,59 @@
                                 <table width="100%" style="border: 1px solid white;">
                                     <tr style="border: 1px solid white;">
                                         <td width="40%" style="border: 1px solid white;">
-                                            <B><div>Delivery Order No</div></B>
+                                            <B>
+                                                <div>Delivery Order No</div>
+                                            </B>
                                         </td>
                                         <td style="border: 1px solid white;">
                                             <div>:</div>
                                         </td>
                                         <td width="68%" style="border: 1px solid white;">
-                                            &amp;nbsp;<span t-field="o.name"/>
+                                            &amp;nbsp;
+                                            <span t-field="o.name"/>
                                         </td>
                                     </tr>
                                     <tr style="border: 1px solid white;">
                                         <td width="40%" style="border: 1px solid white;">
-                                            <B><div>Sales Order No</div></B>
+                                            <B>
+                                                <div>Sales Order No</div>
+                                            </B>
                                         </td>
                                         <td style="border: 1px solid white;">
                                             <div>:</div>
                                         </td>
                                         <td width="68%" style="border: 1px solid white;">
-                                            &amp;nbsp;<span t-field="o.origin"/>
+                                            &amp;nbsp;
+                                            <span t-field="o.origin"/>
                                         </td>
                                     </tr>
                                     <tr style="border: 1px solid white;">
                                         <td width="40%" style="border: 1px solid white;">
-                                            <B><div>Delivery Date</div></B>
+                                            <B>
+                                                <div>Delivery Date</div>
+                                            </B>
                                         </td>
                                         <td style="border: 1px solid white;">
                                             <div>:</div>
                                         </td>
                                         <td width="68%" style="border: 1px solid white;">
-                                            &amp;nbsp;<span t-esc="o.scheduled_date.strftime('%d/%m/%Y')"/>
+                                            &amp;nbsp;
+                                            <span t-esc="o.scheduled_date.strftime('%d/%m/%Y')"/>
                                         </td>
                                     </tr>
                                     <tr style="height:25px; border: 1px solid white;">
                                         <td width="40%">
-                                            <B><div>Delivery Method</div></B>
+                                            <B>
+                                                <div>Delivery Method</div>
+                                            </B>
                                         </td>
                                         <td style="border: 1px solid white;">
                                             <div>:</div>
                                         </td>
                                         <td width="68%" style="border: 1px solid white;">
                                             <div class="word-wrap">
-                                                &amp;nbsp;<span t-field="o.carrier_id.name"/>
+                                                &amp;nbsp;
+                                                <span t-field="o.carrier_id.name"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -212,11 +261,13 @@
                         @font-face
                         {
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .font_fam{
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered {
                         border:1px solid white;
@@ -250,16 +301,28 @@
                     <table width="100%" class="font_fam" style="border: 1px solid white;">
                         <thead style="text-align: center; border: 1px solid white;">
                             <tr>
-                                <th width="10%"><span>ลำดับ</span></th>
-                                <th width="35%"><span>รายการสินค้า</span></th>
-                                <th width="10%"><span>Multi Location</span></th>
-                                <th width="10%"><span>จำนวนที่สั่ง</span></th>
-                                <th width="10%"><span>จำนวนที่ส่ง</span></th>
-                                <th width="10%"><span>หน่วย </span></th>
+                                <th width="10%">
+                                    <span>ลำดับ</span>
+                                </th>
+                                <th width="35%">
+                                    <span>รายการสินค้า</span>
+                                </th>
+                                <th width="10%">
+                                    <span>Multi Location</span>
+                                </th>
+                                <th width="10%">
+                                    <span>จำนวนที่สั่ง</span>
+                                </th>
+                                <th width="10%">
+                                    <span>จำนวนที่ส่ง</span>
+                                </th>
+                                <th width="10%">
+                                    <span>หน่วย</span>
+                                </th>
                                 <th width="25%"/>
                             </tr>
                         </thead>
-<!--                        package_level_ids_details-->
+                        <!--                        package_level_ids_details-->
                         <tbody class="sale_tbody">
                             <t t-foreach="o.move_ids_without_package" t-as="m">
                                 <tr>
@@ -305,11 +368,13 @@
                         @font-face
                         {
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .font_fam{
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_print_inventory_report/static/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered {
                         border:1px solid white;
@@ -330,11 +395,12 @@
                         }
                     </style>
                     <div class="last-page">
-                        <table width="100%" class="font_fam" style="font-size:14px; border:1px solid white; font-weight: bold;">
+                        <table width="100%" class="font_fam"
+                               style="font-size:14px; border:1px solid white; font-weight: bold;">
                             <tr>
                                 <td colspan="3">
                                     <div style="overflow: hidden; height:40px; width: 100%; line-height:16px;">
-                                        <strong> &amp;nbsp;หมายเหตุ Remark :</strong>
+                                        <strong>&amp;nbsp;หมายเหตุ Remark :</strong>
                                         <t t-if="o.note">
                                             <t t-if="o.note">
                                                 <span>&amp;nbsp;</span>
@@ -347,21 +413,30 @@
                             <tr align="center">
                                 <td class="col-xs-4">
                                     <div style="height:40px;"/>
-                                    <span>___________________________</span><br/>
-                                    <span>ผู้ตรวจ</span><br/>
-                                    <br/><br/>
+                                    <span>___________________________</span>
+                                    <br/>
+                                    <span>ผู้ตรวจ</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
                                 </td>
                                 <td class="col-xs-4">
                                     <div style="height:40px;"/>
-                                    <span>___________________________</span><br/>
-                                    <span>ผู้จัด</span><br/>
-                                    <br/><br/>
+                                    <span>___________________________</span>
+                                    <br/>
+                                    <span>ผู้จัด</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
                                 </td>
                                 <td class="col-xs-4">
                                     <div style="height:40px;"/>
-                                    <span>___________________________</span><br/>
-                                    <span>ผู้ทำรายการ</span><br/>
-                                    <br/><br/>
+                                    <span>___________________________</span>
+                                    <br/>
+                                    <span>ผู้ทำรายการ</span>
+                                    <br/>
+                                    <br/>
+                                    <br/>
                                 </td>
                             </tr>
                         </table>

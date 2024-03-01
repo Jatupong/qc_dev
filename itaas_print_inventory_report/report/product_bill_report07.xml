@@ -324,7 +324,7 @@
                                 <t t-if="unique_grades">
                                     <span t-foreach="unique_grades" t-as="grade">
                                         <t t-if="grade">
-                                            <span t-esc="grade" />
+                                            <span t-esc="grade"/>
                                             <t t-if="not last">,</t>
                                         </t>
                                     </span>

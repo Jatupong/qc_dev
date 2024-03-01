@@ -110,7 +110,8 @@
                 <div class="header">
                     <table width="100%" class="font_fam">
                         <td width="20%" style="vertical-align: middle;">
-                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:150px; max-width:150px;" alt="Logo"/>
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
+                                 style="max-height:150px; max-width:150px;" alt="Logo"/>
                         </td>
                         <td width="55%" style="vertical-align: middle;">
                             <div style="width:500px; word-wrap: break-word;">
@@ -118,29 +119,54 @@
                                     <p>
                                         <B>
                                             <span t-field="o.company_id.name"/>&amp;nbsp;
-                                            <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>
-                                            <t t-if="o.company_id.branch_no and o.company_id.branch_no != '00000'">(<span t-field="o.company_id.branch_no"/>)</t>
+                                            <t t-if="o.company_id.branch_no == '00000'">
+                                                <span>(สำนักงานใหญ่)</span>
+                                            </t>
+                                            <t t-if="o.company_id.branch_no and o.company_id.branch_no != '00000'">(
+                                                <span t-field="o.company_id.branch_no"/>)
+                                            </t>
                                         </B>
                                     </p>
                                     <p>
                                         <B t-if="o.company_id.english_name">
                                             <br/>
                                             <span t-field="o.company_id.eng_name"/>&amp;nbsp;
-                                            <t t-if="o.company_id.branch_no == '00000'"><span>(Head office)</span><br/></t>
-                                            <t t-if="o.company_id.branch_no and o.company_id.branch_no != '00000'">(<span t-field="o.company_id.branch_no"/>)</t>
+                                            <t t-if="o.company_id.branch_no == '00000'">
+                                                <span>(Head office)</span>
+                                                <br/>
+                                            </t>
+                                            <t t-if="o.company_id.branch_no and o.company_id.branch_no != '00000'">(
+                                                <span t-field="o.company_id.branch_no"/>)
+                                            </t>
                                         </B>
                                     </p>
                                 </font>
                                 <font class="font_size_18">
-                                    <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.street2"><br/><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.state_id"><span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.english_address"><br/><span t-field="o.company_id.english_address"/></span>
-                                    <span t-if="o.company_id.phone"><br/>Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.email"><br/>Email&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.website"><br/>Website&amp;nbsp;<span t-esc="o.company_id.website"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.vat"><br/>เลขประจำตัวผู้เสียภาษี&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.street2">
+                                        <br/>
+                                        <span t-esc="o.company_id.street2"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.state_id"><span t-field="o.company_id.state_id.name"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.english_address">
+                                        <br/>
+                                        <span t-field="o.company_id.english_address"/>
+                                    </span>
+                                    <span t-if="o.company_id.phone"><br/>Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.email"><br/>Email&amp;nbsp;<span
+                                            t-esc="o.company_id.email"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.website"><br/>Website&amp;nbsp;<span
+                                            t-esc="o.company_id.website"/>&amp;nbsp;
+                                    </span>
+                                    <span t-if="o.company_id.vat"><br/>เลขประจำตัวผู้เสียภาษี&amp;nbsp;<span
+                                            t-esc="o.company_id.vat"/>&amp;nbsp;
+                                    </span>
                                 </font>
                             </div>
                         </td>
@@ -149,7 +175,10 @@
                                 <strong>ใบรับสินค้าคืน</strong>
                             </div>
                             <div class="font_size_18">
-                                <span>Page </span><span class="page"/> / <span class="topage"/>
+                                <span>Page</span>
+                                <span class="page"/>
+                                /
+                                <span class="topage"/>
                             </div>
                         </td>
                     </table>
@@ -159,11 +188,17 @@
                             <td width="50%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
-                                        <td width="40%"><strong>Supplier</strong></td>
-                                        <td width="60%">: <span t-field="o.partner_id"/></td>
+                                        <td width="40%">
+                                            <strong>Supplier</strong>
+                                        </td>
+                                        <td width="60%">:
+                                            <span t-field="o.partner_id"/>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Date</strong></td>
+                                        <td>
+                                            <strong>Date</strong>
+                                        </td>
                                         <td>:
                                             <span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
                                         </td>
@@ -173,12 +208,20 @@
                             <td width="50%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
-                                        <td width="40%"><strong>No.</strong></td>
-                                        <td width="60%">: <span t-field="o.name"/></td>
+                                        <td width="40%">
+                                            <strong>No.</strong>
+                                        </td>
+                                        <td width="60%">:
+                                            <span t-field="o.name"/>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Ref.</strong></td>
-                                        <td>: <span t-field="o.origin"/></td>
+                                        <td>
+                                            <strong>Ref.</strong>
+                                        </td>
+                                        <td>:
+                                            <span t-field="o.origin"/>
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
@@ -224,7 +267,8 @@
                                     </td>
                                     <td>
                                         <div class="word_wrap">
-                                            <span t-if="line.move_id.description_picking" t-field="line.move_id.description_picking"/>
+                                            <span t-if="line.move_id.description_picking"
+                                                  t-field="line.move_id.description_picking"/>
                                             <span t-else="" t-field="line.product_id.name"/>
                                         </div>
                                     </td>
@@ -280,7 +324,8 @@
                                     <div style="width:100%; height:90px; position:relative; border-bottom:1px solid black;">
                                     </div>
                                     <div>
-                                        <span>ผู้ส่งคืน (ลูกค้า)</span><br/>
+                                        <span>ผู้ส่งคืน (ลูกค้า)</span>
+                                        <br/>
                                         <span>วันที่ _________/_________/________</span>
                                     </div>
                                 </td>
@@ -288,25 +333,34 @@
                                     <div style="width:100%; height:90px; position:relative; border-bottom:1px solid black;">
                                     </div>
                                     <div>
-                                        <span>ผู้ตรวจรับคืน (บริษัท)</span><br/>
+                                        <span>ผู้ตรวจรับคืน (บริษัท)</span>
+                                        <br/>
                                         <span>วันที่ _________/_________/________</span>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <B>หมายเหตุ</B><br/>
-                                    <span>จำนวนที่รับคืน </span><br/>
-                                    <span>(  )   ถูกต้อง</span><br/>
-                                    <span>(  )   ไม่ถูกต้อง</span><br/>
-                                    <span>เกินไป/ขาดไป  __________________</span>
+                                    <B>หมายเหตุ</B>
+                                    <br/>
+                                    <span>จำนวนที่รับคืน</span>
+                                    <br/>
+                                    <span>( ) ถูกต้อง</span>
+                                    <br/>
+                                    <span>( ) ไม่ถูกต้อง</span>
+                                    <br/>
+                                    <span>เกินไป/ขาดไป __________________</span>
                                 </td>
                                 <td>
-                                    <B>รับคืนเพื่อ</B><br/>
-                                    <span>(  )   หักบัญชีตามใบลดหนี้</span><br/>
-                                    <span>(  )   เปลี่ยนสินค้าใหม่ให้แทน</span><br/>
-                                    <span>(  )   แก้ไข</span><br/>
-                                    <span>(  )   อื่นๆ..............................................</span>
+                                    <B>รับคืนเพื่อ</B>
+                                    <br/>
+                                    <span>( ) หักบัญชีตามใบลดหนี้</span>
+                                    <br/>
+                                    <span>( ) เปลี่ยนสินค้าใหม่ให้แทน</span>
+                                    <br/>
+                                    <span>( ) แก้ไข</span>
+                                    <br/>
+                                    <span>( ) อื่นๆ..............................................</span>
                                 </td>
                             </tr>
                         </table>
