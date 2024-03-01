@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tax_report_tax,tax_report,PJD_report.model_tax_report,base.group_user,1,1,1,1
+access_tax_excel_export,tax_excel_export,PJD_report.model_tax_excel_export,base.group_user,1,1,1,1
+access_tax_excel_export2,tax_excel_export2,PJD_report.model_tax_excel_export2,base.group_user,1,1,1,1
+
+
+
+
