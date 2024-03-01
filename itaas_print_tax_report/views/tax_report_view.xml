@@ -79,6 +79,7 @@
         </field>
     </record>
 
+
     <!--&lt;!&ndash; tax report wizard form view &ndash;&gt;-->
     <!--<record id="view_pnd53at1_report_wizard_form" model="ir.ui.view">-->
     <!--<field name="name">pnd53at1.report.form</field>-->
