@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="paperformat_A4_Zero_Margin_Tax_Report" model="report.paperformat">
+            <field name="name">paperformat_A4_Zero_Margin_Tax_Report</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">45</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_spacing">40</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="action_purchase_tax_report_id"
+                model="account.move"
+                menu="False"
+                report_type="qweb-pdf"
+                paperformat="PJD_report.paperformat_A4_Zero_Margin_Tax_Report"
+                string="Purchase Tax Report"
+                name="PJD_report.purchase_tax_report_id"
+                file="PJD_report.purchase_tax_report_id"
+        />
+
+        <report
+                id="action_sale_tax_report_id2"
+                model="account.move"
+                menu="False"
+                report_type="qweb-pdf"
+                paperformat="PJD_report.paperformat_A4_Zero_Margin_Tax_Report"
+                string="รายการส่งออกประจำเดือน"
+                name="PJD_report.sale_tax_report_id2"
+                file="PJD_report.sale_tax_report_id2"
+        />
+    </data>
+</openerp>
