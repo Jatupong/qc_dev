@@ -136,7 +136,6 @@ class report_pnd(models.TransientModel):
                         move_ids += " {}:{}".format(i.id,i.credit)
                     move_ids += "] = {}|".format(sum_credit)
 
-
                 if inv_row != len(move_line_ids):
                     move_ids += '1' + "\r\n"
                 else:
