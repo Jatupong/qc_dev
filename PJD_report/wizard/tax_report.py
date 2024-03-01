@@ -853,8 +853,6 @@ class tax_report(models.TransientModel):
                             else:
                                 worksheet.write(inv_row, 7, amount_untax, for_right_border_num_format)
                                 before_total += amount_untax
-
-
                     if ml['type'] == 'in_refund':
                         if ml['state'] == 'cancel':
                             if ml['debit']:
