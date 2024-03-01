@@ -121,6 +121,16 @@
                 file="itaas_print_tax_report.sale_tax_report_id"
         />
         <report
+                id="action_sale_tax_report_id2"
+                model="account.move"
+                menu="False"
+                report_type="qweb-pdf"
+                paperformat="itaas_print_tax_report.paperformat_A4_Zero_Margin_Tax_Report"
+                string="รายการส่งออกประจำเดือน"
+                name="itaas_print_tax_report.sale_tax_report_id2"
+                file="itaas_print_tax_report.sale_tax_report_id2"
+        />
+        <report
                 id="action_tax_30_report_id"
                 model="account.move"
                 menu="False"
