@@ -10,8 +10,6 @@
                     <t t-set="count" t-value="0"/>
 
 
-
-
                     <table class="table table-sm">
                         <thead>
                             <tr>
@@ -24,12 +22,24 @@
                                 <!--<th class="text-right"><strong>Counted Quantity</strong></th>-->
 
                                 <th width="6%">No. /</th>
-                                <th width="10%" groups="stock.group_stock_multi_locations"><strong>Location</strong></th>
-                                <th width="14%"><strong>Product</strong></th>
-                                <th width="15%" groups="stock.group_production_lot"><strong>Lot/Serial Number</strong></th>
-                                <th width="17%" class="text-right"><strong>Available Quantity</strong></th>
-                                <th width="17%" class="text-right"><strong>On hand Quantity</strong></th>
-                                <th width="22%" class="text-right"><strong>Counted Quantity</strong></th>
+                                <th width="10%" groups="stock.group_stock_multi_locations">
+                                    <strong>Location</strong>
+                                </th>
+                                <th width="14%">
+                                    <strong>Product</strong>
+                                </th>
+                                <th width="15%" groups="stock.group_production_lot">
+                                    <strong>Lot/Serial Number</strong>
+                                </th>
+                                <th width="17%" class="text-right">
+                                    <strong>Available Quantity</strong>
+                                </th>
+                                <th width="17%" class="text-right">
+                                    <strong>On hand Quantity</strong>
+                                </th>
+                                <th width="22%" class="text-right">
+                                    <strong>Counted Quantity</strong>
+                                </th>
 
                             </tr>
                         </thead>
@@ -38,26 +48,43 @@
                             <t t-foreach="locations" t-as="location">
 
                                 <tr groups="stock.group_stock_multi_locations">
-                                    <td colspan="2"><strong t-esc="location.display_name"/></td>
+                                    <td colspan="2">
+                                        <strong t-esc="location.display_name"/>
+                                    </td>
                                     <td groups="stock.group_production_lot"/>
                                     <td groups="stock.group_tracking_lot"/>
                                     <td/>
                                 </tr>
-                                <tr t-foreach="docs.filtered(lambda quant: quant.location_id.id == location.id)" t-as="line">
+                                <tr t-foreach="docs.filtered(lambda quant: quant.location_id.id == location.id)"
+                                    t-as="line">
                                     <td>
                                         <t t-set="count" t-value="count + 1"/>
                                         <span t-esc="count"/>
                                     </td>
                                     <td groups="stock.group_stock_multi_locations"/>
-                                    <td><span t-field="line.product_id"/></td>
-                                    <td groups="stock.group_production_lot"><span t-field="line.lot_id"/></td>
+                                    <td>
+                                        <span t-field="line.product_id"/>
+                                    </td>
+                                    <td groups="stock.group_production_lot">
+                                        <span t-field="line.lot_id"/>
+                                    </td>
                                     <!--<td groups="stock.group_tracking_lot"><span t-field="line.package_id"/></td>-->
-                                    <td class="text-right"><span t-field="line.available_quantity"/> <span t-field="line.product_uom_id" groups="uom.group_uom"/></td>
-                                    <td class="text-right"><span t-field="line.quantity"/> <span t-field="line.product_uom_id" groups="uom.group_uom"/></td>
+                                    <td class="text-right">
+                                        <span t-field="line.available_quantity"/>
+                                        <span t-field="line.product_uom_id" groups="uom.group_uom"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.quantity"/>
+                                        <span t-field="line.product_uom_id" groups="uom.group_uom"/>
+                                    </td>
                                     <td class="text-right">
                                         <!--If 0, then leave blank so users have space to write a number -->
-                                        <t t-if="line.inventory_quantity == 0"><span/></t>
-                                        <t t-else=""><span t-field="line.inventory_quantity"/></t>
+                                        <t t-if="line.inventory_quantity == 0">
+                                            <span/>
+                                        </t>
+                                        <t t-else="">
+                                            <span t-field="line.inventory_quantity"/>
+                                        </t>
                                         <span t-field="line.product_uom_id" groups="uom.group_uom"/>
                                     </td>
                                 </tr>

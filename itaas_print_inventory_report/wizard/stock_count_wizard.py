@@ -8,6 +8,7 @@ import pytz
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from datetime import datetime, timedelta, time as datetime_time
 
+
 class StockCountWizard(models.TransientModel):
     _name = 'stock.count.wizard'
 
@@ -42,10 +43,11 @@ class StockCountWizard(models.TransientModel):
     def print_pdf_report(self, data):
         # print('print_pdf_report : ')
         data = {}
-        data['form'] = self.read(['date_from', 'date_to', 'company_id', 'location_id', 'product_code_form', 'product_code_to'])[0]
+        data['form'] = \
+        self.read(['date_from', 'date_to', 'company_id', 'location_id', 'product_code_form', 'product_code_to'])[0]
         envref = self.env.ref('itaas_print_inventory_report.stock_count_report')
         # print('envref : ',envref)
-        return envref.report_action(self, data=data,config=False)
+        return envref.report_action(self, data=data, config=False)
 
 
 class StockCountReport(models.AbstractModel):

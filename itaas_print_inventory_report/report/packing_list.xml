@@ -30,14 +30,15 @@
                     <!--                    <table style="font-family:TH SarabunPSK;  src:url(/itaas_print_inventory_report/static/THSarabun.ttf); font-size: 16px;border:0px solid black">-->
                     <!--                        <tr>-->
 
-                    <table style="font-family:TH SarabunPSK;src:url(/itaas_print_inventory_report/static/THSarabun.ttf); font-size: 22px;border:0px solid white" width="100%">
-                            <tr>
-                                <td align="right" style="font-size: 10px;" width="100%">
-                                    <span t-field="o.company_id.packing_list"/>
-<!--                                    <span>REV:1 1 January 2021</span>-->
-                                </td>
-                            </tr>
-                            <tr>
+                    <table style="font-family:TH SarabunPSK;src:url(/itaas_print_inventory_report/static/THSarabun.ttf); font-size: 22px;border:0px solid white"
+                           width="100%">
+                        <tr>
+                            <td align="right" style="font-size: 10px;" width="100%">
+                                <span t-field="o.company_id.packing_list"/>
+                                <!--                                    <span>REV:1 1 January 2021</span>-->
+                            </td>
+                        </tr>
+                        <tr>
                             <td width="100%" class="text-center" align="center" style="border:0px solid white">
                                 <!--                                <div style="width:500px; word-wrap: break-word;">-->
                                 <font style="font-size: 18px;border:0px solid white">
@@ -77,7 +78,7 @@
                                 <!--                                </div>-->
                             </td>
 
-                            </tr>
+                        </tr>
                     </table>
 
                     <!--                        </tr>-->
@@ -91,7 +92,8 @@
                     <!--                        </font>-->
                     <!--                    </div>-->
 
-                     <table width="100%" style="font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:14px; line-height:25px; margin-top:20px;border:0px solid white">
+                    <table width="100%"
+                           style="font-family:TH SarabunPSK; src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:14px; line-height:25px; margin-top:20px;border:0px solid white">
                         <tr>
                             <td width="60%">
                                 <table width="100%" style="border:1px solid white;">
@@ -106,7 +108,8 @@
                                         </td>
                                         <td width="65%" colspan="4">
                                             <div class="word-wrap" style="width:300px;">
-                                                : <span t-field="o.partner_id"/>
+                                                :
+                                                <span t-field="o.partner_id"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -115,9 +118,11 @@
                                             <div>TERM OF PAYMENT</div>
                                         </td>
                                         <td width="65%" colspan="5">
-                                            <t t-set="term_of_payment" t-value="o.sale_order(o.origin,'payment_term_id.name')"/>
+                                            <t t-set="term_of_payment"
+                                               t-value="o.sale_order(o.origin,'payment_term_id.name')"/>
                                             <div class="word-wrap" style="width:300px">
-                                                : <span t-esc="term_of_payment"/>
+                                                :
+                                                <span t-esc="term_of_payment"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -127,7 +132,8 @@
                                         </td>
                                         <td colspan="5">
                                             <div class="word-wrap" style="width:300px;">
-                                                : <span t-field="o.paymentref_no"/>
+                                                :
+                                                <span t-field="o.paymentref_no"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -138,7 +144,8 @@
                                         <td colspan="5">
                                             <t t-set="PO" t-value="o.sale_order(o.origin,'id_po')"/>
                                             <div class="word-wrap" style="width:300px;">
-                                                : <span t-esc="PO"/>
+                                                :
+                                                <span t-esc="PO"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -148,7 +155,8 @@
                                         </td>
                                         <td colspan="5">
                                             <div class="word-wrap" style="width:300px;">
-                                                : <span t-field="o.buyer_ref"/>
+                                                :
+                                                <span t-field="o.buyer_ref"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -168,7 +176,8 @@
                                         </td>
                                         <td width="55%">
                                             <div class="word-wrap" style="width:100px;">
-                                                : <span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
+                                                :
+                                                <span t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
                                             </div>
                                         </td>
                                     </tr>
@@ -177,7 +186,8 @@
                                             <div>PACKING NO</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.name"/>
+                                            :
+                                            <span t-field="o.name"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -185,7 +195,8 @@
                                             <div>PI NO</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.sale_id.name"/>
+                                            :
+                                            <span t-field="o.sale_id.name"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -193,7 +204,8 @@
                                             <div>DELIVERY TO</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.partner_id.country_id"/>
+                                            :
+                                            <span t-field="o.partner_id.country_id"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -201,7 +213,8 @@
                                             <div>MODE OF SHIPMENT</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.mode_of_shipment"/>
+                                            :
+                                            <span t-field="o.mode_of_shipment"/>
                                         </td>
                                     </tr>
                                     <tr style="height:30px;">
@@ -209,7 +222,8 @@
                                             <div>SHIPING</div>
                                         </td>
                                         <td>
-                                            : <span t-field="o.shipping"/>
+                                            :
+                                            <span t-field="o.shipping"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -240,7 +254,6 @@
                     <!--                        </tbody>-->
                     <!--                    </table>-->
                 </div>  <!--header-->
-
 
 
                 <!--                <div class="page">-->
@@ -376,7 +389,6 @@
                 <!--                </div>   &lt;!&ndash;page&ndash;&gt;-->
 
 
-
                 <div class="page">
                     <style>
                         table.table-bordered {
@@ -405,14 +417,31 @@
                     <table class="table-bordered" style="font-size: 10px;">
                         <thead style="border: 1px solid black; background-color:#B499E2;">
                             <tr style="border: 1px solid black; line-height: 20px;">
-                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">CTN<br/>No.</td>
-                                <td align="center" width="30%" rowspan="2" style="border: 1px solid black;">DESCRIPTION</td>
-                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">QTY<br/>PCS/SET</td>
-                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">QTY Per<br/>CARTON</td>
-                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">QTY OF<br/>CARTON</td>
-                                <td align="middle" width="5%" colspan="3" style="border: 1px solid black;">MEASURMENT (CM)</td>
-                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">N.W.<br/> KGS.</td>
-                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">G.W.<br/> KGS.</td>
+                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">CTN<br/>No.
+                                </td>
+                                <td align="center" width="30%" rowspan="2" style="border: 1px solid black;">
+                                    DESCRIPTION
+                                </td>
+                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">QTY<br/>
+                                    PCS/SET
+                                </td>
+                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">QTY Per<br/>
+                                    CARTON
+                                </td>
+                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">QTY OF<br/>
+                                    CARTON
+                                </td>
+                                <td align="middle" width="5%" colspan="3" style="border: 1px solid black;">MEASURMENT
+                                    (CM)
+                                </td>
+                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">N.W.
+                                    <br/>
+                                    KGS.
+                                </td>
+                                <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">G.W.
+                                    <br/>
+                                    KGS.
+                                </td>
                                 <td align="middle" width="5%" rowspan="2" style="border: 1px solid black;">CBM</td>
                             </tr>
 
@@ -466,7 +495,8 @@
                                         <span t-field="line.name"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-                                        <t t-set="sum_product_uom_qty" t-value="sum_product_uom_qty+line.product_uom_qty"/>
+                                        <t t-set="sum_product_uom_qty"
+                                           t-value="sum_product_uom_qty+line.product_uom_qty"/>
                                         <span t-field="line.product_uom_qty"/>
                                     </td>
                                     <td style="border: 1px solid black;">
@@ -496,9 +526,10 @@
                                         <span t-field="line.n_w_kgs"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-                                        <t t-set="sum_CBM" t-value="((((line.width * line.length) * line.height) / 1000000 ) * line.box_cost ) + sum_CBM"/>
-<!--                                        <span t-field="line.n_w_kgs"/>-->
-<!--                                        <t t-esc="sum_CBM"/>-->
+                                        <t t-set="sum_CBM"
+                                           t-value="((((line.width * line.length) * line.height) / 1000000 ) * line.box_cost ) + sum_CBM"/>
+                                        <!--                                        <span t-field="line.n_w_kgs"/>-->
+                                        <!--                                        <t t-esc="sum_CBM"/>-->
                                         <span t-esc="'{0:,.5f}'.format(float(sum_CBM))"/>
                                         <t t-set="total_CBM" t-value="total_CBM + sum_CBM"/>
                                     </td>
@@ -579,16 +610,14 @@
                                         <span>0</span>
                                     </t>
                                     <t t-if="total_CBM != 0">
-<!--                                        <span t-esc="total_CBM"/>-->
-                                         <span t-esc="'{0:,.5f}'.format(float(total_CBM))"/>
+                                        <!--                                        <span t-esc="total_CBM"/>-->
+                                        <span t-esc="'{0:,.5f}'.format(float(total_CBM))"/>
                                     </t>
                                 </td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>   <!--page-->
-
-
 
 
                 <div class="footer" style="padding-top:20px;">
@@ -617,7 +646,8 @@
                         }
                     </style>
 
-                    <table width="100%" style="font-family:TH SarabunPSK;                     src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:20px; border:0px solid white;">
+                    <table width="100%"
+                           style="font-family:TH SarabunPSK;                     src:url(/itaas_print_inventory_report/static/THSarabun.ttf);font-size:20px; border:0px solid white;">
 
 
                         <!--                        <tr>-->
@@ -627,7 +657,9 @@
                             <td width="100%" style="line-height:15px;">
                                 <!--                                            <div>ผู้ขอ___________________</div><br/><br/><br/><br/>-->
                                 <span>หมายเหตุ : &amp;nbsp;</span>
-                                <span t-field="o.note"/><br/><br/>
+                                <span t-field="o.note"/>
+                                <br/>
+                                <br/>
                             </td>
                             <!--                                        <td width="50%" colspan="5">-->
                             <!--                                            <div class="word-wrap" style="width:420px;text-align:right;">-->

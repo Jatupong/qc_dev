@@ -23,7 +23,6 @@ class stock_move_line(models.Model):
         return ans
 
 
-
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
@@ -156,7 +155,6 @@ class StockPicking(models.Model):
                     grades_displayed.add(product_ceg_th)
                     unique_grades.append(product_ceg_th)
         return unique_grades
-
 
     # @api.multi
     # def get_report_values(self, docids, data):
