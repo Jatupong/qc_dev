@@ -33,7 +33,7 @@
         <field name="res_model">account.move</field>
 <!--        <field name="context">{'default_move_type': 'in_invoice'}</field>-->
 <!--        <field name="context">{'default_move_type': 'in_invoice'}</field>-->
-        <field name="context">{'default_move_type': 'in_invoice', 'default_is_debit_note': True}</field>
+        <field name="context">{'default_move_type': 'in_invoice', 'default_is_debit_note': True , 'default_is_debit_vendor': True}</field>
         <field name="view_mode">tree,form</field>
 
     </record>
