@@ -39,7 +39,7 @@ Stock report
 
         'report/report_reg.xml',
         'report/sale_tax_report.xml',
-        'report/purchase_tax_report.xml',
+        # 'report/purchase_tax_report.xml',
         'report/report_taxsummary.xml',
         'report/report_pnd3.xml',
         'report/report_pnd53.xml',
@@ -50,7 +50,7 @@ Stock report
         'report/teejai_report02_journal.xml',
         'report/teejai_report_journal.xml',
         'report/teejai_report03_journal.xml',
-        'views/tax_report_view.xml',
+        # 'views/tax_report_view.xml',
         'views/pnd_30_views_report.xml',
         'report/report_pnd30.xml',
         'views/res_company.xml',
