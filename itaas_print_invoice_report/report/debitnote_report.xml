@@ -687,7 +687,7 @@
                         <!-- unit is mm --> <!-- max height a4 = 297, deduct margin and bottom 100, 50 and left 147, 30px per line then max = 15 line-->
                         <!--t t-set="max_body_line" t-value="15"-->
                         <!-- header of tbody take 2 new light = 15, then 147 - 15 = 132-->
-                        <t t-set="max_body_height" t-value="160"/>
+                        <t t-set="max_body_height" t-value="150"/>
                         <t t-set="new_line_height" t-value="5"/>
                         <t t-set="row_line_height" t-value="5"/> <!--- 30px = 7.9375 mm -->
                         <t t-set="max_line_lenght" t-value="40"/>
@@ -702,6 +702,7 @@
                         <t t-set="item" t-value="0"/>
 
                         <t t-foreach="range(0,len(break_line),1)" t-as="x">
+
                             <table width="100%" class="font_fam table table-bordered-b font_size_14"
                                    style="height:195mm;">
                                 <thead>
@@ -950,13 +951,16 @@
                                                 <!--                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual)))"/>-->
 
                                                 <t t-if="o.is_manual_cn">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.inv_amount_untaxed)))"/>
+                                                    <!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.inv_amount_untaxed)))"/>-->
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual)))"/>
                                                 </t>
                                                 <t t-if="not o.is_manual_cn">
                                                     <t t-set="ori_amount_untaxed"
                                                        t-value="o.reversed_entry_id.amount_untaxed"/>
                                                     <!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(ori_amount_untaxed)))"/>-->
-                                                    <span t-field="o.debit_origin_id.amount_residual"/>
+                                                    <!--                                                    <span t-field="o.debit_origin_id.amount_residual"/>-->
+
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual)))"/>
                                                 </t>
                                             </t>
                                         </td>
@@ -1067,13 +1071,13 @@
                                             <t t-if="end ==(break_line[len(break_line)-1])">
                                                 <t t-if="o.currency_id.name == 'THB'">
 
-<!--                                                    <span t-esc="'{0:,.2f}'.format(float(amount_total))"/>-->
+                                                    <!--                                                    <span t-esc="'{0:,.2f}'.format(float(amount_total))"/>-->
                                                     <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual+amount_price_subtotal+amount_tax)))"/>
                                                 </t>
 
                                                 <t t-if="not o.currency_id.name == 'THB'">
-<!--                                                    <span t-esc="'{0:,.2f}'.format(float(amount_price_subtotal))"/>-->
-                                                        <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual+amount_price_subtotal+amount_tax)))"/>
+                                                    <!--                                                    <span t-esc="'{0:,.2f}'.format(float(amount_price_subtotal))"/>-->
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual+amount_price_subtotal+amount_tax)))"/>
                                                 </t>
                                             </t>
                                         </td>
