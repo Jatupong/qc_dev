@@ -419,7 +419,7 @@
                                                         </tr>
                                                 </thead>
                                                 <tbody>
-                                                        <t t-foreach="o.order_line.filtered(lambda x:x.display_type not in ['line_note','line_section'])" t-as="line">
+                                                        <t t-foreach="o.order_line.filtered(lambda x:x.display_type not in ['line_note','line_section'] and x.product_template_id.detailed_type not in ['service','consu'])" t-as="line">
                                                                 <t t-set="i_num" t-value="i_num + 1"/>
                                                                 <t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>
                                                                 <tr>
