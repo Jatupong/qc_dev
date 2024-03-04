@@ -304,7 +304,7 @@
                                     <B>
                                         <span t-field="o.company_id.name"/>&amp;nbsp;
                                         <!--<span t-field="o.company_id.partner_id.branch_no"/>&amp;nbsp;-->
-                                        <span>(สำนักงานใหญ่)</span>
+                                        <!--<span>(สำนักงานใหญ่)</span>-->
                                         <!--                                            <t t-if="o.company_id.branch_no">-->
                                         <!--                                                <t t-if="o.company_id.branch_no == '00000'"><span>(สำนักงานใหญ่)</span></t>-->
                                         <!--                                                <t t-if="o.company_id.branch_no != '00000'">(สาขา&amp;nbsp;<span t-field="o.company_id.branch_no"/>)</t>-->
@@ -316,7 +316,7 @@
                                         <span t-field="o.company_id.english_name"/>
 
                                         <t t-if="o.company_id.branch_no">
-                                            <t t-if="o.company_id.branch_no == '00000'"><span>(HEAD OFFICE)</span></t>
+                                            <!--<t t-if="o.company_id.branch_no == '00000'"><span>(HEAD OFFICE)</span></t>-->
                                             <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span t-field="o.company_id.branch_no"/>)</t>
                                         </t>
                                         <t t-if="not o.company_id.branch_no">
@@ -347,10 +347,17 @@
                                     <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
                                     <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;</span><br/>
                                     <t t-if="o.company_id.english_address"><span t-field="o.company_id.english_address"/><br/></t>
-                                    <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;<br/></span>
-                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;</span>
-                                    <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;</span>
+
+                                    <!--<span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>-->
+                                    <span t-if="o.company_id.phone">TEL:&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.fax">FAX:&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;<br/></span>
+
+                                    <!--<span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;<br/></span>-->
+                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร&amp;nbsp;
+                                        <span t-esc="o.company_id.vat"/>&amp;nbsp;
+                                    </span>
+                                    <span>สำนักงานใหญ่</span>
+                                    <!--<span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;</span>-->
                                 </font>
                             </div>
                         </td>
@@ -677,7 +684,8 @@
                                                 <div class="word_wrap">
                                                     <t t-set="sum_total_price" t-value="move_line[y].qty_done * move_line[y].move_id.purchase_line_id.price_unit"/>
 
-                                                    <span t-esc="sum_total_price"/>
+                                                    <!--<span t-esc="sum_total_price"/>-->
+                                                    <span t-esc="'{0:,.2f}'.format(float(sum_total_price))"/>
                                                     <t t-set="sum_total" t-value="sum_total + sum_total_price"/>
 
 <!--                                                    <t t-set="sum_CBM" t-value="((((line.width * line.length) * line.height) / 1000000 ) * line.box_cost ) + sum_CBM"/>-->
@@ -745,7 +753,8 @@
                                                 <div class="word_wrap">
                                                     <t t-set="sum_total_price" t-value="move_line[y].qty_done * move_line[y].move_id.purchase_line_id.price_unit"/>
 
-                                                    <span t-esc="sum_total_price"/>
+                                                    <span t-esc="'{0:,.2f}'.format(float(sum_total_price))"/>
+                                                    <!--<span t-esc="sum_total_price"/>-->
                                                     <t t-set="sum_total" t-value="sum_total + sum_total_price"/>
                                                 </div>
                                             </td>
@@ -763,16 +772,17 @@
                                     <td colspan="9" style="padding-top: 0px; padding-bottom: 0px;">
                                       <table width="100%" style="border:1px solid white; padding-top: 0px; padding-bottom: 0px;">
                                         <tr style=" padding-top: 0px; padding-bottom: 0px;">
-                                          <td width="89.3%" align="right" style="">
+                                          <!--<td width="89.3%" align="right" style="">-->
 
 
-                                          <!--<td width="87%" align="right" style="">  -->
-                                            <strong>รวมเงิน</strong>
+                                          <td width="86%" align="right" style="">
+                                            <strong>รวมเงิน&amp;nbsp;</strong>
                                           </td>
-                                          <td width="13%" align="right" style="border-left: 1px solid black;">
+                                          <td width="12%" align="right" style="border-left: 1px solid black;">
 <!--                                            <t t-set="sum_total" t-value="sum_total + sum_total_price"/>-->
 
-                                            <span t-esc="sum_total"/>
+                                            <!--<span t-esc="sum_total"/>-->
+                                            <span t-esc="'{0:,.2f}'.format(float(sum_total))"/>
                                           </td>
                                         <!--<strong>หมายเหตุ/Remark :</strong>-->
                                         <!--<t t-if="o.note">-->

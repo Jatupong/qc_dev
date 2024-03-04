@@ -224,8 +224,7 @@
                     </style>
                     <table width="100%" class="font_fam table table-nobordered">
                         <td width="20%" style="vertical-align: middle;">
-                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
-                                 style="max-height:150px; max-width:150px;" alt="Logo"/>
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:150px; max-width:150px;" alt="Logo"/>
                         </td>
                         <td width="55%" style="vertical-align: middle;">
                             <div style="width:500px; word-wrap: break-word;">
@@ -279,11 +278,9 @@
                                     <!--                                        <span t-if="o.company_id.tumbon"><span t-esc="o.company_id.tumbon"/>&amp;nbsp;</span><br/>-->
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                     <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
-                                    <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span
-                                            t-field="o.company_id.city"/>&amp;nbsp;
+                                    <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;
                                     </span>
-                                    <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ<span
-                                            t-field="o.company_id.city"/>&amp;nbsp;
+                                    <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.company_id.city"/>&amp;nbsp;
                                     </span>
                                     <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'">
                                         <span t-field="o.company_id.state_id.name"/>&amp;nbsp;
@@ -298,21 +295,19 @@
                                         <span t-field="o.company_id.english_address"/>
                                         <br/>
                                     </t>
-                                    <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span
-                                            t-esc="o.company_id.phone"/>&amp;nbsp;
+                                    <span t-if="o.company_id.phone">TEL:&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;
                                     </span>
                                     <!--                                    <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span-->
                                     <!--                                            t-esc="o.company_id.email"/>&amp;nbsp;-->
                                     <!--                                        <br/>-->
                                     <!--                                    </span>-->
 
-                                    <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;
+                                    <span t-if="o.company_id.fax">FAX:&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;
                                         <br/>
                                     </span>
 
 
-                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;<span
-                                            t-esc="o.company_id.vat"/>&amp;nbsp;
+                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;
                                     </span>
 
 
@@ -350,8 +345,7 @@
                             </div>
                         </td>
                     </table>
-                    <table width="100%" class="font_fam table table-bordered"
-                           style="margin-top:10px; font-size:14px; line-height:16px; height:140px;">
+                    <table width="100%" class="font_fam table table-bordered" style="margin-top:10px; font-size:14px; line-height:16px; height:140px;">
                         <tr>
                             <td width="60%">
                                 <table width="100%" class="table table-nobordered">
@@ -388,11 +382,9 @@
                                                     <!--                                        <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
                                                     <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
                                                     :
-                                                    <span t-if="o.partner_id.street"><span
-                                                            t-field="o.partner_id.street"/>&amp;nbsp;
+                                                    <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;
                                                     </span>
-                                                    <span t-if="o.partner_id.street2"><span
-                                                            t-field="o.partner_id.street2"/>&amp;nbsp;
+                                                    <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;
                                                         <br/>
                                                     </span>
                                                     <!--                                                    <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>-->
@@ -606,13 +598,11 @@
                         <t t-set="move_line" t-value="o.move_line_ids"/>
                     </t>
 
-                    <t t-set="break_line"
-                       t-value="o.get_break_line_06(move_line, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
+                    <t t-set="break_line" t-value="o.get_break_line_06(move_line, max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                        <table class="table-bordered-b font_fam"
-                               style="height:180mm; font-size:14px; line-height:16px;">
+                        <table class="table-bordered-b font_fam" style="height:180mm; font-size:14px; line-height:16px;">
                             <thead>
                                 <tr>
                                     <th width="4%">ลำดับ</th>
@@ -642,8 +632,7 @@
                                             </td>
                                             <td>
                                                 <div class="word_wrap">
-                                                    <span t-if="move_line[y].move_id.description_picking"
-                                                          t-field="move_line[y].move_id.description_picking"/>
+                                                    <span t-if="move_line[y].move_id.description_picking" t-field="move_line[y].move_id.description_picking"/>
                                                     <span t-else="" t-field="move_line[y].product_id.name"/>
                                                 </div>
                                             </td>
@@ -686,8 +675,7 @@
                                             </td>
                                             <td>
                                                 <div class="word_wrap">
-                                                    <span t-if="move_line[y].move_id.description_picking"
-                                                          t-field="move_line[y].move_id.description_picking"/>
+                                                    <span t-if="move_line[y].move_id.description_picking" t-field="move_line[y].move_id.description_picking"/>
                                                     <span t-else="" t-field="move_line[y].product_id.name"/>
                                                 </div>
                                             </td>
@@ -986,6 +974,8 @@
         </t>
     </template>
 
+
+
     <record id="paperformat_A4_Zero_Margin_product_bill06" model="report.paperformat">
         <field name="name">A4_Zero_Margin_product_bill06</field>
         <field name="default" eval="False"/>
@@ -999,6 +989,7 @@
         <field name="header_spacing">80</field>
         <field name="dpi">90</field>
     </record>
+
 
     <report
             id="product_bill_report06"
