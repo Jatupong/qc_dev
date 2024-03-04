@@ -11,7 +11,7 @@ class Account_Tax(models.Model):
 
     wht_personal_company = fields.Selection([('personal', 'ภงด3'), ('company', 'ภงด53'),('pnd1_kor', 'ภงด1ก'),('pnd1_kor_special', 'ภงด1ก พิเศษ'),('pnd2', 'ภงด2'),('pnd2_kor', 'ภงด2ก'),('personal_kor', 'ภงด3ก')])
     is_tax_not_due = fields.Boolean('Tax is not due')
-
+    is_tax_exempted = fields.Boolean('Tax is Exempted')
 
 class account_move(models.Model):
     _inherit = 'account.move'
