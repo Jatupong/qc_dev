@@ -65,6 +65,8 @@
                         border:1px solid white;
                         padding:0px;
                         }
+
+
                         table.table-nobordered &gt; tfoot &gt; tr &gt; td{
                         border:1px solid white;
                         padding:0px;
@@ -155,7 +157,7 @@
                         line-height: 12px;
                         }
                     </style>
-
+                    <!--sdfksdl;fksdfl;sdl;-->
 
                     <div class="header">
                         <style>
