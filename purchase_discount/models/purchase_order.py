@@ -31,6 +31,7 @@ class PurchaseOrderLine(models.Model):
         self.update({"price_subtotal": self._get_discounted_price_unit()})
         # return super()._compute_amount()
 
+
     def _prepare_compute_all_values(self):
         vals = super()._prepare_compute_all_values()
         vals.update({"price_unit": self._get_discounted_price_unit()})
