@@ -134,7 +134,7 @@
 
                     <table width="100%" class="font_fam table table-nobordered font_size_14" style="margin-top:10px;">
                         <tr>
-                            <td width="50%">
+                            <td width="60%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
                                         <td><B>Date</B></td>
@@ -160,11 +160,11 @@
                                     <tr>
                                         <td><B>Attn</B></td>
                                         <td colspan="3">
-                                            <B>: </B>
-                                            <div style="width:500px; word-wrap: break-word;">
+
+                                            <div style="width:300px; word-wrap: break-word;">
                                                 <!--                                                <t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
                                                 <!--                                                <span t-esc="' '.join([ address for address in partner_address ])"/>-->
-                                                <span t-if="o.attn_id.name"><span t-field="o.partner_id.name"/>&amp;nbsp;</span>
+                                               :<span t-if="o.attn_id.name"><span t-field="o.partner_id.name"/>&amp;nbsp;</span>
                                                 <span t-if="o.attn_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;<br/></span>
                                                 <span t-if="o.attn_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">แขวง<span t-field="o.attn_id.sub_district_id.name"/>&amp;nbsp;</span>
                                                 <span t-if="o.attn_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK'">ตำบล<span t-field="o.attn_id.sub_district_id.name"/>&amp;nbsp;</span>
@@ -189,7 +189,7 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td width="50%">
+                            <td width="40%">
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
                                         <td width="30%"><B>P/I No.</B></td>
@@ -431,8 +431,12 @@
                         <tbody>
                             <t t-set="product_qty_total" t-value="0.0"/>
                               <t t-set="product_qty_total1" t-value="0.0"/>
+                              <t t-set="sum_1" t-value="0.0"/>
+                              <t t-set="sum_2" t-value="0.0"/>
+                               <!--<t t-set="order_line" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.display_type not in ['line_section','line_section']"/>-->
                             <t t-foreach="o.order_line" t-as="line">
                                 <t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>
+                                <t t-if="not line.display_type">
                                 <tr>
                                     <td align="center">
                                         <t t-set="num" t-value="num+1"/>
@@ -441,27 +445,124 @@
                                     <td><span t-field="line.order_id.client_order_ref"/></td>
                                     <td><span t-field="line.product_id.default_code"/></td>
                                     <td><span t-field="line.name"/></td>
-                                    <td align="right">
-                                        <t t-if="product_set_ids">
+                                    <!--<td/>-->
+                                    <!--<td align="right">-->
+                                    <!--    <t t-if="product_set_ids">-->
+                                    <!--        <span t-field="line.product_uom_qty"/>-->
+                                    <!--    </t>-->
+                                    <!--</td>-->
+                                    <td>
+                                       <t t-if="product_set_ids">
                                             <span t-field="line.product_uom_qty"/>
+                                             <t t-set="product_qty_total" t-value="line.product_uom_qty"/>
+                                              <!--( <span t-esc="'{0:,.2f}'.format(product_qty_total)"/>)-->
+
+                                        </t>
+                                         <t t-if="not product_set_ids">
+                                           <span/>
+                                        <!--<span t-field="line.product_uom_qty"/>-->
+                                        </t>
+                                        <!--<span t-field="line.product_uom_qty"/>-->
+                                    </td>
+                                    <td>
+                                       <t t-if="product_set_ids">
+                                            <span/>
+                                        </t>
+                                        <t t-if="not product_set_ids">
+                                        <span t-field="line.product_uom_qty"/>
+                                         <t t-set="sum_2" t-value="sum_2 + line.product_uom_qty"/>
+
                                         </t>
                                     </td>
-                                    <td align="right">
-                                        <t t-if="product_set_ids">
-                                            <t t-set="original_set_qty" t-value="sum(product_set_ids.mapped('original_set_qty'))"/>
-                                            <span t-esc="'{0:,.2f}'.format(original_set_qty)"/>
-                                            <t t-set="product_qty_total" t-value="product_qty_total + original_set_qty"/>
-                                        </t>
-                                        <t t-else="">
-                                            <span t-field="line.product_uom_qty"/>
-                                            <t t-set="product_qty_total1" t-value="product_qty_total1 + line.product_uom_qty"/>
+
+                                    <!--<td align="right">-->
+                                    <!--    <t t-if="product_set_ids">-->
+                                    <!--        <t t-set="original_set_qty" t-value="sum(product_set_ids.mapped('original_set_qty'))"/>-->
+                                    <!--        <span t-esc="'{0:,.2f}'.format(original_set_qty)"/>-->
+                                    <!--        <t t-set="product_qty_total" t-value="product_qty_total + original_set_qty"/>-->
+                                    <!--    </t>-->
+                                    <!--    <t t-else="">-->
+                                    <!--        <span t-field="line.product_uom_qty"/>-->
+                                    <!--        <t t-set="product_qty_total1" t-value="product_qty_total1 + line.product_uom_qty"/>-->
                                             <!--<span t-esc="product_qty_total"/>-->
-                                        </t>
-                                    </td>
+                                    <!--    </t>-->
+                                    <!--</td>-->
                                     <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_unit)"/></td>
                                     <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_subtotal)"/></td>
                                 </tr>
+
+                                <t t-foreach="o.order_line.product_template_id.product_set_lines" t-as="p">
+                                  <tr>
+                                     <td/>
+                                  <td/>
+                                  <td>
+                                    <span t-field="p.product_id.default_code"/>
+                                  </td>
+                                  <td><span t-field="p.product_id.name"/></td>
+                                  <td/>
+                                  <td align="center"> <span t-esc="'{0:,.2f}'.format(p.qty)"/></td>
+                                   <t t-set="product_qty_total1" t-value="product_qty_total * p.qty"/>
+                                        <t t-set="sum_1" t-value="sum_1 + product_qty_total1"/>
+                                              <!--( <span t-esc="'{0:,.2f}'.format(product_qty_total1)"/>)-->
+                                              <!--( <span t-esc="'{0:,.2f}'.format(sum_1)"/>)-->
+                                  <!--<td/>-->
+                                  <td/>
+                                  <td/>
+                                  </tr>
+
+                                  <!--<td><span t-field="p.original_set_qty"/></td>-->
+                                </t>
+                                </t>
                             </t>
+
+
+                            <!--<t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>-->
+                            <!--<t t-foreach="o.sale_order_set_line_ids" t-as="l">-->
+
+                            <!--    <tr>-->
+                            <!--      <td/>-->
+                            <!--      <td/>-->
+
+                            <!--        <td><span t-field="l.product_id.default_code"/></td>-->
+                                    <!--<td><span t-field="l.product_id.name"/></td>-->
+                            <!--        <td align="center">-->
+                            <!--          <span/>-->
+                                      <!--<span t-field="l.original_set_qty"/>-->
+                            <!--        </td>-->
+                            <!--        <td align="center">-->
+                                      <!--<span t-esc="'{0:,.2f}'.format(l.original_set_qty)"/>-->
+                                       <!--<span t-field="l.original_set_qty"/>-->
+                                        <!--<t t-set="product_qty_total1" t-value="product_qty_total * l.original_set_qty"/>-->
+                                        <!--<t t-set="sum_1" t-value="sum_1 + product_qty_total1"/>-->
+                                        <!--      ( <span t-esc="'{0:,.2f}'.format(product_qty_total1)"/>)-->
+                                        <!--      ( <span t-esc="'{0:,.2f}'.format(sum_1)"/>)-->
+                                      <!--<span t-field="l.qty"/>-->
+                            <!--        </td>-->
+
+                            <!--        <td/>-->
+                            <!--        <td/>-->
+                                    <!--<td><span t-field="line.name"/></td>-->
+                                    <!--<td align="right">-->
+                                        <!--<t t-if="product_set_ids">-->
+                                        <!--    <span t-field="line.product_uom_qty"/>-->
+                                        <!--</t>-->
+                                    <!--</td>-->
+                                    <!--<td align="right">-->
+                                    <!--    <t t-if="product_set_ids">-->
+                                    <!--        <t t-set="original_set_qty" t-value="sum(product_set_ids.mapped('original_set_qty'))"/>-->
+                                    <!--        <span t-esc="'{0:,.2f}'.format(original_set_qty)"/>-->
+                                    <!--        <t t-set="product_qty_total" t-value="product_qty_total + original_set_qty"/>-->
+                                    <!--    </t>-->
+                                    <!--    <t t-else="">-->
+                                    <!--        <span t-field="line.product_uom_qty"/>-->
+                                    <!--        <t t-set="product_qty_total1" t-value="product_qty_total1 + line.product_uom_qty"/>-->
+                                            <!--<span t-esc="product_qty_total"/>-->
+                                    <!--    </t>-->
+                                    <!--</td>-->
+                                    <!--<td align="right"><span t-esc="'{0:,.2f}'.format(line.price_unit)"/></td>-->
+                                    <!--<td align="right"><span t-esc="'{0:,.2f}'.format(line.price_subtotal)"/></td>-->
+                            <!--    </tr>-->
+                            <!--</t>-->
                         </tbody>
                         <tfoot>
                             <!--<tr>-->
@@ -471,11 +572,24 @@
                             <!--    <td colspan="2" align="2"/><span t-esc="'{0:,.2f}'.format(product_qty_total + product_qty_total1)"/>-->
                             <!--</tr>-->
                               <tr>
-                                <td colspan="6" align="center"><B>TOTAL OF GOODS</B></td>
-                                <td colspan="2" align="right">
-                                    <span t-esc="'{0:,.2f}'.format(product_qty_total + product_qty_total1)"/>
+                                <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>
+                                <td colspan="1" align="right">
+                                   <t t-if="o.order_line.product_template_id.product_set_lines">
+                                   <span t-esc="'{0:,.2f}'.format(sum_1)"/>
+                                    </t>
+                                     <t t-if="not o.order_line.product_template_id.product_set_lines">
+                                       <span t-esc="'{0:,.2f}'.format(sum_2)"/>
+                                       </t>
                                 </td>
+                                <td colspan="2"/>
                             </tr>
+                            <!-- <tr>-->
+                            <!--    <td colspan="6" align="center"><B> 7% VAT</B></td>-->
+                            <!--    <td colspan="2" align="right">-->
+                                    <!--<span t-esc="'{0:,.2f}'.format(o.amount_tax)"/>-->
+                            <!--    </td>-->
+                                <!--<td colspan="2"/>-->
+                            <!--</tr>-->
                             <tr>
                                 <td colspan="6" align="center"><B>TOTAL OF AMOUNT</B></td>
                                 <td colspan="2" align="right">
