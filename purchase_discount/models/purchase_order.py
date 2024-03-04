@@ -28,7 +28,8 @@ class PurchaseOrderLine(models.Model):
     # adding discount to depends
     @api.depends("discount")
     def _compute_amount(self):
-        return super()._compute_amount()
+        self.update({"price_subtotal": self._get_discounted_price_unit()})
+        # return super()._compute_amount()
 
     def _prepare_compute_all_values(self):
         vals = super()._prepare_compute_all_values()
@@ -46,6 +47,7 @@ class PurchaseOrderLine(models.Model):
     ]
 
     def _get_discounted_price_unit(self):
+        print("_get_discounted_price_unit")
         """Inheritable method for getting the unit price after applying
         discount(s).
 
@@ -53,9 +55,11 @@ class PurchaseOrderLine(models.Model):
         :return: Unit price after discount(s).
         """
         self.ensure_one()
-        if self.discount:
+        if self.discount > 0:
+            print("chack")
             return self.price_unit * (1 - self.discount / 100)
-        return self.price_unit
+        else:
+            return self.price_unit
 
 
 
@@ -111,6 +115,7 @@ class PurchaseOrderLine(models.Model):
         self.discount = seller.discount
 
     def _prepare_account_move_line(self, move=False):
+        print("_prepare_account_move_line")
         vals = super(PurchaseOrderLine, self)._prepare_account_move_line(move)
         vals["discount"] = self.discount
         return vals
