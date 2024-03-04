@@ -240,8 +240,7 @@
                     <div>
                         <table width="100%" class="font_fam table table-nobordered">
                             <td width="20%" style="vertical-align: middle;">
-                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
-                                     style="max-height:150px; max-width:150px;" alt="Logo"/>
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:150px; max-width:150px;" alt="Logo"/>
                             </td>
                             <td width="55%" style="vertical-align: middle;">
                                 <div style="width:500px; word-wrap: break-word;">
@@ -265,8 +264,7 @@
                                                 <t t-if="o.company_id.branch_no == 'purchase_request_report_id00000'">
                                                     <!--                                                    <span>(HEAD OFFICE)</span>-->
                                                 </t>
-                                                <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span
-                                                        t-field="o.company_id.branch_no"/>)
+                                                <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span t-field="o.company_id.branch_no"/>)
                                                 </t>
                                             </t>
                                             <t t-if="not o.company_id.branch_no">
@@ -291,14 +289,13 @@
                                         <!--                                        <br/>-->
                                         <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
                                         <!--                                    <span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
-                                        <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span
-                                                t-field="o.company_id.city"/>&amp;nbsp;
+                                        <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;
                                         </span>
-                                        <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ
-                                            <span t-field="o.company_id.city"/>&amp;nbsp;
+                                        <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">
+                                           อำเภอ<span t-field="o.company_id.city"/>
                                         </span>
                                         <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'">
-                                            <span t-field="o.company_id.state_id.name"/>&amp;nbsp;
+                                            <span t-field="o.company_id.state_id.name"/>
                                         </span>
                                         <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">
                                             จังหวัด<span t-field="o.company_id.state_id.name"/>&amp;nbsp;
@@ -311,20 +308,17 @@
                                             <span t-field="o.company_id.english_address"/>
                                             <br/>
                                         </t>
-                                        <span t-if="o.company_id.phone">โทรศัพท์/Tel&amp;nbsp;<span
-                                                t-esc="o.company_id.phone"/>&amp;nbsp;
+                                        <span t-if="o.company_id.phone">TEL:&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;
                                         </span>
                                         <!--                                        <span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span-->
                                         <!--                                                t-esc="o.company_id.email"/>&amp;nbsp;-->
                                         <!--                                            <br/>-->
                                         <!--                                        </span>-->
 
-                                        <span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span
-                                                t-esc="o.company_id.fax"/>&amp;nbsp;
+                                        <span t-if="o.company_id.fax">FAX:&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;
                                             <br/>
                                         </span>
-                                        <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร/Tax ID&amp;nbsp;<span
-                                                t-esc="o.company_id.vat"/>&amp;nbsp;
+                                        <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;
                                         </span>
 
 
@@ -364,8 +358,7 @@
                             </td>
                         </table>
                         <div style=" border-bottom: 1px solid black; margin-top:20px"/>
-                        <table width="100%" class="font_fam font_size_14"
-                               style="margin-top:10px;border:1px solid white;">
+                        <table width="100%" class="font_fam font_size_14" style="margin-top:10px;border:1px solid white;">
                             <tr>
                                 <td width="75%" style="vertical-align: top;">
                                     <table class="table table-nobordered" width="100%">
@@ -415,16 +408,14 @@
                                             </td>
                                             <td>
                                                 &amp;nbsp;
-                                                <span t-field="o.create_date"
-                                                      t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                                                <span t-field="o.create_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
                                             </td>
                                         </tr>
                                     </table>
                                 </td>
                             </tr>
                         </table>
-                        <table width="100%" class="font_fam font_size_14"
-                               style="margin-top:10px;border:1px solid white;">
+                        <table width="100%" class="font_fam font_size_14" style="margin-top:10px;border:1px solid white;">
                             <tr>
                                 <td width="49%" style="border:1px solid white; vertical-align: top;">
                                     <table class="table table-nobordered" width="100%">
@@ -470,13 +461,11 @@
                                             <td width="70%">
                                                 <t t-if="'date_start' in o.fields_get()">
                                                     &amp;nbsp;
-                                                    <span t-field="o.date_start"
-                                                          t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                                                    <span t-field="o.date_start" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
                                                 </t>
                                                 <t t-if="'date_planned' in o.fields_get()">
                                                     &amp;nbsp;
-                                                    <span t-field="o.date_planned"
-                                                          t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                                                    <span t-field="o.date_planned" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
                                                 </t>
                                             </td>
                                         </tr>
@@ -601,8 +590,7 @@
                     <t t-set="row_line_height" t-value="7.94"/>
                     <t t-set="max_line_lenght" t-value="35"/>
 
-                    <t t-set="break_line"
-                       t-value="o.get_break_line(max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
+                    <t t-set="break_line" t-value="o.get_break_line(max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <!--                    <t t-set="amount" t-value="0"/>-->
@@ -660,8 +648,7 @@
                                                 <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>
                                             </td>
                                             <td align="right">
-                                                <t t-set="amount"
-                                                   t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
+                                                <t t-set="amount" t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
                                                 <span t-esc="'{0:,.2f}'.format(float(amount))"/>
                                             </td>
                                         </tr>
@@ -686,8 +673,7 @@
                                                 <span t-esc="'{0:,.2f}'.format(float(o.line_ids[y].estimated_cost))"/>
                                             </td>
                                             <td align="right">
-                                                <t t-set="amount"
-                                                   t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
+                                                <t t-set="amount" t-value="o.line_ids[y].product_qty * o.line_ids[y].estimated_cost"/>
                                                 <span t-esc="'{0:,.2f}'.format(float(amount))"/>
                                             </td>
                                         </tr>
