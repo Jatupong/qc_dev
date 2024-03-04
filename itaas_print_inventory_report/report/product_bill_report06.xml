@@ -990,6 +990,7 @@
         <field name="dpi">90</field>
     </record>
 
+
     <report
             id="product_bill_report06"
             model="stock.picking"
