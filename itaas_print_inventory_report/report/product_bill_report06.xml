@@ -975,6 +975,7 @@
     </template>
 
 
+
     <record id="paperformat_A4_Zero_Margin_product_bill06" model="report.paperformat">
         <field name="name">A4_Zero_Margin_product_bill06</field>
         <field name="default" eval="False"/>
