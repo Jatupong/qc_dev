@@ -353,7 +353,10 @@
                                     <span t-if="o.company_id.fax">FAX:&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;<br/></span>
 
                                     <!--<span t-if="o.company_id.email">อีเมล/Email&amp;nbsp;<span t-esc="o.company_id.email"/>&amp;nbsp;<br/></span>-->
-                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร&amp;nbsp;
+                                        <span t-esc="o.company_id.vat"/>&amp;nbsp;
+                                    </span>
+                                    <span>สำนักงานใหญ่</span>
                                     <!--<span t-if="o.company_id.fax">แฟ็กซ์/Fax&amp;nbsp;<span t-esc="o.company_id.fax"/>&amp;nbsp;</span>-->
                                 </font>
                             </div>
