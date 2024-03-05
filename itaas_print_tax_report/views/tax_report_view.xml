@@ -287,7 +287,7 @@
     <!-- Menu for tax report action -->
     <menuitem id="menu_main_tax_report" parent="account.menu_finance_reports" name="Thailand (Tax Report)"/>
 
-    <menuitem id="menu_tax_report" action="action_tax_report_excel" parent="menu_main_tax_report"/>
+<!--    <menuitem id="menu_tax_report" action="action_tax_report_excel" parent="menu_main_tax_report"/>-->
 
     <menuitem id="menu_tax_report2" action="action_tax_report_excel2"  parent="menu_main_tax_report"/>
 <!--    <menuitem id="menu_pnd53_report" action="action_pnd53_report_pdf"  parent="menu_main_tax_report"/>-->
