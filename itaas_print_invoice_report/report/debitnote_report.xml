@@ -965,8 +965,8 @@
                                                 <!--                                                <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual)))"/>-->
 
                                                 <t t-if="o.is_manual_cn">
-                                                    <!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.inv_amount_untaxed)))"/>-->
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual)))"/>
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.inv_amount_untaxed)))"/>
+                                                    <!--                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.debit_origin_id.amount_residual)))"/>-->
                                                 </t>
                                                 <t t-if="not o.is_manual_cn">
                                                     <t t-set="ori_amount_untaxed"
