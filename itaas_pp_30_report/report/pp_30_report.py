@@ -18,6 +18,8 @@ class pp_30_report(models.AbstractModel):
 
         data_results = docs._get_result_report()
 
+
+
         docargs = {
             'doc_ids': docids,
             'data': data['form'],

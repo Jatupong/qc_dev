@@ -16,6 +16,7 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, DEFAULT_SERVER_DATE_FORMA
 import pytz
 from datetime import datetime, timedelta, date, time
 
+
 def strToDate(dt):
     return date(int(dt[0:4]), int(dt[5:7]), int(dt[8:10]))
 
@@ -32,9 +33,9 @@ class WizardPP30Report(models.TransientModel):
                                    ('9', 'กันยายน'), ('10', 'ตุลาคม'), ('11', 'พฤศจิกายน'), ('12', 'ธันวาคม'), ]
                                   , string='จากเดือน', required=True)
     month_to = fields.Selection([('1', 'มกราคม'), ('2', 'กุมภาพันธ์'), ('3', 'มีนาคม'), ('4', 'เมษายน'),
-                                   ('5', 'พฤษภาคม'), ('6', 'มิถุนายน'), ('7', 'กรกฏาคม'), ('8', 'สิงหาคม'),
-                                   ('9', 'กันยายน'), ('10', 'ตุลาคม'), ('11', 'พฤศจิกายน'), ('12', 'ธันวาคม'), ]
-                                  , string='ถึงเดือน', required=True)
+                                 ('5', 'พฤษภาคม'), ('6', 'มิถุนายน'), ('7', 'กรกฏาคม'), ('8', 'สิงหาคม'),
+                                 ('9', 'กันยายน'), ('10', 'ตุลาคม'), ('11', 'พฤศจิกายน'), ('12', 'ธันวาคม'), ]
+                                , string='ถึงเดือน', required=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
     journal_export_id = fields.Many2one('account.journal', string='สมุดรายวันขายต่างประเทศ', required=True)
     journal_internal_id = fields.Many2one('account.journal', string='สมุดรายวันขายในประเทศ', required=True)
@@ -156,13 +157,18 @@ class WizardPP30Report(models.TransientModel):
                                  })
 
         print('date_results len:', len(date_results), date_results)
+
+        #     case when aml.journal_id = %s
+        #     then sum(aml.credit) + sum(aml.debit) end as export_amount,
+        # case when aml.journal_id = %s
+        # then sum(aml.credit) + sum(aml.debit) end as internal_amount
         sql = ("""
         SELECT EXTRACT(MONTH FROM am.tax_invoice_date) AS aml_month , 
         EXTRACT(YEAR FROM am.tax_invoice_date) AS aml_year, 
 		case when aml.journal_id = %s 
-             then sum(aml.credit) + sum(aml.debit) end as export_amount,
+             then sum(aml.price_subtotal) end as export_amount,
         case when aml.journal_id = %s
-             then sum(aml.credit) + sum(aml.debit) end as internal_amount
+             then sum(aml.price_subtotal) end as internal_amount
         FROM account_move_line aml
         JOIN account_move am ON aml.move_id = am.id
         WHERE am.tax_invoice_date BETWEEN %s AND %s AND am.move_type = 'out_invoice'
@@ -233,11 +239,12 @@ class WizardPP30Report(models.TransientModel):
         results_purchase = []
 
         if date_ranges:
-            for index,mount in enumerate(date_ranges):
+            for index, mount in enumerate(date_ranges):
                 data = {'date_from': mount['date_from'], 'date_to': mount['date_to'], 'report_type': 'purchase',
                         'tax_id': False,
                         'company_id': self.company_id}
-                docs = self.env['report.itaas_print_tax_report.purchase_tax_report_id']._get_report_values(self,data=data)
+                docs = self.env['report.itaas_print_tax_report.purchase_tax_report_id']._get_report_values(self,
+                                                                                                           data=data)
 
                 amount_total_7_0 = amount_total_tax = 0
 
@@ -273,12 +280,12 @@ class WizardPP30Report(models.TransientModel):
                             amount_total_7_0 += move_id['amount_untaxed']
                         else:
                             if move_id['debit']:
-                                amount_total_7_0 += (move_id['debit'] / 0.07)
+                                amount_total_7_0 += move_line_id(move_id['debit'] / 0.07)
                             elif move_id['credit']:
                                 amount_total_7_0 += (move_id['credit'] / 0.07)
 
                 data_purchase = {
-                    'aml_month': index+1,
+                    'aml_month': index + 1,
                     'aml_year': self.date_to.year,
                     'price_subtotal': amount_total_7_0,
                     'amount_tax': amount_total_tax,
@@ -300,17 +307,26 @@ class WizardPP30Report(models.TransientModel):
         if not results:
             raise UserError(_("Document is empty"))
 
-        print('DATA_RESULTSSSSSSSSSSSSSSSSSSSs',date_results)
+        print('DATA_RESULTSSSSSSSSSSSSSSSSSSSs', date_results)
 
         for date in date_results:
-            result_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results))
-            results_shop_sale_vat_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_shop_sale_vat))
-            results_shop_sale_no_vat_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_shop_sale_no_vat))
-            results_sale_taxes_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_sale_taxes))
-            results_purchase_by_date = list(filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results_purchase))
+            result_by_date = list(
+                filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'], results))
+            results_shop_sale_vat_by_date = list(
+                filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'],
+                       results_shop_sale_vat))
+            results_shop_sale_no_vat_by_date = list(
+                filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'],
+                       results_shop_sale_no_vat))
+            results_sale_taxes_by_date = list(
+                filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'],
+                       results_sale_taxes))
+            results_purchase_by_date = list(
+                filter(lambda x: x['aml_month'] == date['aml_month'] and x['aml_year'] == date['aml_year'],
+                       results_purchase))
 
-            print('results_purchase_by_dateeeeeeeeeeeeeeeee',results_purchase_by_date)
-            print('result_by_dateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',result_by_date)
+            print('results_purchase_by_dateeeeeeeeeeeeeeeee', results_purchase_by_date)
+            print('result_by_dateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee', result_by_date)
             export_amount = 0.0
             internal_amount = 0.0
             shop_sale_vat_amount = 0.0
@@ -329,7 +345,7 @@ class WizardPP30Report(models.TransientModel):
             for res in results_sale_taxes_by_date:
                 sale_taxes_amount += res['amount_tax'] or 0.0
             for res in results_purchase_by_date:
-                print('RESSSSSSSSSSSSSSs',res)
+                print('RESSSSSSSSSSSSSSs', res)
                 purchase_amount += res['price_subtotal'] or 0.0
                 purchase_taxes_amount += res['amount_tax'] or 0.0
 
@@ -386,8 +402,10 @@ class WizardPP30ReportXls(models.AbstractModel):
         for_center = workbook.add_format({'align': 'center'})
         for_center_bold = workbook.add_format({'align': 'center', 'bold': True})
         for_center_border = workbook.add_format({'align': 'center', 'border': True})
-        for_center_bold_border = workbook.add_format({'valign': 'vcenter','align': 'center', 'bold': True, 'border': True})
-        for_center_border_num_format = workbook.add_format({'align': 'center', 'border': True, 'num_format': '#,##0.00'})
+        for_center_bold_border = workbook.add_format(
+            {'valign': 'vcenter', 'align': 'center', 'bold': True, 'border': True})
+        for_center_border_num_format = workbook.add_format(
+            {'align': 'center', 'border': True, 'num_format': '#,##0.00'})
 
         for_center_date = workbook.add_format({'align': 'center', 'border': True, 'num_format': 'dd/mm/yyyy'})
         for_center_datetime = workbook.add_format({'align': 'center', 'border': True, 'num_format': 'dd/mm/yyyy HH:MM'})
@@ -411,7 +429,8 @@ class WizardPP30ReportXls(models.AbstractModel):
         if not results:
             raise UserError(_("Document is empty"))
 
-        date_from_time = self.convert_usertz_to_utc(datetime.combine(fields.Date.from_string(lines.date_from), time.min))
+        date_from_time = self.convert_usertz_to_utc(
+            datetime.combine(fields.Date.from_string(lines.date_from), time.min))
         date_to_time = self.convert_usertz_to_utc(datetime.combine(fields.Date.from_string(lines.date_to), time.max))
 
         worksheet = workbook.add_worksheet('Page 1')
@@ -454,12 +473,28 @@ class WizardPP30ReportXls(models.AbstractModel):
 
         data_results = lines._get_result_report()
 
-        print('data_resultsssssssssssssssssssss',data_results)
+        print('data_resultsssssssssssssssssssss', data_results)
 
         for data in data_results:
-            print('dataaaaaaaaaaaaaaaaaaaaaaaaa',data)
+            print('dataaaaaaaaaaaaaaaaaaaaaaaaa', data)
             i_row += 1
             i_col = 0
+
+            internal_amount_cleaned = data['internal_amount'].replace(',', '').replace("'", "")
+            shop_sale_vat_amount_cleaned = data['shop_sale_vat_amount'].replace(',', '').replace("'", "")
+            sale_taxes_amount = ((float(internal_amount_cleaned) + float(shop_sale_vat_amount_cleaned)) * 7) / 100
+            sale_taxes_amount = '{:.2f}'.format(sale_taxes_amount)
+
+
+            income_amount_cleaned = data['income_amount'].replace(',', '').replace("'", "")
+            shop_sale_no_vat_amount_cleaned = data['shop_sale_no_vat_amount'].replace(',', '').replace("'", "")
+            income_amount = float(income_amount_cleaned) - float(shop_sale_no_vat_amount_cleaned)
+
+            purchase_taxes_amount_cleaned = data['purchase_taxes_amount'].replace(',', '').replace("'", "")
+            return_vat_amount = float(purchase_taxes_amount_cleaned) - float(sale_taxes_amount)
+
+
+
             worksheet.write(i_row, i_col, data['month_th'], for_left_border)
             i_col += 1
             worksheet.write(i_row, i_col, data['export_amount'], for_right_border_num_format)
@@ -470,9 +505,10 @@ class WizardPP30ReportXls(models.AbstractModel):
             i_col += 1
             worksheet.write(i_row, i_col, data['shop_sale_no_vat_amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, data['income_amount'], for_right_border_num_format)
+            worksheet.write(i_row, i_col, income_amount, for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, data['sale_taxes_amount'], for_right_border_num_format)
+            # worksheet.write(i_row, i_col, data['sale_taxes_amount'], for_right_border_num_format)
+            worksheet.write(i_row, i_col, sale_taxes_amount, for_right_border_num_format)
             i_col += 1
             worksheet.write(i_row, i_col, data['sale_amount'], for_right_border_num_format)
             i_col += 1
@@ -480,6 +516,7 @@ class WizardPP30ReportXls(models.AbstractModel):
             i_col += 1
             worksheet.write(i_row, i_col, data['purchase_taxes_amount'], for_right_border_num_format)
             i_col += 1
-            worksheet.write(i_row, i_col, data['return_vat_amount'], for_right_border_num_format)
+            # worksheet.write(i_row, i_col, data['return_vat_amount'], for_right_border_num_format)
+            worksheet.write(i_row, i_col, return_vat_amount, for_right_border_num_format)
 
         workbook.close()
