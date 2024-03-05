@@ -16,19 +16,19 @@
             <field name="dpi">90</field>
         </record>
 
-        <report
-                id="tax_invoice_receipt_report"
-                model="account.payment"
-                menu="True"
-                report_type="qweb-pdf"
-                string="ใบกำกับภาษี/ใบเสร็จรับเงิน"
-                paperformat="itaas_print_payment_report.paperformat_A4_Five_Margin_payment_tax_invoice"
-                name="itaas_print_payment_report.tax_invoice_receipt_report_id"
-                file="itaas_print_payment_report.tax_invoice_receipt_report_id"
-        />
+<!--        <report-->
+<!--                id="tax_invoice_receipt_report"-->
+<!--                model="account.payment"-->
+<!--                menu="True"-->
+<!--                report_type="qweb-pdf"-->
+<!--                string="ใบกำกับภาษี/ใบเสร็จรับเงิน"-->
+<!--                paperformat="itaas_print_payment_report.paperformat_A4_Five_Margin_payment_tax_invoice"-->
+<!--                name="itaas_print_payment_report.tax_invoice_receipt_report_id"-->
+<!--                file="itaas_print_payment_report.tax_invoice_receipt_report_id"-->
+<!--        />-->
 
 
-            # receipt tax invoice
+<!--            # receipt tax invoice-->
 <!--        <record id="paperformat_A4_Five_Margin_receipt_tax_invoice" model="report.paperformat">-->
 <!--            <field name="name">A4_Five_Margin_receipt_tax_invoice</field>-->
 <!--            <field name="default" eval="False"/>-->
