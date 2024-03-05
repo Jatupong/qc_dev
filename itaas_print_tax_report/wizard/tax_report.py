@@ -617,9 +617,11 @@ class tax_report(models.TransientModel):
         if data['report_type'] == 'sale':
             # return self.env['report'].get_action(self, 'thai_accounting.sale_tax_report_id', data=data)
             return self.env.ref('itaas_print_tax_report.action_sale_tax_report_id').report_action([], data=data)
-        else:
+        # else:
             # return self.env['report'].get_action(self, 'thai_accounting.purchase_tax_report_id', data=data)
+        if data['report_type'] == 'purchase':    
             return self.env.ref('itaas_print_tax_report.action_purchase_tax_report_id').report_action([], data=data)
+        
     def print_report_pdf2(self):
         print('xxxxxxxxxxxxxxxxxxxxx')
         self.report_type = 'sale'
@@ -1422,7 +1424,8 @@ class tax_report(models.TransientModel):
 
 
 class tax_excel_export(models.TransientModel):
-    _name = 'tax.excel.export'
+    # _name = 'tax.excel.export'
+    _name = 'tax.excel.export.new'
 
     report_file = fields.Binary('File')
     name = fields.Char(string='File Name', size=32)

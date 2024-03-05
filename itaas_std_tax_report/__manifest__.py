@@ -10,7 +10,7 @@
     'summary': 'Itaas Std Tax Report',
     'author': 'IT as a Service Co., Ltd.',
     'website': 'www.itaas.co.th',
-    'depends': ['base','account','itaas_partner_detail_address','itaas_company_detail_address'],
+    'depends': ['base','account','itaas_partner_detail_address','itaas_company_detail_address','purchase','sale'],
     'data': [
         #wizard
         'wizard/tax_report_view.xml',

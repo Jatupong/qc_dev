@@ -86,7 +86,9 @@ class tax_report(models.TransientModel):
             self.date_to = to_date
 
 
+
     def print_report_pdf(self):
+        print('test_print_vat_report_xxxxxxxxxxxxxxxxxxxxxxxxxx')
         data = {
             'date_from': self.date_from,
             'date_to': self.date_to,
@@ -978,3 +980,20 @@ class pnd53_report(models.TransientModel):
             "target": "new",
         }
 
+class tax_excel_export(models.TransientModel):
+    _name = 'tax.excel.export.new'
+
+    report_file = fields.Binary('File')
+    name = fields.Char(string='File Name', size=32)
+
+
+    def action_back(self):
+        if self._context is None:
+            self._context = {}
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'tax.report',
+            'target': 'new',
+        }
