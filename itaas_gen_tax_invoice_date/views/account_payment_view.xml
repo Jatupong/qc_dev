@@ -6,6 +6,8 @@
         <field name="arch" type="xml">
             <field name="communication" position="after">
                 <field name="is_reverse_tax"/>
+                <field name="tax_invoice_number"/>
+                <field name="reverse_date"/>
             </field>
 
         </field>
