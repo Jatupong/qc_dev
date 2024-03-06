@@ -8,13 +8,13 @@
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
 <!--            <field name="margin_top">80</field>-->
-            <field name="margin_top">105</field>
+            <field name="margin_top">120</field>
 <!--            <field name="margin_bottom">45</field>-->
-            <field name="margin_bottom">75</field>
+            <field name="margin_bottom">70</field>
             <field name="margin_left">5</field>
             <field name="margin_right">5</field>
             <field name="header_line" eval="False"/>
-            <field name="header_spacing">100</field>
+            <field name="header_spacing">115</field>
             <field name="dpi">90</field>
         </record>
 

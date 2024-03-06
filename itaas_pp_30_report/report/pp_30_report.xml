@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="pp_30_report_id" >
+    <template id="pp_30_report_id">
 
         <t t-foreach="docs" t-as="o">
             <t t-call="web.basic_layout">
@@ -9,11 +9,13 @@
                         @font-face
                         {
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_pp_30_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_pp_30_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .font_fam{
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_pp_30_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_pp_30_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .word_wrap{
                         word-wrap: break-word;
@@ -75,13 +77,20 @@
 
                     <table width="100%" class="font_fam table table-nobordered font_size_18">
                         <tr align="center">
-                            <td><span t-field="o.company_id"/></td>
+                            <td>
+                                <span t-field="o.company_id"/>
+                            </td>
                         </tr>
                         <tr align="center">
-                            <td><span>สรุปแบบ ภพ. 30 </span></td>
+                            <td>
+                                <span>สรุปแบบ ภพ. 30</span>
+                            </td>
                         </tr>
                         <tr align="center">
-                            <td><span>ประจำปี </span><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/></td>
+                            <td>
+                                <span>ประจำปี</span>
+                                <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+                            </td>
                         </tr>
                     </table>
 
@@ -92,11 +101,13 @@
                         @font-face
                         {
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_pp_30_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_pp_30_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         .font_fam{
                         font-family: Sarabun-Regular;
-                        src: local('United'), url("/itaas_pp_30_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        src: local('United'), url("/itaas_pp_30_report/static/font/Sarabun-Regular.ttf")
+                        format('opentype');
                         }
                         table.table-bordered{
                         border:1px solid black;
@@ -237,60 +248,94 @@
                     <table width="100%" class="font_fam table table-bordered font_size_14">
                         <thead>
                             <tr>
-                                <th rowspan="2"><span>เดือน</span></th>
-                                <th rowspan="2"><span>ยอดส่งออก</span></th>
-                                <th rowspan="2"><span>ขายในประเทศ</span></th>
-                                <th colspan="2"><span>ร้านค้าสวัสดิการ</span></th>
-                                <th rowspan="2"><span>รวมรายได้</span></th>
-                                <th rowspan="2"><span>ภาษีขาย</span></th>
-                                <th rowspan="2"><span>รวมขายทั้งหมด</span></th>
-                                <th rowspan="2"><span>ยอดซื้อ</span></th>
-                                <th rowspan="2"><span>ภาษีซื้อ</span></th>
-                                <th rowspan="2"><span>ยอดรับคืนภาษี</span></th>
+                                <th rowspan="2">
+                                    <span>เดือน</span>
+                                </th>
+                                <th rowspan="2">
+                                    <span>ยอดส่งออก</span>
+                                </th>
+                                <th rowspan="2">
+                                    <span>ขายในประเทศ</span>
+                                </th>
+                                <th colspan="2">
+                                    <span>ร้านค้าสวัสดิการ</span>
+                                </th>
+                                <th rowspan="2">
+                                    <span>รวมรายได้</span>
+                                </th>
+                                <th rowspan="2">
+                                    <span>ภาษีขาย</span>
+                                </th>
+                                <th rowspan="2">
+                                    <span>รวมขายทั้งหมด</span>
+                                </th>
+                                <th rowspan="2">
+                                    <span>ยอดซื้อ</span>
+                                </th>
+                                <th rowspan="2">
+                                    <span>ภาษีซื้อ</span>
+                                </th>
+                                <th rowspan="2">
+                                    <span>ยอดรับคืนภาษี</span>
+                                </th>
                             </tr>
                             <tr>
-                                <th><span>Vat</span></th>
-                                <th><span>No Vat</span></th>
+                                <th>
+                                    <span>Vat</span>
+                                </th>
+                                <th>
+                                    <span>No Vat</span>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
+
                             <t t-foreach="data_results" t-as="data">
-                            <tr>
-                                <td>
-                                    <span t-esc="data['month_th']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['export_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['internal_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['shop_sale_vat_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['shop_sale_no_vat_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['income_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['sale_taxes_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['sale_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['purchase_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['purchase_taxes_amount']"/>
-                                </td>
-                                <td align="right">
-                                    <span t-esc="data['return_vat_amount']"/>
-                                </td>
-                            </tr>
-                        </t>
+
+
+                             <t t-set="sale_taxes_amount" t-value="((float(data['internal_amount'].replace(',', '')) + float(data['shop_sale_vat_amount'].replace(',', ''))) * 7) / 100"/>
+
+
+                                <tr>
+                                    <td>
+                                        <span t-esc="data['month_th']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="data['export_amount']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="data['internal_amount']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="data['shop_sale_vat_amount']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="data['shop_sale_no_vat_amount']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="data['income_amount']"/>
+                                    </td>
+                                    <td align="right">
+                                        <!--                                        <span t-esc="data['sale_taxes_amount']"/>-->
+                                        <!--                                        <span t-esc="((data['internal_amount']+data['shop_sale_vat_amount'])*7)/100"/>-->
+                                        <span t-esc="sale_taxes_amount"/>
+
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="data['sale_amount']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="data['purchase_amount']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="data['purchase_taxes_amount']"/>
+                                    </td>
+                                    <td align="right">
+                                        <span t-esc="'{0:,.2f}'.format(float(data['purchase_taxes_amount'].replace(',', ''))-float(sale_taxes_amount))"/>
+                                        <!--                                    <span t-esc="data['return_vat_amount']"/>-->
+                                    </td>
+                                </tr>
+                            </t>
                         </tbody>
                     </table>
 

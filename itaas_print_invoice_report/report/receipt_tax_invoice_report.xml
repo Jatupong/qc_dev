@@ -979,9 +979,9 @@
                                             <t t-set="tax_line_ids" t-value="invoice_line_ids.mapped('tax_ids')"/>
                                             <t t-if="tax_line_ids">
                                             </t>
-                                            <t t-if="not tax_line_ids">
-                                                <span t-field="o.company_id.standard_tax"/>%
-                                            </t>
+<!--                                            <t t-if="not tax_line_ids">-->
+<!--                                                <span t-field="o.company_id.standard_tax"/>%-->
+<!--                                            </t>-->
                                         </td>
                                         <td align="right">
                                             <span t-if="end==(break_line[len(break_line)-1])"

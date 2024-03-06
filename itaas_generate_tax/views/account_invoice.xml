@@ -1,0 +1,58 @@
+<odoo>
+
+    <record id="view_account_invoice_generate_wizard" model="ir.ui.view">
+        <field name="name">Generate/Reverse Tax</field>
+        <field name="model">account.invoice.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate/Reverse Tax">
+                <p class="oe_grey">
+                    Generate Reverse/Tax
+                </p>
+                <group>
+                    <field name="date"/>
+                    <field name="amount"/>
+                    <field name="tax_amount"/>
+                    <field name="tax_inv_number"/>
+                    <!--                    <field name="is_include_vat"/>-->
+                </group>
+                <footer>
+                    <button name="action_generate" string="Generate" type="object"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_invoice_reverse_tax" model="ir.actions.act_window">
+        <field name="name">Generate/Reverse Tax</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.invoice.wizard</field>
+        <!--        <field name="view_type">form</field>-->
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="invoice_supplier_form_add_reverse_tax_itaas" model="ir.ui.view">
+        <field name="name">account.move.reverse.tax.itaas</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+
+            <button name="button_draft" position="attributes">
+                <attribute name="attrs">{'invisible': [('state', '=', 'draft')]}</attribute>
+            </button>
+
+            <button name="button_draft" position="after">
+                <button name="%(action_view_invoice_reverse_tax)d" string="Reverse/Tax"
+                        type="action"
+                        attrs="{'invisible': [('move_type', 'not in',('in_invoice','in_refund'))]}"
+                />
+            </button>
+            <field name="journal_id" position="after">
+                <field name="amount_for_reverse" invisible="1"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
