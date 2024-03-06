@@ -101,9 +101,9 @@ class tax_report(models.TransientModel):
             'vat_exmpted': self.vat_exmpted,
         }
         if data['report_type'] == 'sale':
-            return self.env.ref('itaas_print_tax_report.action_sale_tax_report_id').report_action([], data=data)
+            return self.env.ref('itaas_std_tax_report.action_sale_tax_report_id').report_action([], data=data)
         else:
-            return self.env.ref('itaas_print_tax_report.action_purchase_tax_report_id').report_action([], data=data)
+            return self.env.ref('itaas_std_tax_report.action_purchase_tax_report_id').report_action([], data=data)
 
 
 
