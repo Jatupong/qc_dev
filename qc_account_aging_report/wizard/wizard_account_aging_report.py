@@ -80,11 +80,13 @@ class WizardAccountAgingReport(models.TransientModel):
         return self.env['account.move'].search(domain, order='invoice_date')
 
     def _get_purchase(self):
+        print("_get_purchase")
         domain = [
             ('date_order', '>=', self.date_from),
             ('date_order', '<=', self.date_to),
             ('state', 'in', ['purchase', 'done']),
         ]
+        print("Data {}".format(self.env['purchase.order'].search(domain, order='date_order')))
 
         return self.env['purchase.order'].search(domain, order='date_order')
 
@@ -107,6 +109,7 @@ class WizardAccountAgingReport(models.TransientModel):
         return date_time
 
     def _get_result_ap_aging(self):
+        print("_get_result_ap_aging")
         record = []
         purchase_ids = self._get_purchase()
         if not purchase_ids:
@@ -120,9 +123,11 @@ class WizardAccountAgingReport(models.TransientModel):
             credit_limit_amount = partner.credit_limit
             credit_limit = credit_limit_amount
 
-            purchase_by_partner = purchase_ids.filtered(lambda x: x.partner_id == partner)
+
+            purchase_by_partner = purchase_ids.filtered(lambda x: x.partner_id == partner).sorted(key=lambda a: a.date_order)
             unpaid_amount = 0.0
             for order in purchase_by_partner:
+                print("ID:{}".format(order.id))
                 po_no = order.name or ''
                 po_amount_total = order.amount_total
 
@@ -238,6 +243,7 @@ class WizardAccountAgingReport(models.TransientModel):
                 length_payment_term = order.payment_term_id.line_ids and order.payment_term_id.line_ids[0].days or ''
 
                 value = {
+                    'ID':order.id,
                     'invoice_date': order.date_order.strftime('%d/%m/%Y') or '',
                     'partner_name': partner.name or '',
                     'pi_no': po_no,
@@ -266,6 +272,7 @@ class WizardAccountAgingReport(models.TransientModel):
                     'credit_limit_note': '{0:,.2f}'.format(credit_limit_note),
                 }
                 record.append(value)
+                print("val {}".format(value))
 
                 credit_limit = 0.0
 
@@ -302,6 +309,7 @@ class WizardAccountAgingReport(models.TransientModel):
         return record
 
     def _get_result_ar_aging(self):
+        print("_get_result_ar_aging")
         record = []
         sale_ids = self._get_sale()
         if not sale_ids:
@@ -627,6 +635,10 @@ class WizardAccountApAgingReportXls(models.AbstractModel):
         i_col += 2
         i_row += 1
         for move in invoice_ids_list:
+            if self.user_has_groups('base.group_no_one'):
+                i_col = 0
+                i_row += 1
+                worksheet.merge_range(i_row, i_col,i_row, i_col + 20, str(move), for_center_date)
             i_col = 0
             i_row += 1
             worksheet.write(i_row, i_col, move['invoice_date'], for_center_date)
