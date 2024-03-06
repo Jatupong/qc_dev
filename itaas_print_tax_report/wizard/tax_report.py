@@ -1423,9 +1423,10 @@ class tax_report(models.TransientModel):
         }
 
 
+
 class tax_excel_export(models.TransientModel):
-    # _name = 'tax.excel.export'
-    _name = 'tax.excel.export.new'
+    _name = 'tax.excel.export'
+    # _name = 'tax.excel.export.new'
 
     report_file = fields.Binary('File')
     name = fields.Char(string='File Name', size=32)
