@@ -24,7 +24,7 @@
                                 <field name="custom_product_uom_id"/>
                                 <field name="activity_user_id"/>
                                 <field name="create_date"/>
-
+                                <button name="unlink" type="object" title="Delete row" icon="fa-trash"/>
                             </tree>
                         </field>
                     </page>
