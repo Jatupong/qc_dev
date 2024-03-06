@@ -314,7 +314,6 @@
                             </tr>
                             <t t-set="sale_order_ids_by_partner" t-value="sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)"/>
                             <t t-foreach="sale_order_ids_by_partner" t-as="sale">
-
                                 <!--                                <t t-foreach="sale_order_ids" t-as="sale">-->
                                 <t t-foreach="sale.invoice_ids" t-as="inv">
                                     <t t-if="inv.invoice_date">
