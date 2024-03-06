@@ -87,6 +87,7 @@ class tax_report(models.TransientModel):
 
 
 
+
     def print_report_pdf(self):
         print('test_print_vat_report_xxxxxxxxxxxxxxxxxxxxxxxxxx')
         data = {
