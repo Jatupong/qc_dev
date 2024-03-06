@@ -63,12 +63,12 @@ class WizardDepositReport(models.TransientModel):
     def _get_is_downpayment(self, date_from_time, date_to_time):
         domain = [('is_downpayment', '=', True),
                   ('state', 'in', ['sale', 'done']),
-                  # ('order_id.date_order', '<=', date_from_time),
-                  # ('order_id.date_order', '>=', date_to_time)
+                  # ('scheduled_date', '<=', date_from_time),
+                  # ('scheduled_date', '>=', date_to_time)
         ]
 
         if self.partner_ids:
-            domain += [('partner_id', '=', self.partner_ids.ids)]
+            domain += [('order_partner_id', '=', self.partner_ids.ids)]
 
         return self.env['sale.order.line'].search(domain).mapped('order_id')
 
@@ -223,7 +223,12 @@ class WizardDepositReportXls(models.AbstractModel):
                 for inv in sale.invoice_ids.filtered(lambda x: x.name).sorted().sorted(key=lambda a: a.name):
                     sum_inv_amount_total += inv.amount_total
                     sum_inv_amount_total_out += inv.amount_total
-
+                print("Test",type(date_from_time))
+                print("Date {}".format(date_from_time))
+                a =datetime.strptime(date_from_time, '%Y-%m-%d %H:%M:%S')
+                print("Date Time {}".format(a))
+                a=a.date()
+                print("Date {}".format(a))
                 for inv in sale.invoice_ids.filtered(lambda x: x.name).sorted().sorted(key=lambda a: a.name):
                     if inv.state == 'posted':
                         payment_name = True
@@ -235,6 +240,8 @@ class WizardDepositReportXls(models.AbstractModel):
 
                         print(inv.name)
 
+                        if inv.invoice_date < a:
+                            continue
 
 
 

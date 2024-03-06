@@ -314,11 +314,15 @@
                             </tr>
                             <t t-set="sale_order_ids_by_partner" t-value="sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)"/>
                             <t t-foreach="sale_order_ids_by_partner" t-as="sale">
+
                                 <!--                                <t t-foreach="sale_order_ids" t-as="sale">-->
                                 <t t-foreach="sale.invoice_ids" t-as="inv">
+                                    <t t-if="inv.invoice_date">
+                                    <t t-if="inv.invoice_date >= o.date_from">
                                     <tr>
                                         <td>
                                             <span t-esc="inv.invoice_date"/>
+
                                         </td>
                                         <td>
                                             <span t-esc="inv.team_id.name"/>
@@ -415,6 +419,110 @@
                                             <span t-esc="inv.narration"/>
                                         </td>
                                     </tr>
+                                    </t>
+                                    </t>
+<!--                                    <t t-if="not inv.invoice_date">-->
+<!--                                        <tr>-->
+<!--                                        <td>-->
+<!--                                            <span t-esc="inv.invoice_date"/>-->
+
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <span t-esc="inv.team_id.name"/>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <span t-esc="sale.name"/>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <span t-esc="inv.name"/>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <t t-set="sale_amount_total" t-value="sale.amount_total"/>-->
+<!--                                            <span t-esc="sale_amount_total"/>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <span t-field="inv.invoice_payment_term_id"/>-->
+<!--                                        </td>-->
+<!--                                        <t t-if="inv.company_id.currency_id != inv.currency_id">-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="inv.currency_id.name"/>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="inv.amount_total"/>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <t t-set="currency_rate" t-value="inv.currency_id._get_rates(inv.company_id, (inv.invoice_date or datetime.datetime.now()))"/>-->
+<!--                                                <span t-esc="currency_rate"/>-->
+<!--                                            </td>-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="inv.amount_total"/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            <td></td>-->
+<!--                                            <td></td>-->
+<!--                                            <td></td>-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="inv.amount_total"/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        &lt;!&ndash;                                        ค่าธรรมเนียม&ndash;&gt;-->
+<!--                                        <td>-->
+<!--                                            <t t-set="fee_amount" t-value="0.0"/>-->
+<!--                                            <span t-esc="fee_amount"/>-->
+<!--                                        </td>-->
+<!--                                        &lt;!&ndash;                                        รับจริง&ndash;&gt;-->
+<!--                                        <t t-if="inv.company_id.currency_id != inv.currency_id">-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="inv.amount_total"/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="inv.amount_total"/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        &lt;!&ndash;                                        จำนวนเงินที่หัก&ndash;&gt;-->
+<!--                                        <td>-->
+<!--                                            <span t-esc="inv.amount_total"/>-->
+<!--                                        </td>-->
+<!--                                        &lt;!&ndash;                                        มัดจำ&ndash;&gt;-->
+<!--                                        <t t-if="inv.company_id.currency_id != inv.currency_id">-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="inv.amount_total"/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            <td>-->
+<!--                                                <span t-esc="inv.amount_total"/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        &lt;!&ndash;                                        คงเหลือ&ndash;&gt;-->
+<!--                                        <t t-if="inv.company_id.currency_id != inv.currency_id">-->
+<!--                                            <td>-->
+<!--                                                &lt;!&ndash;                                                <span t-esc="sale_amount_total - inv.amount_total"/>&ndash;&gt;-->
+<!--                                                <t t-set="sum_amount_total_1" t-value="sale_amount_total - inv.amount_total"/>-->
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(sum_amount_total_1))"/>-->
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        <t t-else="">-->
+<!--                                            <td>-->
+<!--                                                &lt;!&ndash;                                                <span t-esc="sale_amount_total - inv.amount_total"/>&ndash;&gt;-->
+<!--                                                <t t-set="sum_amount_total_2" t-value="sale_amount_total - inv.amount_total"/>-->
+<!--                                                <span t-esc="'{0:,.2f}'.format(float(sum_amount_total_2))"/>-->
+
+<!--                                            </td>-->
+<!--                                        </t>-->
+<!--                                        <td>-->
+<!--                                            &lt;!&ndash;                                            <span t-esc="sale_amount_total - inv.amount_total"/>&ndash;&gt;-->
+<!--                                            <t t-set="sum_amount_total_3" t-value="sale_amount_total - inv.amount_total"/>-->
+<!--                                            <span t-esc="'{0:,.2f}'.format(float(sum_amount_total_3))"/>-->
+<!--                                        </td>-->
+<!--                                        <td>-->
+<!--                                            <span t-esc="inv.narration"/>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    </t>-->
                                 </t>
                             </t>
                         </t>
