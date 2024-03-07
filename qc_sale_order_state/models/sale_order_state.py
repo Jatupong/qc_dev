@@ -244,6 +244,7 @@ class SaleOrder(models.Model):
                                 raise UserError(_("Err {}".format(err)))
                             print("Err {}".format(err))
 
+
     def action_delivery_confirm(self):
         for obj in self:
             print(obj)
