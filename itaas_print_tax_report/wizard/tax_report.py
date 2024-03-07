@@ -20,7 +20,7 @@ import xlsxwriter
 #this is for tax report section
 class tax_report(models.TransientModel):
     _name = 'tax.report'
-    cuctomer = fields.Many2one(string='Customer', comodel_name='res.partner')
+    customer = fields.Many2one(string='Customer', comodel_name='res.partner')
 
     def _get_year(self):
         curr_date = datetime.now()
@@ -30,7 +30,7 @@ class tax_report(models.TransientModel):
 
         return [(last_year, last_year), (current_year, current_year), (next_year, next_year)]
 
-    # cuctomer = fields.Many2one(string='Customer',comodel_name='res.partner')
+    # customer = fields.Many2one(string='Customer',comodel_name='res.partner')
     date_from = fields.Date(string='Date From',required=True)
     date_to = fields.Date(string='Date To',required=True)
     month = fields.Selection([
@@ -609,7 +609,7 @@ class tax_report(models.TransientModel):
 
     def print_report_pdf(self):
         print('xxxxxxxxxxxxxxxxxxxxx')
-        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.cuctomer.name}
+        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.customer.name}
         # data['form'] = self.read(['date_from', 'date_to', 'report_type', 'tax_id', 'operating_unit_id','company_id','include_no_vat'])[0]
         # print ('------DATA---')
         # print (data)
@@ -624,7 +624,7 @@ class tax_report(models.TransientModel):
     def print_report_pdf2(self):
         print('xxxxxxxxxxxxxxxxxxxxx')
         self.report_type = 'sale'
-        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.cuctomer.name}
+        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.customer.name}
         if data['report_type'] == 'sale':
             return self.env.ref('itaas_print_tax_report.action_sale_tax_report_id2').report_action([], data=data)
         else:
@@ -1160,7 +1160,7 @@ class tax_report(models.TransientModel):
 
         data = {}
         # data = self.read(['date_from', 'date_to', 'month', 'year', 'report_type', 'tax_id', 'company_id'])[0]
-        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.cuctomer.name}
+        data = {'date_from': self.date_from, 'date_to': self.date_to, 'report_type': self.report_type, 'tax_id': self.tax_id.id, 'company_id': self.company_id,'vat_0':self.vat_0,'customer':self.customer.name}
 
         if self.report_type == 'sale':
             report_values = self.env['report.itaas_print_tax_report.sale_tax_report_id2']._get_report_values(self,
@@ -1198,8 +1198,8 @@ class tax_report(models.TransientModel):
                 sl_no = 1
                 untaxed_total = tax_total = 0.0
                 for inv in invoices:
-                    if len(self.cuctomer)>=1:
-                        if self.cuctomer.name == inv['partner']:
+                    if len(self.customer)>=1:
+                        if self.customer.name == inv['partner']:
                             inv_row += 1
                             worksheet.write(inv_row, 0, inv['date'].strftime("%d/%m/%Y") or '', for_center_date)
                             worksheet.write(inv_row, 1, inv['name'], for_center)
@@ -1237,7 +1237,7 @@ class tax_report(models.TransientModel):
                             worksheet.write(inv_row, 15, inv['export_products_id']or'', for_center)
                             worksheet.write(inv_row, 16, inv['ETD'] or '', for_center_date)
                             worksheet.write(inv_row, 17, inv['ETA'] or '', for_center_date)
-                    if len(self.cuctomer) < 1:
+                    if len(self.customer) < 1:
                         inv_row += 1
                         worksheet.write(inv_row, 0, inv['date'] or '', for_center_date)
                         worksheet.write(inv_row, 1, inv['name'], for_center)
