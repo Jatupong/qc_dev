@@ -20,8 +20,7 @@ import xlsxwriter
 #this is for tax report section
 class tax_report(models.TransientModel):
     _name = 'tax.report'
-
-
+    cuctomer = fields.Many2one(string='Customer', comodel_name='res.partner')
 
     def _get_year(self):
         curr_date = datetime.now()
@@ -31,7 +30,7 @@ class tax_report(models.TransientModel):
 
         return [(last_year, last_year), (current_year, current_year), (next_year, next_year)]
 
-    cuctomer = fields.Many2one(string='Customer',comodel_name='res.partner')
+    # cuctomer = fields.Many2one(string='Customer',comodel_name='res.partner')
     date_from = fields.Date(string='Date From',required=True)
     date_to = fields.Date(string='Date To',required=True)
     month = fields.Selection([
