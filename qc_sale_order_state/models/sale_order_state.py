@@ -3,7 +3,7 @@
 # Copyright (C) 2022-today www.itaas.co.th (Dev K.New)
 
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 
 class SaleOrder(models.Model):
@@ -78,10 +78,9 @@ class SaleOrder(models.Model):
 
 
     def action_pre_production(self):
-        for obj in self:
-            obj.write({'state': 'sent'})
+        # for obj in self:
+        #     obj.write({'state': 'sent'})
 
-    def action_check_delivery(self):
         for obj in self:
             print(obj)
             self.order_line._validate_analytic_distribution()
@@ -103,7 +102,8 @@ class SaleOrder(models.Model):
             self.with_context(context)._action_confirm()
 
 
-            obj.write({'state': 'check_delivery'})
+            # obj.write({'state': 'check_delivery'})
+            obj.write({'state': 'sent'})
 
             for obj in self.order_line:
                 # product_quant = self.env['stock.quant'].search([('product_id.id', '=', obj.product_id.id)])
@@ -139,6 +139,110 @@ class SaleOrder(models.Model):
                     }
                     print('so_val', so_val)
                     obj.env['manufacturing.request.custom'].create(so_val)
+
+    def action_check_delivery(self):
+        # for obj in self:
+        #     print(obj)
+        #     self.order_line._validate_analytic_distribution()
+        #
+        #     for order in self:
+        #         print('aaaaaaa')
+        #         order.validate_taxes_on_sales_order()
+        #         if order.partner_id in order.message_partner_ids:
+        #             continue
+        #         order.message_subscribe([order.partner_id.id])
+        #
+        #     self.write(self._prepare_confirmation_values())
+        #
+        #     # Context key 'default_name' is sometimes propagated up to here.
+        #     # We don't need it and it creates issues in the creation of linked records.
+        #     context = self._context.copy()
+        #     context.pop('default_name', None)
+        #
+        #     self.with_context(context)._action_confirm()
+        #
+        #
+        #     obj.write({'state': 'check_delivery'})
+        #
+        #     for obj in self.order_line:
+        #         # product_quant = self.env['stock.quant'].search([('product_id.id', '=', obj.product_id.id)])
+        #         # print('product_quant',product_quant)
+        #         print('objjjjjj', obj.product_uom_qty)
+        #         print('objjjjjj6666', obj.move_ids)
+        #         print('objjjjjj', obj.move_ids.product_virtual_available)
+        #         print('objjjjjj', obj.move_ids.product_qty_available)
+        #         if not obj.product_id.bom_ids:
+        #             raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
+        #
+        #
+        #         sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
+        #         print('sum_all_reserved', sum_all_reserved)
+        #
+        #         if sum_all_reserved > 0:
+        #
+        #             mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id','=',obj.name)])
+        #             print('mr_id',mr_id)
+        #             if mr_id:
+        #                 continue
+        #             print('Reserved222', obj)
+        #             so_val = {
+        #                 'custom_product_template_id': obj.product_id.id,
+        #                 'custom_product_qty': sum_all_reserved,
+        #                 'end_date': obj.create_date,
+        #                 'custom_date_start_wo': obj.create_date,
+        #                 'custom_product_uom_id': obj.product_uom.id,
+        #                 'custom_bom_id': obj.product_id.bom_ids[0].id,
+        #                 'sale_order_id': obj.id
+        #                 # 'custom_bom_idh': obj.product_id.variant_bom_ids.id,
+        #
+        #             }
+        #             print('so_val', so_val)
+        #             obj.env['manufacturing.request.custom'].create(so_val)
+        for res in self:
+            # res.write({'state': 'sent'})
+            res.write({'state': 'check_delivery'})
+
+            for obj in self.order_line:
+                if not obj.product_id.bom_ids:
+                    raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
+
+
+                sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
+                print('sum_all_reserved', sum_all_reserved)
+
+                if sum_all_reserved > 0:
+                    mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id','=',obj.name)])
+                    print('mr_id',mr_id)
+                    if mr_id:
+                        continue
+                    print('Reserved222', obj)
+                    # so_val = {
+                    #     'custom_product_template_id': obj.product_id.id,
+                    #     'custom_product_qty': sum_all_reserved,
+                    #     'end_date': obj.create_date,
+                    #     'custom_date_start_wo': obj.create_date,
+                    #     'custom_product_uom_id': obj.product_uom.id,
+                    #     'custom_bom_id': obj.product_id.bom_ids[0].id,
+                    #     'sale_order_id': obj.id
+                    #     # 'custom_bom_idh': obj.product_id.variant_bom_ids.id,
+                    # }
+                    # res.mrp_production_ids.update(so_val)
+                    arr = [['custom_product_template_id', obj.product_id.id],
+                           ['custom_product_qty', sum_all_reserved],
+                           ['end_date', obj.create_date],
+                           ['custom_date_start_wo', obj.create_date],
+                           ['custom_product_uom_id', obj.product_uom.id],
+                           ['custom_bom_id', obj.product_id.bom_ids[0].id],
+                           ['sale_order_id', obj.id],
+                           ]
+                    for i in arr:
+                        mr = res.env['manufacturing.request.custom'].search([('sale_order_id.order_id.id','=',self.id)])
+                        try:
+                            mr.update({i[0]:i[1]})
+                        except Exception as err:
+                            if self.user_has_groups('base.group_no_one'):
+                                raise UserError(_("Err {}".format(err)))
+                            print("Err {}".format(err))
 
     def action_delivery_confirm(self):
         for obj in self:
