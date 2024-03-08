@@ -739,8 +739,8 @@
                                 <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>
                                 <td colspan="1" align="right">
 
-                                   <t t-if="type(sum_1)=='float'">
-                                       <t t-if="type(sum_2)=='float'">
+                                   <t t-if="type(sum_1)">
+                                       <t t-if="type(sum_2)">
                                        <span t-esc="'{0:,.2f}'.format(sum_1+sum2)"/>
                                      </t>
                                        <t t-else="">
