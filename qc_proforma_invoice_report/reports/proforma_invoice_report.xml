@@ -3,6 +3,8 @@
     <template id="qc_proforma_invoice_report_id" >
 
          <t t-foreach="docs" t-as="o">
+             <t t-set="sum_1" t-value="0.0"/>
+             <t t-set="sum_2" t-value="0.0"/>
             <t t-call="web.basic_layout">
                <style>
                         @font-face
@@ -594,8 +596,7 @@
                         <tbody>
                             <t t-set="product_qty_total" t-value="0.0"/>
                               <t t-set="product_qty_total1" t-value="0.0"/>
-                              <t t-set="sum_1" t-value="0.0"/>
-                              <t t-set="sum_2" t-value="0.0"/>
+
                                <!--<t t-set="order_line" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.display_type not in ['line_section','line_section']"/>-->
                             <t t-foreach="o.order_line" t-as="line">
                                 <t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>
@@ -633,7 +634,7 @@
                                             </t>
                                             <t t-if="not product_set_ids">
                                             <span t-field="line.product_uom_qty"/>
-                                             <t t-set="sum_2" t-value="sum_2 + line.product_uom_qty"/>
+                                             <t t-set="sum_1" t-value="sum_1 + line.product_uom_qty"/>
 
                                             </t>
                                         </td>
@@ -665,7 +666,7 @@
                                   <td/>
                                   <td align="center"> <span t-esc="'{0:,.2f}'.format(p.qty)"/></td>
                                    <t t-set="product_qty_total1" t-value="product_qty_total * p.qty"/>
-                                        <t t-set="sum_1" t-value="sum_1 + product_qty_total1"/>
+                                        <t t-set="sum_2" t-value="sum_2 + product_qty_total1"/>
                                               <!--( <span t-esc="'{0:,.2f}'.format(product_qty_total1)"/>)-->
                                               <!--( <span t-esc="'{0:,.2f}'.format(sum_1)"/>)-->
                                   <!--<td/>-->
@@ -737,11 +738,12 @@
                               <tr>
                                 <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>
                                 <td colspan="1" align="right">
-                                   <t t-if="o.order_line.product_template_id.product_set_lines">
-                                   <span t-esc="'{0:,.2f}'.format(sum_1)"/>
+
+                                   <t t-if="sum_1">
+                                        <span t-esc="'{0:,.2f}'.format(sum_1)"/>
                                     </t>
-                                     <t t-if="not o.order_line.product_template_id.product_set_lines">
-                                       <span t-esc="'{0:,.2f}'.format(sum_2)"/>
+                                     <t t-if="sum_2">
+                                       <span t-esc="'{0:,.2f}'.format(sum_1+sum2)"/>
                                        </t>
                                 </td>
                                 <td colspan="2"/>
