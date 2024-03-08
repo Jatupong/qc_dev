@@ -600,61 +600,61 @@
                             <t t-foreach="o.order_line" t-as="line">
                                 <t t-set="product_set_ids" t-value="o.sale_order_set_line_ids.filtered(lambda x: x.product_set_id == line.product_id)"/>
                                 <t t-if="not line.display_type">
-                                <tr>
-                                    <td align="center">
-                                        <t t-set="num" t-value="num+1"/>
-                                        <span t-esc="num"/>
-                                    </td>
-                                    <td><span t-field="line.order_id.client_order_ref"/></td>
-                                    <td><span t-field="line.product_id.default_code"/></td>
-                                    <td><span t-field="line.name"/></td>
-                                    <!--<td/>-->
-                                    <!--<td align="right">-->
-                                    <!--    <t t-if="product_set_ids">-->
-                                    <!--        <span t-field="line.product_uom_qty"/>-->
-                                    <!--    </t>-->
-                                    <!--</td>-->
-                                    <td align="center">
-                                       <t t-if="product_set_ids">
+                                    <tr>
+                                        <td align="center">
+                                            <t t-set="num" t-value="num+1"/>
+                                            <span t-esc="num"/>
+                                        </td>
+                                        <td><span t-field="line.order_id.client_order_ref"/></td>
+                                        <td><span t-field="line.product_id.default_code"/></td>
+                                        <td><span t-field="line.name"/></td>
+                                        <!--<td/>-->
+                                        <!--<td align="right">-->
+                                        <!--    <t t-if="product_set_ids">-->
+                                        <!--        <span t-field="line.product_uom_qty"/>-->
+                                        <!--    </t>-->
+                                        <!--</td>-->
+                                        <td align="center">
+                                           <t t-if="product_set_ids">
+                                                <span t-field="line.product_uom_qty"/>
+                                                 <t t-set="product_qty_total" t-value="line.product_uom_qty"/>
+                                                  <!--( <span t-esc="'{0:,.2f}'.format(product_qty_total)"/>)-->
+
+                                            </t>
+                                             <t t-if="not product_set_ids">
+                                               <span/>
+                                            <!--<span t-field="line.product_uom_qty"/>-->
+                                            </t>
+                                            <!--<span t-field="line.product_uom_qty"/>-->
+                                        </td>
+                                        <td align="center">
+                                           <t t-if="product_set_ids">
+                                                <span/>
+                                            </t>
+                                            <t t-if="not product_set_ids">
                                             <span t-field="line.product_uom_qty"/>
-                                             <t t-set="product_qty_total" t-value="line.product_uom_qty"/>
-                                              <!--( <span t-esc="'{0:,.2f}'.format(product_qty_total)"/>)-->
+                                             <t t-set="sum_2" t-value="sum_2 + line.product_uom_qty"/>
 
-                                        </t>
-                                         <t t-if="not product_set_ids">
-                                           <span/>
-                                        <!--<span t-field="line.product_uom_qty"/>-->
-                                        </t>
-                                        <!--<span t-field="line.product_uom_qty"/>-->
-                                    </td>
-                                    <td align="center">
-                                       <t t-if="product_set_ids">
-                                            <span/>
-                                        </t>
-                                        <t t-if="not product_set_ids">
-                                        <span t-field="line.product_uom_qty"/>
-                                         <t t-set="sum_2" t-value="sum_2 + line.product_uom_qty"/>
+                                            </t>
+                                        </td>
 
-                                        </t>
-                                    </td>
+                                        <!--<td align="right">-->
+                                        <!--    <t t-if="product_set_ids">-->
+                                        <!--        <t t-set="original_set_qty" t-value="sum(product_set_ids.mapped('original_set_qty'))"/>-->
+                                        <!--        <span t-esc="'{0:,.2f}'.format(original_set_qty)"/>-->
+                                        <!--        <t t-set="product_qty_total" t-value="product_qty_total + original_set_qty"/>-->
+                                        <!--    </t>-->
+                                        <!--    <t t-else="">-->
+                                        <!--        <span t-field="line.product_uom_qty"/>-->
+                                        <!--        <t t-set="product_qty_total1" t-value="product_qty_total1 + line.product_uom_qty"/>-->
+                                                <!--<span t-esc="product_qty_total"/>-->
+                                        <!--    </t>-->
+                                        <!--</td>-->
+                                        <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_unit)"/></td>
+                                        <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_subtotal)"/></td>
+                                    </tr>
 
-                                    <!--<td align="right">-->
-                                    <!--    <t t-if="product_set_ids">-->
-                                    <!--        <t t-set="original_set_qty" t-value="sum(product_set_ids.mapped('original_set_qty'))"/>-->
-                                    <!--        <span t-esc="'{0:,.2f}'.format(original_set_qty)"/>-->
-                                    <!--        <t t-set="product_qty_total" t-value="product_qty_total + original_set_qty"/>-->
-                                    <!--    </t>-->
-                                    <!--    <t t-else="">-->
-                                    <!--        <span t-field="line.product_uom_qty"/>-->
-                                    <!--        <t t-set="product_qty_total1" t-value="product_qty_total1 + line.product_uom_qty"/>-->
-                                            <!--<span t-esc="product_qty_total"/>-->
-                                    <!--    </t>-->
-                                    <!--</td>-->
-                                    <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_unit)"/></td>
-                                    <td align="right"><span t-esc="'{0:,.2f}'.format(line.price_subtotal)"/></td>
-                                </tr>
-
-                                <t t-foreach="o.order_line.product_template_id.product_set_lines" t-as="p">
+                                <t t-foreach="line.product_template_id.product_set_lines" t-as="p">
                                   <tr>
                                      <td/>
                                   <td/>
