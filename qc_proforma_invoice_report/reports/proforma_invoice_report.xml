@@ -739,12 +739,12 @@
                                 <td colspan="5" align="center"><B>TOTAL OF GOODS</B></td>
                                 <td colspan="1" align="right">
 
-                                   <t t-if="sum_1">
+                                   <t t-if="len(sum_1)>0">
                                         <span t-esc="'{0:,.2f}'.format(sum_1)"/>
                                     </t>
-                                     <t t-if="sum_2">
+                                     <t t-if="len(sum_2)>0">
                                        <span t-esc="'{0:,.2f}'.format(sum_1+sum2)"/>
-                                       </t>
+                                     </t>
                                 </td>
                                 <td colspan="2"/>
                             </tr>
