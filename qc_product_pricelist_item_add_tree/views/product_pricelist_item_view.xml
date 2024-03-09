@@ -6,10 +6,15 @@
         <field name="model">product.pricelist.item</field>
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
         <field name="arch" type="xml">
+
              <xpath expr="//group[3]" position="after">
+<!--                 <sheet>-->
+
+                 <notebook>
 <!--                     attrs="{'invisible':[('applied_on', '!=', '1_product')]}-->
-                     <field name="Test" attrs="{'invisible':[('applied_on', '!=', '1_product')]}">
-                        <tree string="Set Order Lines">
+                 <page string="Set Order Lines" name="set_line" attrs="{'invisible':[('applied_on', '!=', '1_product')]}">
+                     <field name="set_line" >
+                         <tree editable="True">
                             <field name='product_id'/>
                             <field name='product_cost'/>
                             <field name='commission_cost'/>
@@ -20,6 +25,9 @@
                             <field name='cost_3'/>
                         </tree>
                     </field>
+                 </page>
+                 </notebook>
+<!--                 </sheet>-->
             </xpath>
 
         </field>

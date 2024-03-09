@@ -3,3 +3,4 @@
 # Create By Sarawut.Ph [D:27|M:03|Y:2024]
 
 from . import product_pricelist_item
+from . import sale_order
