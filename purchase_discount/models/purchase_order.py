@@ -28,7 +28,8 @@ class PurchaseOrderLine(models.Model):
     # adding discount to depends
     @api.depends("discount")
     def _compute_amount(self):
-        self.update({"price_subtotal": self._get_discounted_price_unit()})
+        for line in self:
+            line.update({"price_subtotal": line._get_discounted_price_unit()})
         # return super()._compute_amount()
 
 
