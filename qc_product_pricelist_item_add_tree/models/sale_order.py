@@ -77,8 +77,10 @@ class SaleOrder(models.Model):
                                 raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
                     elif chack != 0:
                         print("sale.product_template_id :{}".format(chack))
+
                         for pricelist_rules in pricelist_rules_ids:
-                            if pricelist_rules.product_tmpl_id.name == sale.product_template_id.name:
+                            print("TTTT{} = {}".format(pricelist_rules.product_id.name, sale.product_id.name))
+                            if pricelist_rules.product_id.name == sale.product_id.name:
                                 try:
                                     pricelist_rules_ids.update({
                                         'currency_id': property_product_pricelist.currency_id.id,
@@ -96,8 +98,29 @@ class SaleOrder(models.Model):
                                     if self.user_has_groups('base.group_no_one'):
                                         raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
 
+
                                 for set_line in pricelist_rules.set_line:
                                     arr.append(set_line.id)
+                        #     if pricelist_rules.product_tmpl_id.name == sale.product_template_id.name:
+                        #         try:
+                        #             pricelist_rules_ids.update({
+                        #                 'currency_id': property_product_pricelist.currency_id.id,
+                        #                 'product_cost': sale.product_cost,
+                        #                 'commission_cost': sale.commission_cost,
+                        #                 'box_cost': sale.box_cost,
+                        #                 'sticker_cost': sale.sticker_cost,
+                        #                 'cost_1': sale.cost_1,
+                        #                 'cost_2': sale.cost_2,
+                        #                 'cost_3': sale.cost_3,
+                        #             })
+                        #         except Exception as err:
+                        #             print("TwT :{} = {}".format(pricelist_rules.product_tmpl_id.name,
+                        #                                         sale.product_template_id.name))
+                        #             if self.user_has_groups('base.group_no_one'):
+                        #                 raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
+                        #
+                        #         for set_line in pricelist_rules.set_line:
+                        #             arr.append(set_line.id)
 
         print("Arr {}".format(arr))
         self.update({'sale_order_set_line_ids': self.env['sale.order.set.line'].search([('id', 'in', arr)])})
@@ -121,37 +144,8 @@ class SaleOrder(models.Model):
 
                     #             if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_id.name and self.sale_order.filtered(
                     # lambda x: x.product_template_id.name == pricelist_rules.product_tmpl_id.name):
-                                if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_id.name:
+                                if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_set_id.name:
                                     pricelist_rules.update({'set_line': self.sale_order_set_line_ids.filtered(
-                                        lambda x: x.product_id.name == pricelist_rules.product_tmpl_id.name)})
+                                        lambda x: x.product_set_id.name == pricelist_rules.product_tmpl_id.name)})
                                     print("set_line : {}".format(pricelist_rules.set_line))
 
-    def create_pricelist_item(self,product,sale,property_product_pricelist):
-        base_pricelist_id = self.env['product.pricelist.item'].search(
-            [('product_id.id', '=', product.product_variant_id.id)])
-        if len(base_pricelist_id) == 0:
-            self.env['product.pricelist.item'].create({
-                # 'name': product.display_name,
-                'compute_price': 'fixed',
-                # 'base': 'pricelist',
-                # 'base_pricelist_id': base_pricelist_id,
-                # 'percent_price': 10,
-                # 'applied_on': '1_product',
-                'product_tmpl_id': product.id,
-                'applied_on': '0_product_variant',
-                'product_id': product.product_variant_id.id,
-                # 'product_id': product.product_variant_id or product.id,
-                'currency_id': property_product_pricelist.currency_id.id,
-                'product_cost': sale.product_cost,
-                'commission_cost': sale.commission_cost,
-                'box_cost': sale.box_cost,
-                'sticker_cost': sale.sticker_cost,
-                'cost_1': sale.cost_1,
-                'cost_2': sale.cost_2,
-                'cost_3': sale.cost_3,
-
-            })
-            base_pricelist_id = self.env['product.pricelist.item'].search(
-                [('product_id.id', '=', product.product_variant_id.id)])
-            print("base_pricelist_id new{}".format(base_pricelist_id))
-        return base_pricelist_id
