@@ -18,27 +18,38 @@ class SaleOrder(models.Model):
                 order_set_line_ids = self.sale_order_set_line_ids
                 if len(order_set_line_ids) > 0:
                     if len(pricelist_rules_ids)>0:
-
                         for order_set_line_id in order_set_line_ids:
-                            if len(pricelist_rules_ids.filtered(lambda x: x.product_tmpl_id.name == order_set_line_id.product_id.name))==0:
-                                print("product_id :{}".format(order_set_line_id.product_id.name))
-                                # pricelist_rules_ids.create({'name': 'Test',
-                                #                             'compute_price':'percentage',
-                                #                             'percent_price':10,
-                                #                             'applied_on':'1_product',
-                                #                             'product_tmpl_id':order_set_line_id.product_id.name,
-                                #                             # 'currency_id':self.env.company.currency_id
-                                #                             })
+                            if len(order_set_line_id.product_id)>0:
+                                chack = len(pricelist_rules_ids.filtered(lambda x: x.product_tmpl_id.name == order_set_line_id.product_id.name))
+                                print("Len({})".format(chack))
+                                if chack==0:
+                                    product =self.env['product.template'].search([('name','=',order_set_line_id.product_id.name)])
+                                    print("product_id :{}".format(product.name))
+                                    try:
+                                        pricelist_rules_ids.create({'name': product.display_name,
+                                                                    'min_quantity':1,
+                                                                    'compute_price':'percentage',
+                                                                    'percent_price':10,
+                                                                    'applied_on':'1_product',
+                                                                    'product_tmpl_id':product.id,
+                                                                    'currency_id':property_product_pricelist.currency_id.id,
+                                                                    'set_line': self.sale_order_set_line_ids.filtered(
+                                                                        lambda
+                                                                            x: x.product_id.name == product.name)
+                                                                    })
+                                        break
+                                    except Exception as err:
+                                        print("Err! {}".format(err))
 
-                            for pricelist_rules in pricelist_rules_ids:
+                                for pricelist_rules in pricelist_rules_ids:
 
-                                print("Test :{} = {}".format(pricelist_rules.product_tmpl_id.name,
-                                                             order_set_line_id.product_id.name))
+                                    print("Test :{} = {}".format(pricelist_rules.product_tmpl_id.name,
+                                                                 order_set_line_id.product_id.name))
 
-                                if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_id.name:
-                                    pricelist_rules.update({'set_line': self.sale_order_set_line_ids.filtered(
-                                        lambda x: x.product_id.name == pricelist_rules.product_tmpl_id.name)})
-                                    print("set_line : {}".format(pricelist_rules.set_line))
+                                    if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_id.name:
+                                        pricelist_rules.update({'set_line': self.sale_order_set_line_ids.filtered(
+                                            lambda x: x.product_id.name == pricelist_rules.product_tmpl_id.name)})
+                                        print("set_line : {}".format(pricelist_rules.set_line))
 
                 elif len(order_set_line_ids) == 0:
                     arr = []
