@@ -59,9 +59,9 @@ class PurchaseOrderLine(models.Model):
         self.ensure_one()
         if self.discount > 0:
             print("chack")
-            return self.price_unit * (1 - self.discount / 100)
+            return (self.price_unit*self.product_qty) * (1 - self.discount / 100)
         else:
-            return self.price_unit
+            return self.price_unit*self.product_qty
 
 
 
