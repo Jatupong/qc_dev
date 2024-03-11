@@ -6,6 +6,15 @@
         <field name="model">product.pricelist.item</field>
         <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
         <field name="arch" type="xml">
+            <field name="min_quantity" position="after">
+                <field name='product_cost'/>
+                <field name='commission_cost'/>
+                <field name='box_cost'/>
+                <field name='sticker_cost'/>
+                <field name='cost_1'/>
+                <field name='cost_2'/>
+                <field name='cost_3'/>
+            </field>
 
              <xpath expr="//group[3]" position="after">
 <!--                 <sheet>-->
