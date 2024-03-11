@@ -12,7 +12,8 @@
 
                  <notebook>
 <!--                     attrs="{'invisible':[('applied_on', '!=', '1_product')]}-->
-                 <page string="Set Order Lines" name="set_line" attrs="{'invisible':[('applied_on', '!=', '1_product')]}">
+<!--                 <page string="Set Order Lines" name="set_line" attrs="{'invisible':[('applied_on', '!=', '1_product')]}">-->
+                     <page string="Set Order Lines" name="set_line">
                      <field name="set_line" >
                          <tree editable="True">
                             <field name='product_id'/>
