@@ -56,6 +56,7 @@ class PurchaseOrderLine(models.Model):
         :rtype: float
         :return: Unit price after discount(s).
         """
+
         self.ensure_one()
         if self.discount > 0:
             print("chack")
