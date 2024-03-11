@@ -31,7 +31,7 @@ class SaleOrder(models.Model):
                         raise ValidationError(_("Err! {}\nsale_order_ids = {} = last_website_so_id {}\n By Debug mode [Sarawut Ph.]".format(err,len(sale_order),len(so_id))))
 
 
-    @api.onchange('order_line')
+    @api.onchange('order_line','sale_order_set_line_ids')
     def update_pricelist_by_order_line(self):
         arr = []
         partner = self.partner_id
@@ -101,26 +101,6 @@ class SaleOrder(models.Model):
 
                                 for set_line in pricelist_rules.set_line:
                                     arr.append(set_line.id)
-                        #     if pricelist_rules.product_tmpl_id.name == sale.product_template_id.name:
-                        #         try:
-                        #             pricelist_rules_ids.update({
-                        #                 'currency_id': property_product_pricelist.currency_id.id,
-                        #                 'product_cost': sale.product_cost,
-                        #                 'commission_cost': sale.commission_cost,
-                        #                 'box_cost': sale.box_cost,
-                        #                 'sticker_cost': sale.sticker_cost,
-                        #                 'cost_1': sale.cost_1,
-                        #                 'cost_2': sale.cost_2,
-                        #                 'cost_3': sale.cost_3,
-                        #             })
-                        #         except Exception as err:
-                        #             print("TwT :{} = {}".format(pricelist_rules.product_tmpl_id.name,
-                        #                                         sale.product_template_id.name))
-                        #             if self.user_has_groups('base.group_no_one'):
-                        #                 raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
-                        #
-                        #         for set_line in pricelist_rules.set_line:
-                        #             arr.append(set_line.id)
 
         print("Arr {}".format(arr))
         self.update({'sale_order_set_line_ids': self.env['sale.order.set.line'].search([('id', 'in', arr)])})
