@@ -14,6 +14,7 @@
     'depends': ['base','sale','product','qc_sale_order'],
     'data': [
         'views/product_pricelist_item_view.xml',
+        'views/product_pricelist_view.xml',
     ],
     'qweb': [],
     "installable": True,

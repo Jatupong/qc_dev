@@ -9,6 +9,7 @@ class ProductPricelistItem(models.Model):
     _inherit = "product.pricelist.item"
 
     set_line=fields.Many2many("sale.order.set.line",string="Set line")
+
     width = fields.Float(string='Width')
     length = fields.Float(string='Length')
     height = fields.Float(string='Height')
@@ -21,3 +22,9 @@ class ProductPricelistItem(models.Model):
     cost_3 = fields.Float(string='ราคา3')
     g_w_kgs = fields.Float(string='G.W. KGS.')
     n_w_kgs = fields.Float(string='N.W. KGS.')
+
+class ProductPricelist(models.Model):
+    _inherit = "product.pricelist"
+
+    public = fields.Boolean("Public Pricelist", default=False)
+

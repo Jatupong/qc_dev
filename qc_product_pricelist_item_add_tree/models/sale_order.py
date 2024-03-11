@@ -16,17 +16,16 @@ class SaleOrder(models.Model):
             sale_order = partner.sale_order_ids
             so_id = partner.last_website_so_id
             property_product_pricelist = partner.property_product_pricelist
-            if len(sale_order) == 0:
-                chack = self.env['product.pricelist'].search([('name', '=', "Public Pricelist {}".format(partner.name))])
+            if property_product_pricelist.public:
                 try:
-                    if len(chack) == 0:
-                        property_product_pricelist.create({
-                            'name':"Public Pricelist {}".format(partner.name),
-                            'selectable':True,
+                    self.env['product.pricelist'].create({
+                        'name':"Pricelist {}".format(partner.name),
+                        'selectable':True,
+                    })
+                    partner.update({
+                            'property_product_pricelist':self.env['product.pricelist'].search([('name', '=', "Pricelist {}".format(partner.name))])
                         })
-                        partner.update({
-                            'property_product_pricelist':self.env['product.pricelist'].search([('name', '=', "Public Pricelist {}".format(partner.name))])
-                        })
+                    self.update_pricelist_by_order_line()
                 except Exception as err:
                     if self.user_has_groups('base.group_no_one'):
                         raise ValidationError(_("Err! {}\nsale_order_ids = {} = last_website_so_id {}\n By Debug mode [Sarawut Ph.]".format(err,len(sale_order),len(so_id))))
@@ -38,28 +37,30 @@ class SaleOrder(models.Model):
         partner = self.partner_id
         if len(partner) > 0:
             property_product_pricelist = partner.property_product_pricelist
+            print("property_product_pricelist {}".format(property_product_pricelist.name))
             if len(property_product_pricelist) > 0:
                 pricelist_rules_ids = property_product_pricelist.item_ids
+                pricelist_rules_ids2 = self.env['product.pricelist'].search(
+                [('public', '=', True)],limit=1)
+
                 for sale in self.order_line:
+                    # property_product_pricelist.update({"item_ids": self.env['product.pricelist.item'].search([('pricelist_id.id', '=', property_product_pricelist.id)])})
                     chack = len(pricelist_rules_ids.filtered(
                     lambda x: x.product_tmpl_id.name == sale.product_template_id.name))
-                    if chack == 0:
+                    print("chack_{} :{}".format(sale.product_template_id.name,chack))
+                    if len(pricelist_rules_ids) == 0:
                         product = self.env['product.template'].search([('name', '=', sale.product_template_id.name)])
-                        base_pricelist_id = self.env['product.pricelist'].search([('name', '=', property_product_pricelist.name)])
-                        print("base_pricelist_id :{}".format(base_pricelist_id.name))
                         print("product_id :{}".format(product.name))
+                        # base_pricelist_id = self.create_pricelist_item(product, sale, property_product_pricelist)
                         try:
-                              pricelist_rules_ids.create({'name': product.display_name,
-                                                          # 'min_quantity': 1,
+                            pricelist_rules_ids.create({
+                                                        'pricelist_id':property_product_pricelist.id,
                                                           'compute_price': 'formula',
                                                           'base':'pricelist',
-                                                          'base_pricelist_id':base_pricelist_id.id ,
-                                                          # 'percent_price': 10,
-                                                          # 'applied_on': '1_product',
+                                                          'base_pricelist_id':pricelist_rules_ids2.id,
                                                           'product_tmpl_id': product.id,
                                                           'applied_on': '0_product_variant',
                                                           'product_id': product.product_variant_id.id,
-                                                          # 'product_id': product.product_variant_id or product.id,
                                                           'currency_id': property_product_pricelist.currency_id.id,
                                                           'product_cost': sale.product_cost,
                                                           'commission_cost': sale.commission_cost,
@@ -68,10 +69,9 @@ class SaleOrder(models.Model):
                                                           'cost_1':sale.cost_1,
                                                           'cost_2': sale.cost_2,
                                                           'cost_3': sale.cost_3,
-
-
                                                           })
-                              self.update_pricelist()
+                            property_product_pricelist.update({"item_ids":self.env['product.pricelist.item'].search([('pricelist_id.id', '=', property_product_pricelist.id)])})
+                            # self.update_pricelist()
                         except Exception as err:
                             if self.user_has_groups('base.group_no_one'):
                                 raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
@@ -119,8 +119,39 @@ class SaleOrder(models.Model):
                                 print("Test :{} = {}".format(pricelist_rules.product_tmpl_id.name,
                                                              order_set_line_id.product_id.name))
 
-                                if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_id.name and self.sale_order.filtered(
-                    lambda x: x.product_template_id.name == pricelist_rules.product_tmpl_id.name):
+                    #             if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_id.name and self.sale_order.filtered(
+                    # lambda x: x.product_template_id.name == pricelist_rules.product_tmpl_id.name):
+                                if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_id.name:
                                     pricelist_rules.update({'set_line': self.sale_order_set_line_ids.filtered(
                                         lambda x: x.product_id.name == pricelist_rules.product_tmpl_id.name)})
                                     print("set_line : {}".format(pricelist_rules.set_line))
+
+    def create_pricelist_item(self,product,sale,property_product_pricelist):
+        base_pricelist_id = self.env['product.pricelist.item'].search(
+            [('product_id.id', '=', product.product_variant_id.id)])
+        if len(base_pricelist_id) == 0:
+            self.env['product.pricelist.item'].create({
+                # 'name': product.display_name,
+                'compute_price': 'fixed',
+                # 'base': 'pricelist',
+                # 'base_pricelist_id': base_pricelist_id,
+                # 'percent_price': 10,
+                # 'applied_on': '1_product',
+                'product_tmpl_id': product.id,
+                'applied_on': '0_product_variant',
+                'product_id': product.product_variant_id.id,
+                # 'product_id': product.product_variant_id or product.id,
+                'currency_id': property_product_pricelist.currency_id.id,
+                'product_cost': sale.product_cost,
+                'commission_cost': sale.commission_cost,
+                'box_cost': sale.box_cost,
+                'sticker_cost': sale.sticker_cost,
+                'cost_1': sale.cost_1,
+                'cost_2': sale.cost_2,
+                'cost_3': sale.cost_3,
+
+            })
+            base_pricelist_id = self.env['product.pricelist.item'].search(
+                [('product_id.id', '=', product.product_variant_id.id)])
+            print("base_pricelist_id new{}".format(base_pricelist_id))
+        return base_pricelist_id
