@@ -7,7 +7,6 @@ from odoo import api, fields, models, _
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
-
     @api.onchange('order_line','partner_id','sale_order_set_line_ids')
     def update_pricelist(self):
         partner = self.partner_id
