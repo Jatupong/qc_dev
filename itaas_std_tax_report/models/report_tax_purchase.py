@@ -16,13 +16,17 @@ class report_sale_tax_report(models.AbstractModel):
         doc = []
         docs = self.env['account.move.line'].search(domain)
         print('DOCSSSSS_EXMPTED:',doc)
+        print('DOCSSSSS_EXMPTED_57681:',docs)
         for move_line_id in docs:
-            if not move_line_id.tax_ids.is_tax_exempted:
+            if not move_line_id.tax_ids.name == 'Input VAT Exempted':
                 continue
+                print('if not move_line_id.tax_ids.is_tax_exempted:')
             if move_line_id.tax_ids and move_line_id.tax_ids.amount != 0.00:
                 continue
+                print('if move_line_id.tax_ids and move_line_id.tax_ids.amount != 0.00:')
             if move_line_id.date_vat_new:
                 date_t2 = move_line_id.date_vat_new
+                print('move_line_id.date_vat_new:')
             else:
                 date_t2 = move_line_id.tax_inv_date
             ref = move_line_id.ref
