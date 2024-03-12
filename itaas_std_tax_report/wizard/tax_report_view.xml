@@ -36,9 +36,9 @@
 
                     <group>
                         <field name="type_vat"/>
-<!--                        <field name="vat_0" invisible="0"/>-->
-<!--                        <field name="vat_7" invisible="0"/>-->
-<!--                        <field name="vat_exmpted" invisible="0"/>-->
+                        <field name="vat_0" invisible="1"/>
+                        <field name="vat_7" invisible="1"/>
+                        <field name="vat_exmpted" invisible="1"/>
                         <field name="company_id" invisible="1"/>
                     </group>
                 </group>
@@ -64,6 +64,7 @@
     </record>
 
     <menuitem id="menu_main_tax_report" parent="account.menu_finance_reports" name="Thailand (Tax Report)"/>
-    <menuitem id="menu_tax_report" action="action_tax_report_excel"  parent="menu_main_tax_report"/>
+    <menuitem id="menu_tax_report" action="action_tax_report_excel"  parent="itaas_print_tax_report.menu_main_tax_report"/>
+
 
 </odoo>
