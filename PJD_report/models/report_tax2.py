@@ -9,7 +9,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMA
 
 
 class report_sale_tax_report(models.AbstractModel):
-    _name = 'report.PJD_report.sale_tax_report_id2'
+    _name = 'report.itaas_print_tax_report.sale_tax_report_id2'
 
     def get_partner_name(self,move_id):
         name = move_id.partner_id.name
@@ -2059,7 +2059,7 @@ class report_sale_tax_report(models.AbstractModel):
 
 #start This is to generate purchase tax report
 class report_purchase_tax_report(models.AbstractModel):
-    _name = 'report.PJD_report.purchase_tax_report_id'
+    _name = 'report.itaas_print_tax_report.purchase_tax_report_id'
 
     @api.model
     def _get_report_values(self, docids, data=None):

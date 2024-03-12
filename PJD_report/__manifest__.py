@@ -2,7 +2,7 @@
 
 
 {
-    'name' : 'Print Monthly report',
+    'name' : 'Print Accounting Tax and WHT Report',
     'version' : '13.0.3.4',
     'price' : 'Free',
     'currency': 'THB',
@@ -18,7 +18,9 @@ Stock report
     'website' : 'www.itaas.co.th',
     'depends' : ['base','account','account_accountant','thai_accounting'],
     'data' : [
+
         'report/report_reg.xml',
+        'report/sale_tax_report.xml',
         'report/sale_tax_report2.xml',
         'report/purchase_tax_report.xml',
         'views/tax_report_view.xml',

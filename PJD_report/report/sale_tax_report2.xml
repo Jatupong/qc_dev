@@ -19,7 +19,7 @@
                     <font style="font-size: 16px;">
                         <h>
                             <strong>
-                                <span t-esc="company_id.name"/>
+<!--                                <span t-esc="company_id.name"/>-->
                                 <br/>รายการส่งออกประจำเดือน!
                             </strong>
                         </h>
@@ -33,7 +33,7 @@
                             </td>
                             <td style="text-align: left;">
                                 <font style="font-size: 16px;">
-                                    <span t-esc="company_id.name"/>
+<!--                                    <span t-esc="company_id.name"/>-->
                                 </font>
                             </td>
                             <td style="text-align: left;">
@@ -43,7 +43,7 @@
                             </td>
                             <td style="text-align: left;">
                                 <font style="font-size: 16px;">
-                                    <span t-esc="company_id.vat"/>
+<!--                                    <span t-esc="company_id.vat"/>-->
                                 </font>
                             </td>
                         </tr>
@@ -56,7 +56,7 @@
                             </td>
                             <td style="text-align: left;">
                                 <font style="font-size: 16px;">
-                                    <span t-esc="company_id.name"/>
+<!--                                    <span t-esc="company_id.name"/>-->
                                 </font>
                             </td>
                             <td colspan="2" style="text-align: left;">
