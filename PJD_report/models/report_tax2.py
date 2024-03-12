@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-from datetime import datetime,timedelta,date
+# Part of IT as a Service Co., Ltd.
+# Create By Sarawut.Ph [D:12|M:03|Y:2024]from datetime import datetime,timedelta,date
 
 from odoo import api, fields, models ,_
 from odoo.exceptions import UserError

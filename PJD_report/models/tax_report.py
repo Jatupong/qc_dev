@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2020-today ITAAS (Dev K.Book)
-
+# Part of IT as a Service Co., Ltd.
+# Create By Sarawut.Ph [D:12|M:03|Y:2024]
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 

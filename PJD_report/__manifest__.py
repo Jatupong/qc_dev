@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-
+# Part of IT as a Service Co., Ltd.
+# Create By Sarawut.Ph [D:12|M:03|Y:2024]
 
 {
-    'name' : 'Print Accounting Tax and WHT Report',
-    'version' : '13.0.3.4',
+    'name' : 'Print Accounting Monthly Report',
+    'version' : '16.0.0.0',
     'price' : 'Free',
     'currency': 'THB',
     'category': 'Accounting',

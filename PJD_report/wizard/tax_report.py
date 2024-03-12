@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2016-2017  Technaureus Info Solutions(<http://technaureus.com/>).
+# Part of IT as a Service Co., Ltd.
+# Create By Sarawut.Ph [D:12|M:03|Y:2024]
 
 from odoo import models, fields, api, _
 from datetime import datetime
