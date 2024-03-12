@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of IT as a Service Co., Ltd.
-# Copyright (C) 2024-today www.itaas.co.th (Dev K.Book)
+# Create By Sarawut.Ph [D:12|M:03|Y:2024]
 
-# from . import add_field_in_customers
-# from . import add_field_in_payment_term
-# from . import reschannelcustomers
-# from . import resgroupcustomers
-# from . import resteamscustomers
-from . import purchase_add_field
+from . import sale_order
+
 

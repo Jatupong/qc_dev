@@ -1,22 +1,17 @@
-# Copyright 2019 Elico Corp, Dominique K. <dominique.k@elico-corp.com.sg>
-# Copyright 2019 Ecosoft Co., Ltd., Kitti U. <kittiu@ecosoft.co.th>
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# -*- coding: utf-8 -*-
+# Part of IT as a Service Co., Ltd.
+# Create By Sarawut.Ph [D:12|M:03|Y:2024]
 
 {
-    "name": "Add Field Purchase",
-    "version": "15.0.1.0.0",
-    "summary": " ",
-    "author": "Elico Corp, Ecosoft, Odoo Community Association (OCA)",
-    "website": "https://github.com/OCA/purchase-workflow",
-    "category": "Purchase Management",
+    "name": "Cancelled Picking from Sale Order",
+    "version": "16.0.0.0.0",
+    "summary": "Add functions [Cancelled Picking] to [Sale Order]",
+    'author' : 'IT as a Service Co., Ltd.',
+    'website' : 'www.itaas.co.th',
+    "category": 'itaas',
     "license": "AGPL-3",
-    'depends': ['purchase', 'itaas_company_detail_address', 'itaas_partner_detail_address',
-                'itaas_contact_person', 'itaas_image_signature','base'],
+    'depends': ['sale','base','l10n_cl_edi_stock','mrp_subcontracting'],
     "data": [
-        # "security/ir.model.access.csv",
-        # "wizard/purchase_make_invoice_advance_views.xml",
-        # "views/res_config_settings_views.xml",
-        # "views/purchase_add_field_view.xml",
     ],
     "installable": True,
     "auto_install": False,

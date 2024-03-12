@@ -1,6 +1,4 @@
-# Copyright 2019 Elico Corp, Dominique K. <dominique.k@elico-corp.com.sg>
-# Copyright 2019 Ecosoft Co., Ltd., Kitti U. <kittiu@ecosoft.co.th>
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# Part of IT as a Service Co., Ltd.
+# Create By Sarawut.Ph [D:12|M:03|Y:2024]
 
 from . import models
-# from . import wizard

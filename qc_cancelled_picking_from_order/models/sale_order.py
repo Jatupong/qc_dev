@@ -1,46 +1,30 @@
-# Copyright 2017 ForgeFlow S.L.
-# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-import base64
-import tempfile
-import binascii
-from datetime import datetime, date
-import xlrd
+# Part of IT as a Service Co., Ltd.
+# Create By Sarawut.Ph [D:12|M:03|Y:2024]
 
 from odoo import fields, models, _
 from odoo.exceptions import UserError
-from io import BytesIO
-import xlsxwriter
-from dateutil.relativedelta import relativedelta
 
-# from datetime import date
+class SaleOrder(models.Model):
+    _inherit = "sale.order"
 
-class purchase_add_field(models.Model):
-    # _name = "res.partner"
-    _inherit = "res.partner"
 
-    title = fields.Many2one('res.partner.title',string='Title',compute='_compute_title',readonly=False,store=True, required=True)
+    # @api.multi
+    def _action_cancel(self):
+        mess=""
+        mess+="fn _action_cancel Action!\n"
+        res = super(SaleOrder, self)._action_cancel()
+        if len(self.picking_ids) == 1:
+            mess+="Picking_ids ID:[{}] Name:[{}] State:[{} -->".format(self.picking_ids.id,self.picking_ids.name,self.picking_ids.state)
+            self.picking_ids.action_cancel()
+            mess += "{}]\n".format(self.picking_ids.state)
+        elif len(self.picking_ids) > 1:
+            for picking in self.picking_ids:
+                mess += "Picking_ids ID:[{}] Name:[{}] State:[{} -->".format(picking.id, picking.name,
+                                                                         picking.state)
+                picking.action_cancel()
+                mess += "{}]\n".format(picking.state)
 
-    property_supplier_payment_term_id = fields.Many2one('account.payment.term', company_dependent=True,
-                                               string='Payment Terms',
-                                               domain="[('company_id', 'in', [current_company_id, False])]",
-                                               help="This payment term will be used instead of the default one for sales orders and customer invoices",
-                                               required = True,
-                                               )
-    vat = fields.Char(string='TAX ID',
-                      required = True,
-                      )
-    ref = fields.Char(string='Reference',
-                      required=True,
-                      )
-    street = fields.Char('Street', compute='_compute_partner_address_values', readonly=False, store=True, required=True)
-    
-    # -----------------------------------------------------------------------------------------------------------------
-    
-    # street2 = fields.Char('Street2', compute='_compute_partner_address_values', readonly=False, store=True, required=True)
-    # zip = fields.Char('Zip', change_default=True, compute='_compute_partner_address_values', readonly=False, store=True, required=True)
-    # city = fields.Char('City', compute='_compute_partner_address_values', readonly=False, store=True, required=True)
+        if self.user_has_groups('base.group_no_one'):
+            raise UserError(_(mess+"\nBy Debug mode [Sarawut Ph.]"))
 
-class product_template_view(models.Model):
-    _inherit = "product.template"
-
-    default_code = fields.Char(string='Internal Reference', required=True)
+        return res
