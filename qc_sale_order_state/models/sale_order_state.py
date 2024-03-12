@@ -121,9 +121,9 @@ class SaleOrder(models.Model):
 
                 if sum_all_reserved > 0:
 
-                    mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id','=',obj.name)])
+                    mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id', '=', self.name),('state','!=','cancel')])
                     print('mr_id',mr_id)
-                    if mr_id:
+                    if len(mr_id)!=0:
                         continue
                     print('Reserved222', obj)
                     so_val = {
@@ -266,14 +266,14 @@ class SaleOrder(models.Model):
 
     def action_set_pre_production(self):
         for obj in self:
-            obj.write({'state': 'sent'})
+            obj.write({'state': 'draft'})
 
-            reset_mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id', '=', self.name),('state','!=','a_draft')],
+            reset_mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id', '=', self.name),('state','!=','cancel')],
                                                                     limit=1)
             print('reset_mr_id',reset_mr_id)
             if reset_mr_id:
                 mr_val = {
-                    'state': 'a_draft',
+                    'state': 'cancel',
                 }
 
                 reset_mr_id.update(mr_val)
