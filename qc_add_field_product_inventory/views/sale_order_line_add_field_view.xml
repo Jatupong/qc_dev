@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_sale_order_line_add_field_view" model="ir.ui.view">
+                <field name="name">sale.order.line.add.field</field>
+                <field name="model">sale.order</field>
+                <field name="inherit_id" ref="sale.view_order_form"/>
+                <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='product_uom']" position="before">
+                    <field name="qty_per_carton"/>
+                    <field name="qty_of_carton"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

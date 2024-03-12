@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_product_add_field_view" model="ir.ui.view">
+            <field name="name">product.template.form</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='weight']" position="after">
+                    <label for="gross" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+                    <div class="o_row" name="gross" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                        <field name="gross" class="oe_inline"/>
+                    </div>
+                    <label for="qty_per_carton" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+                    <div class="o_row" name="qty_per_carton" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                        <field name="qty_per_carton" class="oe_inline"/>
+                    </div>
+                    <label for="qty_of_carton" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}"/>
+                    <div class="o_row" name="qty_of_carton" attrs="{'invisible':[('product_variant_count', '>', 1), ('is_product_variant', '=', False)]}">
+                        <field name="qty_of_carton" class="oe_inline"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
