@@ -63,8 +63,8 @@ class WizardDepositReport(models.TransientModel):
     def _get_is_downpayment(self, date_from_time, date_to_time):
         domain = [('is_downpayment', '=', True),
                   ('state', 'in', ['sale', 'done']),
-                  # ('scheduled_date', '<=', date_from_time),
-                  # ('scheduled_date', '>=', date_to_time)
+                  ('scheduled_date', '<=', date_from_time),
+                  ('scheduled_date', '>=', date_to_time)
         ]
 
         if self.partner_ids:
@@ -90,6 +90,41 @@ class WizardDepositReport(models.TransientModel):
         date_time = date_time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
 
         return date_time
+
+    def Chack_Data(self,partner):
+        date_from_time = self.convert_usertz_to_utc(
+            datetime.combine(fields.Date.from_string(self.date_from), time.min))
+        date_to_time = self.convert_usertz_to_utc(datetime.combine(fields.Date.from_string(self.date_to), time.max))
+        sale_order_ids = self._get_is_downpayment(date_from_time, date_to_time)
+        sale_order_ids_by_partners = sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)
+        sale_order_ids_by_partner = sale_order_ids_by_partners.filtered(lambda x: x.name).sorted(key=lambda a: a.name)
+        chack1 = []
+        chack2 = []
+        chack3 = 0
+        for sale in sale_order_ids_by_partner:
+            chack1.append(sale.id)
+            chack_sale_name = []
+            a = datetime.strptime(date_from_time, '%Y-%m-%d %H:%M:%S')
+            a = a.date()
+            for inv in sale.invoice_ids.filtered(lambda x: x.name).sorted().sorted(key=lambda a: a.name):
+                if inv.state == 'posted':
+                    payment_name = True
+                    label = []
+                    for i in inv.invoice_line_ids:
+                        if 'Down payment' != i.product_id.name:
+                            payment_name = False
+                        label.append(i.name)
+                    if inv.invoice_date < a:
+                        if sale.id not in chack2:
+                            chack2.append(sale.id)
+                        continue
+
+                    if payment_name:
+                        if not (sale.name in chack_sale_name):
+                            chack3 += 1
+
+        if chack1 != chack2 and chack3 > 0:
+            return True
 
 
 class WizardDepositReportXls(models.AbstractModel):
@@ -164,71 +199,17 @@ class WizardDepositReportXls(models.AbstractModel):
         worksheet.write(i_row, i_col, strToDate(str(lines.date_to)).strftime("%d/%m/%Y"), for_left)
 
         for partner in partner_ids:
-            i_row += 2
-            i_col = 0
-            worksheet.merge_range(i_row, i_col, i_row, 16, partner.name, for_center_bold_border)
-
-            i_row += 1
-            i_col = 0
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'วันที่รับเงิน', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'ทีมขาย', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'PI.NO', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'เลขที่เอกสาร', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน \n ตาม PI', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'เงื่อนไข', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'สกุลเงิน', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน(ตปท)', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'Ex.Rate', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน(บาท)', for_center_bold_border)
-            i_col += 1
-            worksheet.write(i_row, i_col, 'ค่าธรรมเนียม', for_center_bold_border)
-            worksheet.write(i_row + 1, i_col, '(ตปท)', for_center_bold_border)
-            i_col += 1
-            worksheet.write(i_row, i_col, 'รับจริง', for_center_bold_border)
-            worksheet.write(i_row + 1, i_col, '(ตปท)', for_center_bold_border)
-            i_col += 1
-            # worksheet.write(i_row, i_col, 'จำนวนเงินที่หัก', for_center_bold_border)
-            worksheet.merge_range(i_row, i_col, i_row, i_col+1, 'จำนวนเงินที่หักมัดจำ', for_center_bold_border)
-            worksheet.write(i_row + 1, i_col, '(ตปท)', for_center_bold_border)
-            i_col += 1
-            # worksheet.write(i_row, i_col, 'มัดจำ', for_center_bold_border)
-            worksheet.write(i_row + 1, i_col, '(บาท)', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row, i_col + 1, 'คงเหลือ', for_center_bold_border)
-            worksheet.write(i_row + 1, i_col, '(ตปท)', for_center_bold_border)
-            i_col += 1
-            worksheet.write(i_row + 1, i_col, '(บาท)', for_center_bold_border)
-            i_col += 1
-            worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'Note', for_center_bold_border)
-
-            i_row += 1
-            sale_order_ids_by_partner = sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)
-
-            for sale in sale_order_ids_by_partner.filtered(lambda x: x.name).sorted(key=lambda a: a.name):
-
+            sale_order_ids_by_partners = sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)
+            sale_order_ids_by_partner = sale_order_ids_by_partners.filtered(lambda x: x.name).sorted(key=lambda a: a.name)
+            print("sale_order_ids_by_partner {} name {}".format(sale_order_ids_by_partner,partner.name))
+            chack1 = []
+            chack2 = []
+            chack3 = 0
+            for sale in sale_order_ids_by_partner:
+                chack1.append(sale.id)
                 chack_sale_name = []
-                sum_inv_amount_total = 0.0
-                sum_inv_amount_total_out = 0.0
-                sum1 = 0.0
-                sum2 = 0.0
-                for inv in sale.invoice_ids.filtered(lambda x: x.name).sorted().sorted(key=lambda a: a.name):
-                    sum_inv_amount_total += inv.amount_total
-                    sum_inv_amount_total_out += inv.amount_total
-                print("Test",type(date_from_time))
-                print("Date {}".format(date_from_time))
-                a =datetime.strptime(date_from_time, '%Y-%m-%d %H:%M:%S')
-                print("Date Time {}".format(a))
-                a=a.date()
-                print("Date {}".format(a))
+                a = datetime.strptime(date_from_time, '%Y-%m-%d %H:%M:%S')
+                a = a.date()
                 for inv in sale.invoice_ids.filtered(lambda x: x.name).sorted().sorted(key=lambda a: a.name):
                     if inv.state == 'posted':
                         payment_name = True
@@ -237,202 +218,287 @@ class WizardDepositReportXls(models.AbstractModel):
                             if 'Down payment' != i.product_id.name:
                                 payment_name = False
                             label.append(i.name)
-
-                        print(inv.name)
-
                         if inv.invoice_date < a:
+                            if sale.id not in chack2:
+                                chack2.append(sale.id)
                             continue
 
-
-
                         if payment_name:
-                            i_row += 1
-                            i_col = 0
-                            worksheet.write(i_row, i_col, inv.invoice_date, for_center_date)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, inv.team_id.name or '', for_left_border)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, sale.name or '', for_left_border)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, inv.name or '', for_left_border)
-
-                            sale_amount_total = False
-                            invoice_payment_term_name = False
-                            currency_id_name = False
-                            inv_amount_total = False
-                            currency_rate = False
-                            inv_amount_total_THB = 0
-                            fee_amount = 0
-                            inv_amount_total_out = 0
                             if not (sale.name in chack_sale_name):
-                                sale_amount_total = sale.amount_total
-                                invoice_payment_term_name = inv.invoice_payment_term_id.name
-                                if inv.company_id.currency_id != inv.currency_id:
-                                    currency_id_name = inv.currency_id.name
-                                    inv_amount_total = sum_inv_amount_total
-                                    currency_rate = inv.currency_id.rate_ids[0].inverse_company_rate or 1.0
-                                    inv_amount_total_THB = sale_amount_total * currency_rate
-                                    fee_amount = 0.0
-                                    inv_amount_total_out = sum_inv_amount_total_out
-                                if inv.company_id.currency_id == inv.currency_id:
-                                    currency_id_name = inv.currency_id.name
-                                    inv_amount_total = sum_inv_amount_total
-                                    currency_rate = 1.0
-                                    inv_amount_total_THB = sale_amount_total * currency_rate
-                                    fee_amount = 0.0
-                                    inv_amount_total_out = sum_inv_amount_total_out
-                                chack_sale_name = []
+                                chack3 += 1
 
-                            i_col += 1
-                            worksheet.write(i_row, i_col, sale_amount_total or '', for_right_border_num_format)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, invoice_payment_term_name or '', for_left_border)
+            if chack1 != chack2 and chack3>0:
+                i_row += 2
+                i_col = 0
+                worksheet.merge_range(i_row, i_col, i_row, 16, partner.name, for_center_bold_border)
 
-                            i_col += 1
-                            worksheet.write(i_row, i_col, currency_id_name or '', for_left_border)
-                            # จำนวนเงิน(ตปท)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, sale_amount_total or '', for_right_border_num_format)
-                            # Ex.Rate
-                            i_col += 1
-                            worksheet.write(i_row, i_col, currency_rate or '', for_right_border_num_format)
-                            # จำนวนเงิน(บาท)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, inv_amount_total_THB or '', for_right_border_num_format)
-                            # ค่าธรรมเนียม
-                            i_col += 1
-                            worksheet.write(i_row, i_col, fee_amount or '', for_right_border_num_format)
-                            # # รับจริง
-                            # i_col += 1
-                            # worksheet.write(i_row, i_col, inv_amount_total_out or '', for_right_border_num_format)
+                i_row += 1
+                i_col = 0
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'วันที่รับเงิน', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'ทีมขาย', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'PI.NO', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'เลขที่เอกสาร', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน \n ตาม PI', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'เงื่อนไข', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'สกุลเงิน', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน(ตปท)', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'Ex.Rate', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'จำนวนเงิน(บาท)', for_center_bold_border)
+                i_col += 1
+                worksheet.write(i_row, i_col, 'ค่าธรรมเนียม', for_center_bold_border)
+                worksheet.write(i_row + 1, i_col, '(ตปท)', for_center_bold_border)
+                i_col += 1
+                worksheet.write(i_row, i_col, 'รับจริง', for_center_bold_border)
+                worksheet.write(i_row + 1, i_col, '(ตปท)', for_center_bold_border)
+                i_col += 1
+                # worksheet.write(i_row, i_col, 'จำนวนเงินที่หัก', for_center_bold_border)
+                worksheet.merge_range(i_row, i_col, i_row, i_col+1, 'จำนวนเงินที่หักมัดจำ', for_center_bold_border)
+                worksheet.write(i_row + 1, i_col, '(ตปท)', for_center_bold_border)
+                i_col += 1
+                # worksheet.write(i_row, i_col, 'มัดจำ', for_center_bold_border)
+                worksheet.write(i_row + 1, i_col, '(บาท)', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row, i_col + 1, 'คงเหลือ', for_center_bold_border)
+                worksheet.write(i_row + 1, i_col, '(ตปท)', for_center_bold_border)
+                i_col += 1
+                worksheet.write(i_row + 1, i_col, '(บาท)', for_center_bold_border)
+                i_col += 1
+                worksheet.merge_range(i_row, i_col, i_row + 1, i_col, 'Note', for_center_bold_border)
 
-                            i_col += 1
-                            worksheet.write(i_row, i_col, inv.amount_total or '', for_right_border_num_format)
-                            # จำนวนเงินที่หัก
-                            i_col += 1
-                            worksheet.write(i_row, i_col,0.0, for_right_border_num_format)
-                            # มัดจำ
-                            i_col += 1
-                            worksheet.write(i_row, i_col, 0.0, for_right_border_num_format)
-                            # คงเหลือ
-                            i_col += 1
-                            sum1 = sum1 + inv.amount_total
-                            worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
-                            i_col += 1
-                            if len(inv.currency_id.rate_ids)>=1:
-                                rate = inv.currency_id.rate_ids[0].inverse_company_rate
-                            if len(inv.currency_id.rate_ids)==0:
-                                rate = inv.currency_id.rate_ids.inverse_company_rate
-                            sum2 = sum1 * (rate or 1)
-                            worksheet.write(i_row, i_col, sum2,
-                                            for_right_border_num_format)
-                            # worksheet.write(i_row, i_col, "{} x {} = {}".format(sum1,currency_rate,sum2), for_right_border_num_format)
-                            i_col += 1
-                            if inv.narration != False:
-                                note = str(inv.narration).split("<p>")
-                                note = str(note[-1]).split("</p>")
-                                worksheet.write(i_row, i_col, note[0], for_left_border)
-                            if inv.narration == False:
-                                print(inv.narration)
-                                worksheet.write(i_row, i_col, inv.narration or '', for_left_border)
+                i_row += 1
+                # sale_order_ids_by_partner = sale_order_ids.filtered(lambda x: x.partner_id.id == partner.id)
 
-                            chack_sale_name.append(sale.name)
-                            chack = str(date_from).split('-')
-                            if '1902' in chack:
+                # for sale in sale_order_ids_by_partner.filtered(lambda x: x.name).sorted(key=lambda a: a.name):
+                for sale in sale_order_ids_by_partner:
+
+                    chack_sale_name = []
+                    sum_inv_amount_total = 0.0
+                    sum_inv_amount_total_out = 0.0
+                    sum1 = 0.0
+                    sum2 = 0.0
+                    for inv in sale.invoice_ids.filtered(lambda x: x.name).sorted().sorted(key=lambda a: a.name):
+                        sum_inv_amount_total += inv.amount_total
+                        sum_inv_amount_total_out += inv.amount_total
+                    print("Test",type(date_from_time))
+                    print("Date {}".format(date_from_time))
+                    a =datetime.strptime(date_from_time, '%Y-%m-%d %H:%M:%S')
+                    print("Date Time {}".format(a))
+                    a=a.date()
+                    print("Date {}".format(a))
+                    for inv in sale.invoice_ids.filtered(lambda x: x.name).sorted().sorted(key=lambda a: a.name):
+                        if inv.state == 'posted':
+                            payment_name = True
+                            label = []
+                            for i in inv.invoice_line_ids:
+                                if 'Down payment' != i.product_id.name:
+                                    payment_name = False
+                                label.append(i.name)
+
+                            print(inv.name)
+
+                            if inv.invoice_date < a:
+                                continue
+
+
+
+                            if payment_name:
+                                i_row += 1
+                                i_col = 0
+                                worksheet.write(i_row, i_col, inv.invoice_date, for_center_date)
                                 i_col += 1
-                                worksheet.write(i_row, i_col, "{} x {} = {}{}".format(sum1,rate,sum2,inv.currency_id.symbol), for_left_border)
+                                worksheet.write(i_row, i_col, inv.team_id.name or '', for_left_border)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, sale.name or '', for_left_border)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, inv.name or '', for_left_border)
 
-                        if 'Down payment' in label:
-                            i_row += 1
-                            i_col = 0
-                            worksheet.write(i_row, i_col, inv.invoice_date, for_center_date)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, inv.team_id.name or '', for_left_border)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, sale.name or '', for_left_border)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, inv.name or '', for_left_border)
+                                sale_amount_total = False
+                                invoice_payment_term_name = False
+                                currency_id_name = False
+                                inv_amount_total = False
+                                currency_rate = False
+                                inv_amount_total_THB = 0
+                                fee_amount = 0
+                                inv_amount_total_out = 0
+                                if not (sale.name in chack_sale_name):
+                                    print("ID={} name={} payment_name={} chack_sale_name{}".format(sale.id, partner.name, payment_name,(sale.name in chack_sale_name)))
+                                    sale_amount_total = sale.amount_total
+                                    invoice_payment_term_name = inv.invoice_payment_term_id.name
+                                    if inv.company_id.currency_id != inv.currency_id:
+                                        currency_id_name = inv.currency_id.name
+                                        inv_amount_total = sum_inv_amount_total
+                                        currency_rate = inv.currency_id.rate_ids[0].inverse_company_rate or 1.0
+                                        inv_amount_total_THB = sale_amount_total * currency_rate
+                                        fee_amount = 0.0
+                                        inv_amount_total_out = sum_inv_amount_total_out
+                                    if inv.company_id.currency_id == inv.currency_id:
+                                        currency_id_name = inv.currency_id.name
+                                        inv_amount_total = sum_inv_amount_total
+                                        currency_rate = 1.0
+                                        inv_amount_total_THB = sale_amount_total * currency_rate
+                                        fee_amount = 0.0
+                                        inv_amount_total_out = sum_inv_amount_total_out
+                                    chack_sale_name = []
 
-                            sale_amount_total = False
-                            invoice_payment_term_name = False
-                            currency_id_name = False
-                            inv_amount_total = False
-                            currency_rate = False
-                            inv_amount_total_THB = 0
-                            fee_amount = 0
-                            inv_amount_total_out = 0
-                            if not (sale.name in chack_sale_name):
-                                sale_amount_total = sale.amount_total
-                                invoice_payment_term_name = inv.invoice_payment_term_id.name
-                                if inv.company_id.currency_id != inv.currency_id:
-                                    currency_id_name = inv.currency_id.name
-                                    inv_amount_total = sum_inv_amount_total
-                                    currency_rate = inv.currency_id.rate_ids[0].inverse_company_rate or 1.0
-                                    # currency_rate = inv.company_currency_id._get_rates(inv.company_id, inv.invoice_date).get(
-                                    #     inv.company_currency_id.id)
-                                    inv_amount_total_THB = sale_amount_total * currency_rate
-                                    fee_amount = 0.0
-                                    inv_amount_total_out = sum_inv_amount_total_out
-                                if inv.company_id.currency_id == inv.currency_id:
-                                    currency_id_name = inv.currency_id.name
-                                    inv_amount_total = sum_inv_amount_total
-                                    currency_rate = 1.0
-                                    # currency_rate = inv.company_currency_id._get_rates(inv.company_id, inv.invoice_date).get(
-                                    #     inv.company_currency_id.id)
-                                    inv_amount_total_THB = sale_amount_total * currency_rate
-                                    fee_amount = 0.0
-                                    inv_amount_total_out = sum_inv_amount_total_out
-                                chack_sale_name = []
+                                i_col += 1
+                                worksheet.write(i_row, i_col, sale_amount_total or '', for_right_border_num_format)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, invoice_payment_term_name or '', for_left_border)
 
-                            i_col += 1
-                            worksheet.write(i_row, i_col, sale_amount_total or '', for_right_border_num_format)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, invoice_payment_term_name or '', for_left_border)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, currency_id_name or '', for_left_border)
+                                # จำนวนเงิน(ตปท)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, sale_amount_total or '', for_right_border_num_format)
+                                # Ex.Rate
+                                i_col += 1
+                                worksheet.write(i_row, i_col, currency_rate or '', for_right_border_num_format)
+                                # จำนวนเงิน(บาท)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, inv_amount_total_THB or '', for_right_border_num_format)
+                                # ค่าธรรมเนียม
+                                i_col += 1
+                                worksheet.write(i_row, i_col, fee_amount or '', for_right_border_num_format)
+                                # # รับจริง
+                                # i_col += 1
+                                # worksheet.write(i_row, i_col, inv_amount_total_out or '', for_right_border_num_format)
 
-                            i_col += 1
-                            worksheet.write(i_row, i_col, currency_id_name or '', for_left_border)
-                            # จำนวนเงิน(ตปท)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, sale_amount_total or '', for_right_border_num_format)
-                            # Ex.Rate
-                            i_col += 1
-                            worksheet.write(i_row, i_col, currency_rate or '', for_right_border_num_format)
-                            # จำนวนเงิน(บาท)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, inv_amount_total_THB or '', for_right_border_num_format)
-                            # ค่าธรรมเนียม
-                            i_col += 1
-                            worksheet.write(i_row, i_col, fee_amount or '', for_right_border_num_format)
-                            # รับจริง
-                            i_col += 1
-                            worksheet.write(i_row, i_col, 0, for_right_border_num_format)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
-                            i_col += 1
-                            worksheet.write(i_row, i_col, sum2, for_right_border_num_format)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, inv.amount_total or '', for_right_border_num_format)
+                                # จำนวนเงินที่หัก
+                                i_col += 1
+                                worksheet.write(i_row, i_col,0.0, for_right_border_num_format)
+                                # มัดจำ
+                                i_col += 1
+                                worksheet.write(i_row, i_col, 0.0, for_right_border_num_format)
+                                # คงเหลือ
+                                i_col += 1
+                                sum1 = sum1 + inv.amount_total
+                                worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
+                                i_col += 1
+                                if len(inv.currency_id.rate_ids)>=1:
+                                    rate = inv.currency_id.rate_ids[0].inverse_company_rate
+                                if len(inv.currency_id.rate_ids)==0:
+                                    rate = inv.currency_id.rate_ids.inverse_company_rate
+                                sum2 = sum1 * (rate or 1)
+                                worksheet.write(i_row, i_col, sum2,
+                                                for_right_border_num_format)
+                                # worksheet.write(i_row, i_col, "{} x {} = {}".format(sum1,currency_rate,sum2), for_right_border_num_format)
+                                i_col += 1
+                                if inv.narration != False:
+                                    note = str(inv.narration).split("<p>")
+                                    note = str(note[-1]).split("</p>")
+                                    worksheet.write(i_row, i_col, note[0], for_left_border)
+                                if inv.narration == False:
+                                    print(inv.narration)
+                                    worksheet.write(i_row, i_col, inv.narration or '', for_left_border)
 
-                            i_col += 1
-                            sum1 = sum1 - sum1
-                            worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
-                            i_col += 1
-                            sum2 = sum2 - sum2
-                            worksheet.write(i_row, i_col, sum2, for_right_border_num_format)
+                                chack_sale_name.append(sale.name)
+                                chack = str(date_from).split('-')
+                                if '1902' in chack:
+                                    i_col += 1
+                                    worksheet.write(i_row, i_col, "{} x {} = {}{}".format(sum1,rate,sum2,inv.currency_id.symbol), for_left_border)
+
+                            if 'Down payment' in label:
+                                i_row += 1
+                                i_col = 0
+                                worksheet.write(i_row, i_col, inv.invoice_date, for_center_date)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, inv.team_id.name or '', for_left_border)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, sale.name or '', for_left_border)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, inv.name or '', for_left_border)
+
+                                sale_amount_total = False
+                                invoice_payment_term_name = False
+                                currency_id_name = False
+                                inv_amount_total = False
+                                currency_rate = False
+                                inv_amount_total_THB = 0
+                                fee_amount = 0
+                                inv_amount_total_out = 0
+                                if not (sale.name in chack_sale_name):
+                                    sale_amount_total = sale.amount_total
+                                    invoice_payment_term_name = inv.invoice_payment_term_id.name
+                                    if inv.company_id.currency_id != inv.currency_id:
+                                        currency_id_name = inv.currency_id.name
+                                        inv_amount_total = sum_inv_amount_total
+                                        currency_rate = inv.currency_id.rate_ids[0].inverse_company_rate or 1.0
+                                        # currency_rate = inv.company_currency_id._get_rates(inv.company_id, inv.invoice_date).get(
+                                        #     inv.company_currency_id.id)
+                                        inv_amount_total_THB = sale_amount_total * currency_rate
+                                        fee_amount = 0.0
+                                        inv_amount_total_out = sum_inv_amount_total_out
+                                    if inv.company_id.currency_id == inv.currency_id:
+                                        currency_id_name = inv.currency_id.name
+                                        inv_amount_total = sum_inv_amount_total
+                                        currency_rate = 1.0
+                                        # currency_rate = inv.company_currency_id._get_rates(inv.company_id, inv.invoice_date).get(
+                                        #     inv.company_currency_id.id)
+                                        inv_amount_total_THB = sale_amount_total * currency_rate
+                                        fee_amount = 0.0
+                                        inv_amount_total_out = sum_inv_amount_total_out
+                                    chack_sale_name = []
+
+                                i_col += 1
+                                worksheet.write(i_row, i_col, sale_amount_total or '', for_right_border_num_format)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, invoice_payment_term_name or '', for_left_border)
+
+                                i_col += 1
+                                worksheet.write(i_row, i_col, currency_id_name or '', for_left_border)
+                                # จำนวนเงิน(ตปท)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, sale_amount_total or '', for_right_border_num_format)
+                                # Ex.Rate
+                                i_col += 1
+                                worksheet.write(i_row, i_col, currency_rate or '', for_right_border_num_format)
+                                # จำนวนเงิน(บาท)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, inv_amount_total_THB or '', for_right_border_num_format)
+                                # ค่าธรรมเนียม
+                                i_col += 1
+                                worksheet.write(i_row, i_col, fee_amount or '', for_right_border_num_format)
+                                # รับจริง
+                                i_col += 1
+                                worksheet.write(i_row, i_col, 0, for_right_border_num_format)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
+                                i_col += 1
+                                worksheet.write(i_row, i_col, sum2, for_right_border_num_format)
+
+                                i_col += 1
+                                sum1 = sum1 - sum1
+                                worksheet.write(i_row, i_col, sum1, for_right_border_num_format)
+                                i_col += 1
+                                sum2 = sum2 - sum2
+                                worksheet.write(i_row, i_col, sum2, for_right_border_num_format)
 
 
 
-                        # note
-                            i_col += 1
-                            if inv.narration !=False:
-                                note = str(inv.narration).split("<p>")
-                                note = str(note[-1]).split("</p>")
-                                worksheet.write(i_row, i_col, note[0], for_left_border)
-                            if inv.narration == False:
-                                print(inv.narration)
-                                worksheet.write(i_row, i_col, inv.narration or '', for_left_border)
-                                # print(inv.narration)
-                                # worksheet.write(i_row, i_col, "ยกยอด", for_left_border)
+                            # note
+                                i_col += 1
+                                if inv.narration !=False:
+                                    note = str(inv.narration).split("<p>")
+                                    note = str(note[-1]).split("</p>")
+                                    worksheet.write(i_row, i_col, note[0], for_left_border)
+                                if inv.narration == False:
+                                    print(inv.narration)
+                                    worksheet.write(i_row, i_col, inv.narration or '', for_left_border)
+                                    # print(inv.narration)
+                                    # worksheet.write(i_row, i_col, "ยกยอด", for_left_border)
 
-                            chack_sale_name.append(sale.name)
+                                chack_sale_name.append(sale.name)
 
 
         workbook.close()
