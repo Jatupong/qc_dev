@@ -34,5 +34,6 @@ class SaleOrder(models.Model):
 
         if self.user_has_groups('base.group_no_one'):
             raise UserError(_(mess+"\nBy Debug mode [Sarawut Ph.]"))
+        self.update({'state':'cancel'})
 
         return res
