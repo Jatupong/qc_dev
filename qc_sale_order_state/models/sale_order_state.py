@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of IT as a Service Co., Ltd.
 # Copyright (C) 2022-today www.itaas.co.th (Dev K.New)
+from datetime import datetime
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
@@ -108,16 +109,28 @@ class SaleOrder(models.Model):
             for obj in self.order_line:
                 # product_quant = self.env['stock.quant'].search([('product_id.id', '=', obj.product_id.id)])
                 # print('product_quant',product_quant)
-                print('objjjjjj', obj.product_uom_qty)
-                print('objjjjjj6666', obj.move_ids)
-                print('objjjjjj', obj.move_ids.product_virtual_available)
-                print('objjjjjj', obj.move_ids.product_qty_available)
+                # print('objjjjjj', obj.product_uom_qty)
+                # print('objjjjjj6666', obj.move_ids)
+                # print('objjjjjj', obj.move_ids.product_virtual_available)
+                # print('objjjjjj', obj.move_ids.product_qty_available)
                 if not obj.product_id.bom_ids:
                     raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
 
+                msg ="Err!"
+                Zum =0
 
-                sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
-                print('sum_all_reserved', sum_all_reserved)
+                try:
+                    msg+='obj.move_ids {}\n'.format(obj.move_ids.ids)
+                    for i in obj.move_ids:
+                        msg +='product_uom_qty {} reserved_availability {}\n'.format(i.product_uom_qty ,i.reserved_availability)
+                        Zum+=i.product_uom_qty -i.reserved_availability
+                    sum_all_reserved = Zum
+                except:
+                    sum_all_reserved = 0
+                    if self.user_has_groups('base.group_no_one'):
+                        raise UserError(_(msg + "\nBy Debug mode [Sarawut Ph.] {}".format(datetime.now())))
+                # sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
+                # print('sum_all_reserved', sum_all_reserved)
 
                 if sum_all_reserved > 0:
 
