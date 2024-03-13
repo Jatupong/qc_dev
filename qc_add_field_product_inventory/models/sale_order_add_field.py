@@ -9,7 +9,7 @@ from odoo import fields, models, _,api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    qty_per_carton = fields.Float('QTY per Carton', digits=(16, 2),related="product_template_id.qty_of_carton")
+    qty_per_carton = fields.Float('QTY per Carton', digits=(16, 2),related="product_template_id.qty_per_carton")
     qty_of_carton = fields.Float('QTY of Carton', digits=(16, 2),related="product_template_id.qty_of_carton")
     # width = fields.Float(string='Width',related="product_template_id.breadth_int")
     # length = fields.Float(string='Length',related="product_template_id.length_int")
