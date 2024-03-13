@@ -33,21 +33,21 @@ class SaleOrderLine(models.Model):
                 'g_w_kgs': float(self.product_template_id.gross) or 0,
                 'n_w_kgs': float(self.product_template_id.weight) or 0,
             })
-            partner = self.partner_id
-            if len(partner) > 0:
-                property_product_pricelist = partner.property_product_pricelist
-                if len(property_product_pricelist) > 0:
-                    pricelist_rules_ids = property_product_pricelist.item_ids
-                    for pricelist_rules in pricelist_rules_ids:
-                        if pricelist_rules.product_id.name == self.product_id.name:
-                            self.update({
-                                'product_cost': pricelist_rules.product_cost,
-                                'commission_cost': pricelist_rules.commission_cost,
-                                'box_cost': pricelist_rules.box_cost,
-                                'sticker_cost': pricelist_rules.sticker_cost,
-                                'cost_1':pricelist_rules.cost_1,
-                                'cost_2': pricelist_rules.cost_2,
-                                'cost_3': pricelist_rules.cost_3,
-                            })
+            # partner = self.partner_id
+            # if len(partner) > 0:
+            #     property_product_pricelist = partner.property_product_pricelist
+            #     if len(property_product_pricelist) > 0:
+            #         pricelist_rules_ids = property_product_pricelist.item_ids
+            #         for pricelist_rules in pricelist_rules_ids:
+            #             if pricelist_rules.product_id.name == self.product_id.name:
+            #                 self.update({
+            #                     'product_cost': pricelist_rules.product_cost,
+            #                     'commission_cost': pricelist_rules.commission_cost,
+            #                     'box_cost': pricelist_rules.box_cost,
+            #                     'sticker_cost': pricelist_rules.sticker_cost,
+            #                     'cost_1':pricelist_rules.cost_1,
+            #                     'cost_2': pricelist_rules.cost_2,
+            #                     'cost_3': pricelist_rules.cost_3,
+            #                 })
 
 
