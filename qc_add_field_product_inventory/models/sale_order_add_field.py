@@ -21,9 +21,16 @@ class SaleOrderLine(models.Model):
     # n_w_kgs = fields.Float(related="product_template_id.weight")
 
 
-    @api.onchange('product_template_id')
+    @api.onchange('product_id')
     def get_volume(self):
-        if len(self.product_template_id)>0:
+        if len(self.product_id)>0:
+            print("self.product_id",self.product_id)
+            pricelist_rule_id = self.order_id.pricelist_id._get_product_rule(
+                    self.product_id,
+                    self.product_uom_qty or 1.0,
+                    uom=self.product_uom,
+                    date=self.order_id.date_order,)
+            print("pricelist_rule {}".format(pricelist_rule_id))
             self.update({
                 'width':float(self.product_template_id.breadth) or 0,
                 'length': float(self.product_template_id.length) or 0,
@@ -33,6 +40,17 @@ class SaleOrderLine(models.Model):
                 'g_w_kgs': float(self.product_template_id.gross) or 0,
                 'n_w_kgs': float(self.product_template_id.weight) or 0,
             })
+            pricelist_rule = self.env['product.pricelist.item'].browse(pricelist_rule_id)
+            self.update({
+                'product_cost': pricelist_rule.product_cost,
+                'commission_cost': pricelist_rule.commission_cost,
+                'box_cost': pricelist_rule.box_cost,
+                'sticker_cost': pricelist_rule.sticker_cost,
+                'cost_1': pricelist_rule.cost_1,
+                'cost_2': pricelist_rule.cost_2,
+                'cost_3': pricelist_rule.cost_3,
+            })
+
             # partner = self.partner_id
             # if len(partner) > 0:
             #     property_product_pricelist = partner.property_product_pricelist
