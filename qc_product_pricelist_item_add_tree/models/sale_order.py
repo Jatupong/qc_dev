@@ -40,7 +40,7 @@ class SaleOrder(models.Model):
                         raise ValidationError(_("Err! {}\nsale_order_ids = {} = last_website_so_id {}\n By Debug mode [Sarawut Ph.]".format(err,len(sale_order),len(so_id))))
 
 
-    @api.onchange('order_line','sale_order_set_line_ids')
+    @api.onchange('order_line')
     def update_pricelist_by_order_line(self):
         print("update_pricelist_by_order_line Action!")
         arr = []
