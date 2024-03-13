@@ -304,6 +304,11 @@ class SaleOrder(models.Model):
         for obj in self:
             print('obj')
             obj.write({'state': 'production'})
+            reset_mr_id = obj.env['manufacturing.request.custom'].search(
+                [('sale_order_id.order_id', '=', self.name), ('state', '!=', 'cancel')],
+                )
+            for mr in reset_mr_id:
+                mr.update({'state':'c_validate'})
 
     def action_done_sale(self):
         for obj in self:
