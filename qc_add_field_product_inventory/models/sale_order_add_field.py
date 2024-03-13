@@ -22,7 +22,7 @@ class SaleOrderLine(models.Model):
     def get_volume(self):
         if self.product_template_id:
             self.update({
-                'width':int(self.product_template_id.breadth) or 0,
-                'length': int(self.product_template_id.length) or 0,
-                'height': int(self.product_template_id.height) or 0,
+                'width':float(self.product_template_id.breadth) or 0,
+                'length': float(self.product_template_id.length) or 0,
+                'height': float(self.product_template_id.height) or 0,
             })
