@@ -9,8 +9,17 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    @api.onchange('partner_id')
+    def action_confirm_sale(self):
+        print("action_confirm_sale Action!")
+        res = super(SaleOrder, self).action_confirm_sale()
+        self.create_pricelist()
+        self.update_pricelist_by_order_line()
+        self.update_pricelist()
+        return res
+
+    # @api.onchange('partner_id')
     def create_pricelist(self):
+        print("create_pricelist Action!")
         partner = self.partner_id
         if len(partner) > 0:
             sale_order = partner.sale_order_ids
@@ -33,6 +42,7 @@ class SaleOrder(models.Model):
 
     @api.onchange('order_line','sale_order_set_line_ids')
     def update_pricelist_by_order_line(self):
+        print("update_pricelist_by_order_line Action!")
         arr = []
         partner = self.partner_id
         if len(partner) > 0:
@@ -52,51 +62,53 @@ class SaleOrder(models.Model):
                         product = self.env['product.template'].search([('name', '=', sale.product_template_id.name)])
                         print("product_id :{}".format(product.name))
                         # base_pricelist_id = self.create_pricelist_item(product, sale, property_product_pricelist)
-                        try:
-                            pricelist_rules_ids.create({
-                                                        'pricelist_id':property_product_pricelist.id,
-                                                          'compute_price': 'formula',
-                                                          'base':'pricelist',
-                                                          'base_pricelist_id':pricelist_rules_ids2.id,
-                                                          'product_tmpl_id': product.id,
-                                                          'applied_on': '0_product_variant',
-                                                          'product_id': product.product_variant_id.id,
-                                                          'currency_id': property_product_pricelist.currency_id.id,
-                                                          'product_cost': sale.product_cost,
-                                                          'commission_cost': sale.commission_cost,
-                                                          'box_cost': sale.box_cost,
-                                                          'sticker_cost': sale.sticker_cost,
-                                                          'cost_1':sale.cost_1,
-                                                          'cost_2': sale.cost_2,
-                                                          'cost_3': sale.cost_3,
-                                                          })
-                            property_product_pricelist.update({"item_ids":self.env['product.pricelist.item'].search([('pricelist_id.id', '=', property_product_pricelist.id)])})
-                            # self.update_pricelist()
-                        except Exception as err:
-                            if self.user_has_groups('base.group_no_one'):
-                                raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
+                        if self.state == 'sale':
+                            try:
+                                pricelist_rules_ids.create({
+                                                            'pricelist_id':property_product_pricelist.id,
+                                                              'compute_price': 'formula',
+                                                              'base':'pricelist',
+                                                              'base_pricelist_id':pricelist_rules_ids2.id,
+                                                              'product_tmpl_id': product.id,
+                                                              'applied_on': '0_product_variant',
+                                                              'product_id': product.product_variant_id.id,
+                                                              'currency_id': property_product_pricelist.currency_id.id,
+                                                              'product_cost': sale.product_cost,
+                                                              'commission_cost': sale.commission_cost,
+                                                              'box_cost': sale.box_cost,
+                                                              'sticker_cost': sale.sticker_cost,
+                                                              'cost_1':sale.cost_1,
+                                                              'cost_2': sale.cost_2,
+                                                              'cost_3': sale.cost_3,
+                                                              })
+                                property_product_pricelist.update({"item_ids":self.env['product.pricelist.item'].search([('pricelist_id.id', '=', property_product_pricelist.id)])})
+                                # self.update_pricelist()
+                            except Exception as err:
+                                if self.user_has_groups('base.group_no_one'):
+                                    raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
                     elif chack != 0:
                         print("sale.product_template_id :{}".format(chack))
 
                         for pricelist_rules in pricelist_rules_ids:
                             print("TTTT{} = {}".format(pricelist_rules.product_id.name, sale.product_id.name))
                             if pricelist_rules.product_id.name == sale.product_id.name:
-                                try:
-                                    pricelist_rules_ids.update({
-                                        'currency_id': property_product_pricelist.currency_id.id,
-                                        'product_cost': sale.product_cost,
-                                        'commission_cost': sale.commission_cost,
-                                        'box_cost': sale.box_cost,
-                                        'sticker_cost': sale.sticker_cost,
-                                        'cost_1': sale.cost_1,
-                                        'cost_2': sale.cost_2,
-                                        'cost_3': sale.cost_3,
-                                    })
-                                except Exception as err:
-                                    print("TwT :{} = {}".format(pricelist_rules.product_tmpl_id.name,
-                                                                sale.product_template_id.name))
-                                    if self.user_has_groups('base.group_no_one'):
-                                        raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
+                                if self.state == 'sale':
+                                    try:
+                                        pricelist_rules_ids.update({
+                                            'currency_id': property_product_pricelist.currency_id.id,
+                                            'product_cost': sale.product_cost,
+                                            'commission_cost': sale.commission_cost,
+                                            'box_cost': sale.box_cost,
+                                            'sticker_cost': sale.sticker_cost,
+                                            'cost_1': sale.cost_1,
+                                            'cost_2': sale.cost_2,
+                                            'cost_3': sale.cost_3,
+                                        })
+                                    except Exception as err:
+                                        print("TwT :{} = {}".format(pricelist_rules.product_tmpl_id.name,
+                                                                    sale.product_template_id.name))
+                                        if self.user_has_groups('base.group_no_one'):
+                                            raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
 
 
                                 for set_line in pricelist_rules.set_line:
@@ -106,8 +118,9 @@ class SaleOrder(models.Model):
         self.update({'sale_order_set_line_ids': self.env['sale.order.set.line'].search([('id', 'in', arr)])})
 
 
-    @api.onchange('partner_id','sale_order_set_line_ids')
+    # @api.onchange('partner_id','sale_order_set_line_ids')
     def update_pricelist(self):
+        print("update_pricelist Action!")
         partner = self.partner_id
         if len(partner) >0:
             property_product_pricelist = partner.property_product_pricelist
