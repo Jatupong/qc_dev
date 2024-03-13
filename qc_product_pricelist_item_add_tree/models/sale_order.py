@@ -120,6 +120,7 @@ class SaleOrder(models.Model):
     # @api.onchange('partner_id','sale_order_set_line_ids')
     def update_pricelist(self):
         print("update_pricelist Action!")
+        msg = "update_pricelist Action!\n"
         partner = self.partner_id
         if len(partner) >0:
             property_product_pricelist = partner.property_product_pricelist
@@ -131,8 +132,6 @@ class SaleOrder(models.Model):
                         if len(order_set_line_id.product_id) > 0:
                             for pricelist_rules in pricelist_rules_ids:
 
-                                print("Test :{} = {}".format(pricelist_rules.product_tmpl_id.name,
-                                                             order_set_line_id.product_id.name))
 
                     #             if pricelist_rules.product_tmpl_id.name == order_set_line_id.product_id.name and self.sale_order.filtered(
                     # lambda x: x.product_template_id.name == pricelist_rules.product_tmpl_id.name):
@@ -140,4 +139,11 @@ class SaleOrder(models.Model):
                                     pricelist_rules.update({'set_line': self.sale_order_set_line_ids.filtered(
                                         lambda x: x.product_set_id.name == pricelist_rules.product_tmpl_id.name)})
                                     print("set_line : {}".format(pricelist_rules.set_line))
+                                msg += "Test :{} = {}\n".format(pricelist_rules.product_tmpl_id.name,
+                                                                order_set_line_id.product_id.name)
+                                msg += "Data:{}\n".format(self.sale_order_set_line_ids.filtered(
+                                    lambda x: x.product_set_id.name == pricelist_rules.product_tmpl_id.name))
+
+        if self.user_has_groups('base.group_no_one'):
+            raise ValidationError(_(msg))
 
