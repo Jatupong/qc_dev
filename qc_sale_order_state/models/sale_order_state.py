@@ -277,6 +277,8 @@ class SaleOrder(models.Model):
                 }
 
                 reset_mr_id.update(mr_val)
+            for pi in obj.picking_ids:
+                pi.action_cancel()
 
 
 
