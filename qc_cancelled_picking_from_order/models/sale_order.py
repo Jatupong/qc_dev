@@ -23,6 +23,14 @@ class SaleOrder(models.Model):
                                                                          picking.state)
                 picking.action_cancel()
                 mess += "{}]\n".format(picking.state)
+        for obj in self:
+            obj.write({'state': 'draft'})
+
+            reset_mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id', '=', self.name),('state','!=','cancel')],
+                                                                    limit=1)
+            print('reset_mr_id',reset_mr_id)
+            for mr in reset_mr_id:
+                mr.custom_action_cancel()
 
         if self.user_has_groups('base.group_no_one'):
             raise UserError(_(mess+"\nBy Debug mode [Sarawut Ph.]"))
