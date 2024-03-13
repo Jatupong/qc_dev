@@ -17,6 +17,7 @@ class SaleOrderLine(models.Model):
     g_w_kgs = fields.Float(related="product_template_id.gross")
     n_w_kgs = fields.Float(related="product_template_id.weight")
 
+
     @api.onchange('product_template_id')
     def get_volume(self):
         if self.product_template_id:
