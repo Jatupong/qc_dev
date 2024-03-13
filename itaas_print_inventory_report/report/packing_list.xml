@@ -527,7 +527,7 @@
                                     </td>
                                     <td style="border: 1px solid black;">
                                         <t t-set="sum_CBM"
-                                           t-value="((((line.width * line.length) * line.height) / 1000000 ) * line.box_cost ) + sum_CBM"/>
+                                           t-value="((((line.width * line.length) * line.height) / 1000000 ) * line.qty_of_carton ) + sum_CBM"/>
                                         <!--                                        <span t-field="line.n_w_kgs"/>-->
                                         <!--                                        <t t-esc="sum_CBM"/>-->
                                         <span t-esc="'{0:,.5f}'.format(float(sum_CBM))"/>
