@@ -220,8 +220,22 @@ class SaleOrder(models.Model):
                     raise ValidationError(_("product รายการนี้ยังไม่มี BOM"))
 
 
-                sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
-                print('sum_all_reserved', sum_all_reserved)
+                # sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
+                # print('sum_all_reserved', sum_all_reserved)
+                msg = "Err!"
+                Zum = 0
+
+                try:
+                    msg += 'obj.move_ids {}\n'.format(obj.move_ids.ids)
+                    for i in obj.move_ids:
+                        msg += 'product_uom_qty {} reserved_availability {}\n'.format(i.product_uom_qty,
+                                                                                      i.reserved_availability)
+                        Zum += i.product_uom_qty - i.reserved_availability
+                    sum_all_reserved = Zum
+                except:
+                    sum_all_reserved = 0
+                    if self.user_has_groups('base.group_no_one'):
+                        raise UserError(_(msg + "\nBy Debug mode [Sarawut Ph.] {}".format(datetime.now())))
 
                 if sum_all_reserved > 0:
                     mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id','=',obj.name)])
