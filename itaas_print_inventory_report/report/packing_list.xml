@@ -497,10 +497,10 @@
                                     <td style="border: 1px solid black;">
                                         <t t-set="sum_product_uom_qty"
                                            t-value="sum_product_uom_qty+line.product_uom_qty"/>
-                                        <span t-field="line.product_uom_qty"/>
+                                        <span t-field="line.qty_per_carton"/>
                                     </td>
                                     <td style="border: 1px solid black;">
-                                        <span t-field="line.product_packaging_qty"/>
+                                        <span t-field="line.qty_of_carton"/>
                                     </td>
                                     <td style="border: 1px solid black;">
                                         <span t-field="line.box_cost"/>
