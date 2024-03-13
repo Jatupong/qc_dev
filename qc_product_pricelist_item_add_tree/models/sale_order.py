@@ -109,7 +109,7 @@ class SaleOrder(models.Model):
                                                                     sale.product_template_id.name))
                                         if self.user_has_groups('base.group_no_one'):
                                             raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
-                                self.update_pricelist()
+                                    self.update_pricelist()
 
 
                                 for set_line in pricelist_rules.set_line:
