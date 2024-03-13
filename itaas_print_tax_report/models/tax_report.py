@@ -49,31 +49,31 @@ class report_sale_tax_report(models.AbstractModel):
         }
 
 
-class report_purchase_tax_report(models.AbstractModel):
-    _name = 'report.itaas_print_tax_report.purchase_tax_report_id'
-
-    @api.model
-    def _get_report_values(self, docids, data=None):
-        # company_id = self.env['res.company'].sudo().browse(data['form']['company_id'][0])
-        company_id = self.env.company
-
-        domain =[('is_closing_month','=',False)]
-        if data['form']['tax_id']:
-            account_id = self.env['account.tax'].browse(data['form']['tax_id'][0]).account_id
-            domain.append(('account_id', '=', account_id.id))
-        if data['form']['date_from']:
-            domain.append(('date', '>=', data['form']['date_from']))
-        if data['form']['date_to']:
-            domain.append(('date', '<=', data['form']['date_to']))
-        print('domain: ', domain)
-        docs = self.env['account.move.line'].search(domain, order='invoice_date asc')
-        if not docs:
-            raise UserError(_('There is no invoices between this date range.'))
-
-        return {
-            'doc_ids': docids,
-            'doc_model': 'account.move.line',
-            'docs': docs,
-            'company_id': company_id,
-            'data': data['form'],
-        }
+# class report_purchase_tax_report(models.AbstractModel):
+#     _name = 'report.itaas_print_tax_report.purchase_tax_report_id'
+#
+#     @api.model
+#     def _get_report_values(self, docids, data=None):
+#         # company_id = self.env['res.company'].sudo().browse(data['form']['company_id'][0])
+#         company_id = self.env.company
+#
+#         domain =[('is_closing_month','=',False)]
+#         if data['form']['tax_id']:
+#             account_id = self.env['account.tax'].browse(data['form']['tax_id'][0]).account_id
+#             domain.append(('account_id', '=', account_id.id))
+#         if data['form']['date_from']:
+#             domain.append(('date', '>=', data['form']['date_from']))
+#         if data['form']['date_to']:
+#             domain.append(('date', '<=', data['form']['date_to']))
+#         print('domain: ', domain)
+#         docs = self.env['account.move.line'].search(domain, order='invoice_date asc')
+#         if not docs:
+#             raise UserError(_('There is no invoices between this date range.'))
+#
+#         return {
+#             'doc_ids': docids,
+#             'doc_model': 'account.move.line',
+#             'docs': docs,
+#             'company_id': company_id,
+#             'data': data['form'],
+#         }
