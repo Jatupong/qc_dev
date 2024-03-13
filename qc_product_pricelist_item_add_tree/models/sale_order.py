@@ -103,11 +103,13 @@ class SaleOrder(models.Model):
                                             'cost_2': sale.cost_2,
                                             'cost_3': sale.cost_3,
                                         })
+
                                     except Exception as err:
                                         print("TwT :{} = {}".format(pricelist_rules.product_tmpl_id.name,
                                                                     sale.product_template_id.name))
                                         if self.user_has_groups('base.group_no_one'):
                                             raise ValidationError(_("Err! {}\n By Debug mode [Sarawut Ph.]".format(err)))
+                                self.update_pricelist()
 
 
                                 for set_line in pricelist_rules.set_line:
