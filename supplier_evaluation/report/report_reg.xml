@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paperformat_A4_Zero_Margin_assessment_form" model="report.paperformat">
+            <field name="name">A4_Zero_Margin_assessment_form</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">35</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">30</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="assessment_form_report"
+                model="supplier.evaluation"
+                menu="True"
+                report_type="qweb-pdf"
+                string="Assessment Form"
+                paperformat="paperformat_A4_Zero_Margin_assessment_form"
+                name="supplier_evaluation.assessment_form_report_id"
+                file="supplier_evaluation.assessment_form_report_id"
+        />
+
+        <record id="paperformat_A4_Zero_Margin_summary_supplier_form" model="report.paperformat">
+            <field name="name">A4_Zero_Margin_summary_supplier_form</field>
+            <field name="default" eval="False"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">5</field>
+            <field name="margin_right">5</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="summary_supplier_evaluation"
+                model="supplier.evaluation"
+                menu="False"
+                report_type="qweb-pdf"
+                string="Summary Supplier Assessment Form"
+                paperformat="paperformat_A4_Zero_Margin_summary_supplier_form"
+                name="supplier_evaluation.summary_supplier_evaluation_id"
+                file="supplier_evaluation.summary_supplier_evaluation_id"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="summary_supplier_evaluation_id">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="header">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        table.table-bordered {
+                        border:1px solid black;
+                        padding:3px;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        margin:0px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:3px;
+                        text-align:center;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                    </style>
+
+                    <div class="col-xs-12 font_fam" style="text-align:right; font-size: 16px;">
+                        <span>หน้า</span>
+                        <span class="page"/>/<span class="topage"/>
+                    </div>
+
+                    <table width="100%" class="table table-bordered">
+                        <tr>
+                            <td width="15%" rowspan="2" style="vertical-align:middle; border:0px solid white;">
+                                <div>
+                                    <img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)"
+                                         style="height:60px; width: 110px;"/>
+                                </div>
+                            </td>
+                            <td width="35%" rowspan="2" style="vertical-align:middle; border:0px solid white; border-right:1px solid black;">
+                                <div style="font-size: 20px;">
+                                    <span t-field="o.company_id.name"/>&amp;nbsp;
+                                    <t t-if="o.company_id.branch_no == '00000'">
+                                        <span>( สำนักงานใหญ่ )</span>
+                                    </t>
+                                    <t t-if="o.company_id.branch_no != '00000'">
+                                        <span>( </span><span t-field="o.company_id.branch_no"/><span> )</span>
+                                    </t><br/>
+                                    <span>Chong Thai Rung Ruang Co., Ltd</span>&amp;nbsp;
+                                    <t t-if="o.company_id.branch_no == '00000'">
+                                        <span>( Head Office )</span>
+                                    </t>
+                                    <t t-if="o.company_id.branch_no != '00000'">
+                                        (<span t-field="o.company_id.branch_no"/>)
+                                    </t>
+                                </div>
+                            </td>
+                            <td width="25%" align="center" style="line-height:28px;" >
+                                <B><span style="font-size: 20px;">ผู้ประเมิน / Evaluate by</span></B>
+                            </td>
+                            <td width="25%" align="center" style="line-height:28px;">
+                                <B><span style="font-size: 20px;">ผู้จัดการฝ่ายจัดซื้อ/คลังพัสดุ</span></B>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                <span t-field="o.evaluate_by"/>
+                            </td>
+                            <td align="center">
+                                <span t-field="o.validate_by"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" class="table table-bordered" style="margin-top:-1px;">
+                        <tr>
+                            <td rowspan="2" width="300px" align="center" style="vertical-align:middle; font-size:16px; line-height:16px;">
+                                <span>ใบประเมินผลงานผู้ขายสินค้า / บริการ</span><br/>
+                                <span>Vendor Evaluation Form</span>
+                            </td>
+                            <t t-set="score_grade" t-value="o.env['score.grade'].sudo().search([])"/>
+                            <t t-foreach="score_grade" t-as="sg">
+                                <td  align="center"><span t-field="sg.name"/></td>
+                            </t>
+                            <td align="center">
+                                <span>P</span>
+                            </td>
+                            <td align="center">
+                                <span>N</span>
+                            </td>
+                            <td align="center">
+                                <span>ประจำปี</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <t t-foreach="score_grade" t-as="sg">
+                                <td></td>
+                            </t>
+                            <td>
+                                <span></span>
+                            </td>
+                            <td>
+                                <span></span>
+                            </td>
+                            <td align="center">
+                                <span t-esc="year"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="page">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        table.table-bordered {
+                        border:1px solid black;
+                        padding:3px;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        margin:0px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:3px;
+                        text-align:center;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                    </style>
+
+                    <table width="100%" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="3%" rowspan="2"><span>No.</span></th>
+                                <th width="35%" rowspan="2"><span>Vendor</span></th>
+                                <th colspan="4"><span>Quarter</span></th>
+                                <th width="12%" rowspan="2"><span>Score</span><br/><span>(เฉลี่ย/ปี)</span></th>
+                                <th width="8%" rowspan="2"><span>Grade</span></th>
+                                <th colspan="2"><span>Result</span></th>
+                            </tr>
+                            <tr>
+                                <th width="8%"><span>1</span></th>
+                                <th width="8%"><span>2</span></th>
+                                <th width="8%"><span>3</span></th>
+                                <th width="8%"><span>4</span></th>
+                                <th width="5%"><span>Pass</span></th>
+                                <th width="5%"><span>Not</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="supplier_i" t-value="0"/>
+                            <t t-foreach="supplier_ids" t-as="line">
+                                <t t-set="score_year" t-value="0"/>
+                                <t t-set="q_year" t-value="0"/>
+                                <t t-set="score_percent" t-value="0"/>
+                                <tr>
+                                    <td align="center">
+                                        <t t-set="supplier_i" t-value="supplier_i + 1"/>
+                                        <t t-set="score_vender" t-value="o.get_score_vender(line,year)"/>
+                                        <span t-esc="supplier_i"/>
+                                    </td>
+                                    <td>
+                                        <span t-esc="line.name"/>
+                                    </td>
+                                    <t t-foreach="score_vender" t-as="sv">
+                                        <td align="center">
+                                            <t t-if="sv['has_data']">
+                                                <span t-esc="'{0:,.2f}'.format(float(sv['percent_score']))"/>
+                                                <t t-set="q_year" t-value="q_year + 1"/>
+                                                <t t-set="score_percent" t-value="score_percent + sv['percent_score']"/>
+                                            </t>
+                                            <t t-if="not sv['has_data']">
+                                                <span> - </span>
+                                            </t>
+                                        </td>
+                                    </t>
+                                    <td align="center">
+                                        <t t-if="q_year == 0">
+                                            <t t-set="q_year" t-value="q_year + 1"/>
+                                        </t>
+                                        <t t-set="score_year" t-value="score_percent / q_year"/>
+                                        <span t-esc="'{0:,.2f}'.format(float(score_year))"/>
+                                    </td>
+                                    <td align="center">
+                                        <t t-set="grade" t-value="o.env['score.grade'].sudo().search([('max_score','&gt;=',score_year)],limit = 1 ,order = 'max_score asc')"/>
+                                        <B><span t-esc="grade.name"/></B>
+                                    </td>
+                                    <td align="center">
+                                        <t t-if="grade.result == 'pass'">
+                                            <B><span style="color:green;">P</span></B>
+                                        </t>
+                                        <t t-if="grade.result != 'pass'">
+                                            <B><span>P</span></B>
+                                        </t>
+                                    </td>
+                                    <td align="center">
+                                        <t t-if="grade.result != 'pass'">
+                                            <B><span style="color:red;">N</span></B>
+                                        </t>
+                                        <t t-if="grade.result == 'pass'">
+                                            <B><span>N</span></B>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="footer">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                    </style>
+                    <div class="col-xs-12 font_fam" style="text-align:right;"><span>F-PH-007 REV.01/2021</span></div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

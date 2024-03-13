@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_supplier_evaluation_user,supplier_evaluation_user,supplier_evaluation.model_supplier_evaluation,base.group_user,1,1,1,1
+access_supplier_evaluation_line_user,supplier_evaluation_user,supplier_evaluation.model_supplier_evaluation_line,base.group_user,1,1,1,1
+access_wizard_suplier_evaluation_user,wizard_suplier_evaluation_user,supplier_evaluation.model_wizard_suplier_evaluation,base.group_user,1,1,1,1
+
+access_evaluation_type_user,evaluation_type_user,supplier_evaluation.model_evaluation_type,base.group_user,1,1,1,1
+access_evaluation_name_user,evaluation_name_user,supplier_evaluation.model_evaluation_name,base.group_user,1,1,1,1
+access_score_method_user,score_method_user,supplier_evaluation.model_score_method,base.group_user,1,1,1,1
+access_score_grade_user,score_grade_user,supplier_evaluation.model_score_grade,base.group_user,1,1,1,1

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_purchase_report_other"
+              name="Report(Other)"
+              parent="purchase.menu_purchase_root"
+              groups="purchase.group_purchase_user"
+              sequence="98"/>
+
+    <record id="view_supplier_evaluation_form" model="ir.ui.view">
+        <field name="name">supplier.evaluation.form</field>
+        <field name="model">supplier.evaluation</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="partner_id" options="{'no_open':True,'no_create':True,'no_create_edit':True}"/>
+                            <field name="contact_person" widget="many2many_tags" options="{'no_create':True,}"/>
+                        </group>
+                        <group>
+                            <field name="objective"/>
+                            <field name="type_partner"/>
+                            <field name="po_id" invisible="1" options="{'no_open':True,'no_create':True,'no_create_edit':True}"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="auditor_ids" widget="many2many_tags" options="{'no_create':True,}"/>
+                        </group>
+                        <group string="Certified Quality Standard" name="certified_quality_standard">
+                            <field name="standard_iso"/>
+                            <field name="standard_as_ie"/>
+                            <field name="standard_other"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Supplier Assessment">
+                            <field colspan="4" name="evaluation_line_ids" mode="tree">
+                                <tree string="Evaluation Line" editable="bottom">
+                                    <field name="type_id" options="{'no_create':True,'no_create_edit':True}"/>
+                                    <field name="name" domain="[('type_id','=',type_id)]" options="{'no_create':True,'no_create_edit':True}"/>
+                                    <field name="description"/>
+                                    <field name="score" readonly="1"/>
+                                    <field name="deduct_score" required="1"/>
+                                    <field name="result_score" readonly="1" force_save="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="total">
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="score_grade"/>
+                                </div>
+                                <field name="score_grade" nolabel="1" class="oe_subtotal_footer_separator" options="{'no_open': True,}"/>
+                                <field name="score_total"/>
+                                <field name="deduct_score_total"/>
+                                <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                    <label for="result_score_total"/>
+                                </div>
+                                <field name="result_score_total" string="Result Score Total" nolabel="1" class="oe_subtotal_footer_separator" />
+                            </group>
+                            <field name="notes" class="oe_inline" placeholder="Comment/Note ....."/>
+                            <div class="oe_clear"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_supplier_evaluation_tree" model="ir.ui.view">
+        <field name="name">supplier.evaluation.tree</field>
+        <field name="model">supplier.evaluation</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="score_grade"/>
+                <field name="score_total"/>
+                <field name="deduct_score_total"/>
+                <field name="result_score_total"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window id="action_supplier_evaluation"
+                name="Supplier Assessment"
+                res_model="supplier.evaluation"
+                view_mode="tree,form"/>
+
+    <menuitem id="menu_purchase_supplier_evalution"
+              name="Supplier Assessment"
+              parent="purchase.purchase_report_main"
+
+              action="action_supplier_evaluation"/>
+
+    <record id="view_supplier_evaluation_line_form" model="ir.ui.view">
+        <field name="name">supplier.evaluation.line.form</field>
+        <field name="model">supplier.evaluation.line</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="type_id" options="{'no_open':True,'no_create':True,'no_create_edit':True}"/>
+                        <field name="name" domain="[('type_id','=',type_id)]" options="{'no_open':True,'no_create':True,'no_create_edit':True}"/>
+                        <field name="description"/>
+                        <field name="score" readonly="1"/>
+                        <field name="deduct_score" required="1"/>
+                        <field name="result_score" readonly="1" force_save="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_supplier_evaluation_line_tree" model="ir.ui.view">
+        <field name="name">supplier.evaluation.line.tree</field>
+        <field name="model">supplier.evaluation.line</field>
+        <field name="arch" type="xml">
+            <tree create="false" edit="false">
+                <field name="type_id"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="score"/>
+                <field name="deduct_score"/>
+                <field name="result_score" readonly="1" force_save="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_evaluation_type_form" model="ir.ui.view">
+        <field name="name">evaluation.type.form</field>
+        <field name="model">evaluation.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="sequence" required="1"/>
+                        <field name="name" required="1"/>
+                        <field name="name_th"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_evaluation_type_tree" model="ir.ui.view">
+        <field name="name">evaluation.type.tree</field>
+        <field name="model">evaluation.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="sequence"/>
+                <field name="name"/>
+                <field name="name_th"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window id="action_evaluation_type"
+                name="Assessment Type"
+                res_model="evaluation.type"
+                view_mode="tree,form"/>
+
+    <menuitem id="menu_purchase_evalution_type"
+              name="Assessment Type"
+              parent="menu_purchase_report_other"
+
+              action="action_evaluation_type"
+
+              />
+
+    <record id="view_evaluation_name_form" model="ir.ui.view">
+        <field name="name">evaluation.name.form</field>
+        <field name="model">evaluation.name</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="type_id" required="1"/>
+                        <field name="sequence" required="1"/>
+                        <field name="name" required="1"/>
+                        <field name="name_th"/>
+                        <field name="score" required="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_evaluation_name_tree" model="ir.ui.view">
+        <field name="name">evaluation.name.tree</field>
+        <field name="model">evaluation.name</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="type_id"/>
+                <field name="sequence"/>
+                <field name="name"/>
+                <field name="name_th"/>
+                <field name="score" sum="Score Total"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window id="action_evaluation_name"
+                name="Assessment Name"
+                res_model="evaluation.name"
+                view_mode="tree,form"/>
+
+    <menuitem id="menu_purchase_evalution_name"
+              name="Assessment Name"
+              parent="menu_purchase_report_other"
+
+              action="action_evaluation_name"
+              />
+
+    <record id="view_score_method_tree" model="ir.ui.view">
+        <field name="name">score.method.tree</field>
+        <field name="model">score.method</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="score"/>
+                <field name="name" required="1"/>
+                <field name="name_th"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window id="action_score_method"
+                name="Score Method"
+                res_model="score.method"
+                view_mode="tree,form"/>
+
+    <menuitem id="menu_score_method"
+              name="Score Method"
+              parent="menu_purchase_report_other"
+              action="action_score_method"
+              />
+
+    <record id="view_score_grade_tree" model="ir.ui.view">
+        <field name="name">score.grade.tree</field>
+        <field name="model">score.grade</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="name"/>
+                <field name="min_score"/>
+                <field name="max_score"/>
+                <field name="description"/>
+                <field name="result"/>
+            </tree>
+        </field>
+    </record>
+
+    <act_window id="action_score_grade"
+                name="Score Grade"
+                res_model="score.grade"
+                view_mode="tree,form"/>
+
+    <menuitem id="menu_score_grade"
+              name="Score Grade"
+              parent="menu_purchase_report_other"
+              action="action_score_grade"
+
+              />
+
+</odoo>

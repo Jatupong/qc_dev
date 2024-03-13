@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assessment_form_report_id">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="o">
+                <div class="header">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        table.table-bordered {
+                        border:1px solid black;
+                        padding:3px;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        margin:0px;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:3px;
+                        page-break-inside: avoid;
+                        text-align:center;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        page-break-inside: avoid;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        page-break-inside: avoid;
+                        padding:3px;
+                        }
+                    </style>
+
+                    <div class="col-xs-12 font_fam" style="text-align:right; font-size: 16px;">
+                        <span>หน้า</span>
+                        <span class="page"/>/<span class="topage"/>
+                    </div>
+                    <table width="100%" class="table table-bordered">
+                        <tr>
+                            <td width="15%" style="vertical-align:middle; border:0px solid white;">
+                                <div>
+                                    <!--<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="height:60px; width: 110px;"/>-->
+                                <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:60px; max-width:110px;" alt="Logo"/>
+                                </div>
+                            </td>
+                            <td width="35%" style="vertical-align:middle; border:0px solid white; border-right:1px solid black;">
+  <div class="font_fam" style="position: absolute;left: 136px; width:310px; top:24px;">
+                                    <font style="font-size: 17px;">
+                                        <span t-field="o.company_id.name"/><br/>
+                                        <!--                                        <t t-if="o.company_id.branch_no == '00000'">-->
+                                        <!--                                            <span>( สำนักงานใหญ่ )</span>-->
+                                        <!--                                        </t>-->
+                                        <!--                                        <t t-if="o.company_id.branch_no != '00000'">-->
+                                        <!--                                            (<span t-field="o.company_id.branch_no"/>)-->
+                                        <!--                                        </t>-->
+                                    </font>
+                                    <font style="font-size: 12px;">
+                                    <!--                                    <t t-set="company_address" t-value="o.company_id.get_company_full_address()"/>-->
+                                    <!--                                    <span t-esc="' '.join([ address for address in company_address ])"/><br/>-->
+                                    <span t-if="o.company_id.building">อาคาร<span t-field="o.company_id.building"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.room_number">ห้องเลขที่<span t-field="o.company_id.room_number"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.floor_number">ชั้นที่<span t-field="o.company_id.floor_number"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.village">หมู่บ้าน<span t-field="o.company_id.village"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.house_number">เลขที่<span t-field="o.company_id.house_number"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.moo_number">หมู่ที่<span t-field="o.company_id.moo_number"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.sub_district">ตำบล<span t-field="o.company_id.sub_district"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.soi_number">ซอย<span t-field="o.company_id.soi_number"/>&amp;nbsp;</span>
+
+                                    <span t-if="o.company_id.street">ถนน<span t-esc="o.company_id.street"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.street2"><span t-esc="o.company_id.street2"/>&amp;nbsp;</span>
+                                    <!--<span t-if="o.company_id.street"><span t-esc="o.company_id.street"/>&amp;nbsp;</span><br/>-->
+                                    <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code == 'BKK'">แขวง<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
+                                    <!--<span t-if="o.company_id.tumbon and o.company_id.state_id.code != 'BKK'">ตำบล<span t-field="o.company_id.tumbon"/>&amp;nbsp;</span>-->
+                                    <span t-if="o.company_id.city and o.company_id.state_id.code == 'BKK'">เขต<span t-field="o.company_id.city"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.city and o.company_id.state_id.code != 'BKK'">อำเภอ<span t-field="o.company_id.city"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code == 'BKK'"><span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.state_id.name and o.company_id.state_id.code != 'BKK'">จังหวัด<span t-field="o.company_id.state_id.name"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.zip"><span t-field="o.company_id.zip"/>&amp;nbsp;</span>
+
+                                    <!--<t t-if="o.company_id.eng_address"><span t-field="o.company_id.eng_address"/><br/></t>-->
+                                    <span t-if="o.company_id.phone">โทรศัพท์&amp;nbsp;<span t-esc="o.company_id.phone"/>&amp;nbsp;</span>
+                                    <span t-if="o.company_id.vat">เลขประจำตัวผู้เสียภาษีอากร&amp;nbsp;<span t-esc="o.company_id.vat"/>&amp;nbsp;</span>
+                                    </font>
+
+                                </div>                            </td>
+                            <td width="50%" align="center" style="line-height:28px; vertical-align:middle;">
+                                <B><span style="font-size: 30px;">ใบตรวจประเมินสมรรถนะผู้ขายหรือผู้รับจ้างช่วง</span></B><br/>
+                                <B><span style="font-size: 28px;">Supplier Assessment Form</span></B>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="page">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+
+                        table.table-bordered {
+                        border:1px solid black;
+                        padding:3px;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        margin:0px;
+                        page-break-inside: avoid;
+                        }
+                        table.table-bordered &gt; thead &gt; tr &gt; th{
+                        border:1px solid black;
+                        padding:3px;
+                        text-align:center;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+                        table.table-bordered &gt; tfoot &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+
+                        table.table-nobordered {
+                        padding:3px;
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        margin:0px;
+                        }
+                        table.table-bordered &gt; tbody &gt; tr &gt; td{
+                        border:1px solid black;
+                        padding:3px;
+                        }
+
+                        .box1{word-wrap: break-word; width:162px;}
+                        .box2{word-wrap: break-word; width:465px;}
+                        .box3{word-wrap: break-word; width:35px; }
+                        .box4{word-wrap: break-word; width:162px;}
+
+                    </style>
+
+                    <table width="100%" class="table table-bordered">
+                        <tr>
+                            <td>
+                                <B><span>วัตถุประสงค์ / Odjective</span></B><br/>
+                                <div class="col-xs-4">
+                                    <t t-if="o.objective == 'new_vendor'">
+                                        <span> ☒ </span>
+                                    </t>
+                                    <t t-if="not o.objective == 'new_vendor'">
+                                        <span> ☐ </span>
+                                    </t>
+                                    <span>ผู้ผลิตรายใหม่/New Vendor</span>
+                                </div>
+                                <div class="col-xs-4">
+                                    <t t-if="o.objective == 'process'">
+                                        <span> ☒ </span>
+                                    </t>
+                                    <t t-if="not o.objective == 'process'">
+                                        <span> ☐ </span>
+                                    </t>
+                                    <span>ผลิตภัณฑ์ใหม่/Process Change </span>
+                                </div>
+                                <div class="col-xs-4">
+                                    <t t-if="o.objective == 'annual'">
+                                        <span> ☒ </span>
+                                    </t>
+                                    <t t-if="not o.objective == 'annual'">
+                                        <span> ☐ </span>
+                                    </t>
+                                    <span>ตรวจประเมินประจำปี/Annual Audit</span>
+                                </div>
+                            </td>
+                            <td>
+                                <t t-if="o.type_partner == 'vendor'">
+                                    <span> ☒ </span>
+                                </t>
+                                <t t-if="not o.type_partner == 'vendor'">
+                                    <span> ☐ </span>
+                                </t>
+                                <span>ผู้ขาย/ผู้ผลิต / Vendor</span>
+                                <br/>
+                                <t t-if="o.type_partner == 'outsource'">
+                                    <span> ☒ </span>
+                                </t>
+                                <t t-if="not o.type_partner == 'outsource'">
+                                    <span> ☐ </span>
+                                </t>
+                                <span>ผู้รับจ้างช่วง / Outsource</span>
+                            </td>
+                            <td align="center">
+                                <B><span>Audit Date</span></B><br/>
+                                <t t-if="o.date">
+                                    <span t-esc="datetime.datetime.strptime(str(o.date), '%Y-%m-%d').strftime('%d/%b/%Y')"/>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <t t-set="partner_child_ids" t-value="o.contact_person"/>
+                    <t t-set="auditor_ids" t-value="o.auditor_ids"/>
+
+                    <table width="100%" class="table table-bordered" style="margin-top:-1px;">
+                        <tr>
+                            <td colspan="2" align="center">
+                                <B><span>ข้อมูลของฝ่ายที่ถูกตรวจประเมิน / Vendor/Outsource Information</span></B>
+                            </td>
+                            <td>
+                                <B><span>ชื่อผู้ถูกตรวจถูกประเมิน / Contact Person</span></B>
+                            </td>
+                            <td>
+                                <B><span>ชื่อผู้ประเมิน / Auditor Name</span></B>
+                            </td>
+                            <td>
+                                <B><span>Section</span></B>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="5">
+                                <B><span>Company Name : </span></B>
+                                <span t-field="o.partner_id"/>
+                                <br/>
+                                <B><span>Address : </span></B>
+                                <t t-if="o.partner_id.street"><span t-field="o.partner_id.street"/><br/></t>
+                                <t t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;</t>
+                                <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK' and o.partner_id.state_id.code == 'TH'">แขวง<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK' and o.partner_id.state_id.code == 'TH'">ต.<span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+                                <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code != 'BKK' and o.partner_id.state_id.code != 'TH'"><span t-field="o.partner_id.sub_district_id.name"/>&amp;nbsp;</span>
+
+                                <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code == 'BKK' and o.partner_id.state_id.code == 'TH'">เขต<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK' and o.partner_id.state_id.code == 'TH'">อ.<span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+                                <span t-if="o.partner_id.district_id.name and o.partner_id.state_id.code != 'BKK' and o.partner_id.state_id.code != 'TH'"><span t-field="o.partner_id.district_id.name"/>&amp;nbsp;</span>
+
+                                <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code == 'BKK'"><span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+                                <span t-if="o.partner_id.state_id.name and o.partner_id.state_id.code != 'BKK'">จ.<span t-field="o.partner_id.state_id.name"/>&amp;nbsp;</span>
+                                <br/>
+                                <B><span>Telephone : </span></B>
+                                <span t-field="o.partner_id.phone"/>
+                                <br/>
+                                <B><span>Email : </span></B>
+                                <span t-field="o.partner_id.email"/>
+                            </td>
+                            <td>
+                                <B><span>Vendor Code : </span></B>
+                                <span t-field="o.partner_id.ref"/>
+                            </td>
+                            <td>
+                                <span>1 </span>
+                                <t t-if="len(partner_child_ids) &gt;= 1">
+                                    <span t-esc="partner_child_ids[0].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <span>1 </span>
+                                <t t-if="len(auditor_ids) &gt;= 1">
+                                    <span t-esc="auditor_ids[0].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <t t-if="len(auditor_ids) &gt;= 1">
+                                    <t t-if="auditor_ids[0].employee_ids">
+                                        <span t-esc="o.auditor_ids[0].employee_ids[0].department_id.name"/>
+                                    </t>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <B><span>Certified Quality Standard</span></B>
+                            </td>
+                            <td>
+                                <span>2 </span>
+                                <t t-if="len(partner_child_ids) &gt;= 2">
+                                    <span t-field="partner_child_ids[1].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <span>2 </span>
+                                <t t-if="len(auditor_ids) &gt;= 2">
+                                    <span t-esc="auditor_ids[1].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <t t-if="len(auditor_ids) &gt;= 2">
+                                    <t t-if="auditor_ids[1].employee_ids">
+                                        <span t-esc="o.auditor_ids[1].employee_ids[0].department_id.name"/>
+                                    </t>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">
+                                <span>ISO </span>
+                                <t t-if="o.standard_iso"><u><span t-field="o.standard_iso"/></u></t>
+                                <t t-if="not o.standard_iso">_____________________</t>
+                                <br/>
+                                <span>AS / IE </span>
+                                <t t-if="o.standard_as_ie"><u><span t-field="o.standard_as_ie"/></u></t>
+                                <t t-if="not o.standard_as_ie">_____________________</t>
+                                <br/>
+                                <span>Other </span>
+                                <t t-if="o.standard_other"><u><span t-field="o.standard_other"/></u>
+                                    <t t-if="not o.standard_other">_____________________</t>
+                                </t>
+                                <br/>
+                            </td>
+                            <td>
+                                <span>3 </span>
+                                <t t-if="len(partner_child_ids) &gt;= 3">
+                                    <span t-field="partner_child_ids[2].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <span>3 </span>
+                                <t t-if="len(auditor_ids) &gt;= 3">
+                                    <span t-esc="auditor_ids[2].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <t t-if="len(auditor_ids) &gt;= 3">
+                                    <t t-if="auditor_ids[2].employee_ids">
+                                        <span t-esc="o.auditor_ids[2].employee_ids[0].department_id.name"/>
+                                    </t>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>4 </span>
+                                <t t-if="len(partner_child_ids) &gt;= 4">
+                                    <span t-field="partner_child_ids[3].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <span>4 </span>
+                                <t t-if="len(auditor_ids) &gt;= 4">
+                                    <span t-esc="auditor_ids[3].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <t t-if="len(auditor_ids) &gt;= 4">
+                                    <t t-if="auditor_ids[3].employee_ids">
+                                        <span t-esc="o.auditor_ids[3].employee_ids[0].department_id.name"/>
+                                    </t>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>5 </span>
+                                <t t-if="len(partner_child_ids) &gt;= 5">
+                                    <span t-field="partner_child_ids[4].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <span>5 </span>
+                                <t t-if="len(auditor_ids) &gt;= 5">
+                                    <span t-esc="auditor_ids[4].name"/>
+                                </t>
+                            </td>
+                            <td>
+                                <t t-if="len(auditor_ids) &gt;= 5">
+                                    <t t-if="auditor_ids[4].employee_ids">
+                                        <span t-esc="o.auditor_ids[4].employee_ids[0].department_id.name"/>
+                                    </t>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" class="table table-bordered" style="margin-top:-1px;">
+                        <thead>
+                            <tr>
+                                <th width="20%"><div class="box1"><span>หัวข้อการประเมิน / Criteira</span></div></th>
+                                <th width="55%"><div class="box2"><span>รายละเอียดของการประเมิน / Details</span></div></th>
+                                <th width="5%"><div class="box3"><span>Score</span></div></th>
+                                <th width="20%"><div class="box4"><span>Suggestion/Remark</span></div></th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <t t-set="evaluation_type" t-value="o.env['evaluation.type'].sudo().search([])"/>
+                    <t t-set="type_i" t-value="0"/>
+                    <t t-set="score_total" t-value="0"/>
+                    <t t-set="result_score_total" t-value="0"/>
+                    <t t-foreach="evaluation_type" t-as="type">
+                        <table width="100%" class="table table-bordered" style="margin-top:-1px;">
+                            <t t-set="type_i" t-value="type_i + 1"/>
+                            <t t-set="evaluation_name" t-value="o.env['evaluation.name'].sudo().search([('type_id','=',type.id)])"/>
+                            <t t-set="len_name" t-value="len(evaluation_name)"/>
+                            <t t-set="name_i" t-value="0"/>
+                            <t t-foreach="evaluation_name" t-as="line">
+                                <t t-set="evaluation_data" t-value="o.get_evaluation_data(o,line)"/>
+                                <t t-set="name_i" t-value="name_i + 1"/>
+                                <t t-set="score_total" t-value="score_total + line.score"/>
+                                <t t-set="rowspan_des" t-value="len(evaluation_name)"/>
+                                <tr>
+                                    <t t-if="name_i == 1">
+                                        <td t-att-rowspan="len_name">
+                                            <div class="box1">
+                                                <span t-esc="type_i"/>
+                                                <t t-if="type.name_th"><span t-field="type.name_th"/><br/></t>
+                                                <t t-if="type.name"><span t-field="type.name"/><br/></t>
+                                                <t t-if="type.description"><span t-field="type.description"/></t>
+                                            </div>
+                                        </td>
+                                    </t>
+                                    <td>
+                                        <div class="box2">
+                                            <span t-esc="name_i"/>
+                                            <t t-if="line.name_th"><span t-field="line.name_th"/><br/></t>
+                                            <t t-if="line.name"><span t-field="line.name"/></t>
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <div class="box3">
+                                            <t t-if="evaluation_data">
+                                                <t t-set="result_score_total" t-value="result_score_total + evaluation_data.result_score"/>
+                                                <span t-esc="evaluation_data.result_score"/>
+                                            </t>
+                                            <t t-if=" not evaluation_data">
+                                                <t t-set="result_score_total" t-value="result_score_total + line.score"/>
+                                                <span t-esc="line.score"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="box4">
+                                            <t t-if="evaluation_data">
+                                                <span t-esc="evaluation_data.description"/>
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                    </t>
+                    <table width="100%" class="table table-bordered" style="margin-top:-1px;">
+                        <tr>
+                            <td width="75%" align="center">
+                                <div style="width:635px;">
+                                    <B><span>Total Score</span></B>
+                                </div>
+                            </td>
+                            <td width="25%" align="center">
+                                <div style="width:200px;">
+                                    <span t-esc="result_score_total"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table width="100%" class="table table-bordered" style="margin-top:-1px; page-break-inside: avoid; page-break-after: always;">
+                        <thead>
+                            <tr>
+                                <th width="50%" align="center">
+                                    <B><span>วิธีการให้คะแนน / Score Method</span></B>
+                                </th>
+                                <th width="35%" align="center" style="background-color:#cccccc;">
+                                    <B><span>Result</span></B>
+                                </th>
+                                <th width="15%" align="center" style="background-color:#cccccc;">
+                                    <B>
+                                        <t t-set="percent_score_total" t-value="(result_score_total / score_total) * 100"/>
+                                        <span t-esc="'{0:,.2f}'.format(float(percent_score_total))"/>
+                                        <span> %</span>
+                                    </B>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding:0px;">
+                                    <table width="100%">
+                                        <t t-set="score_method" t-value="o.env['score.method'].sudo().search([])"/>
+                                        <t t-set="score_method_i" t-value="0"/>
+                                        <t t-foreach="score_method" t-as="sm">
+                                            <t t-set="score_method_i" t-value="score_method_i + 1"/>
+                                            <t t-if="len(score_method) != score_method_i">
+                                                <tr style="border-bottom:1px solid black;">
+                                                    <td width="10%" align="center" style="vertical-align:middle;">
+                                                        <B><span t-field="sm.score"/></B>
+                                                    </td>
+                                                    <td width="90%">
+                                                        <span t-field="sm.name_th"/><br/>
+                                                        <span t-field="sm.name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <t t-if="len(score_method) == score_method_i">
+                                                <tr>
+                                                    <td width="10%" align="center" style="vertical-align:middle;">
+                                                        <B><span t-field="sm.score"/></B>
+                                                    </td>
+                                                    <td width="90%">
+                                                        <span t-field="sm.name_th"/><br/>
+                                                        <span t-field="sm.name"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </table>
+                                </td>
+                                <td colspan="2" style="padding:0px;">
+                                    <table width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th width="45%" style="border-right:1px solid black; border-bottom:1px solid black; padding:3px; text-align:center;">
+                                                    <span>Assesement Method</span>
+                                                </th>
+                                                <th width="25%" style="border-right:1px solid black; border-bottom:1px solid black; padding:3px; text-align:center;">
+                                                    <span>Result</span>
+                                                </th>
+                                                <th width="30%" style="border-bottom:1px solid black; padding:3px; text-align:center;">
+                                                    <span>Grade</span>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr style="height:40px;">
+                                                <td align="center" style="border-right:1px solid black; border-bottom:1px solid black; padding:3px;  vertical-align:middle;">
+                                                    <span>Result (%) =</span><br/>
+                                                    <div class="col-xs-7" style="padding:0px;">
+                                                        <div style="border-bottom:1px solid black;">
+                                                            <span t-esc="result_score_total"/>
+                                                        </div>
+                                                        <div>
+                                                            <span>Total Score</span><span> ( </span><span t-esc="score_total"/><span> ) </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-xs-5" style="padding:0px; vertical-align:middle;">
+                                                        <span> x </span><span> 100 % </span>
+                                                    </div>
+                                                </td>
+                                                <t t-set="grade" t-value="o.env['score.grade'].sudo().search([('max_score','&gt;=',percent_score_total)],limit = 1 ,order = 'max_score asc')"/>
+                                                <td align="center" style="border-right:1px solid black; border-bottom:1px solid black; vertical-align:middle; padding:3px;">
+                                                    <t t-if="grade.result == 'pass'">
+                                                        <B><span style="color:green;">Pass</span></B>
+                                                        <br/><br/>
+                                                        <span>Fail</span>
+                                                    </t>
+                                                    <t t-if="grade.result != 'pass'">
+                                                        <B><span>Pass</span></B>
+                                                        <br/><br/>
+                                                        <B><span style="color:red;">Fail</span></B>
+                                                    </t>
+                                                </td>
+                                                <td align="center">
+                                                    <B><span style="font-size: 48px;" t-esc="grade.name"/></B>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" align="center" style="padding:3px;">
+                                                    <B>
+                                                        <span>ระดับการพิจารณา ( % )</span>
+                                                        <span>Consideration Level</span>
+                                                    </B>
+                                                </td>
+                                            </tr>
+                                            <t t-set="score_grade" t-value="o.env['score.grade'].sudo().search([])"/>
+                                            <t t-foreach="score_grade" t-as="sg">
+                                                <tr>
+                                                    <td colspan="3" style="border-top:1px solid black; padding:3px;">
+                                                        <span> ( </span><span t-field="sg.name"/><span> ) </span>
+                                                        <span t-field="sg.min_score"/>
+                                                        <span> - </span>
+                                                        <span t-field="sg.max_score"/>
+                                                        <span> = </span>
+                                                        <span t-field="sg.description"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <!--<tr>-->
+                                            <!--    <td colspan="3">-->
+                                            <!--        <t t-foreach="score_grade" t-as="sg">-->
+                                            <!--            <div class="col-xs-6">-->
+                                            <!--                <span> ( </span><span t-field="sg.name"/><span> ) </span>-->
+                                            <!--                <span t-field="sg.min_score"/>-->
+                                            <!--                <span> - </span>-->
+                                            <!--                <span t-field="sg.max_score"/>-->
+                                            <!--                <span> = </span>-->
+                                            <!--                <span t-field="sg.description"/>-->
+                                            <!--            </div>-->
+                                            <!--        </t>-->
+                                            <!--    </td>-->
+                                            <!--</tr>-->
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <span>Comment/Note : </span><span t-field="o.notes"/><br/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    <div class="row">
+                                        <div class="col-2" style="text-align:center;">
+                                            <span>Approved by: </span>
+                                        </div>
+                                        <div class="col-3" style="text-align:center;">
+                                            <br/><br/>
+                                            <span>___________________________</span><br/>
+                                            <span>QC</span>
+                                        </div>
+                                        <div class="col-2" style="text-align:center;">
+                                            <br/><br/>
+                                            <span>____________________</span><br/>
+                                            <span>Date</span>
+                                        </div>
+
+                                        <div class="col-3" style="text-align:center;">
+                                            <br/><br/>
+                                            <span>___________________________</span><br/>
+                                            <span>Purchasing/Storage Manager</span>
+                                        </div>
+
+                                        <div class="col-2" style="text-align:center;">
+                                            <br/><br/>
+                                            <span>____________________</span><br/>
+                                            <span>Date</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="footer">
+                    <style>
+                        @font-face
+                        {
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: SarabunPSK;
+                        src: local('United'), url("/supplier_evaluation/static/THSarabun.ttf") format('opentype');
+                        }
+                    </style>
+                    <div class="col-xs-12 font_fam" style="text-align:right;"><span>F-PH-009 REV.01/2022</span></div>
+                </div>
+
+
+            </t>
+        </t>
+
+    </template>
+</odoo>
