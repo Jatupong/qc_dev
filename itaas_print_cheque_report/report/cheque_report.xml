@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="cheque_report_id">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="web.basic_layout">
+
+                <t t-set="font_size" t-value="o.cheque_bank.font_size"/>
+                <t t-set="layout_image1_top" t-value="o.cheque_bank.layout_image1_top"/>
+                <t t-set="layout_image1_left" t-value="o.cheque_bank.layout_image1_left"/>
+                <t t-set="layout_image1_height" t-value="o.cheque_bank.layout_image1_height"/>
+                <t t-set="layout_image1_width" t-value="o.cheque_bank.layout_image1_width"/>
+                <t t-set="layout_image2_top" t-value="o.cheque_bank.layout_image2_top"/>
+                <t t-set="layout_image2_right" t-value="o.cheque_bank.layout_image2_right"/>
+                <t t-set="layout_image2_height" t-value="o.cheque_bank.layout_image2_height"/>
+                <t t-set="layout_image2_width" t-value="o.cheque_bank.layout_image2_width"/>
+                <t t-set="layout_name_top" t-value="o.cheque_bank.layout_name_top"/>
+                <t t-set="layout_name_left" t-value="o.cheque_bank.layout_name_left"/>
+                <t t-set="layout_baht_top" t-value="o.cheque_bank.layout_baht_top"/>
+                <t t-set="layout_baht_left" t-value="o.cheque_bank.layout_baht_left"/>
+                <t t-set="layout_amount_top" t-value="o.cheque_bank.layout_amount_top"/>
+                <t t-set="layout_amount_left" t-value="o.cheque_bank.layout_amount_left"/>
+                <t t-set="layout_date_top" t-value="o.cheque_bank.layout_date_top"/>
+                <t t-set="layout_date_left" t-value="o.cheque_bank.layout_date_left"/>
+                <t t-set="layout_date_spacing" t-value="o.cheque_bank.layout_date_spacing"/>
+                <t t-set="layout_partner_top" t-value="o.cheque_bank.layout_partner_top"/>
+                <t t-set="layout_partner_left" t-value="o.cheque_bank.layout_partner_left"/>
+                <t t-set="absolute" t-value="absolute"/>
+
+                <div class="page">
+                    <style>
+                        @font-face
+                        {
+                        font-family: Sarabun-Regular;
+                        src: local('United'), url("/itaas_print_cheque_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        }
+                        .font_fam{
+                        font-family: Sarabun-Regular;
+                        src: local('United'), url("/itaas_print_cheque_report/static/font/Sarabun-Regular.ttf") format('opentype');
+                        }
+                        .font_size{
+                        font-size: <t t-esc="layout_font"/>px;
+                        }
+                        .image1{
+                        position: absolute;
+                        left: <t t-esc="layout_image1_left"/>px;
+                        top:  <t t-esc="layout_image1_top"/>px;
+                        height:  <t t-esc="layout_image1_height"/>px;
+                        width:  <t t-esc="layout_image1_width"/>px;
+                        }
+                        .image2{
+                        position: absolute;
+                        right: <t t-esc="layout_image2_right"/>px;
+                        top:  <t t-esc="layout_image2_top"/>px;
+                        height:  <t t-esc="layout_image2_height"/>px;
+                        width:  <t t-esc="layout_image2_width"/>px;
+                        }
+                        .name{
+                        position: absolute;
+                        left: <t t-esc="layout_name_left"/>px;
+                        top:  <t t-esc="layout_name_top"/>px;
+                        }
+                        .baht{
+                        position: absolute;
+                        left: <t t-esc="layout_baht_left"/>px;
+                        top:  <t t-esc="layout_baht_top"/>px;
+                        }
+                        .partner{
+                        position: absolute;
+                        left: <t t-esc="layout_partner_left"/>px;
+                        top:  <t t-esc="layout_partner_top"/>px;
+                        }
+                        .amount{
+                        position: absolute;
+                        left: <t t-esc="layout_amount_left"/>px;
+                        top:  <t t-esc="layout_amount_top"/>px;
+                        }
+                        .date{
+                        position: absolute;
+                        left: <t t-esc="layout_date_left"/>px;
+                        top:  <t t-esc="layout_date_top"/>px;
+                        letter-spacing: <t t-esc="layout_date_spacing"/>px;
+                        }
+                    </style>
+
+                    <t t-if="o.cheque_bank.layout_image1_show">
+                        <t t-if="o.cheque_bank.layout_image1_image">
+                            <img t-att-src="image_data_uri(o.cheque_bank.layout_image1_image)" class="image1"/>
+                        </t>
+                        <t t-else="">
+                            <img src="/itaas_print_cheque_report/static/image/cheque.jpg" class="image1"/>
+                        </t>
+                    </t>
+                    <t t-if="o.cheque_bank.layout_image2_show">
+                        <t t-if="o.cheque_bank.layout_image2_image">
+                            <img t-att-src="image_data_uri(o.cheque_bank.layout_image2_image)" class="image2"/>
+                        </t>
+                        <t t-else="">
+                            <img src="/itaas_print_cheque_report/static/image/cheque-1.png" class="image2"/>
+                        </t>
+                    </t>
+                    <t t-if="o.cheque_bank.layout_name_show">
+                        <div class="name font_fam font_size">
+                            <span t-field="o.name_for_cheque"/>
+                        </div>
+                    </t>
+                    <t t-if="o.cheque_bank.layout_partner_show">
+                        <div class="partner font_fam font_size">
+                            <span t-field="o.partner_id.name"/>
+                        </div>
+                    </t>
+                    <t t-if="o.cheque_bank.layout_date_show">
+                        <div class="date font_fam font_size">
+                            <br/>
+                            <t t-set="bc_date" t-value="o.cheque_bank.get_date_to_bc_year(o.cheque_date)"/>
+                            <span t-esc="bc_date"/>
+                        </div>
+                    </t>
+                    <t t-if="o.cheque_bank.layout_baht_show">
+                        <div class="baht font_fam font_size">
+                            <span>(</span>&amp;nbsp;<span t-esc="o.cheque_bank.baht_text(o.amount)"/>&amp;nbsp;<span>)</span>
+                        </div>
+                    </t>
+                    <t t-if="o.cheque_bank.layout_amount_show">
+                        <div class="amount font_fam font_size">
+                            ***<span t-esc="'{0:,.2f}'.format(float(o.amount))"/>***
+                        </div>
+                    </t>
+
+                </div>
+
+            </t>
+        </t>
+    </template>
+</odoo>
