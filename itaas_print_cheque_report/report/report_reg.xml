@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="A4_P_Zero_Margin_cheque_report" model="report.paperformat">
+            <field name="name">A4_P_Zero_Margin_cheque_report</field>
+            <field name="default" eval="False"/>
+            <field name="format">custom</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">0</field>
+            <field name="page_height">90</field>
+            <field name="page_width">180</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">90</field>
+        </record>
+
+        <report
+                id="cheque_report"
+                model="account.cheque.statement"
+                menu="True"
+                report_type="qweb-html"
+                string="Print Cheque"
+                paperformat="itaas_print_cheque_report.A4_P_Zero_Margin_cheque_report"
+                name="itaas_print_cheque_report.cheque_report_id"
+                file="itaas_print_cheque_report.cheque_report_id"
+        />
+
+    </data>
+</odoo>
