@@ -11,8 +11,8 @@
     "license": "AGPL-3",
     'depends': ['product', 'base','sale','product_volume'],
     "data": [
-        'views/product_add_field_view.xml',
-        'views/sale_order_line_add_field_view.xml',
+        'views/account_add_field_view.xml',
+        'views/edit_view_purchase_tax_report.xml',
     ],
     "installable": True,
     "auto_install": False,
