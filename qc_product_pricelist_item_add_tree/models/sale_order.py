@@ -48,20 +48,25 @@ class SaleOrder(models.Model):
             property_product_pricelist = partner.property_product_pricelist
             print("property_product_pricelist {}".format(property_product_pricelist.name))
             if len(property_product_pricelist) > 0:
+                print("property_product_pricelist {}".format(property_product_pricelist))
                 pricelist_rules_ids = property_product_pricelist.item_ids
                 pricelist_rules_ids2 = self.env['product.pricelist'].search(
                 [('public', '=', True)],limit=1)
 
                 for sale in self.order_line:
+                    print("sale {}".format(sale))
                     # property_product_pricelist.update({"item_ids": self.env['product.pricelist.item'].search([('pricelist_id.id', '=', property_product_pricelist.id)])})
                     chack = len(pricelist_rules_ids.filtered(
                     lambda x: x.product_tmpl_id.name == sale.product_template_id.name))
                     print("chack_{} :{}".format(sale.product_template_id.name,chack))
-                    if len(pricelist_rules_ids) == 0:
+                    if len(pricelist_rules_ids) == 0 or chack == 0:
+                        print("pricelist_rules_ids {}".format(pricelist_rules_ids))
                         product = self.env['product.template'].search([('name', '=', sale.product_template_id.name)])
                         print("product_id :{}".format(product.name))
                         # base_pricelist_id = self.create_pricelist_item(product, sale, property_product_pricelist)
+                        print("self.state == {}".format(self.state))
                         if self.state == 'sale':
+
                             try:
                                 pricelist_rules_ids.create({
                                                             'pricelist_id':property_product_pricelist.id,
@@ -146,6 +151,6 @@ class SaleOrder(models.Model):
                                 msg += "Data:{}\n".format(self.sale_order_set_line_ids.filtered(
                                     lambda x: x.product_set_id.name == pricelist_rules.product_tmpl_id.name))
 
-        if self.user_has_groups('base.group_no_one'):
-            raise ValidationError(_(msg))
+        # if self.user_has_groups('base.group_no_one'):
+        #     raise ValidationError(_(msg))
 
