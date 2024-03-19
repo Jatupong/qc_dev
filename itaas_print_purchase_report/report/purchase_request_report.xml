@@ -428,7 +428,8 @@
                                             <td width="70%">
                                                 <div class="word_wrap" style="width:320px;">
                                                     &amp;nbsp;
-                                                    <span t-field="o.requested_by.name"/>
+                                                    <!--<span t-field="o.requested_by.name"/>-->
+                                                    <span t-field="o.department_id.name"/>
                                                 </div>
                                             </td>
                                         </tr>
@@ -441,7 +442,8 @@
                                             <td>
                                                 <div class="word_wrap" style="width:320px;">
                                                     &amp;nbsp;
-                                                    <span t-field="o.department_id.name"/>
+                                                    <!--<span t-field="o.department_id.name"/>-->
+                                                    <span t-field="o.requested_by.name"/>
                                                 </div>
                                             </td>
                                         </tr>
