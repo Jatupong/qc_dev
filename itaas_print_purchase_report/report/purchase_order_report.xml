@@ -968,7 +968,7 @@
                                 <tr>
                                     <td colspan="2" style="line-height:14px;"><strong><span>คงเหลือ</span><br/><span>Subtotal</span></strong></td>
                                     <td align="right">
-                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
+                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.tax_totals['amount_untaxed']))"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -979,13 +979,13 @@
                                         </t>
                                     </td>
                                     <td align="right">
-                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>
+                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.tax_totals['amount_total']-o.tax_totals['amount_untaxed']))"/>
                                     </td>
                                 </tr>
                                 <tr>
                                    <td colspan="2" style="line-height:14px;"><strong><span>ยอดเงินสุทธิ </span><br/><span>Net Total</span></strong></td>
                                     <td align="right">
-                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/>
+                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.tax_totals['amount_total']))"/>
                                     </td>
                                 </tr>
                             </tfoot>
