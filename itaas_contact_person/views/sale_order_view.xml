@@ -16,20 +16,24 @@
         </field>
     </record>
 
-    <record id="view_sale_order_form" model="ir.ui.view">
-        <field name="name">sale.order.form</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="arch" type="xml">
-                <xpath expr="//button[@name='action_confirm']" position="attributes">
-                        <attribute name="attrs">{'invisible': [('state','not in',['draft','sent','check_delivery','delivery_confirm','pp_confirm','sale','production','done','cancel'])]}</attribute>
-                </xpath>
-<!--            <xpath expr="//button[@name='action_confirm']" position="replace">-->
-<!--                <attribute name="statusbar_visible">draft,sent,sale,production</attribute>-->
-<!--            </xpath>-->
+<!--    <record id="view_sale_order_form" model="ir.ui.view">-->
+<!--        <field name="name">sale.order.form</field>-->
+<!--        <field name="model">sale.order</field>-->
+<!--        <field name="inherit_id" ref="sale.view_order_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--                <xpath expr="//button[@name='action_confirm']" position="attributes">-->
+<!--                    <attributes name="name">Test</attributes>-->
+<!--&lt;!&ndash;                    <attributes name="modifiers">&ndash;&gt;-->
+<!--&lt;!&ndash;                        {'invisible': [('state','not in',['draft','sent','check_delivery','delivery_confirm','pp_confirm','sale','production','done','cancel'])]}&ndash;&gt;-->
+<!--&lt;!&ndash;                    </attributes>&ndash;&gt;-->
+<!--                        <attribute name="attrs">{'invisible': [('state','not in',['draft','sent','check_delivery','delivery_confirm','pp_confirm','sale','production','done','cancel'])]}</attribute>-->
+<!--                </xpath>-->
+<!--&lt;!&ndash;            <xpath expr="//button[@name='action_confirm']" position="replace">&ndash;&gt;-->
+<!--&lt;!&ndash;                <attribute name="statusbar_visible">draft,sent,sale,production</attribute>&ndash;&gt;-->
+<!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
 
-        </field>
-    </record>
+<!--        </field>-->
+<!--    </record>-->
 
 
 </odoo>
