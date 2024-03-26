@@ -43,6 +43,10 @@ class SaleOrder(models.Model):
     delivery_exp_date = fields.Date(string="วันหมดอายุส่งมอบ")
 
     delivery_date = fields.Datetime(string="Delivery Date" ,readonly=True ,compute='_compute_deliverydate')
+    delivery_date_week = fields.Char(string="Delivery Date Week")
+
+
+
 
     @api.depends('order_line.invoice_lines')
     def get_sale_count_one(self):
@@ -66,6 +70,10 @@ class SaleOrder(models.Model):
     def _compute_deliverydate(self):
         for data in self:
             data.delivery_date = data.commitment_date
+            try:
+                data.update_week()
+            except:
+                pass
 
 
     @api.onchange('commitment_date')
