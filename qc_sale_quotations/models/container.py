@@ -4,3 +4,4 @@ class Container(models.Model):
     _name = "container.id"
 
     name = fields.Char(string="Name")
+    
