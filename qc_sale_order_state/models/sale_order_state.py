@@ -41,9 +41,17 @@ class SaleOrder(models.Model):
     cc_id = fields.Many2one('res.partner', string="CC")
 
     delivery_exp_date = fields.Date(string="วันหมดอายุส่งมอบ")
+    delivery_exp_week = fields.Char(string="สัปดาห์วันหมดอายุส่งมอบ")
 
     delivery_date = fields.Datetime(string="Delivery Date" ,readonly=True ,compute='_compute_deliverydate')
     delivery_date_week = fields.Char(string="Delivery Date Week")
+
+    @api.onchange('delivery_exp_date')
+    def update_delivery_exp_week(self):
+        if self.delivery_exp_date != False:
+            self.update({
+                'delivery_exp_week': "W{}".format(self.delivery_exp_date.isocalendar().week)
+            })
 
 
 

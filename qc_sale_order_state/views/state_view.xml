@@ -71,7 +71,13 @@
 
             </xpath>
             <xpath expr="//group[@name='sale_shipping']" position="inside">
-                <field name="delivery_exp_date"/>
+                <label for="delivery_exp_date" string="วันหมดอายุส่งมอบ"/>
+                <div name="delivery_exp_date">
+                    <field name="delivery_exp_week" class="oe_inline" readonly="1"/>
+                    <span>&amp;nbsp;</span>
+                    <field name="delivery_exp_date" class="oe_inline" />
+                </div>
+<!--                <field name="delivery_exp_date"/>-->
             </xpath>
 
             <xpath expr="//field[@name='validity_date']" position="before">
