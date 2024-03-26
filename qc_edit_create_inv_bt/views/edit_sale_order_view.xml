@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-
         <record id="view_edit_create_inv_bt_in_sale_order" model="ir.ui.view">
             <field name="name">sale.order.edit.create.invoice.button</field>
             <field name="model">sale.order</field>
