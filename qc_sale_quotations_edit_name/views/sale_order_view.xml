@@ -12,7 +12,7 @@
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='id_pp']" position="attributes">
-                <attribute name="string">PP No.</attribute>
+                <attribute name="string">Ref No.</attribute>
             </xpath>
             <xpath expr="//field[@name='id_po']" position="attributes">
                 <attribute name="string">PO No.</attribute>
