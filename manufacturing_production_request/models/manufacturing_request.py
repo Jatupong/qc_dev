@@ -91,10 +91,17 @@ class ManufacturingProductionRequest(models.Model):
         default=fields.date.today(),
         copy=False
     )
+    create_date_week = fields.Char(
+     compute = '_compute_week'
+    )
+
     end_date = fields.Datetime(
         string="Deadline",
         required=True,
         copy=True
+    )
+    end_date_week = fields.Char(
+        compute='_compute_week'
     )
     custom_manufacturing_order_id = fields.Many2one(
         'mrp.production',
@@ -145,6 +152,19 @@ class ManufacturingProductionRequest(models.Model):
     )
 
     sale_order_id = fields.Many2one('sale.order.line',string='Sale Order')
+
+    def _compute_week(self):
+        for data in self:
+            if data.end_date != False:
+                try:
+                    data.end_date_week ="W{}".format(data.end_date.isocalendar().week)
+                except:
+                    pass
+            if data.create_date != False:
+                try:
+                    data.create_date_week ="W{}".format(data.create_date.isocalendar().week)
+                except:
+                    pass
 
 
     def custom_action_cancel(self):
