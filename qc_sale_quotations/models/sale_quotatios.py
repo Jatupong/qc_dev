@@ -32,22 +32,39 @@ class SaleQuotation(models.Model):
     special_need = fields.One2many('sale.quotation.lines', 'sale_quotation_id', string='ความต้องการพิเศษ')
     partner_bank_id = fields.Many2one('res.partner.bank', string='Bank Detail')
 
-    @api.onchange('w_load_product_week','delivery_date,','delivery_date')
+    @api.onchange('w_load_product_week','delivery_date,','delivery_date','delivery_exp_date')
     def update_week(self):
         if self.w_load_product_week != False:
-            self.update({
-                'w_load_product': "W{}".format(self.w_load_product_week.isocalendar().week)
-            })
+            try:
+                self.update({
+                    'w_load_product': "W{}".format(self.w_load_product_week.isocalendar().week)
+                })
+            except:
+                pass
         if 'delivery_date' in self.fields_get():
-            if self.delivery_date != False:
-                self.update({
-                    'delivery_date_week': "W{}".format(self.delivery_date.isocalendar().week)
-                })
+            try:
+                if self.delivery_date != False:
+                    self.update({
+                        'delivery_date_week': "W{}".format(self.delivery_date.isocalendar().week)
+                    })
+            except:
+                pass
         if 'delivery_week' in self.fields_get():
-            if self.delivery_week != False:
-                self.update({
-                    'delivery_week_year': "W{}".format(self.delivery_week.isocalendar().week)
-                })
+            try:
+                if self.delivery_week != False:
+                    self.update({
+                        'delivery_week_year': "W{}".format(self.delivery_week.isocalendar().week)
+                    })
+            except:
+                pass
+        if 'delivery_exp_date' in self.fields_get():
+            if self.delivery_exp_date != False:
+                try:
+                    self.update({
+                        'delivery_exp_week': "W{}".format(self.delivery_exp_date.isocalendar().week)
+                    })
+                except:
+                    pass
 
 
 
