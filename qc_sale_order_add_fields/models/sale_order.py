@@ -14,10 +14,3 @@ class SaleOrder(models.Model):
     delivery_week = fields.Date(string='Delivery Week Date')
     delivery_week_year = fields.Char(string='Delivery Week')
 
-    @api.onchange('delivery_week')
-    def update_delivery_week(self):
-        for sale in self:
-            if sale.delivery_week != False:
-                sale.delivery_week_year = "W{}".format(sale.delivery_week.isocalendar().week)
-            else:
-                sale.delivery_week_year = "Week"
