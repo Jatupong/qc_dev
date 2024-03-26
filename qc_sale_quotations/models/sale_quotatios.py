@@ -19,8 +19,7 @@ class SaleQuotation(models.Model):
     correction = fields.Char(string='Revision')
     # currency = fields.Char(string='Currency',store=False)
     currency = fields.Char(string='Currency')
-    # container = fields.Char(string='Container Size')
-    container = fields.Many2one(comodel_name='container.id', string='Container Size')
+    container = fields.Char(string='Container Size')
     loading_type = fields.Many2one(comodel_name='loading.type', string='Loading Type')
     bar_code = fields.Char(string='BarCode')
 
@@ -33,7 +32,7 @@ class SaleQuotation(models.Model):
     special_need = fields.One2many('sale.quotation.lines', 'sale_quotation_id', string='ความต้องการพิเศษ')
     partner_bank_id = fields.Many2one('res.partner.bank', string='Bank Detail')
 
-    @api.onchange('w_load_product_week', 'delivery_date,', 'delivery_date', 'delivery_exp_date')
+    @api.onchange('w_load_product_week','delivery_date,','delivery_date','delivery_exp_date')
     def update_week(self):
         if self.w_load_product_week != False:
             try:
@@ -66,6 +65,7 @@ class SaleQuotation(models.Model):
                     })
                 except:
                     pass
+
 
 
 class SaleQuotationLines(models.Model):
