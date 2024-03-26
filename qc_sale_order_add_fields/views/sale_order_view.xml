@@ -13,8 +13,15 @@
                     <field name="delivery_to"/>
                     <field name="logo"/>
             </field>
+
             <xpath expr="//field[@name='validity_date']" position="after">
-                <field name="delivery_week"/>
+                <label for="delivery_week" string="Delivery Week"/>
+                <div name="delivery_week">
+                    <field name="delivery_week_year" class="oe_inline" placeholder="Week" readonly="1"/>
+                    <span>&amp;nbsp;</span>
+                    <field name="delivery_week" class="oe_inline" placeholder="Date"/>
+                </div>
+<!--                <field name="delivery_week"/>-->
             </xpath>
 
         </field>
