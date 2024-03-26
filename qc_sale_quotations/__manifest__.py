@@ -23,6 +23,7 @@
         'views/urgent_need_view.xml',
         'views/want_to_deliver_view.xml',
         'views/Importance_view.xml',
+        'views/container_view.xml',
 
     ],
     'qweb': [],
