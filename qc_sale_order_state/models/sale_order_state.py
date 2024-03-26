@@ -73,6 +73,12 @@ class SaleOrder(models.Model):
         for data in self:
             data.delivery_date = data.commitment_date
             try:
+                data.update({
+                    'delivery_date_week':"W{}".format(data.commitment_date.isocalendar().week)
+                })
+            except:
+                pass
+            try:
                 data.update_week()
             except:
                 pass
