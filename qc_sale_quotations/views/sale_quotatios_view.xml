@@ -12,7 +12,12 @@
                 <field name="department"/>
                 <field name="id_pp"/>
                 <field name="id_po"/>
-                <field name="w_load_product"/>
+                <label for="w_load_product_week" string="Requested Week"/>
+                <div name="w_load_product_week">
+                    <field name="w_load_product" class="oe_inline" placeholder="Week" readonly="1"/>
+                    <span>&amp;nbsp;</span>
+                    <field name="w_load_product_week" class="oe_inline" placeholder="Date"/>
+                </div>
                 <field name="box_type"/>
                 <field name="download_with"/>
             </xpath>

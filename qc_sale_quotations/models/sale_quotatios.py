@@ -11,6 +11,7 @@ class SaleQuotation(models.Model):
     id_pp = fields.Char(string='PP No.')
     id_po = fields.Char(string='PO No.')
     w_load_product = fields.Char(string='Requested Week')
+    w_load_product_week = fields.Date(string='Requested Week Date')
     box_type = fields.Many2one(comodel_name='box.type' ,string='Packaging')
     download_with = fields.Char(string='Consolidate With')
 
@@ -30,6 +31,14 @@ class SaleQuotation(models.Model):
 
     special_need = fields.One2many('sale.quotation.lines', 'sale_quotation_id', string='ความต้องการพิเศษ')
     partner_bank_id = fields.Many2one('res.partner.bank', string='Bank Detail')
+
+    @api.onchange('w_load_product_week')
+    def update_w_load_product(self):
+        for sale in self:
+            if sale.w_load_product_week != False:
+                sale.w_load_product = "W{}".format(sale.w_load_product_week.isocalendar().week)
+            else:
+                sale.w_load_product = "Week"
 
 
 class SaleQuotationLines(models.Model):
