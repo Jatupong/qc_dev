@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!--res.partner : inherit form view-->
+    <record id="view_qc_add_fields_saleorsertype" model="ir.ui.view">
+        <field name="name">sale.order.add.field</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="cc_id" position="after">
+                <field name="sale_material_bool" invisible="0"/>
+                <field name="sale_production_bool" invisible="0"/>
+            </field>
+
+
+            <xpath expr="//button[@name='action_set_pre_production']" position="attributes">
+<!--                <attribute name="string">Send by Email 3</attribute>-->
+                <attribute name="attrs">{'invisible': ['|',('state', 'not in', ['production','sale','pp_confirm','delivery_confirm']),('sale_material_bool', '=', False)]}</attribute>
+            </xpath>
+
+
+        </field>
+    </record>
+</odoo>
