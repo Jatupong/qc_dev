@@ -11,7 +11,7 @@
                 """,
     'author': 'IT as a Service Co., Ltd.',
     'website': 'www.itaas.co.th',
-    'depends': ['base','sale','product','qc_sale_quotations_edit_name'],
+    'depends': ['base','sale','product','qc_sale_quotations_edit_name','account'],
     'data': [
 
         'views/sale_order_view.xml',

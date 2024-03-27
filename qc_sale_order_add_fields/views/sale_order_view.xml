@@ -8,10 +8,11 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <field name="partner_bank_id" position="after">
-                <field name="fob"/>
-                    <field name="shipping_mark"/>
-                    <field name="delivery_to"/>
-                    <field name="logo"/>
+                <field name="fob"  invisible="1"/>
+                <field name="incoterm"/>
+                <field name="shipping_mark"/>
+                <field name="delivery_to"/>
+                <field name="logo"/>
             </field>
 
             <xpath expr="//field[@name='validity_date']" position="after">

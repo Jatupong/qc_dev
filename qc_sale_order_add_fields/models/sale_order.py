@@ -8,6 +8,13 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     fob = fields.Char(string='FOB')
+    incoterm = fields.Many2one(comodel_name="account.incoterms", string="Incoterm", default=lambda self: self.env.company.incoterm_id)
+    sequence = fields.Integer(default=10)
+    company_id = fields.Many2one(
+        comodel_name="res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+    )
     shipping_mark = fields.Char(string='Shipping Mark')
     delivery_to = fields.Char(string='Delivery To')
     logo = fields.Char(string='Logo')
