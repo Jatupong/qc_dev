@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
-    <!--res.partner : inherit form view-->
     <record id="view_qc_add_fields_saleorsertype" model="ir.ui.view">
         <field name="name">sale.order.add.field</field>
         <field name="model">sale.order</field>
