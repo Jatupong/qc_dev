@@ -44,7 +44,7 @@
                         </group>
                         <group>
 <!--                            <field name="end_date" attrs="{'readonly':[('state', 'in', ('cancel','d_manufacturing_created'))]}"/>-->
-                            <label for="end_date" string="Request Date" attrs="{'readonly':[('state', 'in', ('cancel','d_manufacturing_created'))]}"/>
+                            <label for="end_date" string="Deadline" attrs="{'readonly':[('state', 'in', ('cancel','d_manufacturing_created'))]}"/>
                             <div name="end_date">
                                 <field name="end_date_week" class="oe_inline" readonly="1"/>
                                 <span>&amp;nbsp;</span>
