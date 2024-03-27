@@ -5,5 +5,4 @@ access_loading_type,loading_type,model_loading_type,base.group_user,1,1,1,1
 access_urgent_need,urgent_need,model_urgent_need,base.group_user,1,1,1,1
 access_want_to_deliver,want_to_deliver,model_want_to_deliver,base.group_user,1,1,1,1
 access_importance_id,importance_id,model_importance_id,base.group_user,1,1,1,1
-access_container_id,container_id,model_container_id,base.group_user,1,1,1,1
 access_sale_quotation_lines,sale_quotation_lines,model_sale_quotation_lines,base.group_user,1,1,1,1
