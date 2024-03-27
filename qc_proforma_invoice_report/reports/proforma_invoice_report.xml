@@ -341,9 +341,21 @@
                                 <table width="100%" class="table table-nobordered">
                                     <tr>
                                         <td width="30%"><B>P/I No.</B></td>
-                                        <td width="70%">
-                                            <B>: </B><span t-field="o.name"/>
-                                        </td>
+                                        <t t-if="'correction' in o.fields_get()">
+                                            <td width="40%">
+                                                <B>: </B><span t-field="o.name"/>
+                                            </td>
+                                            <td width="20%"><B>Revision</B></td>
+                                            <td width="10%">
+                                                <B>: </B><span t-field="o.correction"/>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td width="70%">
+                                                <B>: </B><span t-field="o.name"/>
+                                            </td>
+                                        </t>
+
                                     </tr>
                                     <tr>
                                         <td><B>Order Sheet No.</B></td>
