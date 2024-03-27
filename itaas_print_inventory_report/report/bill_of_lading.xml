@@ -145,6 +145,7 @@
                                             </span>
                                             <br/>
 
+
                                             <t t-if="o.company_id.english_address">
                                                 <span t-field="o.company_id.english_address"/>
                                                 <br/>
@@ -169,7 +170,7 @@
                                     <font class="font_size_14">
                                         <span t-field="o.company_id.document_id2"/>
                                         <br/>
-                                        <span t-field="o.company_id.document_id3"/>
+                                        <span t-field="o.company_id.document_id6"/>
                                     </font>
                                 </td>
                             </tr>
