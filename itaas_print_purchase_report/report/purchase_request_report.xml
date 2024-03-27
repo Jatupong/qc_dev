@@ -326,12 +326,13 @@
                                     </font>
                                 </div>
                             </td>
+
                             <td width="25%" style="text-align:left; vertical-align: middle;">
                                 <div style="text-align:center;">
                                     <font style="font-size: 14px;">
-                                        <span t-field="o.company_id.purchase_order_no_form"/>
+                                        <span t-field="o.company_id.purchase_request_form"/>
                                         <br/>
-                                        <span t-field="o.company_id.document_id3"/>
+                                        <span t-field="o.company_id.document_id4"/>
                                     </font>
                                     <br/>
                                     <br/>
