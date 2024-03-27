@@ -30,9 +30,24 @@ class SaleQuotation(models.Model):
     want_to_deliver = fields.Many2one(comodel_name='want.to.deliver', string='Want To Deliver')
     Importance = fields.Many2one(comodel_name='importance.id', string='Importance')
     important_note = fields.Text(string='Important Note')
+    description = fields.Text(string='Description')
 
     special_need = fields.One2many('sale.quotation.lines', 'sale_quotation_id', string='ความต้องการพิเศษ')
     partner_bank_id = fields.Many2one('res.partner.bank', string='Bank Detail')
+
+    @api.onchange('description')
+    def update_description_mr(self):
+        for sale in self:
+            domain = [('sale_order_id.id','in',sale.mr_order_sale_ids.ids)]
+            mr = sale.env['manufacturing.request.custom'].search(domain)
+            msg=''
+            for i in mr:
+                i.update({
+                    'custom_description':sale.description
+                })
+                msg+='mr={}\n'.format(i)
+            print(msg)
+
 
     @api.onchange('w_load_product_week','delivery_date,','delivery_date','delivery_exp_date')
     def update_week(self):
@@ -67,6 +82,8 @@ class SaleQuotation(models.Model):
                     })
                 except:
                     pass
+
+
 
 
 
