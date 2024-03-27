@@ -44,9 +44,10 @@
             <xpath expr="//field[@name='currency']" position="attributes">
                 <attribute name="string">Currency</attribute>
             </xpath>
-            <xpath expr="//field[@name='container']" position="attributes">
+            <xpath expr="//field[@name='container_new']" position="attributes">
                 <attribute name="string">Container Size</attribute>
             </xpath>
+
             <xpath expr="//field[@name='loading_type']" position="attributes">
                 <attribute name="string">Loading Type</attribute>
             </xpath>
