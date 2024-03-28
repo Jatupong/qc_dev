@@ -168,7 +168,8 @@ class SaleOrder(models.Model):
                         'custom_date_start_wo': obj.create_date,
                         'custom_product_uom_id': obj.product_uom.id,
                         'custom_bom_id': obj.product_id.bom_ids[0].id,
-                        'sale_order_id': obj.id
+                        'sale_order_id': obj.id,
+                        'custom_description':self.description
                         # 'custom_bom_idh': obj.product_id.variant_bom_ids.id,
 
                     }
