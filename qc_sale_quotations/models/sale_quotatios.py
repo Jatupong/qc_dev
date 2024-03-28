@@ -51,6 +51,7 @@ class SaleQuotation(models.Model):
             if len(mr)==0:
                 raise UserError(_("description:{}\nme={}".format(sale.description,mr)))
 
+
     @api.onchange('w_load_product_week','delivery_date,','delivery_date','delivery_exp_date')
     def update_week(self):
         if self.w_load_product_week != False:
