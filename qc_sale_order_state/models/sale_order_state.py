@@ -152,7 +152,6 @@ class SaleOrder(models.Model):
                 # sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
                 # print('sum_all_reserved', sum_all_reserved)
                 mss+="sum_all_reserved:{}\n".format(sum_all_reserved)
-
                 if sum_all_reserved > 0:
                     mss+="Gen Mr [Action!]\n"
 
