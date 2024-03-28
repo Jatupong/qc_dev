@@ -42,7 +42,7 @@ class SaleQuotation(models.Model):
             for obj in sale.order_line:
                 mr = sale.env['manufacturing.request.custom'].search(
                     [('sale_order_id.order_id', '=', sale.name), ('state', '!=', 'cancel'),
-                     ('custom_product_template_id', 'in', obj.product_id.id)])
+                     ('custom_product_template_id', '=', obj.product_id.id)])
 
                 msg=''
                 for i in mr:
