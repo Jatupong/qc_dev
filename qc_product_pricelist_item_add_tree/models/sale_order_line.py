@@ -9,8 +9,8 @@ from odoo.exceptions import ValidationError
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    product_cost = fields.Float(string='ผลิตภัณท์', compute='test_1902')
-    def test_1902(self):
+    product_cost = fields.Float(string='ผลิตภัณท์', compute='update_product_cost_by_set_line')
+    def update_product_cost_by_set_line(self):
         for line in self:
             if line.order_id:
                 if len(line.order_id.sale_order_set_line_ids)>0:
