@@ -2,6 +2,7 @@
 # Part of IT as a Service Co., Ltd.
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class SaleQuotation(models.Model):
@@ -47,7 +48,8 @@ class SaleQuotation(models.Model):
                 })
                 msg+='mr={}\n'.format(i)
             print(msg)
-
+            if len(mr)==0:
+                raise UserError(_("description:{}\nme={}".format(sale.description,mr)))
 
     @api.onchange('w_load_product_week','delivery_date,','delivery_date','delivery_exp_date')
     def update_week(self):
