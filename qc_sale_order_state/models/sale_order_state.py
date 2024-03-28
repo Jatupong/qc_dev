@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of IT as a Service Co., Ltd.
 # Copyright (C) 2022-today www.itaas.co.th (Dev K.New)
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
@@ -97,6 +97,7 @@ class SaleOrder(models.Model):
     def action_pre_production(self):
         # for obj in self:
         #     obj.write({'state': 'sent'})
+        mss = ''
 
         for obj in self:
             print(obj)
@@ -122,7 +123,10 @@ class SaleOrder(models.Model):
             # obj.write({'state': 'check_delivery'})
             obj.write({'state': 'sent'})
 
+
             for obj in self.order_line:
+                mss +="==========================================================================\n"
+                mss+="Product:{} QTY:{}\n".format(obj.product_id.name,obj.product_uom_qty)
                 # product_quant = self.env['stock.quant'].search([('product_id.id', '=', obj.product_id.id)])
                 # print('product_quant',product_quant)
                 # print('objjjjjj', obj.product_uom_qty)
@@ -147,12 +151,15 @@ class SaleOrder(models.Model):
                         raise UserError(_(msg + "\nBy Debug mode [Sarawut Ph.] {}".format(datetime.now())))
                 # sum_all_reserved = obj.move_ids.product_uom_qty - obj.move_ids.reserved_availability
                 # print('sum_all_reserved', sum_all_reserved)
+                mss+="sum_all_reserved:{}\n".format(sum_all_reserved)
 
                 if sum_all_reserved > 0:
+                    mss+="Gen Mr [Action!]\n"
 
-                    mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id', '=', self.name),('state','!=','cancel')])
-                    print('mr_id',mr_id)
+                    mr_id = obj.env['manufacturing.request.custom'].search([('sale_order_id.order_id', '=', self.name),('state','!=','cancel'),('custom_product_template_id', '=', obj.product_id.id)])
                     if len(mr_id)!=0:
+                        mss += "mr_id:{} [Have!]\n".format(mr_id)
+                        mss += "Product:{} [Stop!]\n".format(obj.product_id.name)
                         continue
                     print('Reserved222', obj)
                     so_val = {
@@ -168,6 +175,11 @@ class SaleOrder(models.Model):
                     }
                     print('so_val', so_val)
                     obj.env['manufacturing.request.custom'].create(so_val)
+                    mr_id2 = obj.env['manufacturing.request.custom'].search([('custom_product_template_id', '=', obj.product_id.id),('custom_product_qty','=',sum_all_reserved)])
+                    mss += "Create Mr {} ID:{} [Success!]\n".format(mr_id2.number,mr_id2.id )
+
+        if  self.user_has_groups('base.group_no_one'):
+            raise UserError(_("[System Report]:\t{}\t{}\n{}\nDebug mode By [Sarawut Ph.]".format(self.env.user.name,datetime.now()+timedelta(hours=7),mss)))
 
     def action_check_delivery(self):
         # for obj in self:
