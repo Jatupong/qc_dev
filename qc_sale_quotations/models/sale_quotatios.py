@@ -39,17 +39,20 @@ class SaleQuotation(models.Model):
     @api.onchange('description')
     def update_description_mr(self):
         for sale in self:
-            domain = [('sale_order_id.id','in',sale.mr_order_sale_ids.ids)]
-            mr = sale.env['manufacturing.request.custom'].search(domain)
-            msg=''
-            for i in mr:
-                i.update({
-                    'custom_description':sale.description
-                })
-                msg+='mr={}\n'.format(i)
-            print(msg)
-            if len(mr)==0:
-                raise UserError(_("description:{}\nme={}".format(sale.description,mr)))
+            for obj in sale.order_line:
+                mr = sale.env['manufacturing.request.custom'].search(
+                    [('sale_order_id.order_id', '=', sale.name), ('state', '!=', 'cancel'),
+                     ('custom_product_template_id', 'in', obj.product_id.id)])
+
+                msg=''
+                for i in mr:
+                    i.update({
+                        'custom_description':sale.description
+                    })
+                    msg+='mr={}\n'.format(i)
+                print(msg)
+                if len(mr)==0:
+                    raise UserError(_("description:{}\nme={}".format(sale.description,mr)))
 
 
     @api.onchange('w_load_product_week','delivery_date,','delivery_date','delivery_exp_date')
