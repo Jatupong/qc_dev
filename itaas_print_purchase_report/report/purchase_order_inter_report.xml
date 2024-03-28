@@ -298,8 +298,7 @@
                     </style>
                     <table width="100%" class="font_fam table table-nobordered">
                         <td width="20%" style="vertical-align: middle;">
-                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
-                                 style="max-height:150px; max-width:150px;" alt="Logo"/>
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)" style="max-height:150px; max-width:150px;" alt="Logo"/>
                         </td>
                         <td width="50%" style="vertical-align: middle;">
                             <div style="width:500px; word-wrap: break-word;">
@@ -372,8 +371,7 @@
                                             <span>HEAD OFFICE</span>
 <!--                                             <span>สำนักงานใหญ่</span>-->
                                         </t>
-                                        <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span
-                                                t-field="o.company_id.branch_no"/>)
+                                        <t t-if="o.company_id.branch_no != '00000'">(branch &amp;nbsp;<span t-field="o.company_id.branch_no"/>)
                                         </t>
                                     </t>
                                 </font>
@@ -451,11 +449,9 @@
                                                 <t t-if="o.partner_id">
                                                     <!--<t t-set="partner_address" t-value="o.partner_id.get_partner_full_address()"/>-->
                                                     <!--<span t-esc="' '.join([ address for address in partner_address ])"/>-->
-                                                    <span t-if="o.partner_id.street"><span
-                                                            t-field="o.partner_id.street"/>&amp;nbsp;
+                                                    <span t-if="o.partner_id.street"><span t-field="o.partner_id.street"/>&amp;nbsp;
                                                     </span>
-                                                    <span t-if="o.partner_id.street2"><span
-                                                            t-field="o.partner_id.street2"/>&amp;nbsp;
+                                                    <span t-if="o.partner_id.street2"><span t-field="o.partner_id.street2"/>&amp;nbsp;
                                                         <br/>
                                                     </span>
                                                     <span t-if="o.partner_id.sub_district_id.name and o.partner_id.state_id.code == 'BKK'">
@@ -554,8 +550,7 @@
                                             </B>
                                         </td>
                                         <td>
-                                            <span t-field="o.date_order"
-                                                  t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                                            <span t-field="o.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -595,8 +590,7 @@
                                             </B>
                                         </td>
                                         <td>
-                                            <span t-field="o.date_planned"
-                                                  t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+                                            <span t-field="o.date_planned" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -783,16 +777,14 @@
                     <t t-set="new_line_height" t-value="2"/>
                     <t t-set="row_line_height" t-value="7.94"/> <!--- 30px = 7.9375 mm -->
                     <!--#############it may reduce to 30 from invoice as 40, due to it has code column-->
-                    <t t-set="break_line"
-                       t-value="o.get_break_line(max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
+                    <t t-set="break_line" t-value="o.get_break_line(max_body_height,new_line_height,row_line_height,max_line_lenght)"/>
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <t t-set="num" t-value="0"/>
 
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
                         <!-->147 plus 5 line of untax, discount, after discount, tax, total = 7.9 * 5 = 40 = 187, remove some space then = 170-->
-                        <table width="100%" class="font_fam table table-bordered-b "
-                               style=" height:210mm; font-size: 14px; line-height:16px;">
+                        <table width="100%" class="font_fam table table-bordered-b " style=" height:210mm; font-size: 14px; line-height:16px;">
                             <thead>
                                 <tr>
                                     <t t-if="show_product_code">
@@ -905,8 +897,7 @@
                                             </td>
                                             <td align="right" class="td_right">
                                                 <t t-if="o.order_line[y].product_id">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.order_line[y].price_subtotal)))"
-                                                          t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.order_line[y].price_subtotal)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                                 </t>
                                             </td>
                                         </tr>
@@ -956,7 +947,7 @@
                                                     <span t-esc="'{0:,.2f}'.format(float(o.order_line[y].price_unit))"/>
                                                 </t>
                                             </td>
-                                            <td align="center">
+                                            <td align="right">
                                                 <!--                                                <span>0.00</span>-->
                                                 <!--                                                <t t-if="o.order_line[y].product_id">-->
                                                 <t t-if="o.order_line[y].discount">
@@ -967,8 +958,7 @@
                                             </td>
                                             <td align="right">
                                                 <t t-if="o.order_line[y].product_id">
-                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.order_line[y].price_subtotal)))"
-                                                          t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
+                                                    <span t-esc="'{0:,.2f}'.format(abs(float(o.order_line[y].price_subtotal)))" t-field-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: &quot;o.currency_id&quot;}"/>
                                                 </t>
                                             </td>
                                         </tr>
@@ -990,8 +980,7 @@
                                                 </td>
                                                 <td width="90%" align="center" style="vertical-align: middle;">
                                                     <t t-if="end ==(break_line[len(break_line)-1])">
-                                                        <strong>(&amp;nbsp;&amp;nbsp;<span
-                                                                t-esc="o.num2_words(o.amount_total)"/>&amp;nbsp;&amp;nbsp;)
+                                                        <strong>(&amp;nbsp;&amp;nbsp;<span t-esc="o.num2_words(o.amount_total)"/>&amp;nbsp;&amp;nbsp;)
                                                         </strong>
                                                     </t>
                                                 </td>
@@ -1004,8 +993,7 @@
                                         </strong>
                                     </td>
                                     <td align="right">
-                                        <span t-if="end ==(break_line[len(break_line)-1])"
-                                              t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
+                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1034,8 +1022,7 @@
                                         </strong>
                                     </td>
                                     <td align="right">
-                                        <span t-if="end ==(break_line[len(break_line)-1])"
-                                              t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
+                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1050,8 +1037,7 @@
                                         </t>
                                     </td>
                                     <td align="right">
-                                        <span t-if="end ==(break_line[len(break_line)-1])"
-                                              t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>
+                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -1061,8 +1047,7 @@
                                         </strong>
                                     </td>
                                     <td align="right">
-                                        <span t-if="end ==(break_line[len(break_line)-1])"
-                                              t-esc="'{0:,.2f}'.format(float(o.amount_total))"/>
+                                        <span t-if="end ==(break_line[len(break_line)-1])" t-esc="'{0:,.2f}'.format(float(o.amount_total))"/>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -1133,6 +1118,7 @@
                         <p style="page-break-after:always;"/>
                     </t>
                 </div>
+
 
                 <div class="footer">
                     <style>
@@ -1281,9 +1267,7 @@
                             <tr>
                                 <td width="50%" class="col-xs-6" align="center">
                                     <div style="width:100%; height:90px; position:relative; border-bottom:1px solid black;">
-                                        <img t-if="o.create_uid.image_signature"
-                                             t-att-src="image_data_uri(o.create_uid.image_signature)"
-                                             style="position: absolute; left:0px; right:0; left: 0; margin-left: auto; margin-right: auto; top:10px;  max-height: 75px;  max-width:150px"/>
+                                        <img t-if="o.create_uid.image_signature" t-att-src="image_data_uri(o.create_uid.image_signature)" style="position: absolute; left:0px; right:0; left: 0; margin-left: auto; margin-right: auto; top:10px;  max-height: 75px;  max-width:150px"/>
                                     </div>
                                     <div>
                                         <span>Prepared By</span>
