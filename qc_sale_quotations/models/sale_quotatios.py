@@ -51,8 +51,7 @@ class SaleQuotation(models.Model):
                     })
                     msg+='mr={}\n'.format(i)
                 print(msg)
-                if len(mr)==0:
-                    raise UserError(_("description:{}\nme={}".format(sale.description,mr)))
+
 
 
     @api.onchange('w_load_product_week','delivery_date,','delivery_date','delivery_exp_date')
