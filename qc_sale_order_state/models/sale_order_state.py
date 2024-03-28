@@ -175,7 +175,8 @@ class SaleOrder(models.Model):
                     print('so_val', so_val)
                     obj.env['manufacturing.request.custom'].create(so_val)
                     mr_id2 = obj.env['manufacturing.request.custom'].search([('custom_product_template_id', '=', obj.product_id.id),('custom_product_qty','=',sum_all_reserved)])
-                    mss += "Create Mr {} ID:{} [Success!]\n".format(mr_id2.number,mr_id2.id )
+                    for Mr in mr_id2:
+                        mss += "Create Mr {} ID:{} [Success!]\n".format(Mr.number,Mr.id )
 
         if  self.user_has_groups('base.group_no_one'):
             raise UserError(_("[System Report]:\t{}\t{}\n{}\nDebug mode By [Sarawut Ph.]".format(self.env.user.name,datetime.now()+timedelta(hours=7),mss)))
