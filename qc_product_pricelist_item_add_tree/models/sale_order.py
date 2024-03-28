@@ -9,6 +9,8 @@ from odoo.exceptions import ValidationError
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+
+
     def action_confirm_sale(self):
         print("action_confirm_sale Action!")
         res = super(SaleOrder, self).action_confirm_sale()
