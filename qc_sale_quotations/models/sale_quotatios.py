@@ -54,10 +54,11 @@ class SaleQuotation(models.Model):
 
 
 
-    @api.onchange('w_load_product_week','delivery_date,','delivery_date','delivery_exp_date')
+    @api.onchange('w_load_product_week','delivery_date,','delivery_week','delivery_exp_date')
     def update_week(self):
         if self.w_load_product_week != False:
             try:
+                self.w_load_product = "W{}".format(self.w_load_product_week.isocalendar().week)
                 self.update({
                     'w_load_product': "W{}".format(self.w_load_product_week.isocalendar().week)
                 })
@@ -66,6 +67,7 @@ class SaleQuotation(models.Model):
         if 'delivery_date' in self.fields_get():
             try:
                 if self.delivery_date != False:
+                    self.delivery_date_week = "W{}".format(self.delivery_date.isocalendar().week)
                     self.update({
                         'delivery_date_week': "W{}".format(self.delivery_date.isocalendar().week)
                     })
@@ -74,6 +76,7 @@ class SaleQuotation(models.Model):
         if 'delivery_week' in self.fields_get():
             try:
                 if self.delivery_week != False:
+                    self.delivery_week_year = "W{}".format(self.delivery_week.isocalendar().week)
                     self.update({
                         'delivery_week_year': "W{}".format(self.delivery_week.isocalendar().week)
                     })
@@ -82,6 +85,7 @@ class SaleQuotation(models.Model):
         if 'delivery_exp_date' in self.fields_get():
             if self.delivery_exp_date != False:
                 try:
+                    self.delivery_exp_week = "W{}".format(self.delivery_exp_date.isocalendar().week)
                     self.update({
                         'delivery_exp_week': "W{}".format(self.delivery_exp_date.isocalendar().week)
                     })
