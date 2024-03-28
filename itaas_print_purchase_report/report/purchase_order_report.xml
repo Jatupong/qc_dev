@@ -7,6 +7,7 @@
             <t t-call="web.basic_layout">
 
 
+
                 <t t-set="amount_untaxed" t-value="o.amount_untaxed"/>
                 <t t-set="amount_tax" t-value="o.amount_tax"/>
                 <t t-set="amount_total" t-value="o.amount_total"/>
