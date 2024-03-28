@@ -609,7 +609,7 @@
                     <t t-set="start" t-value="0"/>
                     <t t-set="end" t-value="0"/>
                     <t t-foreach="range(0,len(break_line),1)" t-as="x">
-                        <table class="table-bordered-b font_fam" style="height:180mm; font-size:14px; line-height:16px;">
+                        <table class="table-bordered-b font_fam" style="height:180mm; font-size:14px; line-height:16px; ">
                             <thead>
                                 <tr>
                                     <th width="4%">ลำดับ</th>
@@ -620,12 +620,14 @@
                                     <th width="8%">หน่วย</th>
                                     <th width="8%">Lot No.</th>
 
-                                    <th width="13%">ราคาต่อหน่วย</th>
-                                    <th width="13%">จำนวนเงิน</th>
+                                    <th width="9%">ราคาต่อหน่วย</th>
+                                    <th width="9%">จำนวนเงิน</th>
+
+                                    <th width="8%">หน่วย</th>
 
                                 </tr>
                             </thead>
-                            <tbody class="sale_tbody">
+                            <tbody class="sale_tbody" style="border-bottom: 1px solid black;">
                                 <t t-foreach="range(start,break_line[x],1)" t-as="y">
                                     <t t-if="(y+1)!=(break_line[x])">
                                         <tr style="height:10mm;">
@@ -697,6 +699,21 @@
                                                 </div>
                                             </td>
 
+                                            <td align="center">
+                                                <div class="word_wrap">
+                                                    <!--<span t-field="move_line[y].purchase_id.purchase_line_id.price_unit"/>-->
+                                                <!--<span t-field="move_line[y].sale_price"/>-->
+
+                                                  <t t-if="move_line[y].product_id">
+                                                        <span>บาท</span>
+                                                    </t>
+                                                    <t t-if="not move_line[y].product_id">
+                                                        <span> </span>
+                                                    </t>
+
+                                                </div>
+                                            </td>
+
                                         </tr>
                                     </t>
                                     <t t-if="(y+1)==(break_line[x])">
@@ -760,6 +777,22 @@
                                             </td>
 
 
+                                            <td align="center">
+                                                <div class="word_wrap">
+                                                    <!--<span t-field="move_line[y].purchase_id.purchase_line_id.price_unit"/>-->
+                                                <!--<span t-field="move_line[y].sale_price"/>-->
+
+                                                  <t t-if="move_line[y].product_id">
+                                                        <span>บาท</span>
+                                                    </t>
+                                                    <t t-if="not move_line[y].product_id">
+                                                        <span> </span>
+                                                    </t>
+
+                                                </div>
+                                            </td>
+
+
                                         </tr>
                                         <t t-set="end" t-value="(break_line[x])"/>
                                     </t>
@@ -775,10 +808,10 @@
                                           <!--<td width="89.3%" align="right" style="">-->
 
 
-                                          <td width="86%" align="right" style="">
+                                          <td width="74%" align="right" style="">
                                             <strong>รวมเงิน&amp;nbsp;</strong>
                                           </td>
-                                          <td width="12%" align="right" style="border-left: 1px solid black;">
+                                          <td width="17%" align="right" style="border-left: 1px solid black;">
 <!--                                            <t t-set="sum_total" t-value="sum_total + sum_total_price"/>-->
 
                                             <!--<span t-esc="sum_total"/>-->
