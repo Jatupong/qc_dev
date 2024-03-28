@@ -7,7 +7,6 @@
             <t t-call="web.basic_layout">
 
 
-
                 <t t-set="amount_untaxed" t-value="o.amount_untaxed"/>
                 <t t-set="amount_tax" t-value="o.amount_tax"/>
                 <t t-set="amount_total" t-value="o.amount_total"/>
@@ -843,12 +842,24 @@
                                                 </t>
                                             </td>
                                             <td align="right">
-                                                <span>0.00</span>
+                                                <!--<span>0.00</span>-->
+
 <!--                                                <t t-if="o.order_line[y].product_id">-->
 <!--                                                    <t t-if="o.order_line[y].discount">-->
 <!--                                                        <span t-esc="'{0:,.0f}'.format(abs(float(o.order_line[y].discount)))"/>%-->
 <!--                                                    </t>-->
 <!--                                                </t>-->
+
+                                                <t t-if="o.order_line[y].product_id">
+                                                    <t t-if="o.order_line[y].discount">
+                                                        <span t-esc="'{0:,.0f}'.format(abs(float(o.order_line[y].discount)))"/>%
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <span>0.00</span>
+                                                </t>
+
+
                                             </td>
                                             <td align="right" class="td_right">
                                                 <t t-if="o.order_line[y].product_id">
